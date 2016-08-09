@@ -1,0 +1,36 @@
+@font-face {
+    font-family: 'yekan';
+    src:url('../fonts/fonts/BYekan.eot?#') format('eot'),    
+          url('../fonts/fonts/BYekan.woff') format('woff'),
+          url('../fonts/fonts/BYekan.ttf') format('truetype'); 
+}
+@font-face {
+    font-family: 'nazanin';
+    src:url('../fonts/fonts/BNazanin.eot?#') format('eot'),    
+          url('../fonts/fonts/BNazanin.woff') format('woff'),
+          url('../fonts/fonts/BNazanin.ttf') format('truetype'); 
+}
+@font-face {  
+	font-family: "koodak";  
+	src: url("../fonts/fonts/BKoodakBold.eot");    
+	src: url("../fonts/fonts/BKoodakBold.eot?") format("eot"),   
+	url("../fonts/fonts/BKoodakBold.woff") format("woff"),	  
+	url("../fonts/fonts/BKoodakBold.ttf") format("truetype"); 
+}
+
+body{
+	font-family:Tahoma,Arial,sans-serif;
+	font-size:13px;
+}
+.box-login h3{
+	font-family:nazanin;
+	font-weight: 800;
+}
+.box-login .btn-bricky{
+	font-family: yekan;
+}
+
+.page-header h1{
+	font-family:nazanin;
+}
+

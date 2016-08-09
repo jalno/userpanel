@@ -1,0 +1,6 @@
+{
+	"permissions": "*",
+	"routing": "routing.json",
+	"frontend":"frontend",
+	"autoload":"autoloader.json"
+}

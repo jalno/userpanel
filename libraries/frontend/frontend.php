@@ -1,0 +1,3 @@
+<?php
+namespace packages\userpanel;
+?>

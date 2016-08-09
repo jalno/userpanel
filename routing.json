@@ -1,0 +1,43 @@
+[
+	{
+		"path": "userpanel",
+		"controller": "controllers\\dashboard@index",
+		"method":"get"
+	},
+	{
+		"path": "userpanel/users",
+		"controller": "controllers\\users@index",
+		"method":"get"
+	},
+	{
+		"path": ["userpanel","users","view", {"type":"dynamic","name":"user", "regex":"/^(\\d+)$/"}],
+		"controller": "controllers\\users@view",
+		"method":"get"
+	},
+	{
+		"path": ["userpanel","users","edit", {"type":"dynamic","name":"user", "regex":"/^(\\d+)$/"}],
+		"controller": "controllers\\users@edit"
+	},
+	{
+		"path": ["userpanel","users","delete", {"type":"dynamic","name":"user", "regex":"/^(\\d+)$/"}],
+		"controller": "controllers\\users@delete"
+	},
+	{
+		"path": "userpanel/users/add",
+		"controller": "controllers\\users@add"
+	},
+	{
+		"path": ["userpanel","email","send"],
+		"controller": "controllers\\email@send"
+	},
+	{
+		"path": "userpanel/login",
+		"controller": "controllers\\login@loginForm",
+		"method":"get"
+	},
+	{
+		"path": "userpanel/login",
+		"controller": "controllers\\login@submitForm",
+		"method":"post"
+	}
+]
