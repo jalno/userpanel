@@ -2,7 +2,9 @@
 namespace themes\clipone\views;
 use \packages\base\translator;
 use \themes\clipone\utility;
+use \themes\clipone\viewTrait;
 trait formTrait{
+	use viewTrait;
 	public function createField($options = array()){
 		if(!isset($options['name'])){
 			$options['name'] = '';

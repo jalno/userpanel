@@ -1,6 +1,8 @@
 <?php
 namespace themes\clipone\views;
+use \themes\clipone\viewTrait;
 trait listTrait{
+	use viewTrait;
 	private $buttons;
 	public function setButton($name, $active, $params = array()){
 		if(!isset($params['classes'])){
@@ -92,27 +94,25 @@ trait listTrait{
 				$code .= '<div class="btn-group">';
 				$code .= '<a class="btn btn-primary dropdown-toggle btn-sm" data-toggle="dropdown" href="#"><i class="fa fa-cog"></i> <span class="caret"></span></a>';
 				$code .= '<ul role="menu" class="dropdown-menu pull-right">';
-			}
-			foreach($buttons as $btn){
-				$code .= '<li><a tabindex="-1"';
-				if(isset($btn['params']['link']) and $btn['params']['link']){
-					$code .= ' href="'.$btn['params']['link'].'"';
-				}
-				if(isset($btn['data']) and $btn['params']['data']){
-					foreach($btn['params']['data'] as $name => $value){
-						$code .= ' data-'.$name.'="'.$value.'"';
+				foreach($buttons as $btn){
+					$code .= '<li><a tabindex="-1"';
+					if(isset($btn['params']['link']) and $btn['params']['link']){
+						$code .= ' href="'.$btn['params']['link'].'"';
 					}
+					if(isset($btn['data']) and $btn['params']['data']){
+						foreach($btn['params']['data'] as $name => $value){
+							$code .= ' data-'.$name.'="'.$value.'"';
+						}
+					}
+					$code .= '>';
+					if(isset($btn['params']['icon']) and $btn['params']['icon']){
+						$code .= '<i class="'.$btn['params']['icon'].'"></i>';
+					}
+					if(isset($btn['params']['title']) and $btn['params']['title']){
+						$code .= ' '.$btn['params']['title'];
+					}
+					$code .= '</a></li>';
 				}
-				$code .= '>';
-				if(isset($btn['params']['icon']) and $btn['params']['icon']){
-					$code .= '<i class="'.$btn['params']['icon'].'"></i>';
-				}
-				if(isset($btn['params']['title']) and $btn['params']['title']){
-					$code .= ' '.$btn['params']['title'];
-				}
-				$code .= '</a></li>';
-			}
-			if($responsive and count($buttons) > 1){
 				$code .= '</ul></div></div>';
 			}
 		}
