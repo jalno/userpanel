@@ -37,6 +37,16 @@ class user extends dbObject{
 	public function can($permission){
 		return($this->type->hasPermission($permission));
 	}
+	public function childrenTypes(){
+		$children = array();
+		$types = $this->type->children;
+		if($types){
+			foreach($types as $type){
+				$children[] = $type->child;
+			}
+		}
+		return $children;
+	}
 	/*
 	public function delete(){
 

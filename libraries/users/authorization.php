@@ -6,6 +6,9 @@ class authorization{
 	static function is_accessed($permission){
 		return authentication::getUser()->can("userpanel_".$permission);
 	}
+	static function childrenTypes(){
+		return authentication::getUser()->childrenTypes();
+	}
 	static public function FailResponse(){
 		$view = new ErrorView();
 		$view->setErrorCode(401);

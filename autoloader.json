@@ -20,6 +20,10 @@
 			"file":"libraries/users/usertypes_permissions.php"
 		},
 		{
+			"classes":["usertype_priority"],
+			"file":"libraries/users/usertypes_priorities.php"
+		},
+		{
 			"classes":["authentication"],
 			"file":"libraries/users/authentication.php"
 		},

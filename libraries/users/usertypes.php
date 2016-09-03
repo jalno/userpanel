@@ -8,7 +8,8 @@ class usertype extends dbObject{
         'title' => array('type' => 'text', 'required' => true),
     );
     protected $relations = array(
-        'permissions' => array("hasMany", "packages\\userpanel\\usertype_permission", "type")
+        'permissions' => array("hasMany", "packages\\userpanel\\usertype_permission", "type"),
+		'children' => array("hasMany", "packages\\userpanel\\usertype_priority", "parent")
     );
     public function hasPermission($permission){
     	foreach($this->permissions as $p){
