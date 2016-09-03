@@ -54,6 +54,10 @@
 		},
 		{
 			"type":"js",
+			"file":"assets/plugins/jquery/jquery-2.0.3.min.js"
+		},
+		{
+			"type":"js",
 			"file":"assets/plugins/jquery-ui/jquery-ui-1.10.2.custom.min.js"
 		},
 		{
@@ -79,6 +83,10 @@
 		{
 			"type":"js",
 			"file":"assets/plugins/jquery.growl/javascripts/jquery.growl.js"
+		},
+		{
+			"type":"js",
+			"file":"assets/plugins/bootstrap-dialog/js/bootstrap.dialog.js"
 		},
 		{
 			"type":"js",
