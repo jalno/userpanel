@@ -1,21 +1,21 @@
 @font-face {
     font-family: 'yekan';
-    src:url('../fonts/fonts/BYekan.eot?#') format('eot'),    
+    src:url('../fonts/fonts/BYekan.eot?#') format('eot'),
           url('../fonts/fonts/BYekan.woff') format('woff'),
-          url('../fonts/fonts/BYekan.ttf') format('truetype'); 
+          url('../fonts/fonts/BYekan.ttf') format('truetype');
 }
 @font-face {
     font-family: 'nazanin';
-    src:url('../fonts/fonts/BNazanin.eot?#') format('eot'),    
+    src:url('../fonts/fonts/BNazanin.eot?#') format('eot'),
           url('../fonts/fonts/BNazanin.woff') format('woff'),
-          url('../fonts/fonts/BNazanin.ttf') format('truetype'); 
+          url('../fonts/fonts/BNazanin.ttf') format('truetype');
 }
-@font-face {  
-	font-family: "koodak";  
-	src: url("../fonts/fonts/BKoodakBold.eot");    
-	src: url("../fonts/fonts/BKoodakBold.eot?") format("eot"),   
-	url("../fonts/fonts/BKoodakBold.woff") format("woff"),	  
-	url("../fonts/fonts/BKoodakBold.ttf") format("truetype"); 
+@font-face {
+	font-family: "koodak";
+	src: url("../fonts/fonts/BKoodakBold.eot");
+	src: url("../fonts/fonts/BKoodakBold.eot?") format("eot"),
+	url("../fonts/fonts/BKoodakBold.woff") format("woff"),
+	url("../fonts/fonts/BKoodakBold.ttf") format("truetype");
 }
 
 body{
@@ -34,3 +34,9 @@ body{
 	font-family:nazanin;
 }
 
+.panel .panel-tools > .dropdown{
+	display: inline-block;
+}
+.dropdown-menu {
+	text-align: right;
+}
