@@ -13,7 +13,7 @@ class controller extends \packages\base\controller{
 			$this->page = http::getURIData('page');
 			$this->items_per_page = http::getURIData('ipp');
 			if($this->page < 1)$this->page = 1;
-			if($this->items_per_page < 1)$this->items_per_page = 1;
+			if($this->items_per_page < 1)$this->items_per_page = 25;
 			db::pageLimit($this->items_per_page);
 			$this->response = new response();
 		}else{
