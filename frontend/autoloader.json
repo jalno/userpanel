@@ -13,6 +13,10 @@
 			"file":"libraries/navigation/menuitem.php"
 		},
 		{
+			"classes":["viewTrait"],
+			"file":"libraries/mvc/view.php"
+		},
+		{
 			"classes":["views\\listTrait"],
 			"file":"libraries/mvc/views/list.php"
 		},
