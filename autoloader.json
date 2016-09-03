@@ -4,6 +4,10 @@
 			"file":"libraries/base/url.php"
 		},
 		{
+			"classes":["date"],
+			"file":"libraries/date/date.php"
+		},
+		{
 			"classes":["user"],
 			"file":"libraries/users/users.php"
 		},
