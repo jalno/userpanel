@@ -44,6 +44,7 @@
 		"user.email.data_duplicate": "این ایمیل متعلق به کاربر دیگری است",
 		"user.cellphone.data_duplicate":"این تلفن متعلق به کاربر دیگری است",
 		"data_validation": "داده وارد شده معتبر نیست",
-		"data_duplicate": "داده وارد شده تکراری میباشد"
+		"data_duplicate": "داده وارد شده تکراری میباشد",
+		"list": "لیست"
 	}
 }
