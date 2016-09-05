@@ -738,23 +738,49 @@ var Main = function () {
 		    l.href = href;
 		    return l;
 		},
-		getAjaxFormURL: function(href){
-			var $parse = this.parse_url(href);
+		parse_url_paramters: function(queries){
 			var searchObject = {};
-			var queries = $parse.search.replace(/^\?/, '').split('&');
+			queries = queries.replace(/^\?/, '').split('&');
 			for(var i = 0; i < queries.length; i++ ) {
 				if(queries[i].length > 0){
 			        var split = queries[i].split('=');
 			        searchObject[split[0]] = split[1];
 				}
 		    }
-			searchObject.ajax = 1;
-			queries = "";
-			for(var key in searchObject){
-				if(queries.length)
-					queries += "&";
-				queries += key+"="+searchObject[key];
+			return searchObject;
+		},
+		build_url_paramters: function(paramters, parentname){
+			var queries = "";
+			for(var key in paramters){
+				var val = paramters[key];
+				if(typeof val == 'object'){
+					if(val instanceof Array){
+						for(var x=0;x!=val.length;x++){
+							if(queries.length)
+								queries += "&";
+							queries+= (typeof parentname != 'undefined' ? parentname+'['+key+']' : key)+"[]="+val[x];
+						}
+					}else{
+						var query = this.build_url_paramters(val, (typeof parentname != 'undefined' ? parentname+'['+key+']' : key));
+						if(query){
+							if(queries.length)
+								queries += "&";
+							queries += query;
+						}
+					}
+				}else{
+					if(queries.length)
+						queries += "&";
+					queries += (typeof parentname != 'undefined' ? parentname+'['+key+']' : key) + '='+val;
+				}
 			}
+			return queries;
+		},
+		getAjaxFormURL: function(href){
+			var $parse = this.parse_url(href);
+			var searchObject = this.parse_url_paramters($parse.search);
+			searchObject.ajax = 1;
+			queries = this.build_url_paramters(searchObject);
 			if(queries.length){
 				queries = "?"+queries;
 			}
