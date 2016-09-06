@@ -24,7 +24,7 @@ class authentication{
 	}
 	static function unsetSession(){
 		if(session::status()){
-			session::unset("userid");
+			session::unsetval("userid");
 		}
 		return true;
 	}
