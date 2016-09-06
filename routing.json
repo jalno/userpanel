@@ -39,5 +39,9 @@
 		"path": "userpanel/login",
 		"controller": "controllers\\login@submitForm",
 		"method":"post"
+	},
+	{
+		"path": "userpanel/logout",
+		"controller": "controllers\\login@logout"
 	}
 ]

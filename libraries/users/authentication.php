@@ -22,6 +22,12 @@ class authentication{
 		}
 		return false;
 	}
+	static function unsetSession(){
+		if(session::status()){
+			session::unset("userid");
+		}
+		return true;
+	}
 	static public function check(){
 		if(!session::status()){
 			session::start();

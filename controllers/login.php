@@ -1,6 +1,7 @@
 <?php
 namespace packages\userpanel\controllers;
 use \packages\base;
+use \packages\userpanel;
 use \packages\userpanel\controller;
 use \packages\userpanel\view;
 use \packages\userpanel\user;
@@ -51,5 +52,10 @@ class login  extends controller{
 			$response->setData(array('error' => $error->getInput()));
 		}
 		return $response;
+	}
+	public function logout(){
+		authentication::unsetSession();
+		$this->response->Go(userpanel\url('login'));
+		return $this->response;
 	}
 }
