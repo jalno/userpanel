@@ -1,38 +1,5 @@
 var UserEdit = function () {
-	var runSetDefaultValidation = function () {
-        $.validator.setDefaults({
-            errorElement: "span",
-            errorClass: 'help-block',
-            errorPlacement: function (error, element) {
-                if (element.attr("type") == "radio" || element.attr("type") == "checkbox") {
-                    error.insertAfter($(element).closest('.form-group').children('div').children().last());
-                } else if (element.attr("name") == "card_expiry_mm" || element.attr("name") == "card_expiry_yyyy") {
-                    error.appendTo($(element).closest('.form-group').children('div'));
-                } else {
-                    error.insertAfter(element);
-                }
-            },
-            ignore: ':hidden',
-            highlight: function (element) {
-                $(element).closest('.help-block').removeClass('valid');
-                $(element).closest('.form-group').removeClass('has-success').addClass('has-error').find('.symbol').removeClass('ok').addClass('required');
-            },
-            unhighlight: function (element) {
-                $(element).closest('.form-group').removeClass('has-error');
-            },
-            success: function (label, element) {
-                label.addClass('help-block valid');
-                $(element).closest('.form-group').removeClass('has-error');
-            },
-            highlight: function (element) {
-                $(element).closest('.help-block').removeClass('valid');
-                $(element).closest('.form-group').addClass('has-error');
-            },
-            unhighlight: function (element) {
-                $(element).closest('.form-group').removeClass('has-error');
-            }
-        });
-	};
+
 	var runLoginValidator = function () {
         var form = $('#edit_form');
         form.validate({
@@ -104,7 +71,7 @@ var UserEdit = function () {
     return {
         //main function to initiate template pages
         init: function () {
-			runSetDefaultValidation();
+			Main.SetDefaultValidation();
 			runLoginValidator();
         }
     };
