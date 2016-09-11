@@ -141,6 +141,11 @@
 			"name":"\\themes\\clipone\\views\\register",
 			"parent":"\\packages\\userpanel\\views\\register",
 			"file":"register.php"
+		},
+		{
+			"name":"\\themes\\clipone\\views\\lock",
+			"parent":"\\packages\\userpanel\\views\\lock",
+			"file":"lock.php"
 		}
 	]
 }

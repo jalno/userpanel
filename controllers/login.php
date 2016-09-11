@@ -3,6 +3,7 @@ namespace packages\userpanel\controllers;
 use \packages\base;
 use \packages\base\options;
 use \packages\base\http;
+use \packages\base\session;
 use \packages\base\InputDataType;
 use \packages\base\inputValidation;
 use \packages\base\db\duplicateRecord;
@@ -17,12 +18,6 @@ use \packages\userpanel\country;
 
 class login  extends controller{
 	protected $authentication = false;
-	public function loginForm(){
-		if($view = view::byName("\\packages\\userpanel\\views\\login")){
-			$this->response->setView($view);
-			return $this->response;
-		}
-	}
 	function login_helper($inputsRules){
 
 		$inputs = $this->checkinputs($inputsRules);
@@ -34,6 +29,7 @@ class login  extends controller{
 			if($user->password_verify($inputs['password'])){
 				authentication::setUser($user);
 				authentication::setSession();
+				authentication::unlockSession();
 				$log = new log();
 				$log->type = log::login;
 				$log->users = array($user->id);
@@ -57,46 +53,98 @@ class login  extends controller{
 			throw new inputValidation('username');
 		}
 	}
-	public function submitForm(){
-		$inputs = array(
-			'username' => array(
-				'type' => array('email', 'cellphone'),
-			),
-			'password' => array(),
-			'remmeber' => array(
-				'optional' => true,
-				'type' => 'bool',
-				'default' => false
-			)
-		);
-		$response = $this->loginForm();
-		$response->setStatus(false);
-		try{
-			$inputs = $this->checkinputs($inputs);
-			$user =  new user();
-			$user->where("email", $inputs['username']);
-			$user->orwhere("cellphone", $inputs['username']);
-			if(
-				$user->getOne() and
-				$user->password_verify($inputs['password'])
-			){
+	public function login(){
+		if(!authentication::getSession()){
+			if($view = view::byName("\\packages\\userpanel\\views\\login")){
 
-				authentication::setUser($user);
-				authentication::setSession();
-				$response->setStatus(true);
-				$response->go(base\url('userpanel'));
-
-			}else{
-				$response->setData(array('error' => 'invalid'));
+				if(http::is_post()){
+					$inputs = array(
+						'username' => array(
+							'type' => array('email', 'cellphone'),
+						),
+						'password' => array(),
+						'remmeber' => array(
+							'optional' => true,
+							'type' => 'bool',
+							'default' => false
+						)
+					);
+					try{
+						$user = $this->login_helper($inputs);
+						$this->response->setStatus(true);
+						$loginto = session::get('loginto');
+						session::unsetval('loginto');
+						$this->response->Go($loginto ? $loginto : userpanel\url());
+					}catch(inputValidation $error){
+						$this->response->setData(array('error' => 'invalid'));
+					}
+				}else{
+					$this->response->setStatus(true);
+					if(http::is_safe_referer()){
+						session::set('loginto', http::$request['referer']);
+					}
+				}
+				$this->response->setView($view);
 			}
-		}catch(inputValidation $error){
-			$response->setData(array('error' => $error->getInput()));
+		}else{
+			authentication::unlockSession();
+			$this->response->setStatus(true);
+			$this->response->Go(userpanel\url());
 		}
-		return $response;
+		return $this->response;
 	}
 	public function logout(){
 		authentication::unsetSession();
 		$this->response->Go(userpanel\url('login'));
+		return $this->response;
+	}
+	public function lock(){
+		if(authentication::getSession()){
+			if($view = view::byName("\\packages\\userpanel\\views\\lock")){
+				$user = authentication::getUser();
+				$view->setUser($user);
+				if(http::is_post()){
+
+					$this->response->setStatus(false);
+					$inputsRules = array(
+						'password' => array(),
+					);
+					try{
+						$inputs = $this->checkinputs($inputsRules);
+						if($user->password_verify($inputs['password'])){
+							authentication::unlockSession();
+							$this->response->setStatus(true);
+							$loginto = session::get('loginto');
+							session::unsetval('loginto');
+							$this->response->Go($loginto ? $loginto : userpanel\url());
+						}else{
+							$log = new log();
+							$log->type = log::loginwrong;
+							$log->users = array($user->id);
+							$log->params = array(
+								'user' => $user->id,
+								'wrongpaswd' => $inputs['password']
+							);
+							$log->save();
+							throw new inputValidation('password');
+						}
+					}catch(inputValidation $error){
+						$view->setFormError(FormError::fromException($error));
+					}
+					$view->setDataForm($this->inputsvalue($inputsRules));
+				}else{
+					authentication::lockSession();
+					if(http::is_safe_referer()){
+						session::set('loginto', http::$request['referer']);
+					}
+					$this->response->setStatus(true);
+				}
+				$this->response->setView($view);
+			}
+		}else{
+			$this->response->setStatus(true);
+			$this->response->Go(userpanel\url('login'));
+		}
 		return $this->response;
 	}
 	function register_helper($inputsRules){

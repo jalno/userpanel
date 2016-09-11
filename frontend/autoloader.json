@@ -59,6 +59,10 @@
 		{
 			"classes":["views\\register"],
 			"file":"views/register.php"
+		},
+		{
+			"classes":["views\\lock"],
+			"file":"views/lock.php"
 		}
 	]
 }

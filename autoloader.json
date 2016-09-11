@@ -129,8 +129,11 @@
 		{
 			"classes":["country"],
 			"file":"libraries/geo/country.php"
+		},
+		{
+			"classes":["views\\lock"],
+			"file":"views/login/lock.php"
 		}
-
 
 
 	]

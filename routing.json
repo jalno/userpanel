@@ -32,13 +32,7 @@
 	},
 	{
 		"path": "userpanel/login",
-		"controller": "controllers\\login@loginForm",
-		"method":"get"
-	},
-	{
-		"path": "userpanel/login",
-		"controller": "controllers\\login@submitForm",
-		"method":"post"
+		"controller": "controllers\\login@login"
 	},
 	{
 		"path": "userpanel/logout",
@@ -47,5 +41,9 @@
 	{
 		"path": "userpanel/register",
 		"controller": "controllers\\login@register"
+	},
+	{
+		"path": "userpanel/lock",
+		"controller": "controllers\\login@lock"
 	}
 ]
