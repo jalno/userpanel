@@ -1,10 +1,18 @@
 <?php
 namespace packages\userpanel;
+use \packages\base\options;
 use \packages\base\response;
 use \packages\userpanel\views\ErrorView;
 class authorization{
-	static function is_accessed($permission){
-		return authentication::getUser()->can("userpanel_".$permission);
+	static function is_accessed($permission, $prefix = 'userpanel'){
+		if($prefix)$prefix .= '_';
+		$user = authentication::getUser();
+		if($user){
+			return $user->can($prefix.$permission);
+		}elseif($type = usertype::byId(options::get('packages.userpanel.usertypes.guest'))){
+			return $type->hasPermission($prefix.$permission);
+		}
+		return false;
 	}
 	static function childrenTypes(){
 		return authentication::getUser()->childrenTypes();

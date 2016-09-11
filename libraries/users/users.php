@@ -35,7 +35,7 @@ class user extends dbObject{
 		$this->password = password::hash($password);
 	}
 	public function can($permission){
-		return($this->type->hasPermission($permission));
+		return $this->type->hasPermission($permission);
 	}
 	public function childrenTypes(){
 		$children = array();

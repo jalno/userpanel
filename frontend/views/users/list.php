@@ -35,10 +35,13 @@ class listview extends usersListView{
 		));
 	}
 	public static function onSourceLoad(){
-		$item = new menuItem("users");
-		$item->setTitle('کاربران');
-		$item->setURL(userpanel\url('users'));
-		$item->setIcon('clip-users');
-		navigation::addItem($item);
+		parent::onSourceLoad();
+		if(parent::$navigation){
+			$item = new menuItem("users");
+			$item->setTitle('کاربران');
+			$item->setURL(userpanel\url('users'));
+			$item->setIcon('clip-users');
+			navigation::addItem($item);
+		}
 	}
 }
