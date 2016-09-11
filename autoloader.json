@@ -121,6 +121,14 @@
 		{
 			"classes":["views\\login"],
 			"file":"views/login/login.php"
+		},
+		{
+			"classes":["views\\register"],
+			"file":"views/login/register.php"
+		},
+		{
+			"classes":["country"],
+			"file":"libraries/geo/country.php"
 		}
 
 

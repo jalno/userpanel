@@ -15,6 +15,9 @@ trait formTrait{
 			$error = false;
 		}
 		$code = '<div class="form-group'.($error ? ' has-error' : '').'">';
+		if(isset($options['icon']) and $options['icon']){
+			$code .= "<span class=\"input-icon\">";
+		}
 		if(isset($options['label']) and $options['label'])
 			$code .= '<label class="control-label">'.$options['label'].'</label>';
 		if(!isset($options['type'])){
@@ -26,14 +29,14 @@ trait formTrait{
 		if(!isset($options['class'])){
 			$options['class'] = 'form-control';
 		}
-		if($options['type'] == 'radio'){
+		if(in_array($options['type'], array('radio', 'checkbox'))){
 			if(!isset($options['inline'])){
 				$options['inline'] = false;
 			}
 			$code .= "<div>";
 			foreach($options['options'] as $option){
-				$code .= '<label class="radio'.($options['inline'] ? '-inline' : '').'">';
-				$code .= "<input type=\"radio\" name=\"{$options['name']}\" value=\"{$option['value']}\"";
+				$code .= '<label class="'.$options['type'].($options['inline'] ? '-inline' : '').'">';
+				$code .= "<input type=\"{$options['type']}\" name=\"{$options['name']}\" value=\"{$option['value']}\"";
 				if(isset($option['class']) and $option['class']){
 					$code .= " class=\"{$option['class']}\"";
 				}
@@ -48,7 +51,7 @@ trait formTrait{
 		}else{
 			$code .= "<input type=\"{$options['type']}\" value=\"{$options['value']}\"";
 		}
-		if($options['type'] != 'radio'){
+		if(!in_array($options['type'], array('radio', 'checkbox'))){
 			$code .= " name=\"{$options['name']}\"";
 			if($options['class']){
 				$code .= " class=\"{$options['class']}\"";
@@ -62,8 +65,12 @@ trait formTrait{
 		 	$code .= utility::selectOptions($options['options'], $options['value']);
 			$code .="</select>";
 		}
-		if($options['type'] == 'radio'){
+		if(in_array($options['type'], array('radio', 'checkbox'))){
 			$code .= "</div>";
+		}
+		if(isset($options['icon']) and $options['icon']){
+			$code .= "<i class=\"{$options['icon']}\"></i>";
+			$code .= "</span>";
 		}
 		if($error){
 			$text = null;

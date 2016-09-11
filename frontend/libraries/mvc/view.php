@@ -1,10 +1,10 @@
 <?php
 namespace themes\clipone;
 trait viewTrait{
-	function the_header(){
-		require_once(__DIR__.'/../../header.php');
+	function the_header($template = ''){
+		require_once(__DIR__.'/../../header'.($template ? '.'.$template : '').'.php');
 	}
-	function the_footer(){
-		require_once(__DIR__.'/../../footer.php');
+	function the_footer($template = ''){
+		require_once(__DIR__.'/../../footer'.($template ? '.'.$template : '').'.php');
 	}
 }

@@ -7,12 +7,13 @@ class log extends dbObject{
 	const logout = 2;
 	const user_edit = 3;
 	const user_delete = 4;
+	const register = 'register';
 	protected $dbTable = "userpanel_logs";
 	protected $primaryKey = "id";
 	protected $dbFields = array(
         'ip' => array('type' => 'text', 'required' => true),
         'time' => array('type' => 'int', 'required' => true),
-        'type' => array('type' => 'int', 'required' => true)
+        'type' => array('type' => 'text', 'required' => true)
     );
     protected $relations = array(
 		'params' => array("hasMany", "packages\\userpanel\\log_param", "log"),

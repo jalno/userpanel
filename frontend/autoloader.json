@@ -55,6 +55,10 @@
 		{
 			"classes":["views\\users\\view"],
 			"file":"views/users/view.php"
+		},
+		{
+			"classes":["views\\register"],
+			"file":"views/register.php"
 		}
 	]
 }

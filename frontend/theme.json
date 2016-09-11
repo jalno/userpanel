@@ -86,7 +86,7 @@
 		},
 		{
 			"type":"js",
-			"file":"assets/plugins/bootstrap-dialog/js/bootstrap.dialog.js"
+			"file":"assets/plugins/bootstrap-inputmsg/bootstrap-inputmsg.min.js"
 		},
 		{
 			"type":"js",
@@ -136,6 +136,11 @@
 			"name":"\\themes\\clipone\\views\\users\\delete",
 			"parent":"\\packages\\userpanel\\views\\users\\delete",
 			"file":"users.delete.php"
+		},
+		{
+			"name":"\\themes\\clipone\\views\\register",
+			"parent":"\\packages\\userpanel\\views\\register",
+			"file":"register.php"
 		}
 	]
 }

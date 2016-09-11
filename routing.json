@@ -43,5 +43,9 @@
 	{
 		"path": "userpanel/logout",
 		"controller": "controllers\\login@logout"
+	},
+	{
+		"path": "userpanel/register",
+		"controller": "controllers\\login@register"
 	}
 ]

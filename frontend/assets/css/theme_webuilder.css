@@ -40,3 +40,8 @@ body{
 .dropdown-menu {
 	text-align: right;
 }
+body.login label.error {
+    color: #7F7F7F;
+    font-size: 13px;
+    margin-top: 0px;
+}

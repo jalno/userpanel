@@ -45,6 +45,21 @@
 		"user.cellphone.data_duplicate":"این تلفن متعلق به کاربر دیگری است",
 		"data_validation": "داده وارد شده معتبر نیست",
 		"data_duplicate": "داده وارد شده تکراری میباشد",
-		"list": "لیست"
+		"list": "لیست",
+		"register" : "ثبت نام",
+		"register.user.name" : "نام",
+		"register.user.lastname" : "نام خانوادگی",
+		"register.user.country":"کشور",
+		"register.user.city" : "شهر",
+		"register.user.address" : "آدرس",
+		"register.user.zip": "کدپستی",
+		"register.user.phone": "تلفن ثابت",
+		"register.user.cellphone": "تلفن همراه",
+		"register.user.email" : "رایانامه",
+		"register.user.password" : "کلمه عبور",
+		"register.user.password_again" : "تکرار کلمه عبور",
+		"register.accept_tos" : "من همه قوانین را خوانده ام و آن را قبول دارم",
+		"register.error.recheck":"لطفا خطا های موجود را رفع کنید",
+		"back" : "انصراف"
 	}
 }
