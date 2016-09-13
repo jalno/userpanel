@@ -22,6 +22,9 @@ body{
 	font-family:Tahoma,Arial,sans-serif;
 	font-size:13px;
 }
+.btn{
+	font-family:yekan;
+}
 .box-login h3{
 	font-family:nazanin;
 	font-weight: 800;
@@ -44,4 +47,11 @@ body.login label.error {
     color: #7F7F7F;
     font-size: 13px;
     margin-top: 0px;
+}
+.btn-icon {
+	height: auto;
+	padding: 19px 0;
+}
+.btn-icon [class^="fa-"], .btn-icon [class*=" fa-"], .btn-icon [class^="clip-"], .btn-icon [class*=" clip-"] {
+	margin-bottom: 6px;
 }
