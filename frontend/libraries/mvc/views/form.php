@@ -59,6 +59,12 @@ trait formTrait{
 			if(isset($options['placeholder']) and $options['placeholder']){
 				$code .= " placeholder=\"{$options['placeholder']}\"";
 			}
+			if(isset($options['disabled']) and $options['disabled']){
+				$code .= " disabled=\"disabled\"";
+			}
+			if(isset($options['readonly']) and $options['readonly']){
+				$code .= " readonly=\"readonly\"";
+			}
 			$code .= ">";
 		}
 		if($options['type'] == 'select'){
