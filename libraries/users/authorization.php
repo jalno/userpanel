@@ -14,6 +14,11 @@ class authorization{
 		}
 		return false;
 	}
+	static function haveOrFail($permission, $prefix = 'userpanel'){
+		if(!self::is_accessed($permission, $prefix)){
+			throw new ErrorResponse();
+		}
+	}
 	static function childrenTypes(){
 		return authentication::getUser()->childrenTypes();
 	}
