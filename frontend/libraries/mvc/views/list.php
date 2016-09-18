@@ -3,7 +3,7 @@ namespace themes\clipone\views;
 use \themes\clipone\viewTrait;
 trait listTrait{
 	use viewTrait;
-	private $buttons;
+	private $buttons = array();
 	public function setButton($name, $active, $params = array()){
 		if(!isset($params['classes'])){
 			$params['classes'] = array('btn', 'btn-xs', 'btn-default');
