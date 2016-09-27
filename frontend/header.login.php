@@ -30,4 +30,4 @@ use \packages\base\frontend\theme;
 	<!-- start: BODY -->
 	<body class="login example1 rtl">
 		<div class="main-login col-md-4 col-md-offset-4 col-sm-6 col-sm-offset-3">
-			<div class="logo">CLIP<i class="clip-clip"></i>ONE</div>
+			<div class="logo"><?php echo $this->getLogoHTML(); ?></div>

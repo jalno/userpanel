@@ -2,9 +2,11 @@
 namespace themes\clipone\views;
 use \packages\userpanel\views\dashboard as dashboardView;
 use \packages\base;
+use \themes\clipone\viewTrait;
 use \themes\clipone\navigation;
 use \themes\clipone\navigation\menuItem;
 class dashboard extends dashboardView{
+	use viewTrait;
 	function __construct(){
 		$this->setTitle("پیشخوان");
 		navigation::active("dashboard");
