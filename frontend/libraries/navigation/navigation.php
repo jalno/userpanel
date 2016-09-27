@@ -5,7 +5,9 @@ class navigation{
 	static $menu = array();
 	static $active = array();
 	static function addItem(menuItem $item){
-		self::$menu[$item->getName()] = $item;
+		$reversed = array_reverse(self::$menu);
+		$reversed[$item->getName()] = $item;
+		self::$menu = array_reverse($reversed);
 		if($item->getName() == 'dashboard'){
 			breadcrumb::prependItem($item);
 		}
