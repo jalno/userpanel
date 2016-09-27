@@ -30,4 +30,4 @@ use \packages\base\frontend\theme;
 	<!-- start: BODY -->
 	<body class="lock-screen rtl">
 		<div class="main-ls">
-			<div class="logo">CLIP<i class="clip-clip"></i>ONE</div>
+			<div class="logo"><?php echo $this->getLogoHTML(); ?></div>

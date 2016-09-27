@@ -2,7 +2,7 @@
 use \packages\base;
 use \packages\base\frontend\theme;
 ?>
-		<div class="copyright"><?php echo date('Y'); ?> &copy; clip-one by cliptheme.</div>
+		<div class="copyright"><?php echo $this->getCopyRightHTML(); ?></div>
 	</div>
 	<!-- end: FOOTER -->
 	<!--[if lt IE 9]>

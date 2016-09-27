@@ -1,6 +1,7 @@
 <?php
 use \packages\base;
 use \packages\base\frontend\theme;
+use \packages\userpanel;
 use \packages\userpanel\authentication;
 use \themes\clipone\navigation;
 use \themes\clipone\breadcrumb;
@@ -35,7 +36,7 @@ use \themes\clipone\breadcrumb;
 			<div class="container">
 				<div class="navbar-header">
 					<button data-target=".navbar-collapse" data-toggle="collapse" class="navbar-toggle" type="button"><span class="clip-list-2"></span></button>
-					<a class="navbar-brand" href="<?php echo base\url('userpanel'); ?>">CLIP<i class="clip-clip"></i>ONE</a>
+					<a class="navbar-brand" href="<?php echo userpanel\url(''); ?>"><?php echo $this->getLogoHTML(); ?></a>
 				</div>
 				<div class="navbar-tools">
 					<!-- start: TOP NAVIGATION MENU -->

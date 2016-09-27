@@ -133,6 +133,10 @@
 		{
 			"classes":["views\\lock"],
 			"file":"views/login/lock.php"
+		},
+		{
+			"classes":["frontend"],
+			"file":"libraries/frontend/frontend.php"
 		}
 
 
