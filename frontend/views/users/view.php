@@ -16,9 +16,11 @@ use \themes\clipone\navigation;
 use \themes\clipone\navigation\menuItem;
 use \themes\clipone\breadcrumb;
 use \themes\clipone\utility;
+use \themes\clipone\viewTrait;
 
 
 class view extends usersView{
+	use viewTrait;
 	protected $networks = array();
 	protected $lastlogin = 0;
 	protected $logs;

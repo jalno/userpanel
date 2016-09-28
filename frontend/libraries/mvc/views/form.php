@@ -4,7 +4,20 @@ use \packages\base\translator;
 use \themes\clipone\utility;
 use \themes\clipone\viewTrait;
 trait formTrait{
-	use viewTrait;
+	protected $horizontal_form = false;
+	protected $label_col;
+	protected $input_col;
+	public function setHorizontalForm($label_col, $input_col){
+		$label_cols = explode(' ', $label_col);
+		foreach($label_cols as $label_col){
+			$this->label_col = 'col-'.$label_col;
+		}
+		$input_cols = explode(' ', $input_col);
+		foreach($input_cols as $input_col){
+			$this->input_col = 'col-'.$input_col;
+		}
+		$this->horizontal_form = true;
+	}
 	public function createField($options = array()){
 		if(!isset($options['name'])){
 			$options['name'] = '';
@@ -19,7 +32,7 @@ trait formTrait{
 			$code .= "<span class=\"input-icon\">";
 		}
 		if(isset($options['label']) and $options['label'])
-			$code .= '<label class="control-label">'.$options['label'].'</label>';
+			$code .= '<label class="control-label'.(($this->horizontal_form and $this->label_col) ? ' '.$this->label_col : '').'">'.$options['label'].'</label>';
 		if(!isset($options['type'])){
 			$options['type'] = 'text';
 		}
@@ -28,6 +41,9 @@ trait formTrait{
 		}
 		if(!isset($options['class'])){
 			$options['class'] = 'form-control';
+		}
+		if($this->horizontal_form and $this->input_col){
+			$code .= "<div class=\"{$this->input_col}\">";
 		}
 		if(in_array($options['type'], array('radio', 'checkbox'))){
 			if(!isset($options['inline'])){
@@ -53,6 +69,9 @@ trait formTrait{
 		}
 		if(!in_array($options['type'], array('radio', 'checkbox'))){
 			$code .= " name=\"{$options['name']}\"";
+			if(isset($options['ltr']) and $options['ltr']){
+				$options['class'] .= " ltr";
+			}
 			if($options['class']){
 				$code .= " class=\"{$options['class']}\"";
 			}
@@ -101,6 +120,9 @@ trait formTrait{
 			if($text){
 				$code .= "<span class=\"help-block\" id=\"{$options['name']}-error\">{$text}</span>";
 			}
+		}
+		if($this->horizontal_form and $this->input_col){
+			$code .= "</div>";
 		}
 		$code .= '</div>';
 		echo $code;
