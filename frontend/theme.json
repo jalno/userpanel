@@ -166,6 +166,11 @@
 			"name":"\\themes\\clipone\\views\\lock",
 			"parent":"\\packages\\userpanel\\views\\lock",
 			"file":"lock.php"
+		},
+		{
+			"name":"\\themes\\clipone\\views\\notfound",
+			"parent":"\\packages\\userpanel\\views\\notfound",
+			"file":"notfound.php"
 		}
 	]
 }

@@ -63,6 +63,10 @@
 		{
 			"classes":["views\\lock"],
 			"file":"views/lock.php"
+		},
+		{
+			"classes":["views\\notfound"],
+			"file":"views/notfound.php"
 		}
 	]
 }
