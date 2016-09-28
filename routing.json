@@ -45,5 +45,14 @@
 	{
 		"path": "userpanel/lock",
 		"controller": "controllers\\login@lock"
+	},
+	{
+		"paths": [
+			"userpanel/"
+		],
+		"exceptions":[
+			"\\packages\\base\\NotFound"
+		],
+		"handler": "controllers\\dashboard@notfound"
 	}
 ]

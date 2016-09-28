@@ -14,6 +14,10 @@
 		},
 		{
 			"type":"css",
+			"file":"assets/plugins/jquery-ui/jquery-ui.min.css"
+		},
+		{
+			"type":"css",
 			"file":"assets/plugins/font-awesome/css/font-awesome.min.css"
 		},
 		{
@@ -58,7 +62,7 @@
 		},
 		{
 			"type":"js",
-			"file":"assets/plugins/jquery-ui/jquery-ui-1.10.2.custom.min.js"
+			"file":"assets/plugins/jquery-ui/jquery-ui.min.js"
 		},
 		{
 			"type":"js",
@@ -66,7 +70,15 @@
 		},
 		{
 			"type":"js",
-			"file":"assets/plugins/iCheck/jquery.icheck.min.js"
+			"file":"assets/plugins/bootstrap-modal/js/bootstrap-modalmanager.js"
+		},
+		{
+			"type":"js",
+			"file":"assets/plugins/bootstrap-modal/js/bootstrap-modal.js"
+		},
+		{
+			"type":"js",
+			"file":"assets/plugins/iCheck/icheck.min.js"
 		},
 		{
 			"type":"js",
@@ -83,6 +95,14 @@
 		{
 			"type":"js",
 			"file":"assets/plugins/jquery.growl/javascripts/jquery.growl.js"
+		},
+		{
+			"type":"css",
+			"file":"assets/plugins/bootstrap-modal/css/bootstrap-modal.css"
+		},
+		{
+			"type":"css",
+			"file":"assets/plugins/bootstrap-modal/css/bootstrap-modal-bs3patch.css"
 		},
 		{
 			"type":"js",
@@ -146,6 +166,11 @@
 			"name":"\\themes\\clipone\\views\\lock",
 			"parent":"\\packages\\userpanel\\views\\lock",
 			"file":"lock.php"
+		},
+		{
+			"name":"\\themes\\clipone\\views\\notfound",
+			"parent":"\\packages\\userpanel\\views\\notfound",
+			"file":"notfound.php"
 		}
 	]
 }

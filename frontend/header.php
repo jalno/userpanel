@@ -29,7 +29,7 @@ use \themes\clipone\breadcrumb;
 		<link rel="stylesheet" href="<?php echo theme::url('assets/plugins/font-awesome/css/font-awesome-ie7.min.css'); ?>">
 		<![endif]-->
 	</head>
-	<body class="rtl">
+	<body class="<?php echo $this->genBodyClasses(); ?>">
 		<!-- start: HEADER -->
 		<div class="navbar navbar-inverse navbar-fixed-top">
 			<!-- start: TOP NAVIGATION CONTAINER -->

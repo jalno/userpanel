@@ -145,8 +145,11 @@
 		{
 			"classes":["frontend"],
 			"file":"libraries/frontend/frontend.php"
+		},
+		{
+			"classes":["views\\notfound"],
+			"file":"views/notfound.php"
 		}
-
 
 	]
 }

@@ -17,14 +17,38 @@ class utility{
 	}
 	static function selectOptions($rows, $selected= null){
 		$html = '';
-		foreach($rows as $value => $title){
-			if(is_array($title)){
-				$values = array_column($rows, 'value');
-				$titles = array_column($rows, 'title');
-				return self::selectOptions(array_combine($values, $titles), $selected);
-			}else{
-				$html .= "<option value=\"{$value}\"".($selected == $value ? ' selected' : '').">{$title}</option>";
+		foreach($rows as $option){
+			if(!is_array($option)){
+				$option = array(
+					'title' => $option,
+					'value' => $option
+				);
 			}
+			$data = '';
+			if(isset($option['data']) and $option['data']){
+				if(is_array($option['data'])){
+					foreach($option['data'] as $key => $val){
+						$data .= " ";
+						$data .= "data-{$key}='";
+						if(is_array($val) or is_object($val)){
+							$data .= json\encode($val);
+						}else{
+							$data .= $val;
+						}
+						$data .= "'";
+					}
+				}else{
+					$data .= " data='";
+					if(is_array($option['data']) or is_object($option['data'])){
+						$data .= json\encode($option['data']);
+					}else{
+						$data .= $option['data'];
+					}
+					$data .= "'";
+				}
+			}
+			$html .= "<option value=\"{$option['value']}\"{$data}".($selected == $option['value'] ? ' selected' : '').">{$option['title']}</option>";
+
 		}
 		return $html;
 	}

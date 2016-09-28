@@ -6,11 +6,12 @@ use \packages\userpanel\usertype;
 use \themes\clipone\breadcrumb;
 use \themes\clipone\navigation;
 use \themes\clipone\navigation\menuItem;
+use \themes\clipone\viewTrait;
 use \themes\clipone\views\formTrait;
 use \packages\base\translator;
 use \packages\base\frontend\theme;
 class delete extends usersDeleteView{
-	use formTrait;
+	use viewTrait,formTrait;
 	protected $usertypes = array();
 	function __beforeLoad(){
 		$this->setTitle(array(

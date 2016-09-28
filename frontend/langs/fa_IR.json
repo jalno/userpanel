@@ -11,7 +11,9 @@
 		"deactive": "غیرفعال",
 		"users":"کاربران",
 		"user.add":"افزودن کاربر",
+		"user.id" : "شناسه کاربری",
 		"user.name":"نام کاربر",
+		"user.lastname" : "نام خانوادگی",
 		"user.type.name": "گروه کاربری",
 		"user.email":"ایمیل",
 		"user.cellphone": "تلفن همراه",
@@ -63,6 +65,14 @@
 		"back" : "انصراف",
 		"unlock": "بازگشایی",
 		"lock.enterpassword": "لطفا برای بازگشایی دوباره کلمه عبور خود را وارد کنید",
-		"lock.logout": "شما {user_name} نیستید؟"
+		"lock.logout": "شما {user_name} نیستید؟",
+		"search.comparison" : "نحوه مقایسه",
+		"search.comparison.equals" : "برابر",
+		"search.comparison.startswith" : "شروع شود",
+		"search.comparison.contains" : "شامل باشد",
+		"notfound":"پیدا نشد!",
+		"notfound.heading" : "تاسف آوره!",
+		"notfound.description" : "شما درخواست آدرسی را دادید که ما نمیتوانیم آن را در بین اطلاعات مربوط پیدا کنیم.شاید ما بصورت موقتی این صفحه را غیرفعال کرده ایم پس بهتر است ابتدا مطمئن شوید آدرسی که در آن هستید صحیح است و هر زمان مطمئن شدید که این مشکل از طرف ماست<br>حتما آن را به ما گزارش بدهید."
+
 	}
 }

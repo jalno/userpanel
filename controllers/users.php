@@ -2,9 +2,11 @@
 namespace packages\userpanel\controllers;
 use \packages\base;
 use \packages\base\http;
+use \packages\base\db;
 use \packages\base\inputValidation;
 use \packages\base\db\duplicateRecord;
 use \packages\base\db\InputDataType;
+use \packages\base\db\parenthesis;
 use \packages\base\views\FormError;
 
 use \packages\userpanel;
@@ -20,24 +22,108 @@ use \packages\userpanel\log;
 class users extends controller{
 	protected $authentication = true;
 	public function index(){
-		if(authorization::is_accessed('users_list')){
-			$user = new user();
-			$user->with('type');
-			$user->pageLimit = $this->items_per_page;
-			$users = $user->paginate($this->page);
-			$this->total_pages = $user->totalPages;
+		authorization::haveOrFail('users_list');
+		$view = view::byName("\\packages\\userpanel\\views\\users\\listview");
+		$types = authorization::childrenTypes();
 
-
-			if($view = view::byName("\\packages\\userpanel\\views\\users\\listview")){
-				$view->setDataList($users);
-				$view->setPaginate($this->page, $this->total_pages, $this->items_per_page);
-				$this->response->setStatus(true);
-				$this->response->setView($view);
-				return $this->response;
-			}
+		$user = new user();
+		if($types){
+			$user->where("type", $types, 'in');
 		}else{
-			return authorization::FailResponse();
+			$user->where("id", authentication::getID());
 		}
+		$inputsRules = array(
+			'id' => array(
+				'type' => 'number',
+				'optional' => true,
+				'empty' => true,
+			),
+			'name' => array(
+				'type' => 'string',
+				'optional' => true,
+				'empty' => true,
+			),
+			'lastname' => array(
+				'type' => 'string',
+				'optional' => true,
+				'empty' => true,
+			),
+			'email' => array(
+				'type' => 'string',
+				'optional' => true,
+				'empty' => true,
+			),
+			'cellphone' => array(
+				'type' => 'string',
+				'optional' => true,
+				'empty' => true,
+			),
+			'type' => array(
+				'type' => 'number',
+				'optional' => true,
+				'empty' => true
+			),
+			'status' => array(
+				'type' => 'number',
+				'optional' => true,
+				'empty' => true
+			),
+			'word' => array(
+				'type' => 'string',
+				'optional' => true,
+				'empty' => true
+			),
+			'comparison' => array(
+				'values' => array('equals', 'startswith', 'contains'),
+				'default' => 'contains',
+				'optional' => true
+			)
+		);
+		try{
+			$inputs = $this->checkinputs($inputsRules);
+			if(isset($inputs['type']) and $inputs['type']){
+				if(!in_array($inputs['type'], $types)){
+					throw new inputValidation("type");
+				}
+			}
+			if(isset($inputs['status']) and $inputs['status'] !== ''){
+				if(!in_array($inputs['status'], array(user::active, user::deactive, user::suspend))){
+					throw new inputValidation("status");
+				}
+			}
+			foreach(array('id', 'name', 'lastname', 'type', 'email', 'cellphone', 'status') as $item){
+				if(isset($inputs[$item]) and $inputs[$item]){
+					$comparison = $inputs['comparison'];
+					if(in_array($item, array('type', 'status'))){
+						$comparison = 'equals';
+					}
+					$user->where($item, $inputs[$item], $comparison);
+				}
+			}
+			if(isset($inputs['word']) and $inputs['word']){
+				$parenthesis = new parenthesis();
+				foreach(array('name', 'lastname', 'email', 'cellphone') as $item){
+					if(!isset($inputs[$item]) or !$inputs[$item]){
+						$parenthesis->where($item,$inputs['word'], $inputs['comparison'], 'OR');
+					}
+				}
+				$user->where($parenthesis);
+			}
+		}catch(inputValidation $error){
+			$view->setFormError(FormError::fromException($error));
+		}
+		$view->setDataForm($this->inputsvalue($inputs));
+		$user->pageLimit = $this->items_per_page;
+		$users = $user->paginate($this->page);
+		$this->total_pages = $user->totalPages;
+
+		$view->setDataList($users);
+		$view->setPaginate($this->page, $user->totalCount, $this->items_per_page);
+		$view->setUserTypes(usertype::where("id", $types, 'in')->get());
+
+		$this->response->setStatus(true);
+		$this->response->setView($view);
+		return $this->response;
 	}
 	public function add($data){
 		if(authorization::is_accessed('users_add')){
