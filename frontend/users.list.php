@@ -13,6 +13,7 @@ use \themes\clipone\utility;
 				<i class="fa fa-users"></i> <?php echo translator::trans('users'); ?>
 				<div class="panel-tools">
 					<a class="btn btn-xs btn-link tooltips" title="<?php echo translator::trans('user.add'); ?>" href="<?php echo userpanel\url('users/add'); ?>"><i class="clip-user-plus"></i></a>
+					<a class="btn btn-xs btn-link tooltips" title="<?php echo translator::trans('user.search'); ?>" data-toggle="modal" href="#users-search"><i class="fa fa-search"></i></a>
 					<a class="btn btn-xs btn-link panel-collapse collapses" href="#"></a>
 				</div>
 			</div>
@@ -70,6 +71,66 @@ use \themes\clipone\utility;
 			</div>
 		</div>
 		<!-- end: BASIC TABLE PANEL -->
+	</div>
+</div>
+<div class="modal fade" id="users-search" tabindex="-1" data-show="true" role="dialog">
+	<div class="modal-header">
+		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+		<h4 class="modal-title"><?php echo translator::trans('users.search'); ?></h4>
+	</div>
+	<div class="modal-body">
+		<form id="usersearchform" action="<?php echo userpanel\url("users"); ?>" method="GET" class="form-horizontal">
+			<?php
+			$this->setHorizontalForm('sm-3','sm-9');
+			$feilds = array(
+				array(
+					'label' => translator::trans('user.id'),
+					'name' => 'id'
+				),
+				array(
+					'label' => translator::trans('user.name'),
+					'name' => 'name'
+				),
+				array(
+					'label' => translator::trans('user.lastname'),
+					'name' => 'lastname'
+				),
+				array(
+					'label' => translator::trans('user.email'),
+					'name' => 'email'
+				),
+				array(
+					'label' => translator::trans('user.cellphone'),
+					'name' => 'cellphone'
+				),
+				array(
+					'type' => 'select',
+					'label' => translator::trans('user.type'),
+					'name' => 'type',
+					'options' => $this->getTypesForSelect()
+				),
+				array(
+					'type' => 'select',
+					'label' => translator::trans('user.status'),
+					'name' => 'status',
+					'options' => $this->getStatusForSelect()
+				),
+				array(
+					'type' => 'select',
+					'label' => translator::trans('search.comparison'),
+					'name' => 'comparison',
+					'options' => $this->getComparisonsForSelect()
+				)
+			);
+			foreach($feilds as $input){
+				echo $this->createField($input);
+			}
+			?>
+		</form>
+	</div>
+	<div class="modal-footer">
+		<button type="submit" form="usersearchform" class="btn btn-success">جستجو</button>
+		<button type="button" class="btn btn-default" data-dismiss="modal" aria-hidden="true">انصراف</button>
 	</div>
 </div>
 <?php
