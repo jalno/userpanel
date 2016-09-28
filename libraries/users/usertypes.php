@@ -9,7 +9,8 @@ class usertype extends dbObject{
     );
     protected $relations = array(
         'permissions' => array("hasMany", "packages\\userpanel\\usertype_permission", "type"),
-		'children' => array("hasMany", "packages\\userpanel\\usertype_priority", "parent")
+		'children' => array("hasMany", "packages\\userpanel\\usertype_priority", "parent"),
+		'options' => array('hasMany', 'packages\\userpanel\\usertype_option', 'usertype')
     );
     public function hasPermission($permission){
     	foreach($this->permissions as $p){
@@ -19,4 +20,12 @@ class usertype extends dbObject{
     	}
     	return false;
     }
+	public function option($name){
+		foreach($this->options as $option){
+			if($option->name == $name){
+				return $option->value;
+			}
+		}
+		return null;
+	}
 }

@@ -11,6 +11,7 @@ class user extends dbObject{
 	protected $dbFields = array(
         'email' => array('type' => 'text', 'required' => true, 'unique' => 'true'),
         'name' => array('type' => 'text', 'required' => true),
+        'lastname' => array('type' => 'text', 'required' => true),
         'cellphone' => array('type' => 'text', 'required' => true, 'unique' => 'true'),
         'password' => array('type' => 'text', 'required' => true),
 		'type' => array('type' => 'int', 'required' => true),
@@ -26,7 +27,8 @@ class user extends dbObject{
     );
     protected $relations = array(
         'type' => array("hasOne", "packages\\userpanel\\usertype", "type"),
-		'socialnetworks' => array("hasMany", "packages\\userpanel\\user_socialnetwork", "user")
+		'socialnetworks' => array("hasMany", "packages\\userpanel\\user_socialnetwork", "user"),
+		'options' => array("hasMany", "packages\\userpanel\\user_option", "user")
     );
 	public function password_verify($password){
 		return(password::verify($password, $this->password));
@@ -46,6 +48,14 @@ class user extends dbObject{
 			}
 		}
 		return $children;
+	}
+	public function option($name){
+		foreach($this->options as $option){
+			if($option->name == $name){
+				return $option->value;
+			}
+		}
+		return $this->type->option($name);
 	}
 	/*
 	public function delete(){

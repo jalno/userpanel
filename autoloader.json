@@ -28,6 +28,14 @@
 			"file":"libraries/users/usertypes_priorities.php"
 		},
 		{
+			"classes":["user_option"],
+			"file":"libraries/users/users_options.php"
+		},
+		{
+			"classes":["usertype_option"],
+			"file":"libraries/users/usertypes_options.php"
+		},
+		{
 			"classes":["authentication"],
 			"file":"libraries/users/authentication.php"
 		},
