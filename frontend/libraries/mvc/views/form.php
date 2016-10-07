@@ -59,7 +59,8 @@ trait formTrait{
 				if($option['value'] == $options['value']){
 					$code .= " checked";
 				}
-				$code .= ">".$option['label'];
+				$code .= ">";
+				if(isset($option['label']))$code .= $option['label'];
 				$code .= '</label>';
 			}
 		}elseif($options['type'] == 'select'){
