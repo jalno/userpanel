@@ -64,6 +64,11 @@ trait formTrait{
 			}
 		}elseif($options['type'] == 'select'){
 			$code .= "<select";
+		}elseif($options['type'] == 'textarea'){
+			$code .= "<textarea";
+			if(isset($options['rows'])){
+				$code.= " rows=\"{$options['rows']}\"";
+			}
 		}else{
 			$code .= "<input type=\"{$options['type']}\" value=\"{$options['value']}\"";
 		}
@@ -92,6 +97,9 @@ trait formTrait{
 		}
 		if(in_array($options['type'], array('radio', 'checkbox'))){
 			$code .= "</div>";
+		}
+		if($options['type'] == 'textarea'){
+			$code .= "{$options['value']}</textarea>";
 		}
 		if(isset($options['icon']) and $options['icon']){
 			$code .= "<i class=\"{$options['icon']}\"></i>";
