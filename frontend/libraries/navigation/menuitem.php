@@ -58,15 +58,15 @@ class menuItem{
 			if($open)$html .=' open';
 			$html .="\"";
 		}
-		$html .="><a href=\"{$this->url}\">".($this->icon ? "<i class=\"{$this->icon}\"></i>" : "")."<span class=\"title\"> {$this->title}</span><span class=\"selected\"></span></a>";
+		$html .="><a href=\"{$this->url}\">".($this->icon ? "<i class=\"{$this->icon}\"></i>" : "")."<span class=\"title\"> {$this->title}</span>".($this->items ? ' <i class="icon-arrow"></i>' : '')."<span class=\"selected\"></span></a>";
 		if($this->items){
 			$html .= "<ul class=\"sub-menu\">";
 			uasort($this->items, array(__NAMESPACE__, 'sort'));
-			foreach(self::$menu as $name => $item){
+			foreach($this->items as $name => $item){
 				if($active and is_array($this->active) and $this->active[0] == $name){
 					if(isset($this->active[1]) and $this->active[1])
 						breadcrumb::addItem($item);
-					$item->active($this->active[1]);
+					$item->active(isset($this->active[1]) ? $this->active[1] : true);
 				}
 				$html .= $item->build();
 			}
