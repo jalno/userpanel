@@ -84,7 +84,7 @@ body.rtl .form-horizontal .form-group > div {
 }
 body.rtl .form-horizontal .form-group > label {
 	float: right;
-	text-align: left;
+	text-align: right;
 }
 body.rtl [class^="icheckbox_"], body.rtl [class*="icheckbox_"], body.rtl [class^="iradio_"], body.rtl [class*="iradio_"] {
 	float: right !important;
