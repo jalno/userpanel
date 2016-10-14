@@ -30,6 +30,9 @@ class user extends dbObject{
 		'socialnetworks' => array("hasMany", "packages\\userpanel\\user_socialnetwork", "user"),
 		'options' => array("hasMany", "packages\\userpanel\\user_option", "user")
     );
+	public function getFullName(){
+		return($this->name.($this->lastname ? ' '.$this->lastname : ''));
+	}
 	public function password_verify($password){
 		return(password::verify($password, $this->password));
 	}
