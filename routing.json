@@ -27,10 +27,6 @@
 		"controller": "controllers\\users@add"
 	},
 	{
-		"path": ["userpanel","email","send"],
-		"controller": "controllers\\email@send"
-	},
-	{
 		"path": "userpanel/login",
 		"controller": "controllers\\login@login"
 	},
