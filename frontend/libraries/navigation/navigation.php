@@ -5,9 +5,24 @@ class navigation{
 	static $menu = array();
 	static $active = array();
 	static function addItem(menuItem $item){
-		$reversed = array_reverse(self::$menu);
-		$reversed[$item->getName()] = $item;
-		self::$menu = array_reverse($reversed);
+		$found = false;
+		foreach(self::$menu as $x => $menuItem){
+			if($menuItem->getName() == $item->getName()){
+				$found = $x;
+				break;
+			}
+		}
+		if($found === false){
+			if(!$item->getPriority()){
+				$item->setPriority(count(self::$menu)*100);
+			}
+			self::$menu[] = $item;
+		}else{
+			if(!$item->getPriority()){
+				$item->setPriority(self::$menu[$found]->getPriority());
+			}
+			self::$menu[$found] = $item;
+		}
 		if($item->getName() == 'dashboard'){
 			breadcrumb::prependItem($item);
 		}
@@ -20,7 +35,8 @@ class navigation{
 		$html = "";
 		uasort(self::$menu, array(__CLASS__, 'sort'));
 
-		foreach(self::$menu as $name => $item){
+		foreach(self::$menu as $item){
+			$name = $item->getName();
 			if(self::$active and $name == self::$active[0]){
 				breadcrumb::addItem($item);
 				$item->active(isset(self::$active[1]) ? self::$active[1] : true);
