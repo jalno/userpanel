@@ -20,15 +20,8 @@ class edit extends usersEditView{
 			$this->getDataForm('name')
 		));
 
-		$this->loadTypes();
 		$this->addAssets();
 		$this->setNavigation();
-	}
-	private function loadTypes(){
-		$usertypes = usertype::where('id', 0, '>')->get();
-		foreach($usertypes as $usertype){
-			$this->usertypes[$usertype->id] = $usertype->title;
-		}
 	}
 	private function addAssets(){
 		$this->addJSFile(theme::url('assets/plugins/jquery-validation/dist/jquery.validate.min.js'));
@@ -54,5 +47,25 @@ class edit extends usersEditView{
 		breadcrumb::addItem($item);
 
 		navigation::active("users/list");
+	}
+	protected function getCountriesForSelect(){
+		$options = array();
+		foreach($this->getCountries() as $country){
+			$options[] = array(
+				'title' => $country->name,
+				'value' => $country->id
+			);
+		}
+		return $options;
+	}
+	protected function getTypesForSelect(){
+		$options = array();
+		foreach($this->getTypes() as $type){
+			$options[] = array(
+				'title' => $type->title,
+				'value' => $type->id
+			);
+		}
+		return $options;
 	}
 }
