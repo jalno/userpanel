@@ -79,9 +79,10 @@ use \packages\base\translator;
 									<div class="col-md-4">
 										<?php
 										$this->createField(array(
-											'type' => 'number',
-											'name' => 'zip',
-											'label' => translator::trans("user.zip")
+											'type' => 'select',
+											'name' => 'country',
+											'label' => translator::trans("user.country"),
+											'options' => $this->getCountriesForSelect()
 										));
 										?>
 									</div>
@@ -96,10 +97,9 @@ use \packages\base\translator;
 									<div class="col-md-4">
 										<?php
 										$this->createField(array(
-											'type' => 'select',
-											'name' => 'country',
-											'label' => translator::trans("user.country"),
-											'options' => $this->getCountriesForSelect()
+											'type' => 'number',
+											'name' => 'zip',
+											'label' => translator::trans("user.zip")
 										));
 										?>
 									</div>
