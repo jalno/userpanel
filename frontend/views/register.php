@@ -3,9 +3,10 @@ namespace themes\clipone\views;
 use \packages\base\options;
 use \packages\base\frontend\theme;
 use \packages\userpanel\views\register as registerView;
+use \themes\clipone\viewTrait;
 use \themes\clipone\views\formTrait;
 class register extends registerView{
-	use formTrait;
+	use viewTrait,formTrait;
 	protected $countries = array();
 	function __beforeLoad(){
 		$this->setTitle("ثبت نام");
