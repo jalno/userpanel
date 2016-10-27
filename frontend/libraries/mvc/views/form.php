@@ -40,7 +40,7 @@ trait formTrait{
 			$options['value'] = $this->getDataForm($options['name']);
 		}
 		if(!isset($options['class'])){
-			$options['class'] = 'form-control';
+			$options['class'] = $options['type'] != 'file' ? 'form-control' : '';
 		}
 		if($this->horizontal_form and $this->input_col){
 			$code .= "<div class=\"{$this->input_col}\">";
