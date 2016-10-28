@@ -70,6 +70,7 @@ class login  extends controller{
 						)
 					);
 					try{
+						$this->response->setStatus(false);
 						$user = $this->login_helper($inputs);
 						$this->response->setStatus(true);
 						$loginto = session::get('loginto');
