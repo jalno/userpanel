@@ -110,8 +110,8 @@ trait formTrait{
 			$text = null;
 			if(isset($options['error']) and is_array($options['error'])){
 				foreach($options['error'] as $type => $value){
-					if($type == $error->error){
-						if(substr($value, -strlen($error->error)) == $error->error){
+					if($type == $error->getCode()){
+						if(substr($value, -strlen($error->getCode())) == $error->getCode()){
 							$text = translator::trans($value);
 						}else{
 							$text = $value;
@@ -121,10 +121,10 @@ trait formTrait{
 				}
 			}
 			if(!$text){
-				$text = translator::trans("{$options['name']}.{$error->error}");
+				$text = translator::trans("{$options['name']}.".$error->getCode());
 			}
 			if(!$text){
-				$text = translator::trans($error->error);
+				$text = translator::trans($error->getCode());
 			}
 			if($text){
 				$code .= "<span class=\"help-block\" id=\"{$options['name']}-error\">{$text}</span>";
