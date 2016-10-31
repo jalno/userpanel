@@ -71,7 +71,10 @@ trait formTrait{
 				$code.= " rows=\"{$options['rows']}\"";
 			}
 		}else{
-			$code .= "<input type=\"{$options['type']}\" value=\"{$options['value']}\"";
+			$code .= "<input type=\"{$options['type']}\" value=\"{$options['value']}\" ";
+		}
+		if(isset($options['id'])){
+			$code .= " id=\"{$options['id']}\"";
 		}
 		if(!in_array($options['type'], array('radio', 'checkbox'))){
 			$code .= " name=\"{$options['name']}\"";
