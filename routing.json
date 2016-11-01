@@ -47,6 +47,14 @@
 		"controller": "controllers\\tools@usertype"
 	},
 	{
+		"path": ["userpanel", "tools", "permissions"],
+		"controller": "controllers\\tools@permission"
+	},
+	{
+		"path": ["userpanel", "tools", "permissions" , {"type":"dynamic","name":"type", "regex":"/^(\\d+)$/"}],
+		"controller": "controllers\\tools@permission"
+	},
+	{
 		"paths": [
 			"userpanel/"
 		],

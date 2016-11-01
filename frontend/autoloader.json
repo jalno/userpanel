@@ -71,6 +71,10 @@
 		{
 			"classes":["views\\tools\\usertype"],
 			"file":"views/tools/usertype.php"
+		},
+		{
+			"classes":["views\\tools\\permission"],
+			"file":"views/tools/permission.php"
 		}
 	]
 }

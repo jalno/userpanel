@@ -8,4 +8,7 @@ class usertype_permission extends dbObject{
         'type' => array('type' => 'int', 'required' => true),
         'name' => array('type' => 'text', 'required' => true)
     );
+	protected $relations = array(
+        'type' => array("hasOne", "packages\\userpanel\\usertype", "type")
+    );
 }

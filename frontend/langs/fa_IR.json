@@ -84,7 +84,10 @@
 		"usertype.options": "آپشن ها",
 		"dissuasion": "انصراف",
 		"add": "اضافه کردن",
-		"usertype.add": "اضافه کردن سطح کاربری"
+		"usertype.add": "اضافه کردن سطح کاربری",
+		"permissions": "دسترسی ها",
+		"permission.title": "عنوان",
+		"permission.type": "سطح دسترسی"
 
 	}
 }
