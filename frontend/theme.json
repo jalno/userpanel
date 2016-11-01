@@ -171,6 +171,11 @@
 			"name":"\\themes\\clipone\\views\\notfound",
 			"parent":"\\packages\\userpanel\\views\\notfound",
 			"file":"notfound.php"
+		},
+		{
+			"name":"\\themes\\clipone\\views\\tools\\usertype",
+			"parent":"\\packages\\userpanel\\views\\tools\\usertype",
+			"file":"tools.usertype.php"
 		}
 	]
 }

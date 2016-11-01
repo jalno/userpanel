@@ -67,6 +67,10 @@
 		{
 			"classes":["views\\notfound"],
 			"file":"views/notfound.php"
+		},
+		{
+			"classes":["views\\tools\\usertype"],
+			"file":"views/tools/usertype.php"
 		}
 	]
 }

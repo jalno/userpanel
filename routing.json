@@ -43,6 +43,10 @@
 		"controller": "controllers\\login@lock"
 	},
 	{
+		"path": "userpanel/tools/usertype",
+		"controller": "controllers\\tools@usertype"
+	},
+	{
 		"paths": [
 			"userpanel/"
 		],

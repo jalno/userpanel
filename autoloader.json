@@ -79,9 +79,6 @@
 			"classes":["views\\form"],
 			"file":"libraries/mvc/views/form.php"
 		},
-
-
-
 		{
 			"classes":["controllers\\dashboard"],
 			"file":"controllers/dashboard.php"
@@ -149,6 +146,14 @@
 		{
 			"classes":["views\\notfound"],
 			"file":"views/notfound.php"
+		},
+		{
+			"classes":["controllers\\tools"],
+			"file":"controllers/tools.php"
+		},
+		{
+			"classes":["views\\tools\\usertype"],
+			"file":"views/tools/usertype.php"
 		}
 
 	]
