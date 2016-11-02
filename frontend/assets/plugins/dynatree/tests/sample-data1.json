@@ -12,11 +12,6 @@
 		    {"title": "Sub-item 3.2"}
 		    ]
 		},
-    {"title": "Lazy Folder 4", "isFolder": true, "isLazy": true, "key": "folder4",
-	    "children": [
-		    {"title": "Sub-item 4.1"},
-		    {"title": "Sub-item 4.2"}
-		    ]
-		},
+    {"title": "Lazy Folder 4", "isFolder": true, "isLazy": true, "key": "folder4"},
 	{"title": "Item 5"}
 ]
