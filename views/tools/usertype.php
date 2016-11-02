@@ -10,11 +10,11 @@ class usertype extends  list_view{
 	protected $usertypes;
 	static protected $navigation;
 	function __construct(){
-		$this->canEdit = authorization::is_accessed('users_edit');
-		$this->canDelete = authorization::is_accessed('users_delete');
+		$this->canEdit = authorization::is_accessed('usertype_edit');
+		$this->canDelete = authorization::is_accessed('usertype_delete');
 	}
 	static function onSourceLoad(){
-		self::$navigation = authorization::is_accessed('users_list');
+		self::$navigation = authorization::is_accessed('usertype_list');
 	}
 	public function setUserTypes($usertypes){
 		$this->usertypes = $usertypes;

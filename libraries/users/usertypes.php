@@ -2,6 +2,9 @@
 namespace packages\userpanel;
 use packages\base\db\dbObject;
 class usertype extends dbObject{
+	const admin = 1;
+	const support = 2;
+	const guest = 3;
 	protected $dbTable = "userpanel_usertypes";
 	protected $primaryKey = "id";
 	protected $dbFields = array(

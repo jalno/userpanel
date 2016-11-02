@@ -75,6 +75,10 @@
 		{
 			"classes":["views\\tools\\permission"],
 			"file":"views/tools/permission.php"
+		},
+		{
+			"classes":["views\\tools\\usertype_edit"],
+			"file":"views/tools/usertype.edit.php"
 		}
 	]
 }

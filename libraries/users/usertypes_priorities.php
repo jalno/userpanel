@@ -9,4 +9,8 @@ class usertype_priority extends dbObject{
         'parent' => array('type' => 'int', 'required' => true),
         'child' => array('type' => 'int', 'required' => true)
     );
+	protected $relations = array(
+        'parentdata' => array("hasOne", "packages\\userpanel\\usertype", "parent"),
+		'childdata' => array('hasOne', 'packages\\userpanel\\usertype', 'child')
+    );
 }

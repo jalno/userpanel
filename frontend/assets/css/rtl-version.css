@@ -88,7 +88,7 @@ body.rtl .form-horizontal .form-group > label {
 }
 body.rtl [class^="icheckbox_"], body.rtl [class*="icheckbox_"], body.rtl [class^="iradio_"], body.rtl [class*="iradio_"] {
 	float: right !important;
-	margin: 0 -20px 0 5px !important;
+	margin: 0 0px 0 0px !important;
 }
 body.rtl .radio, body.rtl .checkbox {
 	padding-left: 0;

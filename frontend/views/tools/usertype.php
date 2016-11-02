@@ -23,8 +23,13 @@ class usertype extends usertype_list{
 		navigation::active("tools/usertype");
 	}
 	public function setButtons(){
+		$this->setButton('edit', $this->canEdit, array(
+			'title' => translator::trans('usertype.edit'),
+			'icon' => 'fa fa-edit',
+			'classes' => array('btn', 'btn-xs', 'btn-warning')
+		));
 		$this->setButton('delete', $this->canDelete, array(
-			'title' => translator::trans('user.delete'),
+			'title' => translator::trans('usertype.delete'),
 			'icon' => 'fa fa-times',
 			'classes' => array('btn', 'btn-xs', 'btn-bricky')
 		));

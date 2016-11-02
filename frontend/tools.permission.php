@@ -64,12 +64,12 @@ use \themes\clipone\utility;
 		<h4 class="modal-title"><?php echo translator::trans('permission.add'); ?></h4>
 	</div>
 	<div class="modal-body">
-		<form id="usersearchform" action="<?php echo userpanel\url("tools/permission/add"); ?>" method="GET" class="form-horizontal">
+		<form id="usersearchform" action="<?php echo userpanel\url("tools/permissions/add"); ?>" method="post" class="form-horizontal">
 			<?php
 			$this->setHorizontalForm('sm-3','sm-9');
 			$this->createField(array(
 				'label' => translator::trans("permission.title"),
-				'name' => 'title'
+				'name' => 'name'
 			));
 			$this->createField(array(
 				'label' => translator::trans("permission.type"),
