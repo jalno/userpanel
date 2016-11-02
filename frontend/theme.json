@@ -181,6 +181,11 @@
 			"name":"\\themes\\clipone\\views\\tools\\permission",
 			"parent":"\\packages\\userpanel\\views\\tools\\permission",
 			"file":"tools.permission.php"
+		},
+		{
+			"name":"\\themes\\clipone\\views\\tools\\usertype_edit",
+			"parent":"\\packages\\userpanel\\views\\tools\\usertype_edit",
+			"file":"tools.usertype.edit.php"
 		}
 	]
 }

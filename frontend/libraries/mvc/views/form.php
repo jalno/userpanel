@@ -49,9 +49,14 @@ trait formTrait{
 			if(!isset($options['inline'])){
 				$options['inline'] = false;
 			}
+			if(!isset($options['label'])){
+				$options['label'] = true;
+			}
 			$code .= "<div>";
 			foreach($options['options'] as $option){
-				$code .= '<label class="'.$options['type'].($options['inline'] ? '-inline' : '').'">';
+				if($options['label']){
+					$code .= '<label class="'.$options['type'].($options['inline'] ? '-inline' : '').'">';
+				}
 				$code .= "<input type=\"{$options['type']}\" name=\"{$options['name']}\" value=\"{$option['value']}\"";
 				if(isset($option['class']) and $option['class']){
 					$code .= " class=\"{$option['class']}\"";

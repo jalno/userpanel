@@ -87,7 +87,12 @@
 		"usertype.add": "اضافه کردن سطح کاربری",
 		"permissions": "دسترسی ها",
 		"permission.title": "عنوان",
-		"permission.type": "سطح دسترسی"
+		"permission.type": "سطح دسترسی",
+		"usertype.parent": "پدر",
+		"usertype.child": "فرزند",
+		"change": "تغییر",
+		"permission.add": "اضافه کردن دسترسی",
+		"permission.edit": "ویرایش دسترسی"
 
 	}
 }
