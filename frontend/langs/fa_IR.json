@@ -108,8 +108,8 @@
 		"usertype.permissions.userpanel_settings_usertypes_list" : "لیست سطوح کاربری",
 		"usertype.permissions.userpanel_settings_usertypes_add" : "افزودن سطح کاربری",
 		"usertype.permissions.userpanel_settings_usertypes_edit" : "ویرایش سطح کاربری",
-		"usertype.permissions.userpanel_settings_usertypes_delete" : "حذف سطح کاربری"
-
+		"usertype.permissions.userpanel_settings_usertypes_delete" : "حذف سطح کاربری",
+		"usertype.byTitle": "سطح کاربری {title}"
 
 	}
 }
