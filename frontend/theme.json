@@ -173,19 +173,24 @@
 			"file":"notfound.php"
 		},
 		{
-			"name":"\\themes\\clipone\\views\\tools\\usertype",
-			"parent":"\\packages\\userpanel\\views\\tools\\usertype",
-			"file":"tools.usertype.php"
+			"name":"\\themes\\clipone\\views\\settings\\usertypes\\listview",
+			"parent":"\\packages\\userpanel\\views\\settings\\usertypes\\listview",
+			"file":"settings.usertypes.list.php"
 		},
 		{
-			"name":"\\themes\\clipone\\views\\tools\\permission",
-			"parent":"\\packages\\userpanel\\views\\tools\\permission",
-			"file":"tools.permission.php"
+			"name":"\\themes\\clipone\\views\\settings\\usertypes\\edit",
+			"parent":"\\packages\\userpanel\\views\\settings\\usertypes\\edit",
+			"file":"settings.usertypes.edit.php"
 		},
 		{
-			"name":"\\themes\\clipone\\views\\tools\\usertype_edit",
-			"parent":"\\packages\\userpanel\\views\\tools\\usertype_edit",
-			"file":"tools.usertype.edit.php"
+			"name":"\\themes\\clipone\\views\\settings\\usertypes\\delete",
+			"parent":"\\packages\\userpanel\\views\\settings\\usertypes\\delete",
+			"file":"settings.usertypes.delete.php"
+		},
+		{
+			"name":"\\themes\\clipone\\views\\settings\\usertypes\\add",
+			"parent":"\\packages\\userpanel\\views\\settings\\usertypes\\add",
+			"file":"settings.usertypes.add.php"
 		}
 	]
 }

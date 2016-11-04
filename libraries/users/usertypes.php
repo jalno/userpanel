@@ -11,8 +11,8 @@ class usertype extends dbObject{
         'title' => array('type' => 'text', 'required' => true),
     );
     protected $relations = array(
-        'permissions' => array("hasMany", "packages\\userpanel\\usertype_permission", "type"),
-		'children' => array("hasMany", "packages\\userpanel\\usertype_priority", "parent"),
+        'permissions' => array("hasMany", "packages\\userpanel\\usertype\permission", "type"),
+		'children' => array("hasMany", "packages\\userpanel\\usertype\priority", "parent"),
 		'options' => array('hasMany', 'packages\\userpanel\\usertype_option', 'usertype')
     );
     public function hasPermission($permission){

@@ -20,12 +20,16 @@
 			"file":"libraries/users/usertypes.php"
 		},
 		{
-			"classes":["usertype_permission"],
-			"file":"libraries/users/usertypes_permissions.php"
+			"classes":["usertype\\permissions"],
+			"file":"libraries/users/usertype/permissions.php"
 		},
 		{
-			"classes":["usertype_priority"],
-			"file":"libraries/users/usertypes_priorities.php"
+			"classes":["usertype\\permission"],
+			"file":"libraries/users/usertype/permission.php"
+		},
+		{
+			"classes":["usertype\\priority"],
+			"file":"libraries/users/usertype/priority.php"
 		},
 		{
 			"classes":["user_option"],
@@ -33,7 +37,7 @@
 		},
 		{
 			"classes":["usertype_option"],
-			"file":"libraries/users/usertypes_options.php"
+			"file":"libraries/users/usertype/option.php"
 		},
 		{
 			"classes":["authentication"],
@@ -148,20 +152,32 @@
 			"file":"views/notfound.php"
 		},
 		{
-			"classes":["controllers\\tools"],
-			"file":"controllers/tools.php"
+			"classes":["controllers\\settings\\usertypes"],
+			"file":"controllers/settings/usertypes.php"
 		},
 		{
-			"classes":["views\\tools\\usertype"],
-			"file":"views/tools/usertype.php"
+			"classes":["views\\settings\\usertypes\\listview"],
+			"file":"views/settings/usertypes/list.php"
 		},
 		{
-			"classes":["views\\tools\\permission"],
-			"file":"views/tools/permission.php"
+			"classes":["views\\settings\\usertypes\\edit"],
+			"file":"views/settings/usertypes/edit.php"
 		},
 		{
-			"classes":["views\\tools\\usertype_edit"],
-			"file":"views/tools/usertype.edit.php"
+			"classes":["events\\usertype_permissions_list"],
+			"file":"libraries/events/usertype_permissions_list.php"
+		},
+		{
+			"classes":["views\\settings\\usertypes\\delete"],
+			"file":"views/settings/usertypes/delete.php"
+		},
+		{
+			"classes":["listeners\\settings\\usertype"],
+			"file":"listeners/settings/usertype.php"
+		},
+		{
+			"classes":["views\\settings\\usertypes\\add"],
+			"file":"views/settings/usertypes/add.php"
 		}
 	]
 }

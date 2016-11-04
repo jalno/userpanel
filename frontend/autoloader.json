@@ -69,16 +69,20 @@
 			"file":"views/notfound.php"
 		},
 		{
-			"classes":["views\\tools\\usertype"],
-			"file":"views/tools/usertype.php"
+			"classes":["views\\settings\\usertypes\\listview"],
+			"file":"views/settings/usertypes/list.php"
 		},
 		{
-			"classes":["views\\tools\\permission"],
-			"file":"views/tools/permission.php"
+			"classes":["views\\settings\\usertypes\\edit"],
+			"file":"views/settings/usertypes/edit.php"
 		},
 		{
-			"classes":["views\\tools\\usertype_edit"],
-			"file":"views/tools/usertype.edit.php"
+			"classes":["views\\settings\\usertypes\\delete"],
+			"file":"views/settings/usertypes/delete.php"
+		},
+		{
+			"classes":["views\\settings\\usertypes\\add"],
+			"file":"views/settings/usertypes/add.php"
 		}
 	]
 }

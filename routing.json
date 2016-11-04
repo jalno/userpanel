@@ -43,42 +43,20 @@
 		"controller": "controllers\\login@lock"
 	},
 	{
-		"path": "userpanel/tools/usertype",
-		"controller": "controllers\\tools@usertype"
+		"path": "userpanel/settings/usertypes",
+		"controller": "controllers\\settings\\usertypes@listTypes"
 	},
 	{
-		"path": ["userpanel", "tools", "permissions"],
-		"controller": "controllers\\tools@permission",
-		"method": "get"
+		"path": ["userpanel", "settings", "usertypes", "add"],
+		"controller": "controllers\\settings\\usertypes@add"
 	},
 	{
-		"path": ["userpanel", "tools", "usertype", "edit", {"type":"dynamic","name":"type", "regex":"/^(\\d+)$/"}],
-		"controller": "controllers\\tools@usertype_edit"
+		"path": ["userpanel", "settings", "usertypes", "edit", {"type":"dynamic","name":"type", "regex":"/^(\\d+)$/"}],
+		"controller": "controllers\\settings\\usertypes@edit"
 	},
 	{
-		"path": ["userpanel", "tools", "permissions" , {"type":"dynamic","name":"type", "regex":"/^(\\d+)$/"}],
-		"controller": "controllers\\tools@permission",
-		"method": "get"
-	},
-	{
-		"path": ["userpanel", "tools", "children", "edit", {"type":"dynamic","name":"child", "regex":"/^(\\d+)$/"}],
-		"controller": "controllers\\tools@priority_edit",
-		"method": "post"
-	},
-	{
-		"path": ["userpanel", "tools", "children", "add"],
-		"controller": "controllers\\tools@priority_add",
-		"method": "post"
-	},
-	{
-		"path": ["userpanel", "tools", "permissions", "edit", {"type":"dynamic","name":"name", "regex":"/(.+)/"}],
-		"controller": "controllers\\tools@permission_edit",
-		"method": "post"
-	},
-	{
-		"path": ["userpanel", "tools", "permissions", "add"],
-		"controller": "controllers\\tools@permission_add",
-		"method": "post"
+		"path": ["userpanel", "settings", "usertypes", "delete", {"type":"dynamic","name":"type", "regex":"/^(\\d+)$/"}],
+		"controller": "controllers\\settings\\usertypes@delete"
 	},
 	{
 		"paths": [

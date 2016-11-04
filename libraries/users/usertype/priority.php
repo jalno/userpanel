@@ -1,7 +1,8 @@
 <?php
-namespace packages\userpanel;
+namespace packages\userpanel\usertype;
+use packages\base\db;
 use packages\base\db\dbObject;
-class usertype_priority extends dbObject{
+class priority extends dbObject{
 	protected $dbTable = "userpanel_usertypes_priorities";
 	protected $primaryKey = "parent";
 	public $returnType = 'Array';
@@ -13,4 +14,9 @@ class usertype_priority extends dbObject{
         'parentdata' => array("hasOne", "packages\\userpanel\\usertype", "parent"),
 		'childdata' => array('hasOne', 'packages\\userpanel\\usertype', 'child')
     );
+	public function delete(){
+		db::where("parent", $this->parent);
+		db::where("child", $this->child);
+		return db::delete($this->dbTable);
+	}
 }

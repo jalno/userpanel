@@ -1,7 +1,8 @@
 <?php
-namespace packages\userpanel;
+namespace packages\userpanel\usertype;
+use packages\base\db;
 use packages\base\db\dbObject;
-class usertype_permission extends dbObject{
+class permission extends dbObject{
 	protected $dbTable = "userpanel_usertypes_permissions";
 	protected $primaryKey = "";
 	protected $dbFields = array(
@@ -11,4 +12,9 @@ class usertype_permission extends dbObject{
 	protected $relations = array(
         'type' => array("hasOne", "packages\\userpanel\\usertype", "type")
     );
+	public function delete(){
+		db::where("type", $this->data['type']);
+		db::where("name", $this->name);
+		return db::delete($this->dbTable);
+	}
 }

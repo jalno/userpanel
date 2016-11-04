@@ -10,8 +10,6 @@
 		"suspend": "معلق",
 		"deactive": "غیرفعال",
 		"users":"کاربران",
-		"tools": "ابزار ها",
-		"usertype": "سطوح کاربری",
 		"user.add":"افزودن کاربر",
 		"user.id" : "شناسه کاربری",
 		"user.name":"نام کاربر",
@@ -84,15 +82,34 @@
 		"usertype.options": "آپشن ها",
 		"dissuasion": "انصراف",
 		"add": "اضافه کردن",
-		"usertype.add": "اضافه کردن سطح کاربری",
-		"permissions": "دسترسی ها",
 		"permission.title": "عنوان",
 		"permission.type": "سطح دسترسی",
 		"usertype.parent": "پدر",
 		"usertype.child": "فرزند",
 		"change": "تغییر",
-		"permission.add": "اضافه کردن دسترسی",
-		"permission.edit": "ویرایش دسترسی"
+		"settings": "تنظیمات",
+		"usertypes": "سطوح کاربری",
+		"usertype": "سطح کاربری",
+		"usertype.add": "اضافه کردن سطح کاربری",
+		"usertype.edit": "ویرایش سطح کاربری",
+		"usertype.delete": "حذف سطح کاربری",
+		"usertype.delete":"حذف سطح کاربری",
+		"usertype.delete.byTitle":"حذف سطح کاربری {title}",
+		"usertype.delete.warning":"آیا شما از حذف سطح کاربری {title} اطمینان دارید؟این عملیات غیر قابل بازگشت است.",
+		"error.usertype.in_use":"در حال حاضر تعدادی از کاربران با این سطح کاربری وجود دارند و امکان حذف آن ها وجود ندارد.لطفا ابتدا کاربران را حذف کنید و یا به سطح کاربری دیگه دیگری منتقل کنید.",
+		"usertype.permissions": "دسترسی ها",
+		"usertype.periorities": "سطوح زیرمجموعه",
+
+		"usertype.permissions.userpanel_users_list" : "لیست کاربران",
+		"usertype.permissions.userpanel_users_add" : "افزودن کاربر",
+		"usertype.permissions.userpanel_users_view" : "مشاهده کاربر",
+		"usertype.permissions.userpanel_users_edit" : "ویرایش کاربر",
+		"usertype.permissions.userpanel_users_delete" : "حذف کاربر",
+		"usertype.permissions.userpanel_settings_usertypes_list" : "لیست سطوح کاربری",
+		"usertype.permissions.userpanel_settings_usertypes_add" : "افزودن سطح کاربری",
+		"usertype.permissions.userpanel_settings_usertypes_edit" : "ویرایش سطح کاربری",
+		"usertype.permissions.userpanel_settings_usertypes_delete" : "حذف سطح کاربری"
+
 
 	}
 }

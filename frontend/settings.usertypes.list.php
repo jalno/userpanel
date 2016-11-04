@@ -10,9 +10,9 @@ use \themes\clipone\utility;
 		<!-- start: BASIC TABLE PANEL -->
 		<div class="panel panel-default">
 			<div class="panel-heading">
-				<i class="fa fa-users"></i> <?php echo translator::trans('tools'); ?>
+				<i class="fa fa-users"></i> <?php echo translator::trans('usertypes'); ?>
 				<div class="panel-tools">
-					<a class="btn btn-xs btn-link tooltips" title="<?php echo translator::trans('permission.add'); ?>" data-toggle="modal" href="#permission-add" data-original-title=""><i class="clip-user-plus"></i></a>
+					<a class="btn btn-xs btn-link tooltips" title="<?php echo translator::trans('usertype.add'); ?>" href="<?php echo userpanel\url('settings/usertypes/add'); ?>"><i class="clip-user-plus"></i></a>
 					<a class="btn btn-xs btn-link panel-collapse collapses" href="#"></a>
 				</div>
 			</div>
@@ -25,21 +25,23 @@ use \themes\clipone\utility;
 						<thead>
 							<tr>
 								<th>#</th>
-								<th><?php echo translator::trans('permission.type'); ?></th>
-								<th><?php echo translator::trans('permission.title'); ?></th>
+								<th><?php echo translator::trans('usertype.title'); ?></th>
+								<th><?php echo translator::trans('usertype.permissions'); ?></th>
+								<th><?php echo translator::trans('usertype.priority'); ?></th>
 								<?php if($hasButtons){ ?><th></th><?php } ?>
 							</tr>
 						</thead>
 						<tbody>
 							<?php
-							$number = 1;
-							foreach($this->getPermissions() as $permission){
-								$this->setButtonParam('delete', 'link', userpanel\url("tools/permission/delete/".$permission->name));
+							foreach($this->getUserTypes() as $usertype){
+								$this->setButtonParam('edit', 'link', userpanel\url("settings/usertypes/edit/".$usertype->id));
+								$this->setButtonParam('delete', 'link', userpanel\url("settings/usertypes/delete/".$usertype->id));
 							?>
 							<tr>
-								<td><?php echo $number; ?></td>
-								<td><?php echo $permission->type->title; ?></td>
-								<td><?php echo $permission->name; ?></td>
+								<td><?php echo $usertype->id; ?></td>
+								<td><?php echo $usertype->title; ?></td>
+								<td><div class="badge"><?php echo count($usertype->permissions); ?></div></td>
+								<td><div class="badge"><?php echo count($usertype->children); ?></div></td>
 								<?php
 								if($hasButtons){
 									echo("<td class=\"center\">".$this->genButtons()."</td>");
@@ -47,7 +49,6 @@ use \themes\clipone\utility;
 								?>
 								</tr>
 							<?php
-							$number++;
 							}
 							?>
 						</tbody>
@@ -61,27 +62,21 @@ use \themes\clipone\utility;
 <div class="modal fade" id="permission-add" tabindex="-1" data-show="true" role="dialog">
 	<div class="modal-header">
 		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-		<h4 class="modal-title"><?php echo translator::trans('permission.add'); ?></h4>
+		<h4 class="modal-title"><?php echo translator::trans('usertype.add'); ?></h4>
 	</div>
 	<div class="modal-body">
-		<form id="usersearchform" action="<?php echo userpanel\url("tools/permissions/add"); ?>" method="post" class="form-horizontal">
+		<form id="permission-add-form" action="<?php echo userpanel\url("tools/usertype"); ?>" method="post" class="form-horizontal">
 			<?php
 			$this->setHorizontalForm('sm-3','sm-9');
 			$this->createField(array(
-				'label' => translator::trans("permission.title"),
-				'name' => 'name'
-			));
-			$this->createField(array(
-				'label' => translator::trans("permission.type"),
-				'name' => 'type',
-				'type' => 'select',
-				'options' => $this->getTypesSelected()
+				'label' => translator::trans("usertype.title"),
+				'name' => 'title'
 			));
 			?>
 		</form>
 	</div>
 	<div class="modal-footer">
-		<button type="submit" form="usersearchform" class="btn btn-success"><?php echo translator::trans("add") ?></button>
+		<button type="submit" form="permission-add-form" class="btn btn-success"><?php echo translator::trans("add") ?></button>
 		<button type="button" class="btn btn-default" data-dismiss="modal" aria-hidden="true"><?php echo translator::trans("dissuasion") ?></button>
 	</div>
 </div>
