@@ -178,6 +178,18 @@
 		{
 			"classes":["views\\settings\\usertypes\\add"],
 			"file":"views/settings/usertypes/add.php"
+		},
+		{
+			"classes":["controllers\\settings\\bank"],
+			"file":"controllers/settings/bank.php"
+		},
+		{
+			"classes":["settings\\bank_account"],
+			"file":"libraries/settings/bankaccounts.php"
+		},
+		{
+			"classes":["views\\settings\\bankaccount\\listview"],
+			"file":"views/settings/bankaccount/list.php"
 		}
 	]
 }

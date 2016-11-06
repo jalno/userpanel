@@ -59,6 +59,11 @@
 		"controller": "controllers\\settings\\usertypes@delete"
 	},
 	{
+		"path": ["userpanel", "settings", "bankaccounts"],
+		"controller": "controllers\\settings\\bank@listAcoounts",
+		"method": "get"
+	},
+	{
 		"paths": [
 			"userpanel/"
 		],

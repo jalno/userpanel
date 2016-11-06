@@ -83,6 +83,10 @@
 		{
 			"classes":["views\\settings\\usertypes\\add"],
 			"file":"views/settings/usertypes/add.php"
+		},
+		{
+			"classes":["views\\settings\\bankaccount\\listview"],
+			"file":"views/settings/bankaccounts/list.php"
 		}
 	]
 }

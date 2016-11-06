@@ -109,7 +109,11 @@
 		"usertype.permissions.userpanel_settings_usertypes_add" : "افزودن سطح کاربری",
 		"usertype.permissions.userpanel_settings_usertypes_edit" : "ویرایش سطح کاربری",
 		"usertype.permissions.userpanel_settings_usertypes_delete" : "حذف سطح کاربری",
-		"usertype.byTitle": "سطح کاربری {title}"
+		"usertype.byTitle": "سطح کاربری {title}",
+		"bank":"بانک",
+		"accnum": "شماره حساب",
+		"cartnum": "شماره کارت",
+		"master": "صاحب حساب"
 
 	}
 }

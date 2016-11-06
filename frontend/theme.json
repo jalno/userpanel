@@ -191,6 +191,11 @@
 			"name":"\\themes\\clipone\\views\\settings\\usertypes\\add",
 			"parent":"\\packages\\userpanel\\views\\settings\\usertypes\\add",
 			"file":"settings.usertypes.add.php"
+		},
+		{
+			"name":"\\themes\\clipone\\views\\settings\\bankaccount\\listview",
+			"parent":"\\packages\\userpanel\\views\\settings\\bankaccount\\listview",
+			"file":"settings.bankaccounts.list.php"
 		}
 	]
 }
