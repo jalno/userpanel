@@ -67,7 +67,7 @@ use \themes\clipone\utility;
 		<h4 class="modal-title"><?php echo translator::trans('add')." ".translator::trans("accnum"); ?></h4>
 	</div>
 	<div class="modal-body">
-		<form id="permission-add-form" action="<?php echo userpanel\url("tools/usertype"); ?>" method="post" class="form-horizontal">
+		<form id="permission-add-form" action="<?php echo userpanel\url("settings/bankaccounts/add"); ?>" method="post" class="form-horizontal">
 			<?php
 			$this->setHorizontalForm('sm-3','sm-9');
 			$this->createField(array(

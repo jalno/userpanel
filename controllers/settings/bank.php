@@ -105,4 +105,36 @@ class bank extends controller{
 		$this->response->setView($view);
 		return $this->response;
 	}
+	public function add(){
+		authorization::haveOrFail('settings_bankaccounts_add');
+		$inputsRules = array(
+			'bank' => array(
+				'type' => 'string'
+			),
+			'accnum' => array(
+				'type' => 'number'
+			),
+			'cartnum' => array(
+				'type' => 'number'
+			),
+			'master' => array(
+				'type' => 'string'
+			)
+		);
+		try{
+			$inputs = $this->checkinputs($inputsRules);
+			$bankaccount = new bank_account;
+			$bankaccount->bank = $inputs['bank'];
+			$bankaccount->accnum = $inputs['accnum'];
+			$bankaccount->cartnum = $inputs['cartnum'];
+			$bankaccount->master = $inputs['master'];
+			$bankaccount->save();
+			$this->response->Go(userpanel\url("settings/bankaccounts"));
+		}catch(inputValidation $error){
+			print_r($error);
+			$this->response->setFormError(FormError::fromException($error));
+		}
+		$this->response->setStatus(true);
+		return $this->response;
+	}
 }
