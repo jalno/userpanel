@@ -1,5 +1,7 @@
 <?php
 namespace themes\clipone\views;
+use \packages\base\http;
+use \packages\base\translator;
 use \themes\clipone\viewTrait;
 trait listTrait{
 	private $buttons = array();
@@ -119,6 +121,81 @@ trait listTrait{
 
 		return $code;
 	}
-}
+	public function paginator($selectbox = false, $mid_range = 7){
+		$return = "<hr><ol class=\"pagination text-center pull-left hidden-xs\">";
 
-?>
+		$prev_page = $this->currentPage-1;
+        $next_page = $this->currentPage+1;
+
+		if($this->currentPage != 1 and $this->totalItems >= 10){
+			$return .= "<li class=\"prev\"><a href=\"".$this->pageurl($prev_page)."\">".translator::trans('pagination.previousPage')."</a></li>";
+		}else{
+			$return .= "<li class=\"prev disabled\"><a>".translator::trans('pagination.previousPage')."</a></li>";
+		}
+		$start_range = $this->currentPage - floor($mid_range/2);
+		$end_range = $this->currentPage + floor($mid_range/2);
+
+		if($start_range <= 0){
+			$end_range += abs($start_range)+1;
+			$start_range = 1;
+		}
+
+		if($end_range > $this->totalPages){
+			$start_range -= $end_range-$this->totalPages;
+			$end_range = $this->totalPages;
+		}
+
+		$range = range($start_range,$end_range);
+
+		for($i=1;$i <= $this->totalPages;$i++){
+			if($range[0] > 2 and $i == $range[0]){
+				$return .= "<li><a> ... </a></li>";
+			}
+			// loop through all pages. if first, last, or in range, display
+			if($i == 1 or $i == $this->totalPages or in_array($i,$range)){
+				if($i == $this->currentPage){
+					$return .= "<li class=\"active\"><a href=\"#\">{$i}</a></li>";
+				}else{
+					$return .= "<li><a href=\"".$this->pageurl($i)."\">{$i}</a></li>";
+				}
+			}
+			if($range[$mid_range - 1] < $this->totalPages - 1 and $i == $range[$mid_range - 1]){
+				$return .= "<li><a> ... </a></li>";
+			}
+		}
+		if($this->currentPage != $this->totalPages and $this->totalItems >= 10){
+			$return .= "<li class=\"next\"><a href=\"".$this->pageurl($next_page)."\">".translator::trans('pagination.nextPage')."</a></li>";
+		}else{
+			$return .= "<li class=\"next disabled\"><a>".translator::trans('pagination.nextPage')."</a></li>";
+		}
+		$return .= "</ol>";
+		$return .= "<div class=\"visible-xs\">";
+		$return .= "<span class=\"paginate\">".translator::trans('pagination.page').": </span>";
+		$return .= "<select class=\"paginate\">";
+        for($i = 1;$i <= $this->totalPages;$i++){
+            $return .= "<option value=\"{$i}\" data-url=\"".$this->pageurl($i)."\"".($i == $this->currentPage ? ' selected' : '').">{$i}</option>";
+        }
+		$return .= "</select>";
+		echo $return;
+	}
+	private function pageurl($page, $ipp = null){
+		if($ipp === null){
+			$ipp = $this->itemsPage;
+		}
+		if($ipp == 25){
+			$ipp = null;
+		}
+		$paginationData = http::$request['get'];
+		if($page != 1){
+			$paginationData['page'] = $page;
+		}else{
+			unset($paginationData['page']);
+		}
+		if($ipp){
+			$paginationData['ipp'] = $ipp;
+		}else{
+			unset($paginationData['ipp']);
+		}
+		return($paginationData ? '?'.http_build_query($paginationData) : http::$request['uri']);
+	}
+}

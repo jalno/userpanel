@@ -124,6 +124,9 @@
 		"usertype.permissions.userpanel_profile_view":"مشاهده پروفایل",
 		"usertype.permissions.userpanel_profile_edit":"ویرایش پروفایل",
 		"profile.view":"مشاهده پروفایل",
-		"profile.edit" : "ویرایش پروفایل"
+		"profile.edit" : "ویرایش پروفایل",
+		"pagination.previousPage" : "قبلی",
+		"pagination.nextPage" : "بعدی",
+		"pagination.page" : "صفحه"
 	}
 }

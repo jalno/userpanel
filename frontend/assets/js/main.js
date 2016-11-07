@@ -745,6 +745,11 @@ var Main = function () {
 	        });
 		}
 	};
+	var runPagination = function(){
+		$('select.paginate').change(function(){
+			window.location.href = $('option:selected', this).data('url');
+		})
+	}
     return {
         //main function to initiate template pages
         init: function () {
@@ -770,6 +775,7 @@ var Main = function () {
             runCustomSetting();
             runClearSetting();
             runLocalization();
+            runPagination();
         },
 		SetDefaultValidation: runSetDefaultValidation,
 		parse_url: function(href) {
