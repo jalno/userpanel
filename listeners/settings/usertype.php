@@ -10,6 +10,9 @@ class usertype{
 			'users_edit',
 			'users_delete',
 
+			'profile_view',
+			'profile_edit',
+
 			'settings_usertypes_list',
 			'settings_usertypes_add',
 			'settings_usertypes_edit',

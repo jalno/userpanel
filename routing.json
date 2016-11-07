@@ -76,6 +76,14 @@
 		"controller": "controllers\\settings\\bank@edit"
 	},
 	{
+		"path": ["userpanel","profile", "view"],
+		"controller": "controllers\\profile@view"
+	},
+	{
+		"path": ["userpanel","profile", "edit"],
+		"controller": "controllers\\profile@edit"
+	},
+	{
 		"paths": [
 			"userpanel/"
 		],

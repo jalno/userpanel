@@ -4,6 +4,7 @@ use \packages\base\date;
 use \packages\base\translator;
 use \packages\base\view\error;
 use \packages\userpanel\frontend;
+use \packages\userpanel\authorization;
 trait viewTrait{
 	protected $bodyClasses = array('rtl');
 	function the_header($template = ''){
@@ -84,5 +85,8 @@ trait viewTrait{
 		}
 
 		return $code;
+	}
+	protected function canViewProfile(){
+		return authorization::is_accessed('profile_view');
 	}
 }

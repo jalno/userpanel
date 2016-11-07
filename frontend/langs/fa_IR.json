@@ -120,7 +120,10 @@
 		"usertype.permissions.userpanel_settings_bankaccounts_list":"لیست حساب های بانکی",
 		"usertype.permissions.userpanel_settings_bankaccounts_add":"افزودن حساب بانکی",
 		"usertype.permissions.userpanel_settings_bankaccounts_delete":"حذف حساب بانکی",
-		"usertype.permissions.userpanel_settings_bankaccounts_edit":"ویرایش حساب بانکی"
-
+		"usertype.permissions.userpanel_settings_bankaccounts_edit":"ویرایش حساب بانکی",
+		"usertype.permissions.userpanel_profile_view":"مشاهده پروفایل",
+		"usertype.permissions.userpanel_profile_edit":"ویرایش پروفایل",
+		"profile.view":"مشاهده پروفایل",
+		"profile.edit" : "ویرایش پروفایل"
 	}
 }

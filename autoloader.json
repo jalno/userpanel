@@ -198,6 +198,18 @@
 		{
 			"classes":["views\\settings\\bankaccount\\edit"],
 			"file":"views/settings/bankaccount/edit.php"
+		},
+		{
+			"classes":["controllers\\profile"],
+			"file":"controllers/profile.php"
+		},
+		{
+			"classes":["views\\profile\\view"],
+			"file":"views/profile/view.php"
+		},
+		{
+			"classes":["views\\profile\\edit"],
+			"file":"views/profile/edit.php"
 		}
 	]
 }

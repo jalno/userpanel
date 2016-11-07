@@ -1,5 +1,6 @@
 <?php
 use \packages\base;
+use \packages\base\translator;
 use \packages\base\frontend\theme;
 use \packages\userpanel;
 use \packages\userpanel\authentication;
@@ -49,6 +50,12 @@ use \themes\clipone\breadcrumb;
 								<i class="clip-chevron-down"></i>
 							</a>
 							<ul class="dropdown-menu">
+								<?php
+								if($this->canViewProfile()){
+								?>
+								<li><a href="<?php echo userpanel\url('profile/view'); ?>"><i class="clip-user-2"></i>&nbsp;<?php echo translator::trans('profile.view'); ?></a></li>
+								<li class="divider"></li>
+								<?php } ?>
 								<li><a href="<?php echo base\url('userpanel/lock'); ?>"><i class="clip-locked"></i>&nbsp;خروج موقت </a></li>
 								<li><a href="<?php echo base\url('userpanel/logout'); ?>"><i class="clip-exit"></i> &nbsp;خروج </a></li>
 							</ul>
