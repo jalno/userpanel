@@ -8,7 +8,6 @@ class bank_account extends dbObject{
 		'bank' => array('type' => 'text', 'required' => true),
         'accnum' => array('type' => 'text', 'required' => true),
         'cartnum' => array('type' => 'text', 'required' => true),
-        'master' => array('type' => 'text', 'required' => true),
-        'money' => array('type' => 'int')
+        'master' => array('type' => 'text', 'required' => true)
     );
 }
