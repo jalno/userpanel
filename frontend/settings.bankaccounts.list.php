@@ -12,7 +12,7 @@ use \themes\clipone\utility;
 			<div class="panel-heading">
 				<i class="fa fa-external-link-square"></i>لیست حساب ها
 				<div class="panel-tools">
-					<a class="btn btn-xs btn-link" data-toggle="modal" href="#account-add"><i class="fa fa-plus tip tooltips" title="حساب جدید"></i></a>
+					<?php if($this->canAdd){ ?><a class="btn btn-xs btn-link" data-toggle="modal" href="#account-add"><i class="fa fa-plus tip tooltips" title="حساب جدید"></i></a><?php } ?>
 					<a class="btn btn-xs btn-link panel-collapse collapses" href="#"></a>
 				</div>
 			</div>
@@ -61,6 +61,7 @@ use \themes\clipone\utility;
 	</div>
 </div>
 <!-- end: PAGE CONTENT-->
+<?php if($this->canAdd){ ?>
 <div class="modal fade" id="account-add" tabindex="-1" data-show="true" role="dialog">
 	<div class="modal-header">
 		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
@@ -94,5 +95,6 @@ use \themes\clipone\utility;
 		<button type="button" class="btn btn-default" data-dismiss="modal" aria-hidden="true"><?php echo translator::trans("dissuasion") ?></button>
 	</div>
 </div>
+<?php } ?>
 <?php
 require_once('footer.php');
