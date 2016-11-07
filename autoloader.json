@@ -190,6 +190,10 @@
 		{
 			"classes":["views\\settings\\bankaccount\\listview"],
 			"file":"views/settings/bankaccount/list.php"
+		},
+		{
+			"classes":["views\\settings\\bankaccount\\delete"],
+			"file":"views/settings/bankaccount/delete.php"
 		}
 	]
 }

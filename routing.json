@@ -68,6 +68,10 @@
 		"method": "post"
 	},
 	{
+		"path": ["userpanel", "settings", "bankaccounts", "delete", {"type":"dynamic","name":"id", "regex":"/^(\\d+)$/"}],
+		"controller": "controllers\\settings\\bank@delete"
+	},
+	{
 		"paths": [
 			"userpanel/"
 		],

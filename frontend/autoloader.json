@@ -87,6 +87,10 @@
 		{
 			"classes":["views\\settings\\bankaccount\\listview"],
 			"file":"views/settings/bankaccounts/list.php"
+		},
+		{
+			"classes":["views\\settings\\bankaccount\\delete"],
+			"file":"views/settings/bankaccounts/delete.php"
 		}
 	]
 }

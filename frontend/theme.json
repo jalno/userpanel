@@ -196,6 +196,11 @@
 			"name":"\\themes\\clipone\\views\\settings\\bankaccount\\listview",
 			"parent":"\\packages\\userpanel\\views\\settings\\bankaccount\\listview",
 			"file":"settings.bankaccounts.list.php"
+		},
+		{
+			"name":"\\themes\\clipone\\views\\settings\\bankaccount\\delete",
+			"parent":"\\packages\\userpanel\\views\\settings\\bankaccount\\delete",
+			"file":"settings.bankaccounts.delete.php"
 		}
 	]
 }

@@ -131,10 +131,32 @@ class bank extends controller{
 			$bankaccount->save();
 			$this->response->Go(userpanel\url("settings/bankaccounts"));
 		}catch(inputValidation $error){
-			print_r($error);
 			$this->response->setFormError(FormError::fromException($error));
 		}
 		$this->response->setStatus(true);
+		return $this->response;
+	}
+	public function delete($data){
+		authorization::haveOrFail('settings_bankaccounts_delete');
+		$view = view::byName("\\packages\\userpanel\\views\\settings\\bankaccount\\delete");
+		$bankaccount = bank_account::byId($data['id']);
+		if(!$bankaccount){
+			throw new NotFound;
+		}
+		$view->setBankaccount($bankaccount);
+		$this->response->setStatus(false);
+		if(http::is_post()){
+			try{
+				$bankaccount->delete();
+				$this->response->setStatus(true);
+				$this->response->GO(userpanel\url("settings/bankaccounts"));
+			}catch(inputValidation $error){
+				$view->setFormError(FormError::fromException($error));
+			}
+		}else{
+			$this->response->setStatus(true);
+		}
+		$this->response->setView($view);
 		return $this->response;
 	}
 }

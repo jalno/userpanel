@@ -113,7 +113,9 @@
 		"bank":"بانک",
 		"accnum": "شماره حساب",
 		"cartnum": "شماره کارت",
-		"master": "صاحب حساب"
+		"master": "صاحب حساب",
+		"bankaccount.delete.warning": "آیا شما از حذف شماره حساب به شناسه #{bankaccount_id} اطمینان دارید؟ این عملیات بدون بازگشت خواهد بود.",
+		"bankaccount.delete": "حذف شماره حساب"
 
 	}
 }
