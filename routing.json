@@ -72,6 +72,10 @@
 		"controller": "controllers\\settings\\bank@delete"
 	},
 	{
+		"path": ["userpanel", "settings", "bankaccounts", "edit", {"type":"dynamic","name":"id", "regex":"/^(\\d+)$/"}],
+		"controller": "controllers\\settings\\bank@edit"
+	},
+	{
 		"paths": [
 			"userpanel/"
 		],

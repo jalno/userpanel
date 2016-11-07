@@ -194,6 +194,10 @@
 		{
 			"classes":["views\\settings\\bankaccount\\delete"],
 			"file":"views/settings/bankaccount/delete.php"
+		},
+		{
+			"classes":["views\\settings\\bankaccount\\edit"],
+			"file":"views/settings/bankaccount/edit.php"
 		}
 	]
 }

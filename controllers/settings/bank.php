@@ -159,4 +159,58 @@ class bank extends controller{
 		$this->response->setView($view);
 		return $this->response;
 	}
+	public function edit($data){
+		authorization::haveOrFail('settings_bankaccounts_delete');
+		$view = view::byName("\\packages\\userpanel\\views\\settings\\bankaccount\\edit");
+		$bankaccount = bank_account::byId($data['id']);
+		if(!$bankaccount){
+			throw new NotFound;
+		}
+		$view->setBankaccount($bankaccount);
+		$inputsRules = array(
+			'bank' => array(
+				'type' => 'string',
+				'optional' => true
+			),
+			'accnum' => array(
+				'type' => 'number',
+				'optional' => true
+			),
+			'cartnum' => array(
+				'type' => 'number',
+				'optional' => true
+			),
+			'master' => array(
+				'type' => 'string',
+				'optional' => true
+			)
+		);
+		$this->response->setStatus(false);
+		if(http::is_post()){
+			try{
+				$inputs = $this->checkinputs($inputsRules);
+				if(isset($inputs['bank'])){
+					$bankaccount->bank = $inputs['bank'];
+				}
+				if(isset($inputs['accnum'])){
+					$bankaccount->accnum = $inputs['accnum'];
+				}
+				if(isset($inputs['cartnum'])){
+					$bankaccount->cartnum = $inputs['cartnum'];
+				}
+				if(isset($inputs['master'])){
+					$bankaccount->master = $inputs['master'];
+				}
+				$bankaccount->save();
+				$this->response->setStatus(true);
+				$this->response->GO(userpanel\url("settings/bankaccounts/edit/".$bankaccount->id));
+			}catch(inputValidation $error){
+				$view->setFormError(FormError::fromException($error));
+			}
+		}else{
+			$this->response->setStatus(true);
+		}
+		$this->response->setView($view);
+		return $this->response;
+	}
 }
