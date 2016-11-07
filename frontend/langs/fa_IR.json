@@ -116,7 +116,11 @@
 		"master": "صاحب حساب",
 		"bankaccount.delete.warning": "آیا شما از حذف شماره حساب به شناسه #{bankaccount_id} اطمینان دارید؟ این عملیات بدون بازگشت خواهد بود.",
 		"bankaccount.delete": "حذف حساب بانکی",
-		"bankaccount.edit": "ویرایش حساب بانکی"
+		"bankaccount.edit": "ویرایش حساب بانکی",
+		"usertype.permissions.userpanel_settings_bankaccounts_list":"لیست حساب های بانکی",
+		"usertype.permissions.userpanel_settings_bankaccounts_add":"افزودن حساب بانکی",
+		"usertype.permissions.userpanel_settings_bankaccounts_delete":"حذف حساب بانکی",
+		"usertype.permissions.userpanel_settings_bankaccounts_edit":"ویرایش حساب بانکی"
 
 	}
 }

@@ -15,6 +15,11 @@ class usertype{
 			'settings_usertypes_edit',
 			'settings_usertypes_delete',
 
+			'settings_bankaccounts_list',
+			'settings_bankaccounts_add',
+			'settings_bankaccounts_delete',
+			'settings_bankaccounts_edit'
+
 		);
 		foreach($permissions as $permission){
 			permissions::add('userpanel_'.$permission);
