@@ -45,7 +45,7 @@ use \themes\clipone\breadcrumb;
 						<!-- start: USER DROPDOWN -->
 						<li class="dropdown current-user">
 							<a data-toggle="dropdown" data-hover="dropdown" class="dropdown-toggle" data-close-others="true" href="#">
-								<img src="<?php echo theme::url('assets/images/avatar-1-small.jpg'); ?>" class="circle-img" alt="">
+								<img src="<?php echo $this->getSelfAvatarURL(); ?>" width="30" height="30" class="circle-img" alt="">
 								<span class="username"><?php echo authentication::getName(); ?></span>
 								<i class="clip-chevron-down"></i>
 							</a>

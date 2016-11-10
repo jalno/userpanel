@@ -9,7 +9,7 @@ use \packages\base\translator;
 	<div class="col-sm-12">
 		<div class="tabbable">
 			<ul class="nav nav-tabs tab-padding tab-space-3 tab-blue">
-				<li><a data-toggle="tab" href="<?php echo userpanel\url('profile/view'); ?>"><?php echo translator::trans("profile.view"); ?></a></li>
+				<li><a  href="<?php echo userpanel\url('profile/view'); ?>"><?php echo translator::trans("profile.view"); ?></a></li>
 				<li class="active"><a href="<?php echo userpanel\url('profile/edit'); ?>"><?php echo translator::trans("profile.edit"); ?></a></li>
 			</ul>
 			<div class="tab-content">
@@ -120,7 +120,8 @@ use \packages\base\translator;
 								<div class="form-group">
 									<label>چهرک</label>
 									<div class="fileupload fileupload-new" data-provides="fileupload">
-										<div class="fileupload-new thumbnail" style="width: 150px; height: 150px;"><img src="<?php echo userpanel\url("avatars/".$this->getDataForm('id')."/150x150"); ?>" alt="">
+										<div class="fileupload-new thumbnail" style="width: 150px; height: 150px;">
+											<img src="<?php echo $this->getAvatarURL(); ?>"   style="width: 150px; height: 150px;" alt="">
 										</div>
 										<div class="fileupload-preview fileupload-exists thumbnail" style="max-width: 150px; max-height: 150px; line-height: 20px;"></div>
 										<div class="user-edit-image-buttons">

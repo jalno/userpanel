@@ -3,10 +3,12 @@ namespace themes\clipone\views\profile;
 
 use \packages\base\translator;
 use \packages\base\frontend\theme;
+use \packages\base\packages;
+
+
 use \packages\userpanel\views\profile\edit as profileEditView;
 use \packages\userpanel;
 use \packages\userpanel\usertype;
-
 use \themes\clipone\breadcrumb;
 use \themes\clipone\navigation;
 use \themes\clipone\navigation\menuItem;
@@ -21,6 +23,9 @@ class edit extends profileEditView{
 
 		$this->addAssets();
 		$this->setNavigation();
+		if(!$this->getUserData('avatar')){
+			$this->data['user']->avatar = theme::url('assets/images/defaultavatar.jpg');
+		}
 	}
 	private function addAssets(){
 
@@ -54,5 +59,12 @@ class edit extends profileEditView{
 			);
 		}
 		return $options;
+	}
+	protected function getAvatarURL(){
+		if($this->getUserData('avatar')){
+			return packages::package('userpanel')->url($this->getUserData('avatar'));
+		}else{
+			return theme::url('assets/images/defaultavatar.jpg');
+		}
 	}
 }
