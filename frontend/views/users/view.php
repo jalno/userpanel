@@ -24,7 +24,7 @@ class view extends usersView{
 	use viewTrait;
 	protected $networks = array();
 	protected $lastlogin = 0;
-	protected $logs;
+	protected $logs = array();
 	function __beforeLoad(){
 		$this->setTitle(array(
 			translator::trans('users'),
