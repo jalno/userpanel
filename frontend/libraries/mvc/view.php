@@ -4,6 +4,7 @@ use \packages\base\packages;
 use \packages\base\date;
 use \packages\base\translator;
 use \packages\base\view\error;
+use \packages\base\frontend\theme;
 use \packages\userpanel\frontend;
 use \packages\userpanel\authorization;
 use \packages\userpanel\authentication;
