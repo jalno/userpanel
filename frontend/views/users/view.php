@@ -36,9 +36,6 @@ class view extends usersView{
 		$this->loadSocialnetworks();
 		$this->addAssets();
 		$this->setNavigation();
-		if(!$this->getUserData('avatar')){
-			$this->data['user']->avatar = theme::url('assets/images/defaultavatar.jpg');
-		}
 	}
 	private function loadLogs($number = 50){
 		$logsobj = new log();
