@@ -28,7 +28,8 @@ class user extends dbObject{
     protected $relations = array(
         'type' => array("hasOne", "packages\\userpanel\\usertype", "type"),
 		'socialnetworks' => array("hasMany", "packages\\userpanel\\user_socialnetwork", "user"),
-		'options' => array("hasMany", "packages\\userpanel\\user_option", "user")
+		'options' => array("hasMany", "packages\\userpanel\\user_option", "user"),
+		'country' => array("hasOne", "packages\\userpanel\\country", "country"),
     );
 	public function getFullName(){
 		return($this->name.($this->lastname ? ' '.$this->lastname : ''));
