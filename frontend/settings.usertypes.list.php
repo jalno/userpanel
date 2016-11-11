@@ -54,6 +54,7 @@ use \themes\clipone\utility;
 						</tbody>
 					</table>
 				</div>
+				<?php $this->paginator(); ?>
 			</div>
 		</div>
 		<!-- end: BASIC TABLE PANEL -->
