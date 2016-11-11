@@ -8,6 +8,9 @@ use \packages\base\db\duplicateRecord;
 use \packages\base\db\InputDataType;
 use \packages\base\db\parenthesis;
 use \packages\base\views\FormError;
+use \packages\base\image;
+use \packages\base\IO;
+use \packages\base\packages;
 
 use \packages\userpanel;
 use \packages\userpanel\user;
@@ -25,7 +28,7 @@ class profile extends controller{
 	public function view($data){
 		authorization::haveOrFail('profile_view');
 		$view = view::byName("\\packages\\userpanel\\views\\profile\\view");
-		$view->setData(authentication::getUser(), 'user');
+		$view->setUserData(authentication::getUser());
 		$this->response->setStatus(true);
 		$this->response->setView($view);
 		return $this->response;
@@ -36,6 +39,7 @@ class profile extends controller{
 		$user = authentication::getUser();
 		$view = view::byName("\\packages\\userpanel\\views\\profile\\edit");
 		$view->setCountries(country::get());
+		$view->setUserData($user);
 		if(http::is_post()){
 			$inputs = array(
 				'name' => array(
@@ -70,6 +74,10 @@ class profile extends controller{
 					'optional' => true,
 					'type' => 'string',
 					'empty' => true
+				),
+				'avatar' => array(
+					'optional' => true,
+					'type' => 'file'
 				)
 			);
 			$this->response->setStatus(false);
@@ -85,11 +93,46 @@ class profile extends controller{
 						throw new inputValidation("zip");
 					}
 				}
+				if(isset($formdata['avatar'])){
+					if($formdata['avatar']['error'] == 0){
+						$type = image::getType($formdata['avatar']['tmp_name']);
+						if(in_array($type, array(IMAGETYPE_JPEG ,IMAGETYPE_GIF, IMAGETYPE_PNG))){
+							$image = new image($formdata['avatar']['tmp_name']);
+							$tmpfile = tempnam(sys_get_temp_dir(), "avatar");
+							$image->resize(200,200);
+							$image->save($tmpfile, $type);
+							$name = md5_file($tmpfile);
+							if($type == IMAGETYPE_JPEG){
+								$type_name = '.jpg';
+							}elseif($type == IMAGETYPE_GIF){
+								$type_name = '.gif';
+							}elseif($type == IMAGETYPE_PNG){
+								$type_name = '.png';
+							}
+
+							$directory = packages::package('userpanel')->getFilePath('storage/public/avatars');
+							if(!is_dir($directory)){
+								IO\mkdir($directory, true);
+							}
+							if(rename($tmpfile, $directory.'/'.$name.$type_name)){
+								$formdata['avatar'] = "storage/public/avatars/".$name.$type_name;
+							}else{
+								throw new inputValidation("avatar");
+							}
+						}else{
+							throw new inputValidation("avatar");
+						}
+					}elseif($inputs['file']['error'] != 4){
+						throw new inputValidation("avatar");
+					}
+				}
+
 				if(isset($formdata['password']) and $formdata['password']){
 					$user->password_hash($formdata['password']);
 				}
 				unset($formdata['password']);
 				$user->save($formdata);
+				unset($formdata['avatar']);
 				$log = new log();
 				$log->type = log::user_edit;
 				$log->users = array(authentication::getID());

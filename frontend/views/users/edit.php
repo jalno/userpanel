@@ -1,5 +1,8 @@
 <?php
 namespace themes\clipone\views\users;
+use \packages\base\translator;
+use \packages\base\packages;
+use \packages\base\frontend\theme;
 use \packages\userpanel\views\users\edit as usersEditView;
 use \packages\userpanel;
 use \packages\userpanel\usertype;
@@ -8,8 +11,6 @@ use \themes\clipone\navigation;
 use \themes\clipone\navigation\menuItem;
 use \themes\clipone\viewTrait;
 use \themes\clipone\views\formTrait;
-use \packages\base\translator;
-use \packages\base\frontend\theme;
 class edit extends usersEditView{
 	use viewTrait,formTrait;
 	protected $usertypes = array();
@@ -67,5 +68,13 @@ class edit extends usersEditView{
 			);
 		}
 		return $options;
+	}
+
+	protected function getAvatarURL(){
+		if($this->getUserData('avatar')){
+			return packages::package('userpanel')->url($this->getUserData('avatar'));
+		}else{
+			return theme::url('assets/images/defaultavatar.jpg');
+		}
 	}
 }

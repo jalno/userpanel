@@ -21,9 +21,21 @@ use \themes\clipone\utility;
 							<div class="user-left">
 								<div class="center">
 									<h4><?php echo $this->getUserData('name'); ?></h4>
-									<div class="user-image">
-										<div class="fileupload-new thumbnail"><img src="<?php echo userpanel\url("avatars/".$this->getUserData('id')."/150x150"); ?>" alt=""></div>
-									</div>
+									<form action="<?php echo userpanel\url('profile/edit'); ?>" method="post">
+										<div class="fileupload fileupload-new" data-provides="fileupload">
+											<div class="user-image">
+												<div class="fileupload-new thumbnail"><img src="<?php echo $this->getAvatarURL(); ?>" style="width: 150px; height: 150px" alt=""></div>
+												<div class="fileupload-preview fileupload-exists thumbnail" style="width: 150px; height: 150px; line-height: 20px;"></div>
+												<div class="user-image-buttons">
+													<span class="btn btn-teal btn-file btn-sm">
+														<span class="fileupload-new"><i class="fa fa-pencil"></i></span>
+														<span class="fileupload-exists"><i class="fa fa-pencil"></i></span>
+														<input type="file" name="avatar">
+													</span>
+												</div>
+											</div>
+										</div>
+									</form>
 									<?php
 									if($this->networks){
 									?>

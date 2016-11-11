@@ -2,14 +2,15 @@
 namespace themes\clipone\views\profile;
 use \packages\base\translator;
 use \packages\base\frontend\theme;
-use \packages\userpanel\user_socialnetwork;
 use packages\base\db;
+use packages\base\packages;
 
 use \packages\userpanel;
 use \packages\userpanel\user;
 use \packages\userpanel\usertype;
 use \packages\userpanel\log;
 use \packages\userpanel\log_user;
+use \packages\userpanel\user_socialnetwork;
 use \packages\userpanel\views\profile\view as profileView;
 
 use \themes\clipone\navigation;
@@ -23,7 +24,7 @@ class view extends profileView{
 	use viewTrait;
 	protected $networks = array();
 	protected $lastlogin = 0;
-	protected $logs;
+	protected $logs = array();
 	function __beforeLoad(){
 		$this->setTitle(array(
 			translator::trans('profile.view')
@@ -111,6 +112,16 @@ class view extends profileView{
 		navigation::active("dashboard");
 	}
 	private function addAssets(){
+		$this->addCSSFile(theme::url('assets/plugins/bootstrap-fileupload/bootstrap-fileupload.min.css'));
 		$this->addCSSFile(theme::url('assets/plugins/bootstrap-social-buttons/social-buttons-3.css'));
+		$this->addJSFile(theme::url('assets/plugins/bootstrap-fileupload/bootstrap-fileupload.min.js'));
+		$this->addJSFile(theme::url('assets/js/pages/users.view.js'));
+	}
+	protected function getAvatarURL(){
+		if($this->getUserData('avatar')){
+			return packages::package('userpanel')->url($this->getUserData('avatar'));
+		}else{
+			return theme::url('assets/images/defaultavatar.jpg');
+		}
 	}
 }

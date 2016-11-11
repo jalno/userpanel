@@ -103,6 +103,10 @@
 		{
 			"classes":["views\\profile\\edit"],
 			"file":"views/profile/edit.php"
+		},
+		{
+			"classes":["views\\search"],
+			"file":"views/search.php"
 		}
 	]
 }

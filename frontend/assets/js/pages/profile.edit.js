@@ -37,11 +37,14 @@ var ProfileEdit = function () {
     var EditFromAjax = function (form) {
 		var $btn = $('[type=submit]', form);
 		$btn.button('<i class="fa-li fa fa-spinner fa-spin"></i>');
+		var data = new FormData(form);
 		$.ajax({
 			url:Main.getAjaxFormURL($(form).attr('action')),
 			type:$(form).attr('method'),
-			data:$(form).serialize(),
+			data: data,
 			dataType:'json',
+			processData: false,
+			contentType: false,
 			success:function(data){
 				$btn.button('reset');
 				if(data.hasOwnProperty('status')){

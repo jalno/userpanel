@@ -84,6 +84,11 @@
 		"controller": "controllers\\profile@edit"
 	},
 	{
+		"path": ["userpanel","search"],
+		"controller": "controllers\\dashboard@search",
+		"method":"get"
+	},
+	{
 		"paths": [
 			"userpanel/"
 		],

@@ -40,6 +40,7 @@ class listview extends accounts_list{
 			$usertype = new menuItem("usertypes");
 			$usertype->setTitle(translator::trans("usertypes"));
 			$usertype->setURL(userpanel\url('settings/usertypes'));
+			$usertype->setIcon('fa fa-address-card-o');
 			$bankaccount = new menuItem("bankaccounts");
 			$bankaccount->setTitle(translator::trans("bankaccounts"));
 			$bankaccount->setURL(userpanel\url('settings/bankaccounts'));

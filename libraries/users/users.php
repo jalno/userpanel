@@ -1,7 +1,10 @@
 <?php
 namespace packages\userpanel;
+use packages\base\db;
 use packages\base\db\dbObject;
 use packages\base\utility\password;
+use \packages\base\IO;
+use \packages\base\packages;
 class user extends dbObject{
 	const active = 1;
 	const deactive = 0;
@@ -21,6 +24,7 @@ class user extends dbObject{
 		'zip' => array('type' => 'int'),
 		'address' => array('type' => 'text'),
 		'web' => array('type' => 'text'),
+		'avatar' => array('type' => 'text'),
 		'credit' => array('type' => 'int'),
 		'lastonline' => array('type' => 'int'),
         'status' => array('type' => 'int', 'required' => true)
@@ -61,9 +65,25 @@ class user extends dbObject{
 		}
 		return $this->type->option($name);
 	}
-	/*
-	public function delete(){
+	public function save($data = null){
+		$oldavatar = null;
+		if($this->avatar){
+			$oldavatar = $this->avatar;
+		}
+		parent::save($data);
+		if($oldavatar and $oldavatar != $this->avatar){
+			db::where("avatar", $oldavatar);
+			if(!db::has($this->dbTable)){
+				IO\unlink(packages::package('userpanel')->getFilePath($oldavatar));
+			}
+		}
 
+	}
+	public function delete(){
 		parent::delete();
-	}*/
+		db::where("avatar", $this->avatar);
+		if(!db::has($this->dbTable)){
+			IO\unlink(packages::package('userpanel')->getFilePath($this->avatar));
+		}
+	}
 }

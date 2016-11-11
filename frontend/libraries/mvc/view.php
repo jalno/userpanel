@@ -1,10 +1,14 @@
 <?php
 namespace themes\clipone;
+use \packages\base\packages;
 use \packages\base\date;
 use \packages\base\translator;
 use \packages\base\view\error;
+use \packages\base\frontend\theme;
 use \packages\userpanel\frontend;
 use \packages\userpanel\authorization;
+use \packages\userpanel\authentication;
+
 trait viewTrait{
 	protected $bodyClasses = array('rtl');
 	function the_header($template = ''){
@@ -88,5 +92,13 @@ trait viewTrait{
 	}
 	protected function canViewProfile(){
 		return authorization::is_accessed('profile_view');
+	}
+	protected function getSelfAvatarURL(){
+		$user = authentication::getUser();
+		if($user->avatar){
+			return packages::package('userpanel')->url($user->avatar);
+		}else{
+			return theme::url('assets/images/defaultavatar.jpg');
+		}
 	}
 }
