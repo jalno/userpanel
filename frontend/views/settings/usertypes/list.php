@@ -40,6 +40,7 @@ class listview extends usertype_list{
 			$usertype = new menuItem("usertypes");
 			$usertype->setTitle(translator::trans("usertypes"));
 			$usertype->setURL(userpanel\url('settings/usertypes'));
+			$usertype->setIcon('fa fa-address-card-o');
 			$item = new menuItem("settings");
 			$item->setTitle(translator::trans('settings'));
 			$item->setIcon('clip-settings');
