@@ -210,6 +210,30 @@
 		{
 			"classes":["views\\profile\\edit"],
 			"file":"views/profile/edit.php"
+		},
+		{
+			"classes":["search"],
+			"file":"libraries/search/search.php"
+		},
+		{
+			"classes":["search\\result"],
+			"file":"libraries/search/result.php"
+		},
+		{
+			"classes":["search\\link"],
+			"file":"libraries/search/link.php"
+		},
+		{
+			"classes":["events\\search"],
+			"file":"libraries/events/search.php"
+		},
+		{
+			"classes":["listeners\\search"],
+			"file":"listeners/search.php"
+		},
+		{
+			"classes":["views\\search"],
+			"file":"views/search.php"
 		}
 	]
 }

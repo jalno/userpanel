@@ -127,6 +127,8 @@
 		"profile.edit" : "ویرایش پروفایل",
 		"pagination.previousPage" : "قبلی",
 		"pagination.nextPage" : "بعدی",
-		"pagination.page" : "صفحه"
+		"pagination.page" : "صفحه",
+		"searchbox.placeholder":"جستجو کنید...",
+		"search.result.byWord-Count":"{count} نتیجه برای جستجو {word}"
 	}
 }

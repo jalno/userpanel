@@ -102,12 +102,10 @@ use \themes\clipone\breadcrumb;
 								echo breadcrumb::build();
 								?>
 								<li class="search-box">
-									<form class="sidebar-search">
+									<form class="sidebar-search" action="<?php echo userpanel\url('search'); ?>" method="get">
 										<div class="form-group">
-											<input type="text" placeholder="Start Searching...">
-											<button class="submit">
-												<i class="clip-search-3"></i>
-											</button>
+											<input type="text" name="word" placeholder="<?php echo translator::trans('searchbox.placeholder'); ?>">
+											<button class="submit"><i class="clip-search-3"></i></button>
 										</div>
 									</form>
 								</li>

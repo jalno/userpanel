@@ -216,6 +216,11 @@
 			"name":"\\themes\\clipone\\views\\profile\\edit",
 			"parent":"\\packages\\userpanel\\views\\profile\\edit",
 			"file":"profile.edit.php"
+		},
+		{
+			"name":"\\themes\\clipone\\views\\search",
+			"parent":"\\packages\\userpanel\\views\\search",
+			"file":"search.php"
 		}
 	]
 }
