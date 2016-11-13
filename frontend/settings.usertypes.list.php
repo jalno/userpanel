@@ -60,26 +60,5 @@ use \themes\clipone\utility;
 		<!-- end: BASIC TABLE PANEL -->
 	</div>
 </div>
-<div class="modal fade" id="permission-add" tabindex="-1" data-show="true" role="dialog">
-	<div class="modal-header">
-		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-		<h4 class="modal-title"><?php echo translator::trans('usertype.add'); ?></h4>
-	</div>
-	<div class="modal-body">
-		<form id="permission-add-form" action="<?php echo userpanel\url("tools/usertype"); ?>" method="post" class="form-horizontal">
-			<?php
-			$this->setHorizontalForm('sm-3','sm-9');
-			$this->createField(array(
-				'label' => translator::trans("usertype.title"),
-				'name' => 'title'
-			));
-			?>
-		</form>
-	</div>
-	<div class="modal-footer">
-		<button type="submit" form="permission-add-form" class="btn btn-success"><?php echo translator::trans("add") ?></button>
-		<button type="button" class="btn btn-default" data-dismiss="modal" aria-hidden="true"><?php echo translator::trans("dissuasion") ?></button>
-	</div>
-</div>
 <?php
 require_once('footer.php');
