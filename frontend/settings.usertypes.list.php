@@ -12,7 +12,7 @@ use \themes\clipone\utility;
 			<div class="panel-heading">
 				<i class="fa fa-users"></i> <?php echo translator::trans('usertypes'); ?>
 				<div class="panel-tools">
-					<a class="btn btn-xs btn-link tooltips" title="<?php echo translator::trans('usertype.add'); ?>" href="<?php echo userpanel\url('settings/usertypes/add'); ?>"><i class="clip-user-plus"></i></a>
+					<?php if($this->canAdd){ ?><a class="btn btn-xs btn-link tooltips" title="<?php echo translator::trans('usertype.add'); ?>" href="<?php echo userpanel\url('settings/usertypes/add'); ?>"><i class="clip-user-plus"></i></a><?php } ?>
 					<a class="btn btn-xs btn-link panel-collapse collapses" href="#"></a>
 				</div>
 			</div>
