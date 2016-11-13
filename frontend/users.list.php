@@ -52,7 +52,7 @@ use \themes\clipone\utility;
 							?>
 							<tr>
 								<td class="center"><?php echo $row->id; ?></td>
-								<td><?php echo $row->name; ?></td>
+								<td><?php echo $row->getFullName(); ?></td>
 								<td><?php echo $row->type->title; ?></td>
 								<td><?php echo $row->email; ?><br><?php echo $row->cellphone; ?></td>
 								<td class="hidden-xs"><span class="<?php echo $statusClass; ?>"><?php echo translator::trans($statusTxt); ?></span></td>
