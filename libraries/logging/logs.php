@@ -5,7 +5,6 @@ use \packages\base\http;
 class log extends dbObject{
 	const login = 1;
 	const logout = 2;
-	const loginwrong = 3;
 	const user_edit = 3;
 	const user_delete = 4;
 	const register = 'register';
