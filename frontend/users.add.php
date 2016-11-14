@@ -31,6 +31,10 @@ use \packages\base\translator;
 									'label' => translator::trans("user.name")
 								),
 								array(
+									'name' => 'lastname',
+									'label' => translator::trans("user.lastname")
+								),
+								array(
 									'type' => 'email',
 									'name' => 'email',
 									'label' => translator::trans("user.email"),
@@ -55,12 +59,6 @@ use \packages\base\translator;
 									'label' => translator::trans("user.password"),
 									'value' => ''
 								),
-								array(
-									'type' => 'password',
-									'name' => 'password2',
-									'label' => translator::trans("user.password_repeat"),
-									'value' => ''
-								)
 							);
 							foreach($fields as $field){
 								$this->createField($field);
@@ -74,16 +72,18 @@ use \packages\base\translator;
 								'type' => 'select',
 								'name' => 'type',
 								'label' => translator::trans("user.type"),
-								'options' => $this->usertypes
+								'options' => $this->getTypesForSelect()
 							));
 							?>
 							<div class="row">
 								<div class="col-md-4">
 									<?php
 									$this->createField(array(
-										'type' => 'number',
-										'name' => 'zip',
-										'label' => translator::trans("user.zip")
+										'type' => 'select',
+										'name' => 'country',
+										'label' => translator::trans("user.country"),
+										'options' => $this->getCountriesForSelect(),
+										'ltr' => true
 									));
 									?>
 								</div>
@@ -98,8 +98,9 @@ use \packages\base\translator;
 								<div class="col-md-4">
 									<?php
 									$this->createField(array(
-										'name' => 'country',
-										'label' => translator::trans("user.country")
+										'type' => 'number',
+										'name' => 'zip',
+										'label' => translator::trans("user.zip")
 									));
 									?>
 								</div>
@@ -136,6 +137,12 @@ use \packages\base\translator;
 								'type' => 'number',
 								'name' => 'credit',
 								'label' => translator::trans("user.credit")
+							));
+							$this->createField(array(
+								'type' => 'password',
+								'name' => 'password2',
+								'label' => translator::trans("user.password_repeat"),
+								'value' => ''
 							));
 							?>
 

@@ -43,6 +43,52 @@
 		"controller": "controllers\\login@lock"
 	},
 	{
+		"path": "userpanel/settings/usertypes",
+		"controller": "controllers\\settings\\usertypes@listTypes"
+	},
+	{
+		"path": ["userpanel", "settings", "usertypes", "add"],
+		"controller": "controllers\\settings\\usertypes@add"
+	},
+	{
+		"path": ["userpanel", "settings", "usertypes", "edit", {"type":"dynamic","name":"type", "regex":"/^(\\d+)$/"}],
+		"controller": "controllers\\settings\\usertypes@edit"
+	},
+	{
+		"path": ["userpanel", "settings", "usertypes", "delete", {"type":"dynamic","name":"type", "regex":"/^(\\d+)$/"}],
+		"controller": "controllers\\settings\\usertypes@delete"
+	},
+	{
+		"path": ["userpanel", "settings", "bankaccounts"],
+		"controller": "controllers\\settings\\bank@listAcoounts"
+	},
+	{
+		"path": ["userpanel", "settings", "bankaccounts", "add"],
+		"controller": "controllers\\settings\\bank@add",
+		"method": "post"
+	},
+	{
+		"path": ["userpanel", "settings", "bankaccounts", "delete", {"type":"dynamic","name":"id", "regex":"/^(\\d+)$/"}],
+		"controller": "controllers\\settings\\bank@delete"
+	},
+	{
+		"path": ["userpanel", "settings", "bankaccounts", "edit", {"type":"dynamic","name":"id", "regex":"/^(\\d+)$/"}],
+		"controller": "controllers\\settings\\bank@edit"
+	},
+	{
+		"path": ["userpanel","profile", "view"],
+		"controller": "controllers\\profile@view"
+	},
+	{
+		"path": ["userpanel","profile", "edit"],
+		"controller": "controllers\\profile@edit"
+	},
+	{
+		"path": ["userpanel","search"],
+		"controller": "controllers\\dashboard@search",
+		"method":"get"
+	},
+	{
 		"paths": [
 			"userpanel/"
 		],

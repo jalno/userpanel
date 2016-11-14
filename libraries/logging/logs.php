@@ -9,6 +9,7 @@ class log extends dbObject{
 	const user_edit = 3;
 	const user_delete = 4;
 	const register = 'register';
+	const loginwrong = 'loginwrong';
 	protected $dbTable = "userpanel_logs";
 	protected $primaryKey = "id";
 	protected $dbFields = array(

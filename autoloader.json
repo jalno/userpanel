@@ -20,12 +20,16 @@
 			"file":"libraries/users/usertypes.php"
 		},
 		{
-			"classes":["usertype_permission"],
-			"file":"libraries/users/usertypes_permissions.php"
+			"classes":["usertype\\permissions"],
+			"file":"libraries/users/usertype/permissions.php"
 		},
 		{
-			"classes":["usertype_priority"],
-			"file":"libraries/users/usertypes_priorities.php"
+			"classes":["usertype\\permission"],
+			"file":"libraries/users/usertype/permission.php"
+		},
+		{
+			"classes":["usertype\\priority"],
+			"file":"libraries/users/usertype/priority.php"
 		},
 		{
 			"classes":["user_option"],
@@ -33,7 +37,7 @@
 		},
 		{
 			"classes":["usertype_option"],
-			"file":"libraries/users/usertypes_options.php"
+			"file":"libraries/users/usertype/option.php"
 		},
 		{
 			"classes":["authentication"],
@@ -79,9 +83,6 @@
 			"classes":["views\\form"],
 			"file":"libraries/mvc/views/form.php"
 		},
-
-
-
 		{
 			"classes":["controllers\\dashboard"],
 			"file":"controllers/dashboard.php"
@@ -149,7 +150,90 @@
 		{
 			"classes":["views\\notfound"],
 			"file":"views/notfound.php"
+		},
+		{
+			"classes":["controllers\\settings\\usertypes"],
+			"file":"controllers/settings/usertypes.php"
+		},
+		{
+			"classes":["views\\settings\\usertypes\\listview"],
+			"file":"views/settings/usertypes/list.php"
+		},
+		{
+			"classes":["views\\settings\\usertypes\\edit"],
+			"file":"views/settings/usertypes/edit.php"
+		},
+		{
+			"classes":["events\\usertype_permissions_list"],
+			"file":"libraries/events/usertype_permissions_list.php"
+		},
+		{
+			"classes":["views\\settings\\usertypes\\delete"],
+			"file":"views/settings/usertypes/delete.php"
+		},
+		{
+			"classes":["listeners\\settings\\usertype"],
+			"file":"listeners/settings/usertype.php"
+		},
+		{
+			"classes":["views\\settings\\usertypes\\add"],
+			"file":"views/settings/usertypes/add.php"
+		},
+		{
+			"classes":["controllers\\settings\\bank"],
+			"file":"controllers/settings/bank.php"
+		},
+		{
+			"classes":["settings\\bank_account"],
+			"file":"libraries/settings/bankaccounts.php"
+		},
+		{
+			"classes":["views\\settings\\bankaccount\\listview"],
+			"file":"views/settings/bankaccount/list.php"
+		},
+		{
+			"classes":["views\\settings\\bankaccount\\delete"],
+			"file":"views/settings/bankaccount/delete.php"
+		},
+		{
+			"classes":["views\\settings\\bankaccount\\edit"],
+			"file":"views/settings/bankaccount/edit.php"
+		},
+		{
+			"classes":["controllers\\profile"],
+			"file":"controllers/profile.php"
+		},
+		{
+			"classes":["views\\profile\\view"],
+			"file":"views/profile/view.php"
+		},
+		{
+			"classes":["views\\profile\\edit"],
+			"file":"views/profile/edit.php"
+		},
+		{
+			"classes":["search"],
+			"file":"libraries/search/search.php"
+		},
+		{
+			"classes":["search\\result"],
+			"file":"libraries/search/result.php"
+		},
+		{
+			"classes":["search\\link"],
+			"file":"libraries/search/link.php"
+		},
+		{
+			"classes":["events\\search"],
+			"file":"libraries/events/search.php"
+		},
+		{
+			"classes":["listeners\\search"],
+			"file":"listeners/search.php"
+		},
+		{
+			"classes":["views\\search"],
+			"file":"views/search.php"
 		}
-
 	]
 }

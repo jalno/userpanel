@@ -67,6 +67,46 @@
 		{
 			"classes":["views\\notfound"],
 			"file":"views/notfound.php"
+		},
+		{
+			"classes":["views\\settings\\usertypes\\listview"],
+			"file":"views/settings/usertypes/list.php"
+		},
+		{
+			"classes":["views\\settings\\usertypes\\edit"],
+			"file":"views/settings/usertypes/edit.php"
+		},
+		{
+			"classes":["views\\settings\\usertypes\\delete"],
+			"file":"views/settings/usertypes/delete.php"
+		},
+		{
+			"classes":["views\\settings\\usertypes\\add"],
+			"file":"views/settings/usertypes/add.php"
+		},
+		{
+			"classes":["views\\settings\\bankaccount\\listview"],
+			"file":"views/settings/bankaccounts/list.php"
+		},
+		{
+			"classes":["views\\settings\\bankaccount\\delete"],
+			"file":"views/settings/bankaccounts/delete.php"
+		},
+		{
+			"classes":["views\\settings\\bankaccount\\edit"],
+			"file":"views/settings/bankaccounts/edit.php"
+		},
+		{
+			"classes":["views\\profile\\view"],
+			"file":"views/profile/view.php"
+		},
+		{
+			"classes":["views\\profile\\edit"],
+			"file":"views/profile/edit.php"
+		},
+		{
+			"classes":["views\\search"],
+			"file":"views/search.php"
 		}
 	]
 }

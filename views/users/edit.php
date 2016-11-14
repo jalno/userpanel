@@ -4,7 +4,16 @@ use \packages\userpanel\views\form;
 use \packages\userpanel\authorization;
 
 class edit extends form{
-	function __construct(){
-		
+	public function setCountries($countries){
+		$this->setData($countries, 'countries');
+	}
+	public function getCountries(){
+		return $this->getData('countries');
+	}
+	public function setTypes($types){
+		$this->setData($types, 'types');
+	}
+	public function getTypes(){
+		return $this->getData('types');
 	}
 }

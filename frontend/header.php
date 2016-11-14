@@ -1,5 +1,6 @@
 <?php
 use \packages\base;
+use \packages\base\translator;
 use \packages\base\frontend\theme;
 use \packages\userpanel;
 use \packages\userpanel\authentication;
@@ -44,11 +45,17 @@ use \themes\clipone\breadcrumb;
 						<!-- start: USER DROPDOWN -->
 						<li class="dropdown current-user">
 							<a data-toggle="dropdown" data-hover="dropdown" class="dropdown-toggle" data-close-others="true" href="#">
-								<img src="<?php echo theme::url('assets/images/avatar-1-small.jpg'); ?>" class="circle-img" alt="">
+								<img src="<?php echo $this->getSelfAvatarURL(); ?>" width="30" height="30" class="circle-img" alt="">
 								<span class="username"><?php echo authentication::getName(); ?></span>
 								<i class="clip-chevron-down"></i>
 							</a>
 							<ul class="dropdown-menu">
+								<?php
+								if($this->canViewProfile()){
+								?>
+								<li><a href="<?php echo userpanel\url('profile/view'); ?>"><i class="clip-user-2"></i>&nbsp;<?php echo translator::trans('profile.view'); ?></a></li>
+								<li class="divider"></li>
+								<?php } ?>
 								<li><a href="<?php echo base\url('userpanel/lock'); ?>"><i class="clip-locked"></i>&nbsp;خروج موقت </a></li>
 								<li><a href="<?php echo base\url('userpanel/logout'); ?>"><i class="clip-exit"></i> &nbsp;خروج </a></li>
 							</ul>
@@ -95,12 +102,10 @@ use \themes\clipone\breadcrumb;
 								echo breadcrumb::build();
 								?>
 								<li class="search-box">
-									<form class="sidebar-search">
+									<form class="sidebar-search" action="<?php echo userpanel\url('search'); ?>" method="get">
 										<div class="form-group">
-											<input type="text" placeholder="Start Searching...">
-											<button class="submit">
-												<i class="clip-search-3"></i>
-											</button>
+											<input type="text" name="word" placeholder="<?php echo translator::trans('searchbox.placeholder'); ?>">
+											<button class="submit"><i class="clip-search-3"></i></button>
 										</div>
 									</form>
 								</li>
@@ -112,3 +117,11 @@ use \themes\clipone\breadcrumb;
 						</div>
 					</div>
 					<!-- end: PAGE HEADER -->
+					<?php
+					$errorcode = $this->getErrorsHTML();
+					if($errorcode){
+					?>
+					<div class="row">
+						<div class="col-xs-12"><?php echo $errorcode; ?></div>
+					</div>
+					<?php } ?>

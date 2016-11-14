@@ -43,6 +43,23 @@ class menuItem{
 	function addItem(menuItem $item){
 		$this->items[$item->getName()] = $item;
 	}
+	function getByName($name){
+		if(substr($name, -1) == '/'){
+			$name = substr($name, 0, strlen($name)-1);
+		}
+		$names = explode("/", $name, 2);
+		$name = $names[0];
+		foreach($this->items as $item){
+			if($item->getName() == $name){
+				if(isset($names[1]) and $names[1]){
+					return $item->getByName($names[1]);
+				}else{
+					return $item;
+				}
+			}
+		}
+		return null;
+	}
 	function active($active){
 		$this->active = is_string($active) ? explode("/", $active, 2) : $active;
 	}

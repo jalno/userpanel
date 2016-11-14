@@ -171,6 +171,56 @@
 			"name":"\\themes\\clipone\\views\\notfound",
 			"parent":"\\packages\\userpanel\\views\\notfound",
 			"file":"notfound.php"
+		},
+		{
+			"name":"\\themes\\clipone\\views\\settings\\usertypes\\listview",
+			"parent":"\\packages\\userpanel\\views\\settings\\usertypes\\listview",
+			"file":"settings.usertypes.list.php"
+		},
+		{
+			"name":"\\themes\\clipone\\views\\settings\\usertypes\\edit",
+			"parent":"\\packages\\userpanel\\views\\settings\\usertypes\\edit",
+			"file":"settings.usertypes.edit.php"
+		},
+		{
+			"name":"\\themes\\clipone\\views\\settings\\usertypes\\delete",
+			"parent":"\\packages\\userpanel\\views\\settings\\usertypes\\delete",
+			"file":"settings.usertypes.delete.php"
+		},
+		{
+			"name":"\\themes\\clipone\\views\\settings\\usertypes\\add",
+			"parent":"\\packages\\userpanel\\views\\settings\\usertypes\\add",
+			"file":"settings.usertypes.add.php"
+		},
+		{
+			"name":"\\themes\\clipone\\views\\settings\\bankaccount\\listview",
+			"parent":"\\packages\\userpanel\\views\\settings\\bankaccount\\listview",
+			"file":"settings.bankaccounts.list.php"
+		},
+		{
+			"name":"\\themes\\clipone\\views\\settings\\bankaccount\\delete",
+			"parent":"\\packages\\userpanel\\views\\settings\\bankaccount\\delete",
+			"file":"settings.bankaccounts.delete.php"
+		},
+		{
+			"name":"\\themes\\clipone\\views\\settings\\bankaccount\\edit",
+			"parent":"\\packages\\userpanel\\views\\settings\\bankaccount\\edit",
+			"file":"settings.bankaccounts.edit.php"
+		},
+		{
+			"name":"\\themes\\clipone\\views\\profile\\view",
+			"parent":"\\packages\\userpanel\\views\\profile\\view",
+			"file":"profile.view.php"
+		},
+		{
+			"name":"\\themes\\clipone\\views\\profile\\edit",
+			"parent":"\\packages\\userpanel\\views\\profile\\edit",
+			"file":"profile.edit.php"
+		},
+		{
+			"name":"\\themes\\clipone\\views\\search",
+			"parent":"\\packages\\userpanel\\views\\search",
+			"file":"search.php"
 		}
 	]
 }

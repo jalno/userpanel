@@ -38,4 +38,21 @@ class breadcrumb{
 		}
 		return $html;
 	}
+	static function getByName($name){
+		if(substr($name, -1) == '/'){
+			$name = substr($name, 0, strlen($name)-1);
+		}
+		$names = explode("/", $name, 2);
+		$name = $names[0];
+		foreach(self::$menu as $item){
+			if($item->getName() == $name){
+				if(isset($names[1]) and $names[1]){
+					return $item->getByName($names[1]);
+				}else{
+					return $item;
+				}
+			}
+		}
+		return null;
+	}
 }

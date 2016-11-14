@@ -20,7 +20,6 @@ class add extends usersAddView{
 			translator::trans('user.add')
 		));
 		$this->setDefaultValues();
-		$this->loadTypes();
 		$this->addAssets();
 		$this->setNavigation();
 	}
@@ -28,12 +27,6 @@ class add extends usersAddView{
 		if(!http::is_post()){
 			$this->setDataForm(0, 'credit');
 			$this->setDataForm(1, 'status');
-		}
-	}
-	private function loadTypes(){
-		$usertypes = usertype::where('id', 0, '>')->get();
-		foreach($usertypes as $usertype){
-			$this->usertypes[$usertype->id] = $usertype->title;
 		}
 	}
 	private function addAssets(){
@@ -55,5 +48,25 @@ class add extends usersAddView{
 		breadcrumb::addItem($item);
 
 		navigation::active("users/list");
+	}
+	protected function getCountriesForSelect(){
+		$options = array();
+		foreach($this->getCountries() as $country){
+			$options[] = array(
+				'title' => $country->name,
+				'value' => $country->id
+			);
+		}
+		return $options;
+	}
+	protected function getTypesForSelect(){
+		$options = array();
+		foreach($this->getTypes() as $type){
+			$options[] = array(
+				'title' => $type->title,
+				'value' => $type->id
+			);
+		}
+		return $options;
 	}
 }
