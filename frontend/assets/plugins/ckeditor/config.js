@@ -20,7 +20,7 @@ CKEDITOR.editorConfig = function( config ) {
 		{ name: 'others' },
 		'/',
 		{ name: 'basicstyles', groups: [ 'basicstyles', 'cleanup' ] },
-		{ name: 'paragraph',   groups: [ 'list', 'indent', 'blocks', 'align', 'bidi' , 'markdown'] },
+		{ name: 'paragraph',   groups: [ 'list', 'indent', 'blocks', 'align', 'bidi' , 'markdown', 'wpmore'] },
 		{ name: 'styles' },
 		{ name: 'colors' }
 	];
@@ -38,5 +38,5 @@ CKEDITOR.editorConfig = function( config ) {
 	config.contentsLangDirection= 'rtl';
 	config.defaultLanguage = 'fa';
 	config.language = 'fa';
-	config.extraPlugins = 'markdown';
+	config.extraPlugins = 'markdown,pagebreak,wpmore';
 };
