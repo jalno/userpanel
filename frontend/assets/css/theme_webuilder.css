@@ -126,3 +126,11 @@ body.rtl .radio-inline input[type="radio"] {
 .ui-autocomplete li.ui-menu-item:focus .ui-menu-item-wrapper.ui-state-active{
 	color: #FFF;
 }
+body.rtl .core-box .heading h2 {
+	font-family: nazanin;
+	font-size: 20px;
+	font-weight: 700;
+}
+.core-box .content {
+	min-height: 60px;
+}

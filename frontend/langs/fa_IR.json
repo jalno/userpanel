@@ -129,6 +129,10 @@
 		"pagination.nextPage" : "بعدی",
 		"pagination.page" : "صفحه",
 		"searchbox.placeholder":"جستجو کنید...",
-		"search.result.byWord-Count":"{count} نتیجه برای جستجو {word}"
+		"search.result.byWord-Count":"{count} نتیجه برای جستجو {word}",
+		"shortcut.users.title" : "مدیریت کاربران",
+		"shortcut.users.link" : "لیست کاربران",
+		"shortcut.users.text": "ببینید که چه کسانی عضو سامانه شدند و چه اقداماتی را در اینجا انجام دادند.شاید لازم باشد اطلاعات بعضی را بررسی و یا رد کنید",
+		"dashboard":"پیشخوان"
 	}
 }

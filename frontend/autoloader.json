@@ -34,7 +34,7 @@
 		},
 		{
 			"classes":["views\\dashboard"],
-			"file":"views/dashboard.php"
+			"file":"views/dashboard/dashboard.php"
 		},
 		{
 			"classes":["views\\users\\listview"],
@@ -107,6 +107,22 @@
 		{
 			"classes":["views\\search"],
 			"file":"views/search.php"
+		},
+		{
+			"classes":["views\\dashboard\\shortcut"],
+			"file":"views/dashboard/shortcut.php"
+		},
+		{
+			"classes":["views\\dashboard\\box"],
+			"file":"views/dashboard/box.php"
+		},
+		{
+			"classes":["views\\dashboard\\panel"],
+			"file":"views/dashboard/panel.php"
+		},
+		{
+			"classes":["events\\initializeDashboard"],
+			"file":"libraries/events/initializeDashboard.php"
 		}
 	]
 }
