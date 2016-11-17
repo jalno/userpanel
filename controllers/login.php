@@ -156,20 +156,18 @@ class login  extends controller{
 		$user->status = 1;
 		$user->password_hash($inputs['password']);
 		unset($inputs['password']);
-		if($user->save()){
-			authentication::setUser($user);
-			authentication::setSession();
-			$log = new log();
-			$log->type = log::register;
-			$log->users = array($user->id);
-			$log->params = array(
-				'user' => $user->id,
-				'inputs' => $inputs
-			);
-			$log->save();
-			return $user;
-		}
-		return false;
+		$user->save();
+		authentication::setUser($user);
+		authentication::setSession();
+		$log = new log();
+		$log->type = log::register;
+		$log->users = array($user->id);
+		$log->params = array(
+			'user' => $user->id,
+			'inputs' => $inputs
+		);
+		$log->save();
+		return $user;
 	}
 	function register(){
 		if($view = view::byName("\\packages\\userpanel\\views\\register")){
