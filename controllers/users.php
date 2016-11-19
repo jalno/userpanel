@@ -356,7 +356,7 @@ class users extends controller{
 						}else{
 							throw new inputValidation("avatar");
 						}
-					}elseif($inputs['avatar']['error'] != 4){
+					}elseif(isset($formdata['avatar']['error']) and $formdata['avatar']['error'] != 4){
 						throw new inputValidation("avatar");
 					}
 				}
@@ -365,6 +365,9 @@ class users extends controller{
 					$user->password_hash($formdata['password']);
 				}
 				unset($formdata['password']);
+				if(!is_string($formdata['avatar'])){
+					unset($formdata['avatar']);
+				}
 				$user->save($formdata);
 				unset($formdata['avatar']);
 				$log = new log();
