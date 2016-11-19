@@ -97,8 +97,13 @@ class profile extends controller{
 					if($formdata['avatar']['error'] == 0){
 						$type = image::getType($formdata['avatar']['tmp_name']);
 						if(in_array($type, array(IMAGETYPE_JPEG ,IMAGETYPE_GIF, IMAGETYPE_PNG))){
+							$directory = packages::package('userpanel')->getFilePath('storage/public/avatars');
+							if(!is_dir($directory)){
+								IO\mkdir($directory, true);
+							}
+							
 							$image = new image($formdata['avatar']['tmp_name']);
-							$tmpfile = tempnam(sys_get_temp_dir(), "avatar");
+							$tmpfile = $directory."/rand".((time() + rand(0, 10000)) * rand(0, 100)  / 100);
 							$image->resize(200,200);
 							$image->save($tmpfile, $type);
 							$name = md5_file($tmpfile);
@@ -110,10 +115,6 @@ class profile extends controller{
 								$type_name = '.png';
 							}
 
-							$directory = packages::package('userpanel')->getFilePath('storage/public/avatars');
-							if(!is_dir($directory)){
-								IO\mkdir($directory, true);
-							}
 							if(rename($tmpfile, $directory.'/'.$name.$type_name)){
 								$formdata['avatar'] = "storage/public/avatars/".$name.$type_name;
 							}else{
