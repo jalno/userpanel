@@ -356,7 +356,7 @@ class users extends controller{
 						}else{
 							throw new inputValidation("avatar");
 						}
-					}elseif($inputs['file']['error'] != 4){
+					}elseif($inputs['avatar']['error'] != 4){
 						throw new inputValidation("avatar");
 					}
 				}
