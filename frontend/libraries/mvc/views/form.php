@@ -27,14 +27,17 @@ trait formTrait{
 		}else{
 			$error = false;
 		}
-		$code = '<div class="form-group'.($error ? ' has-error' : '').'">';
-		if(isset($options['icon']) and $options['icon']){
-			$code .= "<span class=\"input-icon\">";
-		}
-		if(isset($options['label']) and $options['label'])
-			$code .= '<label class="control-label'.(($this->horizontal_form and $this->label_col) ? ' '.$this->label_col : '').'">'.$options['label'].'</label>';
 		if(!isset($options['type'])){
 			$options['type'] = 'text';
+		}
+		$code = '';
+		if($options['type'] != 'hidden'){
+			$code .= '<div class="form-group'.($error ? ' has-error' : '').'">';
+			if(isset($options['icon']) and $options['icon']){
+				$code .= "<span class=\"input-icon\">";
+			}
+			if(isset($options['label']) and $options['label'])
+				$code .= '<label class="control-label'.(($this->horizontal_form and $this->label_col) ? ' '.$this->label_col : '').'">'.$options['label'].'</label>';
 		}
 		if(!isset($options['value'])){
 			$options['value'] = $this->getDataForm($options['name']);
@@ -114,34 +117,37 @@ trait formTrait{
 			$code .= "<i class=\"{$options['icon']}\"></i>";
 			$code .= "</span>";
 		}
-		if($error){
-			$text = null;
-			if(isset($options['error']) and is_array($options['error'])){
-				foreach($options['error'] as $type => $value){
-					if($type == $error->getCode()){
-						if(substr($value, -strlen($error->getCode())) == $error->getCode()){
-							$text = translator::trans($value);
-						}else{
-							$text = $value;
+		if($options['type'] != 'hidden'){
+			if($error){
+				$text = null;
+				if(isset($options['error']) and is_array($options['error'])){
+					foreach($options['error'] as $type => $value){
+						if($type == $error->getCode()){
+							if(substr($value, -strlen($error->getCode())) == $error->getCode()){
+								$text = translator::trans($value);
+							}else{
+								$text = $value;
+							}
+							break;
 						}
-						break;
 					}
 				}
+				if(!$text){
+					$text = translator::trans("{$options['name']}.".$error->getCode());
+				}
+				if(!$text){
+					$text = translator::trans($error->getCode());
+				}
+				if($text){
+					$code .= "<span class=\"help-block\" id=\"{$options['name']}-error\">{$text}</span>";
+				}
 			}
-			if(!$text){
-				$text = translator::trans("{$options['name']}.".$error->getCode());
+			if($this->horizontal_form and $this->input_col){
+				$code .= "</div>";
 			}
-			if(!$text){
-				$text = translator::trans($error->getCode());
-			}
-			if($text){
-				$code .= "<span class=\"help-block\" id=\"{$options['name']}-error\">{$text}</span>";
-			}
+			$code .= '</div>';
+
 		}
-		if($this->horizontal_form and $this->input_col){
-			$code .= "</div>";
-		}
-		$code .= '</div>';
 		echo $code;
 	}
 }
