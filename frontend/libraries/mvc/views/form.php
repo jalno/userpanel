@@ -22,8 +22,12 @@ trait formTrait{
 		if(!isset($options['name'])){
 			$options['name'] = '';
 		}
+		$absuloteName = $options['name'];
+		while(substr($absuloteName, -2) == '[]'){
+			$absuloteName = substr($absuloteName, 0, strlen($absuloteName)-2);
+		}
 		if(!isset($options['error']) or $options['error']){
-			$error =  $this->getFormErrorsByInput($options['name']);
+			$error =  $this->getFormErrorsByInput($absuloteName);
 		}else{
 			$error = false;
 		}
@@ -40,7 +44,7 @@ trait formTrait{
 				$code .= '<label class="control-label'.(($this->horizontal_form and $this->label_col) ? ' '.$this->label_col : '').'">'.$options['label'].'</label>';
 		}
 		if(!isset($options['value'])){
-			$options['value'] = $this->getDataForm($options['name']);
+			$options['value'] = $this->getDataForm($absuloteName);
 		}
 		if(!isset($options['class'])){
 			$options['class'] = $options['type'] != 'file' ? 'form-control' : '';
@@ -57,19 +61,26 @@ trait formTrait{
 			}
 			$code .= "<div>";
 			foreach($options['options'] as $option){
+				$code .= '<div class="'.$options['type'].($options['inline'] ? '-inline' : '').'">';
 				if($options['label']){
-					$code .= '<label class="'.$options['type'].($options['inline'] ? '-inline' : '').'">';
+					$code .= '<label>';
 				}
 				$code .= "<input type=\"{$options['type']}\" name=\"{$options['name']}\" value=\"{$option['value']}\"";
 				if(isset($option['class']) and $option['class']){
 					$code .= " class=\"{$option['class']}\"";
 				}
-				if($option['value'] == $options['value']){
+				if(
+					(is_string($options['value']) and $option['value'] == $options['value']) or
+					(is_array($options['value']) and in_array($option['value'], $options['value']))
+				){
 					$code .= " checked";
 				}
 				$code .= ">";
 				if(isset($option['label']))$code .= $option['label'];
-				$code .= '</label>';
+				if($options['label']){
+					$code .= '</label>';
+				}
+				$code .= '</div>';
 			}
 		}elseif($options['type'] == 'select'){
 			$code .= "<select";
@@ -133,13 +144,13 @@ trait formTrait{
 					}
 				}
 				if(!$text){
-					$text = translator::trans("{$options['name']}.".$error->getCode());
+					$text = translator::trans("{$absuloteName}.".$error->getCode());
 				}
 				if(!$text){
 					$text = translator::trans($error->getCode());
 				}
 				if($text){
-					$code .= "<span class=\"help-block\" id=\"{$options['name']}-error\">{$text}</span>";
+					$code .= "<span class=\"help-block\" id=\"{$absuloteName}-error\">{$text}</span>";
 				}
 			}
 			if($this->horizontal_form and $this->input_col){
