@@ -47,9 +47,14 @@ trait viewTrait{
 		foreach($this->getErrors() as $error){
 			$alert = array(
 				'type' => 'info',
-				'txt' => translator::trans('error.'.$error->getCode()),
+				'txt' => '',
 				'title' => ''
 			);
+			if($translator = translator::trans('error.'.$error->getCode())){
+				$alert['txt'] =  $translator;
+			}elseif(!$alert['txt'] = $error->getMessage()){
+				$alert['txt'] = $error->getCode();
+			}
 			switch($error->getType()){
 				case(error::FATAL):
 					$alert['type'] = 'danger';
@@ -61,14 +66,14 @@ trait viewTrait{
 					break;
 				case(error::NOTICE):
 					$alert['type'] = 'info';
-					$alert['title'] = translator::trans('error.'.error::INFO.'.title');
+					$alert['title'] = translator::trans('error.'.error::NOTICE.'.title');
 					break;
 			}
 
 
 
 			$code .= "<div class=\"alert alert-block alert-{$alert['type']}\">
-			<button data-dismiss=\"alert\" class=\"close\" type=\"button\">×</button>
+			<button data-dismiss=\"alert\" class=\"close\" type=\"button\">&times;</button>
 			<h4 class=\"alert-heading\">";
 			switch($alert['type']){
 				case('danger'):$code.="<i class=\"fa fa-times-circle\"></i>";break;
