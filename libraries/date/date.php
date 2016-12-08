@@ -28,4 +28,10 @@ class date extends baseDate{
 			self::$calendar = $option['calendar'];
 		}
 	}
+	public static function getCanlenderName(){
+		if(!self::$calendar){
+			self::setDefaultcalendar();
+		}
+		return self::$calendar;
+	}
 }
