@@ -49,7 +49,7 @@ trait formTrait{
 		if(!isset($options['class'])){
 			$options['class'] = $options['type'] != 'file' ? 'form-control' : '';
 		}
-		if($this->horizontal_form and $this->input_col){
+		if($this->horizontal_form and $this->input_col and $options['type'] != 'hidden'){
 			$code .= "<div class=\"{$this->input_col}\">";
 		}
 		if(in_array($options['type'], array('radio', 'checkbox'))){
@@ -153,7 +153,7 @@ trait formTrait{
 					$code .= "<span class=\"help-block\" id=\"{$absuloteName}-error\">{$text}</span>";
 				}
 			}
-			if($this->horizontal_form and $this->input_col){
+			if($this->horizontal_form and $this->input_col and $options['type'] != 'hidden'){
 				$code .= "</div>";
 			}
 			$code .= '</div>';
