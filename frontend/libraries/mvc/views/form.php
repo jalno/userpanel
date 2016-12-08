@@ -70,7 +70,7 @@ trait formTrait{
 					$code .= " class=\"{$option['class']}\"";
 				}
 				if(
-					(is_string($options['value']) and $option['value'] == $options['value']) or
+					(!is_array($options['value']) and $option['value'] == $options['value']) or
 					(is_array($options['value']) and in_array($option['value'], $options['value']))
 				){
 					$code .= " checked";
