@@ -815,3 +815,27 @@ body.rtl .invoice .invoice-block {
 		float: left;
 	}
 }
+body.rtl ul.dynatree-container ul{
+	padding: 0 16px 0 0;
+	margin: 0;
+}
+body.rtl span.dynatree-expander {
+	background:none;
+	display: inline-block;
+	font: normal normal normal 14px/1 FontAwesome;
+	font-size: inherit;
+	text-rendering: auto;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	padding-right:5px;
+}
+body.rtl span:not(.dynatree-expanded) span.dynatree-expander {
+	margin-top: 1px;
+}
+body.rtl span.dynatree-expander::before{
+	content: "\f0d9";
+}
+
+body.rtl .dynatree-expanded span.dynatree-expander::before{
+	content: "\f0d7";
+}
