@@ -22,7 +22,7 @@
 		},
 		{
 			"type":"css",
-			"file":"assets/plugins/perfect-scrollbar/css/perfect-scrollbar.min.css"
+			"file":"assets/plugins/perfect-scrollbar/src/perfect-scrollbar-rtl.css"
 		},
 		{
 			"type":"css",
@@ -82,7 +82,11 @@
 		},
 		{
 			"type":"js",
-			"file":"assets/plugins/perfect-scrollbar/js/perfect-scrollbar.jquery.min.js"
+			"file": "assets/plugins/perfect-scrollbar/src/jquery.mousewheel.js"
+		},
+		{
+			"type":"js",
+			"file":"assets/plugins/perfect-scrollbar/src/perfect-scrollbar-rtl.js"
 		},
 		{
 			"type":"js",
