@@ -34,9 +34,8 @@ CKEDITOR.editorConfig = function( config ) {
 
 	// Make dialogs simpler.
 	config.removeDialogTabs = 'image:advanced;link:advanced';
-	config.extraPlugins= 'bidi';
 	config.contentsLangDirection= 'rtl';
 	config.defaultLanguage = 'fa';
 	config.language = 'fa';
-	config.extraPlugins = 'markdown,pagebreak,wpmore';
+	config.extraPlugins = 'bidi,markdown,pagebreak,wpmore,justify';
 };
