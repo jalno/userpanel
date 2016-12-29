@@ -59,23 +59,6 @@
 		"controller": "controllers\\settings\\usertypes@delete"
 	},
 	{
-		"path": ["userpanel", "settings", "bankaccounts"],
-		"controller": "controllers\\settings\\bank@listAcoounts"
-	},
-	{
-		"path": ["userpanel", "settings", "bankaccounts", "add"],
-		"controller": "controllers\\settings\\bank@add",
-		"method": "post"
-	},
-	{
-		"path": ["userpanel", "settings", "bankaccounts", "delete", {"type":"dynamic","name":"id", "regex":"/^(\\d+)$/"}],
-		"controller": "controllers\\settings\\bank@delete"
-	},
-	{
-		"path": ["userpanel", "settings", "bankaccounts", "edit", {"type":"dynamic","name":"id", "regex":"/^(\\d+)$/"}],
-		"controller": "controllers\\settings\\bank@edit"
-	},
-	{
 		"path": ["userpanel","profile", "view"],
 		"controller": "controllers\\profile@view"
 	},

@@ -16,12 +16,7 @@ class usertype{
 			'settings_usertypes_list',
 			'settings_usertypes_add',
 			'settings_usertypes_edit',
-			'settings_usertypes_delete',
-
-			'settings_bankaccounts_list',
-			'settings_bankaccounts_add',
-			'settings_bankaccounts_delete',
-			'settings_bankaccounts_edit'
+			'settings_usertypes_delete'
 
 		);
 		foreach($permissions as $permission){
