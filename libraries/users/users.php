@@ -86,4 +86,12 @@ class user extends dbObject{
 			IO\unlink(packages::package('userpanel')->getFilePath($this->avatar));
 		}
 	}
+	public function toArray($recursive = false){
+		$password = $this->password;
+		unset($this->data['password']);
+		$return = parent::toArray($recursive);
+
+		$this->password = $password;
+		return $return;
+	}
 }
