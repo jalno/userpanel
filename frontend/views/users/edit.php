@@ -26,7 +26,7 @@ class edit extends usersEditView{
 	}
 	private function addAssets(){
 		$this->addJSFile(theme::url('assets/plugins/jquery-validation/dist/jquery.validate.min.js'));
-		$this->addJSFile(theme::url('assets/js/users.edit.js'));
+		$this->addJSFile(theme::url('assets/js/pages/users.edit.js'));
 	}
 	private function setNavigation(){
 		$item = new menuItem("users");

@@ -1,9 +1,9 @@
 <?php
-require_once("header.php");
-use \packages\userpanel;
-use \packages\userpanel\user;
+$this->the_header();
 use \packages\base;
 use \packages\base\translator;
+use \packages\userpanel;
+use \packages\userpanel\user;
 use \themes\clipone\utility;
 ?>
 <!-- start: PAGE CONTENT -->
@@ -176,4 +176,4 @@ use \themes\clipone\utility;
 	</div>
 </div>
 <?php
-require_once('footer.php');
+$this->the_footer();

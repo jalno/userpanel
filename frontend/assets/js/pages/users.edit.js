@@ -46,24 +46,34 @@ var UserEdit = function () {
 						$.growl.notice({title:"ثبت شد", message:"اطلاعات این کاربر با موفقیت ویرایش شد."});
 					}else{
 						if(data.hasOwnProperty('error')){
-
-							switch(data.error){
-								case('invalid'):errorHandler.html('<i class="fa fa-remove-sign"></i> نام کاربری یا کلمه عبور وارد شده صحیح نمیباشد.').show();break;
-								case("internal"):errorHandler.html('<i class="fa fa-remove-sign"></i> خطای داخلی، کد '+data.code).show();break;
-								default:alert('پاسخ سرور: '+data.error);break;
+							for(var i =0;i!=data.error.length;i++){
+								var error = data.error[i];
+								var $input = $('[name=\"'+error.input+'\"]');
+								var $params = {
+									title: 'خطا'
+								};
+								if(error.error == 'data_validation'){
+									$params.message = 'داده وارد شده معتبر نیست';
+								}
+								if($input.length){
+									$input.inputMsg($params);
+								}else{
+									$.growl.error($params);
+								}
 							}
+
 						}else{
-							errorHandler.html('<i class="fa fa-remove-sign"></i> درخواست شما توسط سرور قبول نشد').show();
+							$.growl.error({title: 'خطا', message: " درخواست شما توسط سرور قبول نشد."});
 						}
 					}
 				}else{
-					errorHandler.html('<i class="fa fa-remove-sign"></i> در حال حاضر سرور پاسخ درخواست شما را به درستی ارسال نمیکند.').show();
+					$.growl.error({title: 'خطا', message: " در حال حاضر سرور پاسخ درخواست شما را به درستی ارسال نمیکند."});
 				}
 			},
 			error:function(){
 				$btn.html( $btn.data('orghtml'));
 				$btn.prop('disabled', false);
-				errorHandler.html('<i class="fa fa-remove-sign"></i> اتصال به سرور ممکن نمیباشد').show();
+				$.growl.error({title: 'خطا', message: "اتصال به سرور ممکن نمیباشد"});
 			}
 
 		});

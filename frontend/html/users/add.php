@@ -1,8 +1,9 @@
 <?php
-require_once("header.php");
-use \packages\userpanel;
+$this->the_header();
 use \packages\base;
 use \packages\base\translator;
+use \packages\userpanel;
+use \packages\userpanel\user\socialnetwork;
 ?>
 <!-- start: PAGE CONTENT -->
 <div class="row">
@@ -148,6 +149,70 @@ use \packages\base\translator;
 
 						</div>
 					</div>
+
+					<div class="row">
+						<div class="col-md-12">
+							<h3>شبکه های اجتماعی</h3>
+							<hr>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-6">
+							<?php
+							$fields = array(
+								array(
+									'name' => 'socialnets['.socialnetwork::telegram.']',
+									'placeholder' => "Telegram",
+									'icon' => 'fa fa-telegram',
+									'ltr' => true
+								),
+								array(
+									'name' => 'socialnets['.socialnetwork::instagram.']',
+									'placeholder' => "Instagram",
+									'icon' => 'fa fa-instagram',
+									'ltr' => true
+								),
+								array(
+									'name' => 'socialnets['.socialnetwork::skype.']',
+									'placeholder' => "Skype",
+									'icon' => 'fa fa-skype',
+									'ltr' => true
+								)
+							);
+							foreach($fields as $field){
+								$this->createField($field);
+							}
+							?>
+						</div>
+						<div class="col-md-6">
+							<?php
+							$fields = array(
+								array(
+									'name' => 'socialnets['.socialnetwork::twitter.']',
+									'placeholder' => "Twitter",
+									'icon' => 'clip-twitter',
+									'ltr' => true
+								),
+								array(
+									'name' => 'socialnets['.socialnetwork::facebook.']',
+									'placeholder' => "Facebook",
+									'icon' => 'clip-facebook',
+									'ltr' => true
+								),
+								array(
+									'name' => 'socialnets['.socialnetwork::gplus.']',
+									'placeholder' => "Google+",
+									'icon' => 'fa fa-google-plus',
+									'ltr' => true
+								)
+
+							);
+							foreach($fields as $field){
+								$this->createField($field);
+							}
+							?>
+						</div>
+					</div>
 					<div class="row" style="margin-top: 20px;margin-bottom: 20px;">
 						<div class="col-md-offset-4 col-md-4">
 							<button class="btn btn-teal btn-block" type="submit"><i class="fa fa-arrow-circle-left"></i> <?php echo translator::trans("user.add"); ?></button>
@@ -159,4 +224,4 @@ use \packages\base\translator;
 	</div>
 </div>
 <?php
-require_once('footer.php');
+$this->the_footer();

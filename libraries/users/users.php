@@ -31,7 +31,7 @@ class user extends dbObject{
     );
     protected $relations = array(
         'type' => array("hasOne", "packages\\userpanel\\usertype", "type"),
-		'socialnetworks' => array("hasMany", "packages\\userpanel\\user_socialnetwork", "user"),
+		'socialnetworks' => array("hasMany", "packages\\userpanel\\user\\socialnetwork", "user"),
 		'options' => array("hasMany", "packages\\userpanel\\user_option", "user"),
 		'country' => array("hasOne", "packages\\userpanel\\country", "country"),
     );

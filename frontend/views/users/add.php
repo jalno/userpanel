@@ -32,7 +32,7 @@ class add extends usersAddView{
 	private function addAssets(){
 		$this->addJSFile(theme::url('assets/plugins/jquery-validation/dist/jquery.validate.min.js'));
 		$this->addJSFile(theme::url('assets/plugins/bootstrap-inputmsg/bootstrap-inputmsg.min.js'));
-		$this->addJSFile(theme::url('assets/js/users.add.js'));
+		$this->addJSFile(theme::url('assets/js/pages/users.add.js'));
 	}
 	private function setNavigation(){
 		$item = new menuItem("users");

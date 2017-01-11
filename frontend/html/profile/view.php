@@ -1,5 +1,5 @@
 <?php
-require_once("header.php");
+$this->the_header();
 use \packages\userpanel;
 use \packages\userpanel\user;
 use \packages\base;
@@ -176,4 +176,4 @@ use \themes\clipone\utility;
 	</div>
 </div>
 <?php
-require_once('footer.php');
+$this->the_footer();

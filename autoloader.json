@@ -12,8 +12,8 @@
 			"file":"libraries/users/users.php"
 		},
 		{
-			"classes":["user_socialnetwork"],
-			"file":"libraries/users/users_socialnetworks.php"
+			"classes":["user\\socialnetwork"],
+			"file":"libraries/users/socialnetworks.php"
 		},
 		{
 			"classes":["usertype"],

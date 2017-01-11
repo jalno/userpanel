@@ -93,7 +93,7 @@ var UserEdit = function () {
 						if(data.hasOwnProperty('error')){
 							for(var i =0;i!=data.error.length;i++){
 								var error = data.error[i];
-								var $input = $('[name='+error.input+']');
+								var $input = $('[name=\"'+error.input+'\"]');
 								var $params = {
 									title: 'خطا'
 								};

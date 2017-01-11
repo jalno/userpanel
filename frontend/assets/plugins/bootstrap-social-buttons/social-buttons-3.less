@@ -1,3 +1,4 @@
+@import "../bootstrap/less/mixins/buttons.less";
 //
 // Bootstrap Social Buttons v0.2dev
 // --------------------------------------------------
@@ -35,8 +36,8 @@
 @btnGooglePlusBackgroundHighlight:  #c53727;
 
 // Instagram colours from http://instagram.com
-@btnInstagramBackground:            #6f97b6;
-@btnInstagramBackgroundHighlight:   #3f729b;
+@btnInstagramBackground:            #fd1d1d;
+@btnInstagramBackgroundHighlight:   #f56040;
 
 // Instagram colours from http://instagram.com
 @btnDropboxBackground:              #37a3eb;
@@ -94,6 +95,9 @@
 @btnYoutubeBackground:             #CD332D;
 @btnYoutubeBackgroundHighlight:    #6E0610;
 
+// Telegram colors from https://brandcolors.net/
+@btnTelegramBackground:             #0088cc;
+@btnTelegramBackgroundHighlight:    #0088cc;
 
 
 
@@ -184,4 +188,8 @@
 
 .btn-youtube {
   .button-variant(@btnText; @btnYoutubeBackground; @btnYoutubeBackgroundHighlight);
+}
+
+.btn-telegram {
+  .button-variant(@btnText; @btnTelegramBackground; @btnTelegramBackgroundHighlight);
 }

@@ -144,17 +144,17 @@
 		{
 			"name":"\\themes\\clipone\\views\\users\\add",
 			"parent":"\\packages\\userpanel\\views\\users\\add",
-			"file":"users.add.php"
+			"file":"html/users/add.php"
 		},
 		{
 			"name":"\\themes\\clipone\\views\\users\\edit",
 			"parent":"\\packages\\userpanel\\views\\users\\edit",
-			"file":"users.edit.php"
+			"file":"html/users/edit.php"
 		},
 		{
 			"name":"\\themes\\clipone\\views\\users\\view",
 			"parent":"\\packages\\userpanel\\views\\users\\view",
-			"file":"users.view.php"
+			"file":"html/users/view.php"
 		},
 		{
 			"name":"\\themes\\clipone\\views\\users\\delete",
@@ -199,12 +199,12 @@
 		{
 			"name":"\\themes\\clipone\\views\\profile\\view",
 			"parent":"\\packages\\userpanel\\views\\profile\\view",
-			"file":"profile.view.php"
+			"file":"html/profile/view.php"
 		},
 		{
 			"name":"\\themes\\clipone\\views\\profile\\edit",
 			"parent":"\\packages\\userpanel\\views\\profile\\edit",
-			"file":"profile.edit.php"
+			"file":"html/profile/edit.php"
 		},
 		{
 			"name":"\\themes\\clipone\\views\\search",
