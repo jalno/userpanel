@@ -718,7 +718,9 @@ var Main = function () {
 	                    error.insertAfter($(element).closest('.form-group').children('div').children().last());
 	                } else if (element.attr("name") == "card_expiry_mm" || element.attr("name") == "card_expiry_yyyy") {
 	                    error.appendTo($(element).closest('.form-group').children('div'));
-	                } else {
+	                } else if(element.parent().hasClass('input-group')){
+						error.insertAfter($(element).parent());
+					} else {
 	                    error.insertAfter(element);
 	                }
 	            },
