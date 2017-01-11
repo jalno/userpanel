@@ -150,3 +150,15 @@ body.rtl .btn-group > .btn-group:last-child:not(:first-child) > .btn:first-child
 .main-content .container {
 	padding-bottom: 20px;
 }
+body.rtl .form-group .input-group > .input-group-btn + .form-control {
+	border-right: 0;
+}
+body.rtl .form-group > .input-icon > .input-group > .form-control{
+	padding-right: 25px;
+}
+body.rtl .form-group > .input-icon > .input-group > .form-control.ltr{
+	padding-left: 25px;
+}
+.input-icon > .input-group + [class*="fa-"], .input-icon > .input-group + [class*="clip-"] {
+	z-index: 4;
+}

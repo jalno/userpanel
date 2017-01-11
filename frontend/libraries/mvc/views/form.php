@@ -42,6 +42,30 @@ trait formTrait{
 			}
 			if(isset($options['label']) and $options['label'])
 				$code .= '<label class="control-label'.(($this->horizontal_form and $this->label_col) ? ' '.$this->label_col : '').'">'.$options['label'].'</label>';
+
+			if(isset($options['input-group']) and $options['input-group']){
+				$code .= '<div class="input-group';
+				if(isset($options['input-group']['size'])){
+					$code .= ' input-group-'.$options['input-group']['size'];
+				}
+				$code .= '">';
+				if(isset($options['input-group']['left'])){
+					if(is_string($options['input-group']['left'])){
+						$options['input-group']['left'] = array(
+							array(
+								'type' => 'addon',
+								'text' => $options['input-group']['left']
+							)
+						);
+					}
+					if(is_array($options['input-group']['left'])){
+						foreach($options['input-group']['left'] as $item){
+							$code .= $this->buildInputGroupItem($item);
+						}
+					}
+				}
+			}
+
 		}
 		if(!isset($options['value'])){
 			$options['value'] = $this->getDataForm($absuloteName);
@@ -124,10 +148,7 @@ trait formTrait{
 		if($options['type'] == 'textarea'){
 			$code .= "{$options['value']}</textarea>";
 		}
-		if(isset($options['icon']) and $options['icon']){
-			$code .= "<i class=\"{$options['icon']}\"></i>";
-			$code .= "</span>";
-		}
+
 		if($options['type'] != 'hidden'){
 			if($error){
 				$text = null;
@@ -156,9 +177,119 @@ trait formTrait{
 			if($this->horizontal_form and $this->input_col and $options['type'] != 'hidden'){
 				$code .= "</div>";
 			}
+			if(isset($options['input-group']) and $options['input-group']){
+				if(isset($options['input-group']['right'])){
+					if(is_string($options['input-group']['right'])){
+						$options['input-group']['right'] = array(
+							array(
+								'type' => 'addon',
+								'text' => $options['input-group']['right']
+							)
+						);
+					}
+					if(is_array($options['input-group']['right'])){
+						foreach($options['input-group']['right'] as $item){
+							$code .= $this->buildInputGroupItem($item);
+						}
+					}
+				}
+				$code .= '</div>';
+			}
+			if(isset($options['icon']) and $options['icon']){
+				$code .= "<i class=\"{$options['icon']}\"></i>";
+				$code .= "</span>";
+			}
 			$code .= '</div>';
 
 		}
 		echo $code;
+	}
+	private function buildInputGroupItem($item){
+		$code = '';
+		if($item['type'] == 'addon'){
+			$code .= '<span class="input-group-addon">'.$item['text'].'</span>';
+		}elseif($item['type'] == 'checkbox' or $item['type'] == 'radio'){
+			$code .= '<span class="input-group-addon">';
+			$code .= "<input type=\"{$item['type']}\" name=\"{$item['name']}\" value=\"{$item['value']}\"";
+			if(isset($item['class']) and $item['class']){
+				$code .= " class=\"{$item['class']}\"";
+			}
+			$item['absuloteName'] = $item['name'];
+			while(substr($item['absuloteName'], -2) == '[]'){
+				$item['absuloteName'] = substr($item['absuloteName'], 0, strlen($item['absuloteName'])-2);
+			}
+			$form_value = $this->getDataForm($item['absuloteName']);
+			if(
+				(!is_array($form_value) and $item['value'] == $form_value) or
+				(is_array($form_value) and in_array($item['value'], $form_value))
+			){
+				$code .= " checked";
+			}
+			$code .= ">";
+			$code .= "</span>";
+		}elseif($item['type'] == 'button' or $item['type'] == 'submit'){
+			if(!isset($item['class'])){
+				$item['class'] = array('btn');
+			}
+			if(is_array($item['class'])){
+				$item['class'] = implode(" ", $item['class']);
+			}
+			if(isset($item['dropdown']) and $item['dropdown']){
+				if($item['class']){
+					$item['class'] .= ' ';
+				}
+				$item['class'] .= 'dropdown-toggle';
+				if(!isset($item['caret']) or $item['caret']){
+					$item['text'] =  $item['text'] . ' <span class="caret"></span> ';
+				}
+			}
+			$code .= '<span class="input-group-btn">';
+			$code .= "<button class=\"{$item['class']}\" type=\"{$item['type']}\"";
+			if(isset($item['name']) and $item['name']){
+				$code .= " name=\"{$item['name']}\"";
+			}
+			if(isset($item['value']) and $item['value']){
+				$code .= " value=\"{$item['value']}\"";
+			}
+			if(isset($item['dropdown']) and $item['dropdown']){
+				$code .= " data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\"";
+			}
+			$code .= ">";
+			if(isset($item['icon']) and $item['icon']){
+				$code .= '<i class="'.$item['icon'].'"></i> ';
+			}
+			$code .= $item['text'];
+
+			$code .= "</button>";
+			if(isset($item['dropdown']) and $item['dropdown']){
+				$code .= '<ul class="dropdown-menu">';
+				foreach($item['dropdown'] as $menu){
+					$code .= '<li>';
+					if(isset($menu['link'])){
+						$code .= '<a href="'.$menu['link'].'"';
+						if(isset($menu['class']) and $menu['class']){
+							if(is_array($menu['class'])){
+								$menu['class'] = implode(" ", $menu['class']);
+							}
+							$code .= " class=\"{$menu['class']}\"";
+						}
+						if(isset($menu['data']) and $menu['data']){
+							foreach($menu['data'] as $key => $value){
+								$code .= " data-{$key}=\"{$value}\"";
+							}
+						}
+						$code .='>';
+						if(isset($menu['icon']) and $menu['icon']){
+							$code .= '<i class="'.$menu['icon'].'"></i> ';
+						}
+						$code .= $menu['title'].'</a>';
+					}
+					$code .= '</li>';
+				}
+				$code .= '</ul>';
+			}
+			$code .= "</span>";
+		}
+		return $code;
 	}
 }
