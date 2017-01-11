@@ -16,6 +16,27 @@ use \packages\userpanel\user\socialnetwork;
 			<div class="tab-content">
 				<div id="edit_panel" class="tab-pane active">
 					<form action="<?php echo userpanel\url('profile/edit'); ?>" method="POST" role="form" id="edit_form">
+						<?php
+						if($this->canEditPrivacy){
+							foreach(array(
+								'email',
+								'cellphone',
+								'phone',
+								'socialnetworks_'.socialnetwork::telegram,
+								'socialnetworks_'.socialnetwork::instagram,
+								'socialnetworks_'.socialnetwork::skype,
+								'socialnetworks_'.socialnetwork::twitter,
+								'socialnetworks_'.socialnetwork::facebook,
+								'socialnetworks_'.socialnetwork::gplus,
+							) as $field){
+								$this->createField(array(
+									'type' => 'hidden',
+									'name' => "visibility_".$field
+								));
+
+							}
+						}
+						?>
 						<div class="row">
 							<div class="col-md-12">
 								<h3>اطلاعات پایه</h3>
@@ -42,7 +63,8 @@ use \packages\userpanel\user\socialnetwork;
 										'ltr' => true,
 										'error' => array(
 											'data_duplicate' => 'user.email.data_duplicate'
-										)
+										),
+										'input-group' => $this->getFieldPrivacyGroupBtn('email')
 									),
 									array(
 										'name' => 'cellphone',
@@ -51,7 +73,8 @@ use \packages\userpanel\user\socialnetwork;
 										'ltr' => true,
 										'error' => array(
 											'data_duplicate' => 'user.cellphone.data_duplicate'
-										)
+										),
+										'input-group' => $this->getFieldPrivacyGroupBtn('cellphone')
 									),
 									array(
 										'type' => 'password',
@@ -111,7 +134,8 @@ use \packages\userpanel\user\socialnetwork;
 									array(
 										'name' => 'phone',
 										'label' => translator::trans("user.phone"),
-										'ltr' => true
+										'ltr' => true,
+										'input-group' => $this->getFieldPrivacyGroupBtn('phone')
 									)
 								);
 								foreach($fields as $field){
@@ -151,19 +175,22 @@ use \packages\userpanel\user\socialnetwork;
 										'name' => 'socialnets['.socialnetwork::telegram.']',
 										'placeholder' => "Telegram",
 										'icon' => 'fa fa-telegram',
-										'ltr' => true
+										'ltr' => true,
+										'input-group' => $this->getFieldPrivacyGroupBtn('socialnetworks_'.socialnetwork::telegram)
 									),
 									array(
 										'name' => 'socialnets['.socialnetwork::instagram.']',
 										'placeholder' => "Instagram",
 										'icon' => 'fa fa-instagram',
-										'ltr' => true
+										'ltr' => true,
+										'input-group' => $this->getFieldPrivacyGroupBtn('socialnetworks_'.socialnetwork::instagram)
 									),
 									array(
 										'name' => 'socialnets['.socialnetwork::skype.']',
 										'placeholder' => "Skype",
 										'icon' => 'fa fa-skype',
-										'ltr' => true
+										'ltr' => true,
+										'input-group' => $this->getFieldPrivacyGroupBtn('socialnetworks_'.socialnetwork::skype)
 									)
 								);
 								foreach($fields as $field){
@@ -178,19 +205,22 @@ use \packages\userpanel\user\socialnetwork;
 										'name' => 'socialnets['.socialnetwork::twitter.']',
 										'placeholder' => "Twitter",
 										'icon' => 'clip-twitter',
-										'ltr' => true
+										'ltr' => true,
+										'input-group' => $this->getFieldPrivacyGroupBtn('socialnetworks_'.socialnetwork::twitter)
 									),
 									array(
 										'name' => 'socialnets['.socialnetwork::facebook.']',
 										'placeholder' => "Facebook",
 										'icon' => 'clip-facebook',
-										'ltr' => true
+										'ltr' => true,
+										'input-group' => $this->getFieldPrivacyGroupBtn('socialnetworks_'.socialnetwork::facebook)
 									),
 									array(
 										'name' => 'socialnets['.socialnetwork::gplus.']',
 										'placeholder' => "Google+",
 										'icon' => 'fa fa-google-plus',
-										'ltr' => true
+										'ltr' => true,
+										'input-group' => $this->getFieldPrivacyGroupBtn('socialnetworks_'.socialnetwork::gplus)
 									)
 
 								);

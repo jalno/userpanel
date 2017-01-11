@@ -7,11 +7,14 @@ class usertype{
 			'users_list',
 			'users_add',
 			'users_view',
+			'users_view_invisibles',
 			'users_edit',
+			'users_edit_privacy',
 			'users_delete',
 
 			'profile_view',
 			'profile_edit',
+			'profile_edit_privacy',
 
 			'settings_usertypes_list',
 			'settings_usertypes_add',

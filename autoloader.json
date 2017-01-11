@@ -32,8 +32,8 @@
 			"file":"libraries/users/usertype/priority.php"
 		},
 		{
-			"classes":["user_option"],
-			"file":"libraries/users/users_options.php"
+			"classes":["user\\option"],
+			"file":"libraries/users/option.php"
 		},
 		{
 			"classes":["usertype_option"],

@@ -1,7 +1,7 @@
 <?php
-namespace packages\userpanel;
+namespace packages\userpanel\user;
 use packages\base\db\dbObject;
-class user_option extends dbObject{
+class option extends dbObject{
 	protected $dbTable = "userpanel_users_options";
 	protected $primaryKey = "id";
 	protected $dbFields = array(
@@ -12,4 +12,5 @@ class user_option extends dbObject{
 	protected $relations = array(
         'user' => array("hasOne", "packages\\userpanel\\user", "user"),
 	);
+	protected $jsonFields = array('value');
 }

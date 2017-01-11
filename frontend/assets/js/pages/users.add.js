@@ -1,40 +1,6 @@
 var UserEdit = function () {
-	var runSetDefaultValidation = function () {
-        $.validator.setDefaults({
-            errorElement: "span",
-            errorClass: 'help-block',
-            errorPlacement: function (error, element) {
-                if (element.attr("type") == "radio" || element.attr("type") == "checkbox") {
-                    error.insertAfter($(element).closest('.form-group').children('div').children().last());
-                } else if (element.attr("name") == "card_expiry_mm" || element.attr("name") == "card_expiry_yyyy") {
-                    error.appendTo($(element).closest('.form-group').children('div'));
-                } else {
-                    error.insertAfter(element);
-                }
-            },
-            ignore: ':hidden',
-            highlight: function (element) {
-                $(element).closest('.help-block').removeClass('valid');
-                $(element).closest('.form-group').removeClass('has-success').addClass('has-error').find('.symbol').removeClass('ok').addClass('required');
-            },
-            unhighlight: function (element) {
-                $(element).closest('.form-group').removeClass('has-error');
-            },
-            success: function (label, element) {
-                label.addClass('help-block valid');
-                $(element).closest('.form-group').removeClass('has-error');
-            },
-            highlight: function (element) {
-                $(element).closest('.help-block').removeClass('valid');
-                $(element).closest('.form-group').addClass('has-error');
-            },
-            unhighlight: function (element) {
-                $(element).closest('.form-group').removeClass('has-error');
-            }
-        });
-	};
+	var form = $('#add_form');
 	var runValidator = function () {
-        var form = $('#add_form');
         form.validate({
             rules: {
                 name: {
@@ -129,11 +95,22 @@ var UserEdit = function () {
 
 		});
     };
+	var runPrivacyVisibilty = function(){
+		$('.changevisibity', form).click(function(e){
+			e.preventDefault();
+			var $button = $(this).parents('.input-group-btn').find('button');
+			var $field = $(this).data('field');
+			var $visibility = $(this).data('visibility');
+			$button.html($(this).html()+' <span class="caret"></span>');
+			$('input[name=visibility_'+$field+']').val($visibility == 'public' ? '1' : '');
+		});
+	}
     return {
         //main function to initiate template pages
         init: function () {
-			runSetDefaultValidation();
+			Main.SetDefaultValidation();
 			runValidator();
+			runPrivacyVisibilty();
         }
     };
 }();

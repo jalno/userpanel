@@ -29,7 +29,7 @@ class view extends usersView{
 		$this->setTitle(array(
 			translator::trans('users'),
 			translator::trans('user.profile'),
-			$this->getUserData('name')
+			$this->getData('user')->getFullName()
 		));
 		$this->loadLogs();
 		$this->loadLastLogin();
@@ -91,17 +91,19 @@ class view extends usersView{
 		$networks = $this->getUserData('socialnetworks');
 		if($networks){
 			foreach($networks as $network){
-				$name = '';
-				switch($network->network){
-					case(socialnetwork::facebook):$name = 'facebook';break;
-					case(socialnetwork::twitter):$name = 'twitter';break;
-					case(socialnetwork::gplus):$name = 'google-plus';break;
-					case(socialnetwork::instagram):$name = 'instagram';break;
-					case(socialnetwork::telegram):$name = 'telegram';break;
-					case(socialnetwork::skype):$name = 'skype';break;
-				}
-				if($name){
-					$this->networks[$name] = $network->getURL();
+				if($this->is_public('socialnetworks_'.$network->network)){
+					$name = '';
+					switch($network->network){
+						case(socialnetwork::facebook):$name = 'facebook';break;
+						case(socialnetwork::twitter):$name = 'twitter';break;
+						case(socialnetwork::gplus):$name = 'google-plus';break;
+						case(socialnetwork::instagram):$name = 'instagram';break;
+						case(socialnetwork::telegram):$name = 'telegram';break;
+						case(socialnetwork::skype):$name = 'skype';break;
+					}
+					if($name){
+						$this->networks[$name] = $network->getURL();
+					}
 				}
 			}
 		}
@@ -132,5 +134,12 @@ class view extends usersView{
 		}else{
 			return theme::url('assets/images/defaultavatar.jpg');
 		}
+	}
+	protected function is_public($field){
+		if($this->canViewInvisibles){
+			return true;
+		}
+		$user = $this->getData('user');
+		return $user->getVisibility($field);
 	}
 }

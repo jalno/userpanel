@@ -77,4 +77,41 @@ class edit extends usersEditView{
 			return theme::url('assets/images/defaultavatar.jpg');
 		}
 	}
+	protected function getFieldPrivacyGroupBtn($field){
+		if(!$this->canEditPrivacy){
+			return false;
+		}
+		$privacy = $this->getDataForm('visibility_'.$field);
+		$button = array(
+			'type' => 'button',
+			'icon' => $privacy ? 'fa fa-eye' : 'fa fa-eye-slash',
+			'text' => translator::trans('user.edit.privacy.'.($privacy ? 'public' : 'private')),
+			'class' => array('btn','btn-default'),
+			'dropdown' => array()
+		);
+
+		$button['dropdown'][] = array(
+			'icon' => 'fa fa-eye',
+			'link' => '#',
+			'class' => array('changevisibity'),
+			'data' => array(
+				'field' => $field,
+				'visibility' => 'public'
+			),
+			'title' => translator::trans('user.edit.privacy.public')
+		);
+		$button['dropdown'][] = array(
+			'icon' => 'fa fa-eye-slash',
+			'link' => '#',
+			'class' => array('changevisibity'),
+			'data' => array(
+				'field' => $field,
+				'visibility' => 'private'
+			),
+			'title' => translator::trans('user.edit.privacy.private')
+		);
+		return array(
+			'left' => array($button)
+		);
+	}
 }

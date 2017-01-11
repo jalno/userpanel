@@ -192,6 +192,56 @@ class users extends controller{
 				),
 				'socialnets' => array(
 					'optional' => true
+				),
+				'visibility_email' => array(
+					'optional' => true,
+					'type' => 'bool',
+					'empty' => true
+				),
+				'visibility_cellphone' => array(
+					'optional' => true,
+					'type' => 'bool',
+					'empty' => true
+				),
+				'visibility_phone' => array(
+					'optional' => true,
+					'type' => 'bool',
+					'empty' => true
+				),
+				'visibility_socialnetworks_'.socialnetwork::twitter => array(
+					'optional' => true,
+					'type' => 'bool',
+					'empty' => true
+				),
+				'visibility_socialnetworks_'.socialnetwork::twitter => array(
+					'optional' => true,
+					'type' => 'bool',
+					'empty' => true
+				),
+				'visibility_socialnetworks_'.socialnetwork::facebook => array(
+					'optional' => true,
+					'type' => 'bool',
+					'empty' => true
+				),
+				'visibility_socialnetworks_'.socialnetwork::skype => array(
+					'optional' => true,
+					'type' => 'bool',
+					'empty' => true
+				),
+				'visibility_socialnetworks_'.socialnetwork::gplus => array(
+					'optional' => true,
+					'type' => 'bool',
+					'empty' => true
+				),
+				'visibility_socialnetworks_'.socialnetwork::instagram => array(
+					'optional' => true,
+					'type' => 'bool',
+					'empty' => true
+				),
+				'visibility_socialnetworks_'.socialnetwork::telegram => array(
+					'optional' => true,
+					'type' => 'bool',
+					'empty' => true
 				)
 			);
 			$this->response->setStatus(false);
@@ -256,6 +306,27 @@ class users extends controller{
 							$socialnet->save();
 						}
 					}
+				}
+				if(authorization::is_accessed('profile_edit_privacy')){
+					$visibilities = array();
+					foreach(array(
+						'email',
+						'cellphone',
+						'phone',
+						'socialnetworks_'.socialnetwork::telegram,
+						'socialnetworks_'.socialnetwork::instagram,
+						'socialnetworks_'.socialnetwork::skype,
+						'socialnetworks_'.socialnetwork::twitter,
+						'socialnetworks_'.socialnetwork::facebook,
+						'socialnetworks_'.socialnetwork::gplus,
+					) as $field){
+						if(array_key_exists('visibility_'.$field, $formdata)){
+							if($formdata['visibility_'.$field]){
+								$visibilities[] = $field;
+							}
+						}
+					}
+					$user->setOption("visibilities", $visibilities);
 				}
 
 				$log = new log();
@@ -369,7 +440,58 @@ class users extends controller{
 				),
 				'socialnets' => array(
 					'optional' => true
+				),
+				'visibility_email' => array(
+					'optional' => true,
+					'type' => 'bool',
+					'empty' => true
+				),
+				'visibility_cellphone' => array(
+					'optional' => true,
+					'type' => 'bool',
+					'empty' => true
+				),
+				'visibility_phone' => array(
+					'optional' => true,
+					'type' => 'bool',
+					'empty' => true
+				),
+				'visibility_socialnetworks_'.socialnetwork::twitter => array(
+					'optional' => true,
+					'type' => 'bool',
+					'empty' => true
+				),
+				'visibility_socialnetworks_'.socialnetwork::twitter => array(
+					'optional' => true,
+					'type' => 'bool',
+					'empty' => true
+				),
+				'visibility_socialnetworks_'.socialnetwork::facebook => array(
+					'optional' => true,
+					'type' => 'bool',
+					'empty' => true
+				),
+				'visibility_socialnetworks_'.socialnetwork::skype => array(
+					'optional' => true,
+					'type' => 'bool',
+					'empty' => true
+				),
+				'visibility_socialnetworks_'.socialnetwork::gplus => array(
+					'optional' => true,
+					'type' => 'bool',
+					'empty' => true
+				),
+				'visibility_socialnetworks_'.socialnetwork::instagram => array(
+					'optional' => true,
+					'type' => 'bool',
+					'empty' => true
+				),
+				'visibility_socialnetworks_'.socialnetwork::telegram => array(
+					'optional' => true,
+					'type' => 'bool',
+					'empty' => true
 				)
+
 			);
 			$this->response->setStatus(false);
 			try{
@@ -490,7 +612,33 @@ class users extends controller{
 						}
 					}
 				}
-
+				if(authorization::is_accessed('profile_edit_privacy')){
+					$visibilities = $user->getOption("visibilities");
+					if(!is_array($visibilities)){
+						$visibilities = array();
+					}
+					foreach(array(
+						'email',
+						'cellphone',
+						'phone',
+						'socialnetworks_'.socialnetwork::telegram,
+						'socialnetworks_'.socialnetwork::instagram,
+						'socialnetworks_'.socialnetwork::skype,
+						'socialnetworks_'.socialnetwork::twitter,
+						'socialnetworks_'.socialnetwork::facebook,
+						'socialnetworks_'.socialnetwork::gplus,
+					) as $field){
+						if(array_key_exists('visibility_'.$field, $formdata)){
+							if($formdata['visibility_'.$field]){
+								$visibilities[] = $field;
+							}elseif(($key = array_search($field, $visibilities)) !== false){
+								unset($visibilities[$key]);
+							}
+						}
+					}
+					$visibilities = array_values(array_unique($visibilities));
+					$user->setOption("visibilities", $visibilities);
+				}
 				$log = new log();
 				$log->type = log::user_edit;
 				$log->users = array_unique(array($user->id, authentication::getID()));

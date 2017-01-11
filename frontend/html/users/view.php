@@ -50,6 +50,13 @@ use \themes\clipone\utility;
 									<?php } ?>
 									<hr>
 								</div>
+								<?php
+								$web = ($this->getUserData('web') and $this->is_public('web'));
+								$phone = ($this->getUserData('phone') and $this->is_public('phone'));
+								$email = $this->is_public('email');
+								$cellphone = $this->is_public('cellphone');
+								if($web or $phone or $email or $cellphone){
+								?>
 								<table class="table table-condensed table-hover">
 									<thead>
 										<tr>
@@ -58,7 +65,7 @@ use \themes\clipone\utility;
 									</thead>
 									<tbody>
 										<?php
-										if($this->getUserData('web')){
+										if($web){
 										?>
 										<tr>
 											<td>تارنما:</td>
@@ -68,6 +75,7 @@ use \themes\clipone\utility;
 										</tr>
 										<?php
 										}
+										if($email){
 										?>
 										<tr>
 											<td>رایانامه:</td>
@@ -75,7 +83,8 @@ use \themes\clipone\utility;
 											<td><a href="<?php echo userpanel\url('email/send/', array('user' => $this->getUserData('id'))); ?>"><i class="fa fa-envelope-o edit-user-info"></i></a></td>
 										</tr>
 										<?php
-										if($this->getUserData('phone')){
+										}
+										if($phone){
 										?>
 										<tr>
 											<td>تلفن:</td>
@@ -84,14 +93,17 @@ use \themes\clipone\utility;
 										</tr>
 										<?php
 										}
+										if($cellphone){
 										?>
 										<tr>
 											<td>تلفن همراه:</td>
 											<td><?php echo $this->getUserData('cellphone'); ?></td>
 											<td><a href="<?php echo userpanel\url('sms/send/', array('user' => $this->getUserData('id'))); ?>" ><i class="clip-mobile-3 edit-user-info"></i></a></td>
 										</tr>
+										<?php } ?>
 									</tbody>
 								</table>
+								<?php } ?>
 								<table class="table table-condensed table-hover">
 									<thead>
 										<tr>

@@ -103,7 +103,9 @@
 		"usertype.permissions.userpanel_users_list" : "لیست کاربران",
 		"usertype.permissions.userpanel_users_add" : "افزودن کاربر",
 		"usertype.permissions.userpanel_users_view" : "مشاهده کاربر",
+		"usertype.permissions.userpanel_users_view_invisibles" : "مشاهده مقادیر خصوصی کاربر",
 		"usertype.permissions.userpanel_users_edit" : "ویرایش کاربر",
+		"usertype.permissions.userpanel_users_edit_privacy" : "ویرایش حریم خصوصی کاربر",
 		"usertype.permissions.userpanel_users_delete" : "حذف کاربر",
 		"usertype.permissions.userpanel_settings_usertypes_list" : "لیست سطوح کاربری",
 		"usertype.permissions.userpanel_settings_usertypes_add" : "افزودن سطح کاربری",
@@ -112,6 +114,7 @@
 		"usertype.byTitle": "سطح کاربری {title}",
 		"usertype.permissions.userpanel_profile_view":"مشاهده پروفایل",
 		"usertype.permissions.userpanel_profile_edit":"ویرایش پروفایل",
+		"usertype.permissions.userpanel_profile_edit_privacy" : "ویرایش حریم خصوصی پروفایل",
 		"profile.view":"مشاهده پروفایل",
 		"profile.edit" : "ویرایش پروفایل",
 		"pagination.previousPage" : "قبلی",
@@ -122,6 +125,8 @@
 		"shortcut.users.title" : "مدیریت کاربران",
 		"shortcut.users.link" : "لیست کاربران",
 		"shortcut.users.text": "ببینید که چه کسانی عضو سامانه شدند و چه اقداماتی را در اینجا انجام دادند.شاید لازم باشد اطلاعات بعضی را بررسی و یا رد کنید",
-		"dashboard":"پیشخوان"
+		"dashboard":"پیشخوان",
+		"user.edit.privacy.public" : "عمومی",
+		"user.edit.privacy.private" : "خصوصی"
 	}
 }
