@@ -114,7 +114,7 @@ class view extends usersView{
 		breadcrumb::addItem($item);
 
 		$item = new menuItem("user");
-		$item->setTitle($this->getUserData('name'));
+		$item->setTitle($this->getData('user')->getFullName());
 		$item->setURL(userpanel\url('users/view/'.$this->getUserData('id')));
 		$item->setIcon('clip-user');
 		breadcrumb::addItem($item);

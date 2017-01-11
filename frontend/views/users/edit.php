@@ -18,7 +18,7 @@ class edit extends usersEditView{
 		$this->setTitle(array(
 			translator::trans('users'),
 			translator::trans('user.edit'),
-			$this->getDataForm('name')
+			$this->getData('user')->getFullName()
 		));
 
 		$this->addAssets();
@@ -36,7 +36,7 @@ class edit extends usersEditView{
 		breadcrumb::addItem($item);
 
 		$item = new menuItem("user");
-		$item->setTitle($this->getDataForm('name'));
+		$item->setTitle($this->getData('user')->getFullName());
 		$item->setURL(userpanel\url('users/view/'.$this->getDataForm('id')));
 		$item->setIcon('clip-user');
 		breadcrumb::addItem($item);

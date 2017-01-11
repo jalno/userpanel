@@ -20,7 +20,7 @@ use \themes\clipone\utility;
 						<div class="col-sm-5 col-md-4">
 							<div class="user-left">
 								<div class="center">
-									<h4><?php echo $this->getUserData('name'); ?></h4>
+									<h4><?php echo $this->getData('user')->getFullName(); ?></h4>
 									<form action="<?php echo userpanel\url('profile/edit'); ?>" method="post">
 										<div class="fileupload fileupload-new" data-provides="fileupload">
 											<div class="user-image">
