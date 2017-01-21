@@ -162,3 +162,12 @@ body.rtl .form-group > .input-icon > .input-group > .form-control.ltr{
 .input-icon > .input-group + [class*="fa-"], .input-icon > .input-group + [class*="clip-"] {
 	z-index: 4;
 }
+body.rtl th.table-tools{
+	text-align: center;
+}
+body.rtl th.table-tools .btn-link {
+    color: #666666;
+}
+body.rtl th.table-tools .btn-link:hover {
+    color: #333333;
+}
