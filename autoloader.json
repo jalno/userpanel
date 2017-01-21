@@ -48,6 +48,10 @@
 			"file":"libraries/users/authorization.php"
 		},
 		{
+			"classes":["authentication\\exception"],
+			"file":"libraries/users/exceptions/authentication.php"
+		},
+		{
 			"classes":["log"],
 			"file":"libraries/logging/logs.php"
 		},
