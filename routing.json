@@ -79,5 +79,14 @@
 			"\\packages\\base\\NotFound"
 		],
 		"handler": "controllers\\dashboard@notfound"
+	},
+	{
+		"paths": [
+			"userpanel/"
+		],
+		"exceptions":[
+			"\\packages\\userpanel\\authentication\\exception"
+		],
+		"handler": "controllers\\dashboard@goToLogin"
 	}
 ]

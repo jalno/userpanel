@@ -26,6 +26,9 @@ class dashboard extends controller{
 		}
 		return $this->response;
 	}
+	public function goToLogin(){
+		return authentication::FailResponse();
+	}
 	public function search(){
 		if(authentication::check()){
 			$view = view::byName("\\packages\\userpanel\\views\\search");
