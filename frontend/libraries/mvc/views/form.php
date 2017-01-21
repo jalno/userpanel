@@ -93,6 +93,7 @@ trait formTrait{
 				if(isset($option['class']) and $option['class']){
 					$code .= " class=\"{$option['class']}\"";
 				}
+				$code .= $this->buildHtmlData($options);
 				if(
 					(!is_array($options['value']) and $option['value'] == $options['value']) or
 					(is_array($options['value']) and in_array($option['value'], $options['value']))
@@ -108,13 +109,16 @@ trait formTrait{
 			}
 		}elseif($options['type'] == 'select'){
 			$code .= "<select";
+			$code .= $this->buildHtmlData($options);
 		}elseif($options['type'] == 'textarea'){
 			$code .= "<textarea";
+			$code .= $this->buildHtmlData($options);
 			if(isset($options['rows'])){
 				$code.= " rows=\"{$options['rows']}\"";
 			}
 		}else{
 			$code .= "<input type=\"{$options['type']}\" value=\"{$options['value']}\" ";
+			$code .= $this->buildHtmlData($options);
 		}
 		if(isset($options['id'])){
 			$code .= " id=\"{$options['id']}\"";
@@ -254,6 +258,7 @@ trait formTrait{
 			if(isset($item['dropdown']) and $item['dropdown']){
 				$code .= " data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\"";
 			}
+			$code .= $this->buildHtmlData($item);
 			$code .= ">";
 			if(isset($item['icon']) and $item['icon']){
 				$code .= '<i class="'.$item['icon'].'"></i> ';
@@ -273,11 +278,7 @@ trait formTrait{
 							}
 							$code .= " class=\"{$menu['class']}\"";
 						}
-						if(isset($menu['data']) and $menu['data']){
-							foreach($menu['data'] as $key => $value){
-								$code .= " data-{$key}=\"{$value}\"";
-							}
-						}
+						$code .= $this->buildHtmlData($menu);
 						$code .='>';
 						if(isset($menu['icon']) and $menu['icon']){
 							$code .= '<i class="'.$menu['icon'].'"></i> ';
@@ -289,6 +290,15 @@ trait formTrait{
 				$code .= '</ul>';
 			}
 			$code .= "</span>";
+		}
+		return $code;
+	}
+	private function buildHtmlData($element){
+		$code = "";
+		if(isset($element['data']) and $element['data']){
+			foreach($element['data'] as $key => $value){
+				$code .= " data-{$key}=\"{$value}\" ";
+			}
 		}
 		return $code;
 	}
