@@ -12,8 +12,8 @@
 			"file":"libraries/users/users.php"
 		},
 		{
-			"classes":["user_socialnetwork"],
-			"file":"libraries/users/users_socialnetworks.php"
+			"classes":["user\\socialnetwork"],
+			"file":"libraries/users/socialnetworks.php"
 		},
 		{
 			"classes":["usertype"],
@@ -32,8 +32,8 @@
 			"file":"libraries/users/usertype/priority.php"
 		},
 		{
-			"classes":["user_option"],
-			"file":"libraries/users/users_options.php"
+			"classes":["user\\option"],
+			"file":"libraries/users/option.php"
 		},
 		{
 			"classes":["usertype_option"],
@@ -46,6 +46,10 @@
 		{
 			"classes":["authorization"],
 			"file":"libraries/users/authorization.php"
+		},
+		{
+			"classes":["authentication\\exception"],
+			"file":"libraries/users/exceptions/authentication.php"
 		},
 		{
 			"classes":["log"],

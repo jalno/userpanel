@@ -1,7 +1,6 @@
 var ProfileEdit = function () {
-
+	var form = $('#edit_form');
 	var runLoginValidator = function () {
-        var form = $('#edit_form');
         form.validate({
             rules: {
                 name: {
@@ -54,7 +53,7 @@ var ProfileEdit = function () {
 						if(data.hasOwnProperty('error')){
 							for(var i =0;i!=data.error.length;i++){
 								var error = data.error[i];
-								var $input = $('[name='+error.input+']');
+								var $input = $('[name=\"'+error.input+'\"]');
 								var $params = {
 									title: 'خطا'
 								};
@@ -85,11 +84,22 @@ var ProfileEdit = function () {
 
 		});
     };
+	var runPrivacyVisibilty = function(){
+		$('.changevisibity', form).click(function(e){
+			e.preventDefault();
+			var $button = $(this).parents('.input-group-btn').find('button');
+			var $field = $(this).data('field');
+			var $visibility = $(this).data('visibility');
+			$button.html($(this).html()+' <span class="caret"></span>');
+			$('input[name=visibility_'+$field+']').val($visibility == 'public' ? '1' : '');
+		});
+	}
     return {
         //main function to initiate template pages
         init: function () {
 			Main.SetDefaultValidation();
 			runLoginValidator();
+			runPrivacyVisibilty();
         }
     };
 }();

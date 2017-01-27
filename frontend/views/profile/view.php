@@ -10,7 +10,7 @@ use \packages\userpanel\user;
 use \packages\userpanel\usertype;
 use \packages\userpanel\log;
 use \packages\userpanel\log_user;
-use \packages\userpanel\user_socialnetwork;
+use \packages\userpanel\user\socialnetwork;
 use \packages\userpanel\views\profile\view as profileView;
 
 use \themes\clipone\navigation;
@@ -89,16 +89,19 @@ class view extends profileView{
 		$networks = $this->getUserData('socialnetworks');
 		if($networks){
 			foreach($networks as $network){
-				$name = '';
-				switch($network->network){
-					case(user_socialnetwork::facebook):$name = 'facebook';break;
-					case(user_socialnetwork::twitter):$name = 'twitter';break;
-					case(user_socialnetwork::gplus):$name = 'google-plus';break;
-					case(user_socialnetwork::instagram):$name = 'instagram';break;
-					case(user_socialnetwork::telegram):$name = 'telegram';break;
-				}
-				if($name){
-					$this->networks[$name] = $network->url;
+				if($this->is_public('socialnetworks_'.$network->network)){
+					$name = '';
+					switch($network->network){
+						case(socialnetwork::facebook):$name = 'facebook';break;
+						case(socialnetwork::twitter):$name = 'twitter';break;
+						case(socialnetwork::gplus):$name = 'google-plus';break;
+						case(socialnetwork::instagram):$name = 'instagram';break;
+						case(socialnetwork::telegram):$name = 'telegram';break;
+						case(socialnetwork::skype):$name = 'skype';break;
+					}
+					if($name){
+						$this->networks[$name] = $network->getURL();
+					}
 				}
 			}
 		}
@@ -123,5 +126,9 @@ class view extends profileView{
 		}else{
 			return theme::url('assets/images/defaultavatar.jpg');
 		}
+	}
+	protected function is_public($field){
+		$user = $this->getData('user');
+		return $user->getVisibility($field);
 	}
 }

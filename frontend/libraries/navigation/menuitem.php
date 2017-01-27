@@ -81,8 +81,7 @@ class menuItem{
 			uasort($this->items, array(__NAMESPACE__, 'sort'));
 			foreach($this->items as $name => $item){
 				if($active and is_array($this->active) and $this->active[0] == $name){
-					if(isset($this->active[1]) and $this->active[1])
-						breadcrumb::addItem($item);
+					breadcrumb::addItem($item);
 					$item->active(isset($this->active[1]) ? $this->active[1] : true);
 				}
 				$html .= $item->build();

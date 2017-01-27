@@ -1,5 +1,6 @@
 <?php
 namespace themes\clipone;
+use \packages\base\json;
 class utility{
 	static function switchcase($item, array $items){
 		foreach($items as $return => $cases){

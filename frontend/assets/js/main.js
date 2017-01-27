@@ -718,7 +718,9 @@ var Main = function () {
 	                    error.insertAfter($(element).closest('.form-group').children('div').children().last());
 	                } else if (element.attr("name") == "card_expiry_mm" || element.attr("name") == "card_expiry_yyyy") {
 	                    error.appendTo($(element).closest('.form-group').children('div'));
-	                } else {
+	                } else if(element.parent().hasClass('input-group')){
+						error.insertAfter($(element).parent());
+					} else {
 	                    error.insertAfter(element);
 	                }
 	            },
@@ -750,6 +752,12 @@ var Main = function () {
 			window.location.href = $('option:selected', this).data('url');
 		})
 	}
+	var runSelect2 = function(){
+		var $elements = $('select.select2');
+		if($elements.length){
+			$elements.select2();
+		}
+	}
     return {
         //main function to initiate template pages
         init: function () {
@@ -757,6 +765,7 @@ var Main = function () {
             runInit();
             //runStyleSelector();
             runSearchInput();
+            runSelect2();
             runElementsPosition();
             runToDoAction();
             runNavigationToggler();

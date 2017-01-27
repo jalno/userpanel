@@ -1,7 +1,14 @@
 <?php
 namespace packages\userpanel;
 use \packages\base;
+use \packages\base\packages;
 function url($page = '',$parameters = array(),$absolute = false){
-	return base\url("userpanel/{$page}", $parameters, $absolute);
+	$prefix = packages::package('userpanel')->getOption('urlPrefix');
+	if($prefix === null){
+		$prefix = 'userpanel';
+	}
+	if($prefix){
+		$prefix .= "/";
+	}
+	return base\url($prefix.$page, $parameters, $absolute);
 }
-?>

@@ -18,7 +18,7 @@ class edit extends usersEditView{
 		$this->setTitle(array(
 			translator::trans('users'),
 			translator::trans('user.edit'),
-			$this->getDataForm('name')
+			$this->getData('user')->getFullName()
 		));
 
 		$this->addAssets();
@@ -26,7 +26,7 @@ class edit extends usersEditView{
 	}
 	private function addAssets(){
 		$this->addJSFile(theme::url('assets/plugins/jquery-validation/dist/jquery.validate.min.js'));
-		$this->addJSFile(theme::url('assets/js/users.edit.js'));
+		$this->addJSFile(theme::url('assets/js/pages/users.edit.js'));
 	}
 	private function setNavigation(){
 		$item = new menuItem("users");
@@ -36,7 +36,7 @@ class edit extends usersEditView{
 		breadcrumb::addItem($item);
 
 		$item = new menuItem("user");
-		$item->setTitle($this->getDataForm('name'));
+		$item->setTitle($this->getData('user')->getFullName());
 		$item->setURL(userpanel\url('users/view/'.$this->getDataForm('id')));
 		$item->setIcon('clip-user');
 		breadcrumb::addItem($item);
@@ -76,5 +76,42 @@ class edit extends usersEditView{
 		}else{
 			return theme::url('assets/images/defaultavatar.jpg');
 		}
+	}
+	protected function getFieldPrivacyGroupBtn($field){
+		if(!$this->canEditPrivacy){
+			return false;
+		}
+		$privacy = $this->getDataForm('visibility_'.$field);
+		$button = array(
+			'type' => 'button',
+			'icon' => $privacy ? 'fa fa-eye' : 'fa fa-eye-slash',
+			'text' => translator::trans('user.edit.privacy.'.($privacy ? 'public' : 'private')),
+			'class' => array('btn','btn-default'),
+			'dropdown' => array()
+		);
+
+		$button['dropdown'][] = array(
+			'icon' => 'fa fa-eye',
+			'link' => '#',
+			'class' => array('changevisibity'),
+			'data' => array(
+				'field' => $field,
+				'visibility' => 'public'
+			),
+			'title' => translator::trans('user.edit.privacy.public')
+		);
+		$button['dropdown'][] = array(
+			'icon' => 'fa fa-eye-slash',
+			'link' => '#',
+			'class' => array('changevisibity'),
+			'data' => array(
+				'field' => $field,
+				'visibility' => 'private'
+			),
+			'title' => translator::trans('user.edit.privacy.private')
+		);
+		return array(
+			'left' => array($button)
+		);
 	}
 }

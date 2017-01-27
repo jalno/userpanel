@@ -5,6 +5,7 @@ use packages\base\db\dbObject;
 use packages\base\utility\password;
 use \packages\base\IO;
 use \packages\base\packages;
+use \packages\userpanel\user\option;
 class user extends dbObject{
 	const active = 1;
 	const deactive = 0;
@@ -31,8 +32,8 @@ class user extends dbObject{
     );
     protected $relations = array(
         'type' => array("hasOne", "packages\\userpanel\\usertype", "type"),
-		'socialnetworks' => array("hasMany", "packages\\userpanel\\user_socialnetwork", "user"),
-		'options' => array("hasMany", "packages\\userpanel\\user_option", "user"),
+		'socialnetworks' => array("hasMany", "packages\\userpanel\\user\\socialnetwork", "user"),
+		'options' => array("hasMany", "packages\\userpanel\\user\\option", "user"),
 		'country' => array("hasOne", "packages\\userpanel\\country", "country"),
     );
 	public function getFullName(){
@@ -57,7 +58,14 @@ class user extends dbObject{
 		}
 		return $children;
 	}
-	public function option($name){
+	public function option($name, $value = null){
+		if($value){
+			return $this->setOption($name, $value);
+		}else{
+			return $this->getOption($name);
+		}
+	}
+	public function getOption($name){
 		foreach($this->options as $option){
 			if($option->name == $name){
 				return $option->value;
@@ -65,6 +73,37 @@ class user extends dbObject{
 		}
 		return $this->type->option($name);
 	}
+	public function setOption($name, $value){
+		foreach($this->options as $option){
+			if($option->name == $name){
+				$option->value = $value;
+				return $option->save();
+			}
+		}
+		$option = new option();
+		$option->user = $this->id;
+		$option->name = $name;
+		$option->value = $value;
+		return $option->save();
+	}
+	public function getVisibility($field){
+		$visibilities = $this->getOption("visibilities");
+		return (is_array($visibilities) and in_array($field, $visibilities));
+	}
+	public function setVisibility($field, $visible){
+		$visibilities = $this->getOption("visibilities");
+		if(!is_array($visibilities)){
+			$visibilities = array();
+		}
+		if($visible){
+			$visibilities[] = $field;
+		}elseif(($key = array_search($field, $visibilities)) !== false){
+			unset($visibilities[$key]);
+		}
+		$visibilities = array_values(array_unique($visibilities));
+		$this->setOption("visibilities", $visibilities);
+	}
+
 	public function save($data = null){
 		$oldavatar = null;
 		if($this->avatar){
@@ -85,5 +124,13 @@ class user extends dbObject{
 		if(!db::has($this->dbTable)){
 			IO\unlink(packages::package('userpanel')->getFilePath($this->avatar));
 		}
+	}
+	public function toArray($recursive = false){
+		$password = $this->password;
+		unset($this->data['password']);
+		$return = parent::toArray($recursive);
+
+		$this->password = $password;
+		return $return;
 	}
 }
