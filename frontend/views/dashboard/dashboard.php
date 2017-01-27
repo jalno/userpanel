@@ -16,12 +16,12 @@ class dashboard extends dashboardView{
 	use viewTrait;
 	public static $shortcuts = array();
 	public static $boxs = array();
-	function __construct(){
+	public function __beforeLoad(){
 		$this->setTitle(translator::trans('dashboard'));
 		navigation::active("dashboard");
-		events::trigger(new initializeDashboard());
-	}
-	public function __beforeLoad(){
+		$initEvent = new initializeDashboard();
+		$initEvent->view = $this;
+		events::trigger($initEvent);
 		if(authorization::is_accessed('users_list')){
 			$shortcut = new shortcut("users");
 			$shortcut->icon = 'fa fa-users';
