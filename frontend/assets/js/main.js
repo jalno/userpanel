@@ -752,6 +752,12 @@ var Main = function () {
 			window.location.href = $('option:selected', this).data('url');
 		})
 	}
+	var runSelect2 = function(){
+		var $elements = $('select.select2');
+		if($elements.length){
+			$elements.select2();
+		}
+	}
     return {
         //main function to initiate template pages
         init: function () {
@@ -759,6 +765,7 @@ var Main = function () {
             runInit();
             //runStyleSelector();
             runSearchInput();
+            runSelect2();
             runElementsPosition();
             runToDoAction();
             runNavigationToggler();
