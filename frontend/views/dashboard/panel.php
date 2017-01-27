@@ -68,7 +68,7 @@ class panel extends box{
 		}
 		$code = '';
 		if($buttons){
-			foreach($buttons as $btn){
+			foreach(array_reverse($buttons) as $btn){
 				$code .= '<a';
 				if(isset($btn['params']['link']) and $btn['params']['link']){
 					$code .= ' href="'.$btn['params']['link'].'"';
