@@ -15,7 +15,7 @@ class user extends dbObject{
 	protected $dbFields = array(
         'email' => array('type' => 'text', 'required' => true, 'unique' => 'true'),
         'name' => array('type' => 'text', 'required' => true),
-        'lastname' => array('type' => 'text', 'required' => true),
+        'lastname' => array('type' => 'text'),
         'cellphone' => array('type' => 'text', 'required' => true, 'unique' => 'true'),
         'password' => array('type' => 'text', 'required' => true),
 		'type' => array('type' => 'int', 'required' => true),
