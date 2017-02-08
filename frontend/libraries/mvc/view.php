@@ -50,6 +50,11 @@ trait viewTrait{
 				'txt' => '',
 				'title' => ''
 			);
+			$data  =$error->getData();
+			if(!is_array($data)){
+				$data = array();
+			}
+			$alert = array_merge($alert, $data);
 			if($translator = translator::trans('error.'.$error->getCode())){
 				$alert['txt'] =  $translator;
 			}elseif(!$alert['txt'] = $error->getMessage()){
@@ -58,23 +63,26 @@ trait viewTrait{
 			switch($error->getType()){
 				case(error::FATAL):
 					$alert['type'] = 'danger';
-					$alert['title'] = translator::trans('error.'.error::FATAL.'.title');
+					if(!$alert['title'])
+						$alert['title'] = translator::trans('error.'.error::FATAL.'.title');
 					break;
 				case(error::WARNING):
 					$alert['type'] = 'warning';
-					$alert['title'] = translator::trans('error.'.error::WARNING.'.title');
+					if(!$alert['title'])
+						$alert['title'] = translator::trans('error.'.error::WARNING.'.title');
 					break;
 				case(error::NOTICE):
 					$alert['type'] = 'info';
-					$alert['title'] = translator::trans('error.'.error::NOTICE.'.title');
+					if(!$alert['title'])
+						$alert['title'] = translator::trans('error.'.error::NOTICE.'.title');
 					break;
 			}
 
 
 
-			$code .= "<div class=\"alert alert-block alert-{$alert['type']}\">
-			<button data-dismiss=\"alert\" class=\"close\" type=\"button\">&times;</button>
-			<h4 class=\"alert-heading\">";
+			$code .= "<div class=\"alert alert-block alert-{$alert['type']}\">";
+			$code .= "<button data-dismiss=\"alert\" class=\"close\" type=\"button\">&times;</button>";
+			$code .= "<h4 class=\"alert-heading\">";
 			switch($alert['type']){
 				case('danger'):$code.="<i class=\"fa fa-times-circle\"></i>";break;
 				case('success'):$code.="<i class=\"fa fa-check-circle\"></i>";break;
@@ -83,10 +91,11 @@ trait viewTrait{
 			}
 
 			$code .= " {$alert['title']}</h4><p>{$alert['txt']}</p>";
-			if(isset($alert['btns']) and count($alert['btns']) > 0){
+
+			if(isset($alert['btns']) and $alert['btns']){
 				$code .= "<p>";
 				foreach($alert['btns'] as $btn){
-					$code .= "<a href=\"{$btn['link']}\" class=\"btn {$btn['type']}\">{$btn['txt']}</a>";
+					$code .= "<a href=\"{$btn['link']}\" class=\"btn {$btn['type']}\">{$btn['txt']}</a> ";
 				}
 				$code .= "</p>";
 			}
