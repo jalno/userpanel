@@ -1,7 +1,9 @@
 <?php
 namespace themes\clipone\navigation;
-use themes\clipone\breadcrumb;
 use \packages\base\http;
+use \packages\base\events;
+use \themes\clipone\events\navigation as navigationEvents;
+use \themes\clipone\breadcrumb;
 class menuItem{
 	private $name;
 	private $title;
@@ -63,9 +65,24 @@ class menuItem{
 	function active($active){
 		$this->active = is_string($active) ? explode("/", $active, 2) : $active;
 	}
+	function isEmpty(){
+		return empty($this->items);
+	}
+	public function getItems(){
+		return $this->items;
+	}
+	public function removeItem(menuItem $item){
+		foreach($this->items as $x => $i){
+			if($i->getName() == $item->getName()){
+				unset($this->items[$x]);
+				return true;
+			}
+		}
+		return false;
+	}
 	function build(){
+		events::trigger(new navigationEvents\menuItem\build($this));
 		$thisuri = http::$request['uri'];
-		//$active = (substr($thisuri, 0, strlen($this->url)) == $this->url);
 		$active = (bool)$this->active;
 		$open = ($this->items and $active);
 		$html = "<li";
@@ -80,6 +97,7 @@ class menuItem{
 			$html .= "<ul class=\"sub-menu\">";
 			uasort($this->items, array(__NAMESPACE__, 'sort'));
 			foreach($this->items as $name => $item){
+
 				if($active and is_array($this->active) and $this->active[0] == $name){
 					breadcrumb::addItem($item);
 					$item->active(isset($this->active[1]) ? $this->active[1] : true);

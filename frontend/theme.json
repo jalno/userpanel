@@ -125,6 +125,12 @@
 	"languages":{
 		"fa_IR" : "langs/fa_IR.json"
 	},
+	"events": [
+		{
+			"name":"\\themes\\clipone\\events\\navigation\\build",
+			"listener": "listeners\\navigation@removeSettings"
+		}
+	],
 	"views":[
 		{
 			"name":"\\themes\\clipone\\views\\login",

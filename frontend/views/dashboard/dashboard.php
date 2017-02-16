@@ -109,5 +109,9 @@ class dashboard extends dashboardView{
 		$item->setURL(base\url('userpanel'));
 		$item->setIcon('clip-home-3');
 		navigation::addItem($item);
+		$item = new menuItem("settings");
+		$item->setTitle(translator::trans('settings'));
+		$item->setIcon('clip-settings');
+		navigation::addItem($item);
 	}
 }
