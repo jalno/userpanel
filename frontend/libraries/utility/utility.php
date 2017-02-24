@@ -53,6 +53,15 @@ class utility{
 		}
 		return $html;
 	}
+	static function SelectGroupOptions($groups, $selected = null){
+		$html = '';
+		foreach($groups as $title => $rows){
+			$html .= "<optgroup label=\"{$title}\">";
+			$html .= self::selectOptions($rows, $selected);
+			$html .= "</optgroup>";
+		}
+		return $html;
+	}
 	static function radiobox($rows, $selected= null){
 		$html = '';
 		foreach($rows as $value => $title){

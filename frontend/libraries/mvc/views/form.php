@@ -143,7 +143,11 @@ trait formTrait{
 			$code .= ">";
 		}
 		if($options['type'] == 'select'){
-		 	$code .= utility::selectOptions($options['options'], $options['value']);
+			if(array_keys($options['options']) == range(0, count($options['options'])-1)){
+			 	$code .= utility::selectOptions($options['options'], $options['value']);
+			}else{
+				$code .= utility::SelectGroupOptions($options['options'], $options['value']);
+			}
 			$code .="</select>";
 		}
 		if(in_array($options['type'], array('radio', 'checkbox'))){
