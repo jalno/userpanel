@@ -1,6 +1,8 @@
 <?php
 namespace themes\clipone;
+use \packages\base\events;
 use \themes\clipone\navigation\menuItem;
+use \themes\clipone\events\navigation as navigationEvents;
 class navigation{
 	static $menu = array();
 	static $active = array();
@@ -27,6 +29,15 @@ class navigation{
 			breadcrumb::prependItem($item);
 		}
 	}
+	static function removeItem(menuItem $item){
+		foreach(self::$menu as $x => $menuItem){
+			if($menuItem->getName() == $item->getName()){
+				unset(self::$menu[$x]);
+				return true;
+			}
+		}
+		return false;
+	}
 	static function active($active){
 		self::$active = explode("/", $active, 2);
 
@@ -34,7 +45,7 @@ class navigation{
 	static function build(){
 		$html = "";
 		uasort(self::$menu, array(__CLASS__, 'sort'));
-
+		events::trigger(new navigationEvents\build);
 		foreach(self::$menu as $item){
 			$name = $item->getName();
 			if(self::$active and $name == self::$active[0]){

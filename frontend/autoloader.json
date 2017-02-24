@@ -111,6 +111,18 @@
 		{
 			"classes":["events\\initializeDashboard"],
 			"file":"libraries/events/initializeDashboard.php"
+		},
+		{
+			"classes":["events\\navigation\\build"],
+			"file":"libraries/events/navigation/build.php"
+		},
+		{
+			"classes":["events\\navigation\\menuItem\\build"],
+			"file":"libraries/events/navigation/menuItem/build.php"
+		},
+		{
+			"classes":["listeners\\navigation"],
+			"file":"listeners/navigation.php"
 		}
 	]
 }

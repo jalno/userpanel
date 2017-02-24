@@ -83,7 +83,7 @@ trait formTrait{
 			if(!isset($options['label'])){
 				$options['label'] = true;
 			}
-			$code .= "<div>";
+			//$code .= "<div>";
 			foreach($options['options'] as $option){
 				$code .= '<div class="'.$options['type'].($options['inline'] ? '-inline' : '').'">';
 				if($options['label']){
@@ -95,8 +95,11 @@ trait formTrait{
 				}
 				$code .= $this->buildHtmlData($options);
 				if(
-					(!is_array($options['value']) and $option['value'] == $options['value']) or
-					(is_array($options['value']) and in_array($option['value'], $options['value']))
+					$options['value'] !== false and $options['value'] !== null and $options['value'] !== '' and
+					(
+						(!is_array($options['value']) and $option['value'] == $options['value']) or
+						(is_array($options['value']) and in_array($option['value'], $options['value']))
+					)
 				){
 					$code .= " checked";
 				}
@@ -151,7 +154,7 @@ trait formTrait{
 			$code .="</select>";
 		}
 		if(in_array($options['type'], array('radio', 'checkbox'))){
-			$code .= "</div>";
+			//$code .= "</div>";
 		}
 		if($options['type'] == 'textarea'){
 			$code .= "{$options['value']}</textarea>";
