@@ -48,6 +48,7 @@ class utility{
 					$data .= "'";
 				}
 			}
+			$option['title'] = htmlentities($option['title']);
 			$html .= "<option value=\"{$option['value']}\"{$data}".($selected == $option['value'] ? ' selected' : '').">{$option['title']}</option>";
 
 		}
