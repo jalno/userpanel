@@ -171,3 +171,6 @@ body.rtl th.table-tools .btn-link {
 body.rtl th.table-tools .btn-link:hover {
     color: #333333;
 }
+.row-fluid{
+	overflow: auto;
+}
