@@ -47,18 +47,20 @@ trait viewTrait{
 		foreach($this->getErrors() as $error){
 			$alert = array(
 				'type' => 'info',
-				'txt' => '',
+				'txt' => $error->getMessage(),
 				'title' => ''
 			);
-			$data  =$error->getData();
+			$data  = $error->getData();
 			if(!is_array($data)){
 				$data = array();
 			}
 			$alert = array_merge($alert, $data);
-			if($translator = translator::trans('error.'.$error->getCode())){
-				$alert['txt'] =  $translator;
-			}elseif(!$alert['txt'] = $error->getMessage()){
-				$alert['txt'] = $error->getCode();
+			if(!$alert['txt']){
+				if($translator = translator::trans('error.'.$error->getCode())){
+					$alert['txt'] = $translator;
+				}else{
+					$alert['txt'] = $error->getCode();
+				}
 			}
 			switch($error->getType()){
 				case(error::FATAL):
@@ -77,10 +79,12 @@ trait viewTrait{
 						$alert['title'] = translator::trans('error.'.error::NOTICE.'.title');
 					break;
 			}
-
-
-
-			$code .= "<div class=\"alert alert-block alert-{$alert['type']}\">";
+			if(isset($alert['classes']) and is_array($alert['classes'])){
+				$alert['classes'] = implode(" ", $alert['classes']);
+			}else{
+				$alert['classes'] = '';
+			}
+			$code .= "<div class=\"alert alert-block alert-{$alert['type']} {$alert['classes']}\">";
 			$code .= "<button data-dismiss=\"alert\" class=\"close\" type=\"button\">&times;</button>";
 			$code .= "<h4 class=\"alert-heading\">";
 			switch($alert['type']){
