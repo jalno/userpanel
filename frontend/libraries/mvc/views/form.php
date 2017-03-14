@@ -68,7 +68,7 @@ trait formTrait{
 
 		}
 		if(!isset($options['value'])){
-			$options['value'] = $this->getDataForm($absuloteName);
+			$options['value'] = $this->getDataInput($absuloteName);
 		}
 		if(!isset($options['class'])){
 			$options['class'] = $options['type'] != 'file' ? 'form-control' : '';
