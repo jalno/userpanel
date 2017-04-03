@@ -123,6 +123,11 @@ trait formTrait{
 			$code .= "<input type=\"{$options['type']}\" value=\"{$options['value']}\" ";
 			$code .= $this->buildHtmlData($options);
 		}
+		if($options['type'] == 'file'){
+			if(isset($options['accept']) and $options['accept']){
+				$code .= 'accept="'.$options['accept'].'"';
+			}
+		}
 		if(isset($options['id'])){
 			$code .= " id=\"{$options['id']}\"";
 		}
