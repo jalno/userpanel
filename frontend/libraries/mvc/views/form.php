@@ -77,6 +77,7 @@ trait formTrait{
 			$code .= "<div class=\"{$this->input_col}\">";
 		}
 		if(in_array($options['type'], array('radio', 'checkbox'))){
+			$options['value'] = $this->getDataForm($absuloteName);
 			if(!isset($options['inline'])){
 				$options['inline'] = false;
 			}
@@ -95,6 +96,7 @@ trait formTrait{
 				}
 				$code .= $this->buildHtmlData($options);
 				if(
+
 					$options['value'] !== false and $options['value'] !== null and $options['value'] !== '' and
 					(
 						(!is_array($options['value']) and $option['value'] == $options['value']) or
