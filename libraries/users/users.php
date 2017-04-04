@@ -109,14 +109,15 @@ class user extends dbObject{
 		if($this->avatar){
 			$oldavatar = $this->avatar;
 		}
-		parent::save($data);
-		if($oldavatar and $oldavatar != $this->avatar){
-			db::where("avatar", $oldavatar);
-			if(!db::has($this->dbTable)){
-				IO\unlink(packages::package('userpanel')->getFilePath($oldavatar));
+		if($id = parent::save($data)){
+			if($oldavatar and $oldavatar != $this->avatar){
+				db::where("avatar", $oldavatar);
+				if(!db::has($this->dbTable)){
+					IO\unlink(packages::package('userpanel')->getFilePath($oldavatar));
+				}
 			}
 		}
-
+		return $id;
 	}
 	public function delete(){
 		parent::delete();
