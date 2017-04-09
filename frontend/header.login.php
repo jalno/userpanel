@@ -1,7 +1,4 @@
-<?php
-use \packages\base;
-use \packages\base\frontend\theme;
-?><!DOCTYPE html>
+<!DOCTYPE html>
 <!--[if IE 8]><html class="ie8 no-js" lang="en"><![endif]-->
 <!--[if IE 9]><html class="ie9 no-js" lang="en"><![endif]-->
 <!--[if !IE]><!-->
@@ -22,9 +19,6 @@ use \packages\base\frontend\theme;
 		}
 		$this->loadCSS();
 		?>
-		<!--[if IE 7]>
-		<link rel="stylesheet" href="<?php echo theme::url('assets/plugins/font-awesome/css/font-awesome-ie7.min.css'); ?>">
-		<![endif]-->
 	</head>
 	<!-- end: HEAD -->
 	<!-- start: BODY -->

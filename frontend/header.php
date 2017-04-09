@@ -26,9 +26,6 @@ use \themes\clipone\breadcrumb;
 		}
 		$this->loadCSS();
 		?>
-		<!--[if IE 7]>
-		<link rel="stylesheet" href="<?php echo theme::url('assets/plugins/font-awesome/css/font-awesome-ie7.min.css'); ?>">
-		<![endif]-->
 	</head>
 	<body class="<?php echo $this->genBodyClasses(); ?>">
 		<!-- start: HEADER -->
