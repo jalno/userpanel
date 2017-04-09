@@ -1,0 +1,35 @@
+.todo {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	li{
+		a {
+			background: white;
+			border-bottom: 1px solid #E4E6EB;
+			font-size: 12px;
+			margin-left: 0 !important;
+			padding: 10px 10px 10px 35px !important;
+			position: relative;
+			display: block;
+			color: #333333;
+		}
+		.todo-actions{
+			&:hover,&:focus{
+				text-decoration: none;
+				background-color: #F4F6F9 !important;
+			}
+			i{
+				color: #C7CBD5;
+				font-size: 18px;
+				margin: 0 5px 0 0;
+				position: absolute;
+				left: 10px;
+			}
+		}
+		.label {
+			position: absolute;
+			right: 10px;
+			padding: 6px;
+		}
+	}
+}

@@ -1,0 +1,39 @@
+.activities {
+	list-style: none outside none;
+	margin: 0;
+	padding: 0;
+	li{
+		a {
+			background: white;
+			border-bottom: 1px solid #E4E6EB;
+			font-size: 12px;
+			margin-left: 0 !important;
+			padding: 10px 100px 10px 10px !important;
+			position: relative;
+			display: block;
+			color: #333333;
+		}
+		.activity{
+			&:hover,&:focus{
+				text-decoration: none;
+				background-color: #F4F6F9 !important;
+			}
+			.circle-icon {
+				font-size: 16px !important;
+				width: 50px;
+				height: 50px;
+				line-height: 50px;
+				margin-right: 10px;
+			}
+			img {
+				margin-right: 10px;
+			}
+			.time {
+				position: absolute;
+				right: 10px;
+				top: 30px;
+				color: #CCCCCC;
+			}
+		}
+	}
+}

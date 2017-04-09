@@ -1,0 +1,47 @@
+.user{
+	&-left {
+		border-right: 1px solid #DDDDDD;
+		padding-right: 15px;
+		a{
+			&:focus,&:hover{
+				text-decoration: none;
+			}
+		}
+		th{
+			.edit-user-info {
+				visibility: hidden;
+			}
+			&:hover{
+				.edit-user-info {
+					visibility: visible;
+				}
+			}
+		}
+		.user-image {
+			position: relative;
+			display: inline-block;
+		}
+	}
+	&-image {
+		& &-buttons {
+			position: absolute;
+			top: 5px;
+			right: 5px;
+			display: none;
+		}
+		&:hover{
+			.user-image-buttons {
+				display: block;
+			}
+		}
+	}
+	
+	&-edit-image-buttons {
+		display: inline;
+	}
+}
+#projects{
+	.progress {
+		margin-bottom: 0;
+	}
+}

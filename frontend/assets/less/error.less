@@ -1,0 +1,57 @@
+body.error-full-page {
+	background: #ffffff !important;
+	overflow: hidden;
+	.page-error {
+		margin-top: 60px;
+	}
+	img {
+		display: none;
+	}
+	#canvas {
+		position: absolute;
+		top: 0px;
+		left: 0px;
+	}
+	#sound {
+		position: absolute;
+		width: 30%;
+		height: 30%;
+		overflow-y: auto;
+		margin-left: 35%;
+		-moz-border-radius: 15px;
+		border-radius: 15px;
+		opacity: 0.3;
+		margin-top: 5%;
+	}
+	.video {
+		position: absolute;
+		width: 90%;
+		height: 80%;
+		margin-left: 5%;
+		margin-top: 5%;
+	}
+}
+
+.page-error {
+	text-align: center;
+	.error-number {
+		display: block;
+		font-size: 158px;
+		font-weight: 300;
+		letter-spacing: -10px;
+		line-height: 128px;
+		margin-top: 0;
+		text-align: center;
+	}
+	.error-details {
+		display: block;
+		padding-top: 0;
+		text-align: center;
+		.btn-return {
+			margin: 10px 0;
+		}
+		h3 {
+			margin-top: 0;
+		}
+	}
+}
