@@ -3,7 +3,5 @@ import {Main} from '../classes/Main';
 import {Login} from '../classes/Login';
 $(function(){
 	Main.init();
-	if($('body').hasClass('login')){
-		Login.init();
-	}
+	Login.initIfNeeded();
 });

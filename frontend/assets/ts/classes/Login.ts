@@ -98,4 +98,9 @@ export class Login{
 		Login.runLoginValidator();
 		Login.runForgotValidator();
 	}
+    public static initIfNeeded():void{
+        if($('body').hasClass('login')){
+            Login.init();
+        }
+    }
 }
