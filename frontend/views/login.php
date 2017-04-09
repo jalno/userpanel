@@ -11,11 +11,5 @@ class login extends loginView{
 		$this->setTitle("ورود");
 		$registerOption = options::load('packages.userpanel.register');
 		$this->registerEnable = $registerOption['enable'];
-		$this->addAssets();
-	}
-	private function addAssets(){
-		$this->addJSFile(theme::url('assets/plugins/jquery-validation/dist/jquery.validate.min.js'));
-		$this->addJSFile(theme::url('assets/js/login.js'));
-		$this->addJS('jQuery(document).ready(function() {Login.init();});');
 	}
 }
