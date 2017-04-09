@@ -1,0 +1,13 @@
+{
+    "compilerOptions": {
+		"module": "commonjs",
+   		"target": "es5",
+		"sourceMap": false,
+		"removeComments": true
+    },
+	"files": [
+        "./assets/ts/classes/Main.ts",
+        "./assets/ts/classes/Login.ts",
+        "./assets/ts/pages/Main.ts"
+    ]
+}
