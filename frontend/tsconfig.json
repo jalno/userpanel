@@ -8,6 +8,7 @@
 	"files": [
         "./assets/ts/classes/Main.ts",
         "./assets/ts/classes/Login.ts",
+        "./assets/ts/classes/Register.ts",
         "./assets/ts/pages/Main.ts"
     ]
 }
