@@ -22,6 +22,6 @@
 	</head>
 	<!-- end: HEAD -->
 	<!-- start: BODY -->
-	<body class="login example1 rtl">
+	<body class="login example1 <?php echo $this->genBodyClasses(); ?>">
 		<div class="main-login col-md-4 col-md-offset-4 col-sm-6 col-sm-offset-3">
 			<div class="logo"><?php echo $this->getLogoHTML(); ?></div>
