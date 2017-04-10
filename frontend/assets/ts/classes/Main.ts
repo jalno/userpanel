@@ -5,6 +5,9 @@ import "jquery-validation";
 import "jschr-bootstrap-modal/js/bootstrap-modal.js";
 import "jschr-bootstrap-modal/js/bootstrap-modalmanager.js";
 import "select2";
+import "jquery-mousewheel";
+import "malihu-custom-scrollbar-plugin";
+
 export class Main{
 	private static isIE8 = false;
 	private static isIE9 = false;
@@ -278,11 +281,12 @@ export class Main{
 	private static runPanelScroll(): void{
 		let $panels = $(".panel-scroll");
         if ($panels.length) {
-            $panels.perfectScrollbar({
-				handlers: ['click-rail', 'drag-scrollbar', 'keyboard', 'wheel', 'touch'],
-                wheelSpeed: 50,
-                minScrollbarLength: 20,
-                suppressScrollX: true
+            $panels.mCustomScrollbar({
+                axis:"y",
+                theme:"minimal-dark",
+                mouseWheel:{
+                    enable:true
+                }
             });
         }
     }

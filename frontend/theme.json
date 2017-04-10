@@ -24,7 +24,8 @@
 		{"type":"package","name":"clipboard"},
 		{"type":"package","name":"icheck"},
 		{"type":"package","name":"jquery-validation"},
-		{"type":"package","name":"perfect-scrollbar"},
+		{"type":"package","name":"malihu-custom-scrollbar-plugin"},
+		{"type":"package","name":"jquery-mousewheel"},
 		{"type":"package","name":"jquery-autosize"},
 		{"type":"package","name":"jquery.cookie"},
 		{"type":"package","name":"jquery.growl"},
@@ -36,7 +37,7 @@
 		{"type":"package","name":"@types/clipboard"},
 		{"type":"package","name":"@types/icheck"},
 		{"type":"package","name":"@types/jquery.validation"},
-		{"type":"package","name":"@types/perfect-scrollbar"},
+		{"type":"package","name":"@types/mcustomscrollbar"},
 		{"type":"package","name":"@types/select2"},
 		{"type":"package","name":"@types/datatables.net"},
 		{"type":"less","file":"node_modules/bootstrap/less/bootstrap.less"},
@@ -46,7 +47,7 @@
 		{"type":"css","file":"node_modules/jquery-ui/themes/base/all.css"},
 		{"type":"css","file":"node_modules/jschr-bootstrap-modal/css/bootstrap-modal-bs3patch.css"},
 		{"type":"css","file":"node_modules/jschr-bootstrap-modal/css/bootstrap-modal.css"},
-		{"type":"css","file":"node_modules/perfect-scrollbar/dist/css/perfect-scrollbar.css"},
+		{"type":"css","file":"node_modules/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.css"},
 		{"type":"less","file":"assets/less/main.less"},
 		{"type":"ts","file":"assets/ts/pages/Main.ts"}
 
