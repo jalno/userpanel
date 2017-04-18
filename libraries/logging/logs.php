@@ -74,6 +74,7 @@ class log extends dbObject{
 					));
 					$param->save();
 				}
+				return $return;
 			}else{
 				return false;
 			}
