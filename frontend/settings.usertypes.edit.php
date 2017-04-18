@@ -31,7 +31,6 @@ $usertype = $this->getUserType();
 					<table class="table table-condensed table-hover">
 						<thead>
 							<tr>
-								<th></th>
 								<th><?php echo translator::trans('permission.title'); ?></th>
 							</tr>
 						</thead>
@@ -40,14 +39,14 @@ $usertype = $this->getUserType();
 							foreach($this->getPermissions() as $permission){
 							?>
 							<tr>
-								<td class="center">
-									<div class="checkbox-table">
+								<td>
+									<div class="checkbox checkbox-success">
 										<label>
-											<input type="checkbox" class="flat-grey" name="permissions[]" value="<?php echo $permission;?>"<?php echo ($usertype->hasPermission($permission) ? ' checked' : ''); ?>>
+											<input type="checkbox" name="permissions[]" value="<?php echo $permission;?>"<?php echo ($usertype->hasPermission($permission) ? ' checked' : ''); ?>>
+											<?php echo $this->translatePermission($permission); ?>
 										</label>
 									</div>
 								</td>
-								<td><?php echo $this->translatePermission($permission); ?></td>
 							</tr>
 							<?php
 							}
@@ -69,7 +68,6 @@ $usertype = $this->getUserType();
 					<table class="table table-condensed table-hover">
 						<thead>
 							<tr>
-								<th></th>
 								<th class="hidden-xs"><?php echo translator::trans('usertype.child'); ?></th>
 							</tr>
 						</thead>
@@ -78,14 +76,14 @@ $usertype = $this->getUserType();
 							foreach($this->getChildrenTypes() as $priority){
 							?>
 								<tr>
-									<td class="center">
-										<div class="checkbox-table">
+									<td>
+										<div class="checkbox checkbox-primary">
 											<label>
 												<input type="checkbox" class="flat-grey" name="priorities[]" value="<?php echo $priority->id;?>"<?php echo ($this->hasPriority($priority) ? ' checked' : ''); ?>>
+												<?php echo $priority->title; ?>
 											</label>
 										</div>
 									</td>
-									<td><?php echo $priority->title; ?></td>
 								</tr>
 								<?php
 							}

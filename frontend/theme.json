@@ -22,7 +22,7 @@
 		{"type":"package","name":"bootstrap-rtl"},
 		{"type":"package","name":"font-awesome"},
 		{"type":"package","name":"clipboard"},
-		{"type":"package","name":"icheck"},
+		{"type":"package","name":"jquery-bootstrap-checkbox"},
 		{"type":"package","name":"jquery-validation"},
 		{"type":"package","name":"malihu-custom-scrollbar-plugin"},
 		{"type":"package","name":"jquery-mousewheel"},
@@ -35,7 +35,6 @@
 		{"type":"package","name":"@types/jqueryui"},
 		{"type":"package","name":"@types/bootstrap"},
 		{"type":"package","name":"@types/clipboard"},
-		{"type":"package","name":"@types/icheck"},
 		{"type":"package","name":"@types/jquery.validation"},
 		{"type":"package","name":"@types/mcustomscrollbar"},
 		{"type":"package","name":"@types/select2"},
@@ -48,6 +47,7 @@
 		{"type":"css","file":"node_modules/jschr-bootstrap-modal/css/bootstrap-modal-bs3patch.css"},
 		{"type":"css","file":"node_modules/jschr-bootstrap-modal/css/bootstrap-modal.css"},
 		{"type":"css","file":"node_modules/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.css"},
+		{"type":"less","file":"node_modules/jquery-bootstrap-checkbox/jquery-bootstrap-checkbox.less"},
 		{"type":"less","file":"assets/less/main.less"},
 		{"type":"ts","file":"assets/ts/pages/Main.ts"}
 

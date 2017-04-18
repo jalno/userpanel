@@ -1,6 +1,6 @@
 import * as $ from "jquery";
 import "bootstrap";
-import "icheck";
+import "jquery-bootstrap-checkbox";
 import "jquery-validation";
 import "jschr-bootstrap-modal/js/bootstrap-modal.js";
 import "jschr-bootstrap-modal/js/bootstrap-modalmanager.js";
@@ -81,27 +81,7 @@ export class Main{
         return results != null ? decodeURIComponent(results[1].replace(/\+/g, " ")) : "";
     }
 	private static runCustomCheck () {
-		let $inputs = $('input[type=checkbox], input[type=radio]');
-        if ($inputs.length) {
-			let styles = ['square', 'flat'];
-			let colors = ['grey', 'red', 'green', 'teal', 'orange', 'purple', 'yellow'];
-			for(let i = 0;i<colors.length;i++){
-				$('.'+colors[i], $inputs).iCheck({
-					checkboxClass: 'icheckbox_minimal-'+colors[i],
-					radioClass: 'iradio_minimal-'+colors[i],
-					increaseArea: '10%'
-				});
-			}
-			for(let j = 0;j < styles.length;j++){
-				for(let i = 0;i<colors.length;i++){
-					$(`.${styles[j]}-${colors[i]}`, $inputs).iCheck({
-						checkboxClass: `icheckbox_${styles[j]}-${colors[i]}`,
-						radioClass: `iradio_${styles[j]}-${colors[i]}`,
-						increaseArea: '10%'
-					});
-				}
-			}
-        }
+		$('.checkbox label input[type=checkbox], .checkbox-inline input[type=checkbox]').bootstrapCheckbox();
     }
 	private static runSearchInput(): void{
         let search_form = $('.sidebar-search');
