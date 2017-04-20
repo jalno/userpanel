@@ -21,18 +21,12 @@ class edit extends profileEditView{
 			translator::trans('profile.edit')
 		));
 
-		$this->addAssets();
+		$this->addBodyClass('profile');
+		$this->addBodyClass('profile_edit');
 		$this->setNavigation();
 		if(!$this->getUserData('avatar')){
 			$this->data['user']->avatar = theme::url('assets/images/defaultavatar.jpg');
 		}
-	}
-	private function addAssets(){
-
-		$this->addCSSFile(theme::url('assets/plugins/bootstrap-fileupload/bootstrap-fileupload.min.css'));
-		$this->addJSFile(theme::url('assets/plugins/bootstrap-fileupload/bootstrap-fileupload.min.js'));
-		$this->addJSFile(theme::url('assets/plugins/jquery-validation/dist/jquery.validate.min.js'));
-		$this->addJSFile(theme::url('assets/js/pages/profile.edit.js'));
 	}
 	private function setNavigation(){
 		$item = new menuItem("profile");

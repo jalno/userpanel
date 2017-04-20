@@ -21,12 +21,10 @@ class edit extends usersEditView{
 			$this->getData('user')->getFullName()
 		));
 
-		$this->addAssets();
+		
+		$this->addBodyClass('users');
+		$this->addBodyClass('users_edit');
 		$this->setNavigation();
-	}
-	private function addAssets(){
-		$this->addJSFile(theme::url('assets/plugins/jquery-validation/dist/jquery.validate.min.js'));
-		$this->addJSFile(theme::url('assets/js/pages/users.edit.js'));
 	}
 	private function setNavigation(){
 		$item = new menuItem("users");

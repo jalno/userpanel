@@ -32,7 +32,8 @@ class view extends profileView{
 		$this->loadLogs();
 		$this->loadLastLogin();
 		$this->loadSocialnetworks();
-		$this->addAssets();
+		$this->addBodyClass('profile');
+		$this->addBodyClass('profile_view');
 		$this->setNavigation();
 	}
 	private function loadLogs($number = 50){
@@ -113,12 +114,6 @@ class view extends profileView{
 		$item->setIcon('clip-user');
 		breadcrumb::addItem($item);
 		navigation::active("dashboard");
-	}
-	private function addAssets(){
-		$this->addCSSFile(theme::url('assets/plugins/bootstrap-fileupload/bootstrap-fileupload.min.css'));
-		$this->addCSSFile(theme::url('assets/plugins/bootstrap-social-buttons/social-buttons-3.css'));
-		$this->addJSFile(theme::url('assets/plugins/bootstrap-fileupload/bootstrap-fileupload.min.js'));
-		$this->addJSFile(theme::url('assets/js/pages/users.view.js'));
 	}
 	protected function getAvatarURL(){
 		if($this->getUserData('avatar')){

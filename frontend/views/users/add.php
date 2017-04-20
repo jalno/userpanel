@@ -20,7 +20,8 @@ class add extends usersAddView{
 			translator::trans('user.add')
 		));
 		$this->setDefaultValues();
-		$this->addAssets();
+		$this->addBodyClass('users');
+		$this->addBodyClass('users_add');
 		$this->setNavigation();
 	}
 	private function setDefaultValues(){
@@ -28,11 +29,6 @@ class add extends usersAddView{
 			$this->setDataForm(0, 'credit');
 			$this->setDataForm(1, 'status');
 		}
-	}
-	private function addAssets(){
-		$this->addJSFile(theme::url('assets/plugins/jquery-validation/dist/jquery.validate.min.js'));
-		$this->addJSFile(theme::url('assets/plugins/bootstrap-inputmsg/bootstrap-inputmsg.min.js'));
-		$this->addJSFile(theme::url('assets/js/pages/users.add.js'));
 	}
 	private function setNavigation(){
 		$item = new menuItem("users");
