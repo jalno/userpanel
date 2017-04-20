@@ -9,6 +9,9 @@
         "./assets/ts/classes/Main.ts",
         "./assets/ts/classes/Login.ts",
         "./assets/ts/classes/Register.ts",
+        "./assets/ts/classes/AjaxRequest.ts",
+        "./assets/ts/classes/jquery.formAjax.ts",
+        "./assets/ts/classes/Users.ts",
         "./assets/ts/pages/Main.ts"
     ]
 }
