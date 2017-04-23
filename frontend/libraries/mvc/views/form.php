@@ -48,6 +48,9 @@ trait formTrait{
 				if(isset($options['input-group']['size'])){
 					$code .= ' input-group-'.$options['input-group']['size'];
 				}
+				if($this->horizontal_form and $this->input_col){
+					$code .= ' '.$this->input_col;
+				}
 				$code .= '">';
 				if(isset($options['input-group']['left'])){
 					if(is_string($options['input-group']['left'])){
@@ -77,7 +80,7 @@ trait formTrait{
 			$code .= "<div class=\"{$this->input_col}\">";
 		}
 		if(in_array($options['type'], array('radio', 'checkbox'))){
-			$options['value'] = $this->getDataForm($absuloteName);
+			$options['value_raw'] = $this->getDataForm($absuloteName);
 			if(!isset($options['inline'])){
 				$options['inline'] = false;
 			}
@@ -97,10 +100,14 @@ trait formTrait{
 				$code .= $this->buildHtmlData($options);
 				if(
 
-					$options['value'] !== false and $options['value'] !== null and $options['value'] !== '' and
+					(
+						($options['value'] !== false and $options['value'] !== null and $options['value'] !== '') or
+						($options['value_raw'] !== false and $options['value_raw'] !== null and $options['value_raw'] !== '')
+					)
+					and
 					(
 						(!is_array($options['value']) and $option['value'] == $options['value']) or
-						(is_array($options['value']) and in_array($option['value'], $options['value']))
+						(is_array($options['value_raw']) and in_array($option['value'], $options['value_raw']))
 					)
 				){
 					$code .= " checked";
