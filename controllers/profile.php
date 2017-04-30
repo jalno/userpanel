@@ -221,7 +221,7 @@ class profile extends controller{
 					$user->password_hash($formdata['password']);
 				}
 				unset($formdata['password']);
-				if(!is_string($formdata['avatar'])){
+				if(isset($formdata['avatar']) and !is_string($formdata['avatar'])){
 					unset($formdata['avatar']);
 				}
 				$user->save($formdata);
