@@ -30,6 +30,7 @@
 		{"type":"package","name":"jquery.cookie"},
 		{"type":"package","name":"jquery.growl"},
 		{"type":"package","name":"jschr-bootstrap-modal"},
+		{"type":"package","name":"select2"},
 		{"type":"package","name":"webuilder"},
 		{"type":"package","name":"bootstrap-inputmsg"},
 		{"type":"less","file":"node_modules/bootstrap/less/bootstrap.less"},
