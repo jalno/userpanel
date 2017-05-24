@@ -2,7 +2,6 @@
   "dependencies": {
     "@types/bootstrap": "^3.3.32",
     "@types/clipboard": "^1.5.33",
-    "@types/datatables.net": "^1.10.1",
     "@types/jquery": "^2.0.41",
     "@types/jquery.validation": "^1.16.1",
     "@types/jqueryui": "^1.11.32",
@@ -24,6 +23,6 @@
     "jschr-bootstrap-modal": "^2.2.5",
     "malihu-custom-scrollbar-plugin": "^3.1.5",
     "select2": "^4.0.3",
-    "webuilder": "^1.0.2"
+    "webuilder": "^1.0.6"
   }
 }

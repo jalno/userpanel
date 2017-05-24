@@ -2,8 +2,10 @@
 
 import * as $ from "jquery";
 import "jquery.growl";
-import {webuilder, Router} from "webuilder";
+import {Router} from "webuilder";
 import {Main} from "./Main"
+import "./jquery.formAjax";
+import { webuilder } from "webuilder";
 
 export class Register{
 	private static form = $('.form-register');
@@ -54,32 +56,13 @@ export class Register{
 					required: true
 				}
         	},
-            submitHandler: Register.sendAjaxRequest,
-            invalidHandler: function (event, validator) {
-                Register.errorHandler.html(Register.errorHandler.data('orghtml')).show();
-            }
-        });
-    }
-	private static sendAjaxRequest():void{
-		let $btn = $('[type=submit]', Register.form);
-		$btn.data('orghtml', $btn.html());
-		$btn.prop('disabled', true);
-		$btn.html('<i class="fa-li fa fa-spinner fa-spin"></i>');
-		$.ajax({
-			url:Router.getAjaxFormURL(Register.form.attr('action')),
-			type:Register.form.attr('method'),
-			data:Register.form.serialize(),
-			dataType:'json',
-			success:function(data:webuilder.AjaxResponse){
-				$btn.prop('disabled', true);
-				$btn.html($btn.data('orghtml'));
-
-				if(data.status){
-					window.location.href = data.redirect;
-				}else{
-					if(data.hasOwnProperty('error')){
-						for(let i =0;i!=data.error.length;i++){
-							let error = data.error[i];
+            submitHandler: (form) => {
+				$(form).formAjax({
+					success: function(data: webuilder.AjaxResponse){
+						window.location.href = data.redirect;
+					},
+					error: function(error:webuilder.AjaxError){
+						if(error.error == 'data_duplicate' || error.error == 'data_validation'){
 							let $input = $('[name='+error.input+']');
 							let $params = {
 								title: 'خطا',
@@ -99,21 +82,17 @@ export class Register{
 							}else{
 								$.growl.error($params);
 							}
+						}else{
+							Register.errorHandler.html('<i class="fa fa-remove-sign"></i> درخواست شما توسط سرور قبول نشد').show();
 						}
-
-					}else{
-						Register.errorHandler.html('<i class="fa fa-remove-sign"></i> درخواست شما توسط سرور قبول نشد').show();
 					}
-				}
+				});
 			},
-			error:function(){
-				$btn.prop('disabled', true);
-				$btn.html($btn.data('orghtml'));
-				Register.errorHandler.html('<i class="fa fa-remove-sign"></i> اتصال به سرور ممکن نمیباشد').show();
-			}
-
-		});
-	}
+            invalidHandler: function (event, validator) {
+                Register.errorHandler.html(Register.errorHandler.data('orghtml')).show();
+            }
+        });
+    }
     public static init():void {
 		Main.SetDefaultValidation();
 		Register.runRegisterValidator();

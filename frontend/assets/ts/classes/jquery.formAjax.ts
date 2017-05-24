@@ -1,14 +1,13 @@
 import * as $ from "jquery";
-import {webuilder, Router} from "webuilder";
-import {AjaxRequest, AjaxSettings} from "./AjaxRequest";
-$.fn.formAjax = function(settings: AjaxSettings){
+import {webuilder, Router, AjaxRequest} from "webuilder";
+$.fn.formAjax = function(settings: webuilder.AjaxSettings){
 	var $this = $(this);
 	let $btn = $('[type=submit]', $this);
 	$btn.data('orghtml', $btn.html());
 	$btn.html('<i class="fa fa-spinner fa-spin"></i>');
 	$btn.prop('disabled', true);
 
-	let newSettings:AjaxSettings = {};
+	let newSettings:webuilder.AjaxSettings = {};
 	for(let key in settings){
 		if(key != 'success' && key != 'error'){
 			newSettings[key] = settings[key];
