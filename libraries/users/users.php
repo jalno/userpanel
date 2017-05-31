@@ -58,6 +58,11 @@ class user extends dbObject{
 		}
 		return $children;
 	}
+	public function parentTypes(): array{
+		$type = $this->type->id;
+		db::where("child", $type);
+		return array_column(db::get("userpanel_usertypes_priorities", null, ['parent']), 'parent');
+	}
 	public function option($name, $value = null){
 		if($value){
 			return $this->setOption($name, $value);
