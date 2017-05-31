@@ -52,10 +52,10 @@ trait listTrait{
 		}
 		return $have;
 	}
-	public function genButtons($responsive = true){
+	public function genButtons(array $names = [], $responsive = true){
 		$buttons = array();
 		foreach($this->buttons as $name => $btn){
-			if($btn['active']){
+			if($btn['active'] and (!$names or in_array($name, $names))){
 				$buttons[$name] = $btn;
 			}
 		}
