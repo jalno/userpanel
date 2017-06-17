@@ -37,9 +37,7 @@ export class Login{
 					},
 					error: function(error:webuilder.AjaxError){
 						if(error.error == "data_validation"){
-							if(error.input == 'invalid'){
-								errorHandler.html('<i class="fa fa-remove-sign"></i> نام کاربری یا کلمه عبور وارد شده صحیح نمیباشد.').show();
-							} 
+							errorHandler.html('<i class="fa fa-remove-sign"></i> نام کاربری یا کلمه عبور وارد شده صحیح نمیباشد.').show();
 						}
 					}
 				})
