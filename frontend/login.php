@@ -26,8 +26,8 @@ $this->the_header('login');
 				</span>
 			</div>
 			<div class="form-actions">
-				<label for="remember" class="checkbox-inline">
-					<input type="checkbox" class="grey remember" id="remember" name="remember">مرا به یاد داشته باش
+				<label for="remember" class="checkbox-inline"> 
+					<input type="checkbox" class="grey remember" id="remember" name="remember" value="true">مرا به یاد داشته باش
 				</label>
 				<button type="submit" class="btn btn-bricky pull-left"><i class="fa fa-arrow-circle-left"></i> ورود</button>
 			</div>

@@ -28,6 +28,7 @@ class user extends dbObject{
 		'avatar' => array('type' => 'text'),
 		'credit' => array('type' => 'int'),
 		'lastonline' => array('type' => 'int'),
+		'remember_token' => array('type' => 'text'),
         'status' => array('type' => 'int', 'required' => true)
     );
     protected $relations = array(
@@ -138,5 +139,15 @@ class user extends dbObject{
 
 		$this->password = $password;
 		return $return;
+	}
+	public function createRememberToken():string{
+		$letters = array_merge(range(0, 9), range('a', 'z'), range('A', 'Z'));
+		$rememberToken = "";
+		for($i = 0; $i < 32; $i++){
+			$rememberToken .= $letters[rand(0, 61)];
+		}
+		$this->remember_token = $rememberToken;
+		$this->save();
+		return $rememberToken;
 	}
 }

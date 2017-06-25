@@ -4,6 +4,7 @@ use \packages\base;
 use \packages\base\response;
 use \packages\base\session;
 use \packages\base\http;
+use \packages\userpanel\controllers\login;
 class authentication{
 	static private $user;
 	static function setUser(user $user){
@@ -65,6 +66,11 @@ class authentication{
 	static public function check(){
 		if(self::getSession()){
 			if(!session::get("lock")){
+				return true;
+			}
+		}elseif(session::status()){
+			if($user = login::checkRememberToken()){
+				login::doLogin($user);
 				return true;
 			}
 		}
