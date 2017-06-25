@@ -13,13 +13,13 @@ use \packages\userpanel\controller;
 use \packages\userpanel\view;
 use \packages\userpanel\log;
 use \packages\userpanel\user;
+use \packages\userpanel\date;
 use \packages\userpanel\authentication;
 use \packages\userpanel\country;
 
 class login  extends controller{
 	protected $authentication = false;
-	function login_helper($inputsRules){
-
+	function login_helper(array $inputsRules){
 		$inputs = $this->checkinputs($inputsRules);
 		$user = new user();
 		$user->where("email", $inputs['username']);
@@ -37,6 +37,9 @@ class login  extends controller{
 					'user' => $user->id
 				);
 				$log->save();
+				if(isset($inputs['remember']) and $inputs['remember']){
+					http::setcookie('remember', $user->id, date::time() + 31536000);
+				}
 				return $user;
 			}else{
 				$log = new log();
@@ -56,14 +59,13 @@ class login  extends controller{
 	public function login(){
 		if(!authentication::getSession()){
 			if($view = view::byName("\\packages\\userpanel\\views\\login")){
-
 				if(http::is_post()){
 					$inputs = array(
 						'username' => array(
 							'type' => array('email', 'cellphone'),
 						),
 						'password' => array(),
-						'remmeber' => array(
+						'remember' => array(
 							'optional' => true,
 							'type' => 'bool',
 							'default' => false
