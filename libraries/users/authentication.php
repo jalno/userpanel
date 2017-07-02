@@ -4,7 +4,6 @@ use \packages\base;
 use \packages\base\response;
 use \packages\base\session;
 use \packages\base\http;
-use \packages\userpanel\controllers\login;
 class authentication{
 	static private $user;
 	static function setUser(user $user){
@@ -68,17 +67,28 @@ class authentication{
 			if(!session::get("lock")){
 				return true;
 			}
-		}elseif(session::status()){
-			if($user = login::checkRememberToken()){
-				login::doLogin($user);
-				return true;
-			}
 		}
 		return false;
 	}
 	static public function FailResponse(){
 		$response = new response(false);
-		$response->go(url('login'));
+		if(url() == http::$request['uri']){
+			$response->go(url('login'));
+		}else{
+			$indexurl = parse_url(url('', [], true));
+			if(!isset($indexurl['port'])){
+				switch($indexurl['scheme']){
+					case('http'):$indexurl['port'] = 80;break;
+					case('https'):$indexurl['port'] = 443;break;
+				}
+			}
+			if($indexurl['scheme'] == http::$request['scheme'] and $indexurl['host'] == http::$request['hostname'] and $indexurl['port'] == http::$server['port']){
+				$response->go(url('login', ['backTo' => http::$request['uri']]));
+			}else{
+				$response->go(url('login', ['backTo' => http::getURL()]));
+			}
+			
+		}
 		return($response);
 	}
 	static function getUser(){

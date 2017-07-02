@@ -83,25 +83,38 @@ class login  extends controller{
 							'default' => false
 						)
 					);
+					$backToInput = [
+						'backTo' => [
+							'type' => 'string',
+							'optional' => true
+						]
+					];
 					try{
 						$this->response->setStatus(false);
 						$user = $this->login_helper($inputs);
 						$this->response->setStatus(true);
-						$loginto = session::get('loginto');
-						session::unsetval('loginto');
-						$this->response->Go($loginto ? $loginto : userpanel\url());
+						$inputs = $this->checkinputs($backToInput);
+						$validbackTo = (isset($inputs['backTo']) and $inputs['backTo'] and http::is_safe_referer($inputs['backTo']));
+						$this->response->Go($validbackTo ? $input['backTo'] : userpanel\url());
 					}catch(inputValidation $error){
 						$this->response->setData(array('error' => 'invalid'));
 					}
 				}else{
+					$inputsRules = [
+						'backTo' => [
+							'type' => 'string',
+							'optional' => true
+						]
+					];
+					$inputs = $this->checkinputs($inputsRules);
 					$this->response->setStatus(true);
-					if(http::is_safe_referer()){
-						session::set('loginto', http::$request['referer']);
+					$validbackTo = (isset($inputs['backTo']) and $inputs['backTo'] and http::is_safe_referer($inputs['backTo']));
+					if($validbackTo){
+						$view->setDataForm($inputs['backTo'], 'backTo');
 					}
 					if($user = self::checkRememberToken()){
 						self::doLogin($user);
-						$loginto = session::get('loginto');
-						session::unsetval('loginto');
+						$loginto = ($validbackTo ? $inputs['backTo'] : false);
 						$this->response->Go($loginto ? $loginto : userpanel\url());
 					}
 				}
