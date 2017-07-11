@@ -1,6 +1,6 @@
 <?php
 $this->the_header();
-use \packages\base;
+use \packages\base\frontend\theme;
 use \packages\base\translator;
 use \packages\userpanel;
 use \packages\userpanel\user\socialnetwork;
@@ -144,18 +144,12 @@ use \packages\userpanel\user\socialnetwork;
 								?>
 								<div class="form-group">
 									<label>چهرک</label>
-									<div class="fileupload fileupload-new" data-provides="fileupload">
-										<div class="fileupload-new thumbnail" style="width: 150px; height: 150px;">
-											<img src="<?php echo $this->getAvatarURL(); ?>"   style="width: 150px; height: 150px;" alt="">
-										</div>
-										<div class="fileupload-preview fileupload-exists thumbnail" style="max-width: 150px; max-height: 150px; line-height: 20px;"></div>
-										<div class="user-edit-image-buttons">
-											<span class="btn btn-light-grey btn-file"><span class="fileupload-new"><i class="fa fa-picture"></i>بارگذاری چهرک</span><span class="fileupload-exists"><i class="fa fa-picture"></i> تغییر</span>
-												<input type="file" name="avatar">
-											</span>
-											<a href="#" class="btn fileupload-exists btn-light-grey" data-dismiss="fileupload">
-												<i class="fa fa-times"></i>حذف
-											</a>
+									<div class="user-image avatarPreview" style="width: 162px;">
+										<img src="<?php echo $this->getAvatarURL(); ?>" class="preview img-responsive">
+										<input name="avatar" type="file">
+										<div class="button-group">
+											<button type="button" class="btn btn-teal btn-sm btn-upload"><i class="fa fa-pencil"></i></button>
+											<button type="button" class="btn btn-bricky btn-sm btn-remove" data-default="<?php echo theme::url('assets/images/defaultavatar.jpg'); ?>"><i class="fa fa-times"></i></button>
 										</div>
 									</div>
 								</div>

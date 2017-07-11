@@ -1,5 +1,6 @@
 <?php
 $this->the_header();
+use \packages\base\frontend\theme;
 use \packages\userpanel;
 use \packages\userpanel\user;
 use \packages\base;
@@ -29,7 +30,7 @@ use \themes\clipone\utility;
 													<input name="avatar" type="file">
 													<div class="button-group">
 														<button type="button" class="btn btn-teal btn-sm btn-upload"><i class="fa fa-pencil"></i></button>
-														<button type="button" class="btn btn-bricky btn-sm btn-remove"><i class="fa fa-times"></i></button>
+														<button type="button" class="btn btn-bricky btn-sm btn-remove" data-default="<?php echo theme::url('assets/images/defaultavatar.jpg'); ?>"><i class="fa fa-times"></i></button>
 													</div>
 												</div>
 											</div>

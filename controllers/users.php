@@ -490,8 +490,11 @@ class users extends controller{
 					'optional' => true,
 					'type' => 'bool',
 					'empty' => true
-				)
-
+				),
+				'avatar_remove' => [
+					'type' => 'bool',
+					'optional' => true
+				]
 			);
 			$this->response->setStatus(false);
 			try{
@@ -575,13 +578,16 @@ class users extends controller{
 					$avatar->getDirectory()->make(true);
 					$tmpfile->copyTo($avatar);
 				}
+				if(!isset($formdata['avatar']) or !is_string($formdata['avatar'])){
+					unset($formdata['avatar']);
+				}
+				if(isset($formdata['avatar_remove']) and $formdata['avatar_remove']){
+					$formdata['avatar'] = null;
+				}
 				if(isset($formdata['password']) and $formdata['password']){
 					$user->password_hash($formdata['password']);
 				}
 				unset($formdata['password']);
-				if(!isset($formdata['avatar']) or !is_string($formdata['avatar'])){
-					unset($formdata['avatar']);
-				}
 				$user->save($formdata);
 				unset($formdata['avatar']);
 				if(isset($formdata['socialnets'])){

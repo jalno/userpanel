@@ -24,9 +24,6 @@ class edit extends profileEditView{
 		$this->addBodyClass('profile');
 		$this->addBodyClass('profile_edit');
 		$this->setNavigation();
-		if(!$this->getUserData('avatar')){
-			$this->data['user']->avatar = theme::url('assets/images/defaultavatar.jpg');
-		}
 	}
 	private function setNavigation(){
 		$item = new menuItem("profile");

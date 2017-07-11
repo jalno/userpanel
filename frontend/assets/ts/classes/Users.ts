@@ -13,6 +13,9 @@ class UserForm{
 	}
 	public FromAjax(form){
 		$(form).formAjax({
+			data: new FormData(form),
+			contentType: false,
+			processData: false,
 			success: this.successForm,
 			error: function(error:webuilder.AjaxError) {
 				let $params = {
@@ -177,7 +180,7 @@ class ProfileEdit extends UserForm{
 		this.runValidator();
 	}
 }
-class UserView {
+class runAvatarPreview {
 	protected form:JQuery;
 	constructor(form:JQuery){
 		this.form = form;
@@ -185,6 +188,16 @@ class UserView {
 	private runAvatarPreview():void{
 		new AvatarPreview($('.user-image', this.form));
 	}
+	public init(){
+		this.runAvatarPreview();
+	}
+}
+class UserView {
+	protected form:JQuery;
+	constructor(form:JQuery){
+		this.form = form;
+	}
+	protected runAvatarPreview = new runAvatarPreview(this.form);
 	private formSubmitListener(){
 		this.form.on('submit', function(e){
 			e.preventDefault();
@@ -224,14 +237,19 @@ class UserView {
 		});
 	}
 	private avatarListener():void{
-		$('.fileupload input[type=file]', this.form).on('change', () => {
+		$('.user-image', this.form).on('bootstrap.avatar.preview.change', () => {
 			this.form.submit();
+		});
+		$('.user-image', this.form).on('bootstrap.avatar.preview.remove', () =>{
+			if($('input[name=avatar_remove]', this.form).length){
+				this.form.submit();
+			}
 		});
 	}
 	public init(){
 		this.avatarListener();
-		this.runAvatarPreview();
 		this.formSubmitListener();
+		this.runAvatarPreview.init();
 	}
 }
 export class Users{
@@ -246,6 +264,8 @@ export class Users{
 		}else if($body.hasClass('profile_edit')){
 			let handler = new ProfileEdit($('#edit_form'));
 			handler.init();
+			let avatarHandler = new runAvatarPreview($('#edit_form'));
+			avatarHandler.init();
 		}else if($body.hasClass('users_view')){
 			let handler = new UserView($('.user_image'));
 			handler.init();
