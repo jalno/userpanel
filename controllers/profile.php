@@ -9,7 +9,7 @@ use \packages\base\db\InputDataType;
 use \packages\base\db\parenthesis;
 use \packages\base\views\FormError;
 use \packages\base\image;
-use \packages\base\IO;
+use \packages\base\IO\file;
 use \packages\base\packages;
 
 use \packages\userpanel;
@@ -184,37 +184,39 @@ class profile extends controller{
 
 				if(isset($formdata['avatar'])){
 					if($formdata['avatar']['error'] == 0){
-						$type = image::getType($formdata['avatar']['tmp_name']);
-						if(in_array($type, array(IMAGETYPE_JPEG ,IMAGETYPE_GIF, IMAGETYPE_PNG))){
-							$directory = packages::package('userpanel')->getFilePath('storage/public/avatars');
-							if(!is_dir($directory)){
-								IO\mkdir($directory, true);
-							}
-
-							$image = new image($formdata['avatar']['tmp_name']);
-							$tmpfile = $directory."/rand".((time() + rand(0, 10000)) * rand(0, 100)  / 100);
-							$image->resize(200,200);
-							$image->save($tmpfile, $type);
-							$name = md5_file($tmpfile);
-							if($type == IMAGETYPE_JPEG){
-								$type_name = '.jpg';
-							}elseif($type == IMAGETYPE_GIF){
-								$type_name = '.gif';
-							}elseif($type == IMAGETYPE_PNG){
-								$type_name = '.png';
-							}
-
-							if(rename($tmpfile, $directory.'/'.$name.$type_name)){
-								$formdata['avatar'] = "storage/public/avatars/".$name.$type_name;
-							}else{
-								throw new inputValidation("avatar");
-							}
-						}else{
+						$type = getimagesize($formdata["avatar"]['tmp_name']);
+						if(!in_array($type[2], array(IMAGETYPE_JPEG ,IMAGETYPE_GIF, IMAGETYPE_PNG))){
 							throw new inputValidation("avatar");
 						}
-					}elseif(isset($formdata['avatar']['error']) and $formdata['avatar']['error'] != 4){
+					}elseif($formdata['avatar']['error'] == 4){
+						unset($formdata['avatar']);
+					}elseif(isset($formdata['avatar']['error'])){
 						throw new inputValidation("avatar");
 					}
+				}
+				if(isset($formdata['avatar'])){
+					$file = new file\local($formdata['avatar']['tmp_name']);
+					$tmpfile = new file\tmp();
+					$type = getimagesize($file->getPath());
+					switch($type[2]){
+						case(IMAGETYPE_JPEG):
+							$image = new image\jpeg($file);
+							$type_name = 'jpg';
+							break;
+						case(IMAGETYPE_GIF):
+							$image = new image\gif($file);
+							$type_name = 'gif';
+							break;
+						case(IMAGETYPE_PNG):
+							$image = new image\png($file);
+							$type_name = 'png';
+							break;
+					}
+					$image->resize(200, 200)->saveToFile($tmpfile);
+					$formdata['avatar'] = 'sotrage/public_avatar/'.$tmpfile->md5().'.'.$type_name;
+					$avatar = new file\local(packages::package('userpanel')->getFilePath($formdata['avatar']));
+					$avatar->getDirectory()->make(true);
+					$tmpfile->copyTo($avatar);
 				}
 
 				if(isset($formdata['password']) and $formdata['password']){

@@ -33,6 +33,7 @@
 		{"type":"package","name":"select2"},
 		{"type":"package","name":"webuilder"},
 		{"type":"package","name":"bootstrap-inputmsg"},
+		{"type":"package","name":"bootstrap-avatar-preview"},
 		{"type":"less","file":"node_modules/bootstrap/less/bootstrap.less"},
 		{"type":"less","file":"node_modules/bootstrap-rtl/less/bootstrap-rtl.less"},
 		{"type":"less","file":"node_modules/font-awesome/less/font-awesome.less"},
@@ -42,6 +43,7 @@
 		{"type":"css","file":"node_modules/jschr-bootstrap-modal/css/bootstrap-modal.css"},
 		{"type":"css","file":"node_modules/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.css"},
 		{"type":"less","file":"node_modules/jquery-bootstrap-checkbox/jquery-bootstrap-checkbox.less"},
+		{"type":"less", "file":"node_modules/bootstrap-avatar-preview/avatarPreview.less"},
 		{"type":"less","file":"assets/less/main.less"},
 		{"type":"ts","file":"assets/ts/pages/Main.ts"}
 

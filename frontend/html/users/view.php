@@ -21,17 +21,16 @@ use \themes\clipone\utility;
 							<div class="user-left">
 								<div class="center">
 									<h4><?php echo $this->getData('user')->getFullName(); ?></h4>
-									<form action="<?php echo userpanel\url('users/edit/'.$this->getUserData('id')); ?>" method="post">
+									<form class="user_image"action="<?php echo userpanel\url('users/edit/'.$this->getUserData('id')); ?>" method="post">
 										<div class="fileupload fileupload-new" data-provides="fileupload">
-											<div class="user-image">
-												<div class="fileupload-new thumbnail"><img src="<?php echo $this->getAvatarURL(); ?>" style="width: 150px; height: 150px" alt=""></div>
-												<div class="fileupload-preview fileupload-exists thumbnail" style="width: 150px; height: 150px; line-height: 20px;"></div>
-												<div class="user-image-buttons">
-													<span class="btn btn-teal btn-file btn-sm">
-														<span class="fileupload-new"><i class="fa fa-pencil"></i></span>
-														<span class="fileupload-exists"><i class="fa fa-pencil"></i></span>
-														<input type="file" name="avatar">
-													</span>
+											<div class="form-group">
+												<div class="user-image avatarPreview">
+													<img src="<?php echo $this->getAvatarURL(); ?>" class="preview img-responsive">
+													<input name="avatar" type="file">
+													<div class="button-group">
+														<button type="button" class="btn btn-teal btn-sm btn-upload"><i class="fa fa-pencil"></i></button>
+														<button type="button" class="btn btn-bricky btn-sm btn-remove"><i class="fa fa-times"></i></button>
+													</div>
 												</div>
 											</div>
 										</div>
