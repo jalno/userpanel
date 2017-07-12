@@ -37,13 +37,12 @@ export class Main{
         if (Main.$pageArea < 760) {
             Main.$pageArea = 760;
         }
-        if (mainContainer.outerHeight() < mainNavigation.outerHeight() && mainNavigation.outerHeight() > Main.$pageArea) {
-            mainContainer.css('min-height', mainNavigation.outerHeight());
-        } else {
-            mainContainer.css('min-height', Main.$pageArea);
-        }
-        if (Main.$windowWidth < 768) {
-            mainNavigation.css('min-height', Main.$windowHeight - $('body > .navbar').outerHeight());
+        if (Main.$windowWidth >= 768) {
+            if (mainContainer.outerHeight() < mainNavigation.outerHeight() && mainNavigation.outerHeight() > Main.$pageArea) {
+                mainContainer.css('min-height', mainNavigation.outerHeight());
+            } else {
+                mainContainer.css('min-height', Main.$pageArea);
+            }
         }
     }
 	private static runTooltips(): void{
@@ -288,7 +287,18 @@ export class Main{
                 scrollTop: currentTab.offset().top - 100
             }, 1000);
         });
-    };
+    }
+    private static runNavbarToggleListener():void {
+        const $toggle = $('.navbar-header .navbar-toggle');
+        const $collapse = $($toggle.data('target'));
+        $collapse.on('shown.bs.collapse', () => {
+            $('body').addClass('modal-open');
+            $collapse.css('height', Main.$windowHeight - $('body > .navbar').height());
+        });
+        $collapse.on('hidden.bs.collapse', () => {
+            $('body').removeClass('modal-open');
+        });
+    }
 	public static init(){
 		Main.runInit();
 		Main.runSearchInput();
@@ -306,5 +316,6 @@ export class Main{
 		Main.runCustomCheck();
 		Main.runLocalization();
 		Main.runPagination();
+		Main.runNavbarToggleListener();
 	}
 }
