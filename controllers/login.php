@@ -95,7 +95,7 @@ class login  extends controller{
 						$this->response->setStatus(true);
 						$inputs = $this->checkinputs($backToInput);
 						$validbackTo = (isset($inputs['backTo']) and $inputs['backTo'] and http::is_safe_referer($inputs['backTo']));
-						$this->response->Go($validbackTo ? $input['backTo'] : userpanel\url());
+						$this->response->Go($validbackTo ? $inputs['backTo'] : userpanel\url());
 					}catch(inputValidation $error){
 						$error->setInput('');
 						$view->setFormError(FormError::fromException($error));
