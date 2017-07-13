@@ -72,7 +72,23 @@ class authentication{
 	}
 	static public function FailResponse(){
 		$response = new response(false);
-		$response->go(url('login'));
+		if(url() == http::$request['uri']){
+			$response->go(url('login'));
+		}else{
+			$indexurl = parse_url(url('', [], true));
+			if(!isset($indexurl['port'])){
+				switch($indexurl['scheme']){
+					case('http'):$indexurl['port'] = 80;break;
+					case('https'):$indexurl['port'] = 443;break;
+				}
+			}
+			if($indexurl['scheme'] == http::$request['scheme'] and $indexurl['host'] == http::$request['hostname'] and $indexurl['port'] == http::$server['port']){
+				$response->go(url('login', ['backTo' => http::$request['uri']]));
+			}else{
+				$response->go(url('login', ['backTo' => http::getURL()]));
+			}
+			
+		}
 		return($response);
 	}
 	static function getUser(){

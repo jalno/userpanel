@@ -385,15 +385,15 @@ class users extends controller{
 				),
 				'lastname' => array(
 					'optional' => true,
-					'type' => 'string'
+					'type' => 'string',
+					'empty' => true
 				),
 				'email' => array(
 					'type' => 'email',
 					'optional' => true,
 				),
 				'cellphone' => array(
-					'type' => 'cellphone',
-					'optional' => true,
+					'type' => 'cellphone'
 				),
 				'password' => array(
 					'optional' => true,
@@ -405,19 +405,23 @@ class users extends controller{
 				),
 				'zip' => array(
 					'optional' => true,
+					'empty' => true,
 					'type' => 'number'
 				),
 				'city' => array(
 					'optional' => true,
+					'empty' => true,
 					'type' => 'string'
 				),
 				'country' => array(
 					'optional' => true,
-					'type' => 'string'
+					'type' => 'string',
+					'empty' => true,
 				),
 				'address' => array(
 					'optional' => true,
-					'type' => 'string'
+					'type' => 'string',
+					'empty' => true,
 				),
 				'phone' => array(
 					'optional' => true,
@@ -436,7 +440,8 @@ class users extends controller{
 				),
 				'avatar' => array(
 					'optional' => true,
-					'type' => 'file'
+					'type' => 'file',
+					'empty' => true,
 				),
 				'socialnets' => array(
 					'optional' => true

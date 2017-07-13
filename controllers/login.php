@@ -13,30 +13,45 @@ use \packages\userpanel\controller;
 use \packages\userpanel\view;
 use \packages\userpanel\log;
 use \packages\userpanel\user;
+use \packages\userpanel\date;
 use \packages\userpanel\authentication;
 use \packages\userpanel\country;
 
 class login  extends controller{
 	protected $authentication = false;
-	function login_helper($inputsRules){
-
+	public static function doLogin(user $user){
+		authentication::setUser($user);
+		authentication::setSession();
+		authentication::unlockSession();
+		$log = new log();
+		$log->type = log::login;
+		$log->users = array($user->id);
+		$log->params = array(
+			'user' => $user->id
+		);
+		$log->save();
+	}
+	public static function checkRememberToken(){
+		if($cookies = http::$request['cookies']){
+			if(isset($cookies['remember']) and $cookies['remember']){
+				if($user = user::where('remember_token', $cookies['remember'])->getOne()){
+					return $user;
+				}
+			}
+		}
+		return false;
+	}
+	function login_helper(array $inputsRules){
 		$inputs = $this->checkinputs($inputsRules);
 		$user = new user();
 		$user->where("email", $inputs['username']);
 		$user->orwhere("cellphone", $inputs['username']);
-		$user->getOne();
-		if($user->id){
+		if($user = $user->getOne()){
 			if($user->password_verify($inputs['password'])){
-				authentication::setUser($user);
-				authentication::setSession();
-				authentication::unlockSession();
-				$log = new log();
-				$log->type = log::login;
-				$log->users = array($user->id);
-				$log->params = array(
-					'user' => $user->id
-				);
-				$log->save();
+				self::doLogin($user);
+				if(isset($inputs['remember']) and $inputs['remember']){
+					http::setcookie('remember', $user->createRememberToken(), date::time() + 31536000);
+				}
 				return $user;
 			}else{
 				$log = new log();
@@ -56,34 +71,52 @@ class login  extends controller{
 	public function login(){
 		if(!authentication::getSession()){
 			if($view = view::byName("\\packages\\userpanel\\views\\login")){
-
 				if(http::is_post()){
 					$inputs = array(
 						'username' => array(
 							'type' => array('email', 'cellphone'),
 						),
 						'password' => array(),
-						'remmeber' => array(
+						'remember' => array(
 							'optional' => true,
 							'type' => 'bool',
 							'default' => false
 						)
 					);
+					$backToInput = [
+						'backTo' => [
+							'type' => 'string',
+							'optional' => true
+						]
+					];
 					try{
 						$this->response->setStatus(false);
 						$user = $this->login_helper($inputs);
 						$this->response->setStatus(true);
-						$loginto = session::get('loginto');
-						session::unsetval('loginto');
-						$this->response->Go($loginto ? $loginto : userpanel\url());
+						$inputs = $this->checkinputs($backToInput);
+						$validbackTo = (isset($inputs['backTo']) and $inputs['backTo'] and http::is_safe_referer($inputs['backTo']));
+						$this->response->Go($validbackTo ? $input['backTo'] : userpanel\url());
 					}catch(inputValidation $error){
 						$error->setInput('');
 						$view->setFormError(FormError::fromException($error));
 					}
 				}else{
+					$inputsRules = [
+						'backTo' => [
+							'type' => 'string',
+							'optional' => true
+						]
+					];
+					$inputs = $this->checkinputs($inputsRules);
 					$this->response->setStatus(true);
-					if(http::is_safe_referer()){
-						session::set('loginto', http::$request['referer']);
+					$validbackTo = (isset($inputs['backTo']) and $inputs['backTo'] and http::is_safe_referer($inputs['backTo']));
+					if($validbackTo){
+						$view->setDataForm($inputs['backTo'], 'backTo');
+					}
+					if($user = self::checkRememberToken()){
+						self::doLogin($user);
+						$loginto = ($validbackTo ? $inputs['backTo'] : false);
+						$this->response->Go($loginto ? $loginto : userpanel\url());
 					}
 				}
 				$this->response->setView($view);
@@ -97,6 +130,11 @@ class login  extends controller{
 	}
 	public function logout(){
 		authentication::unsetSession();
+		if($cookies = http::$request['cookies']){
+			if(isset($cookies['remember']) and $cookies['remember']){
+				http::removeCookie('remember');
+			}
+		}
 		$this->response->Go(userpanel\url('login'));
 		return $this->response;
 	}
