@@ -34,8 +34,9 @@ class view extends usersView{
 		$this->loadLogs();
 		$this->loadLastLogin();
 		$this->loadSocialnetworks();
-		$this->addAssets();
 		$this->setNavigation();
+		$this->addBodyClass('users');
+		$this->addBodyClass('users_view');
 	}
 	private function loadLogs($number = 50){
 		$logsobj = new log();
@@ -121,12 +122,6 @@ class view extends usersView{
 		$item->setIcon('clip-user');
 		breadcrumb::addItem($item);
 		navigation::active("users/list");
-	}
-	private function addAssets(){
-		$this->addCSSFile(theme::url('assets/plugins/bootstrap-fileupload/bootstrap-fileupload.min.css'));
-		$this->addCSSFile(theme::url('assets/plugins/bootstrap-social-buttons/social-buttons-3.css'));
-		$this->addJSFile(theme::url('assets/plugins/bootstrap-fileupload/bootstrap-fileupload.min.js'));
-		$this->addJSFile(theme::url('assets/js/pages/users.view.js'));
 	}
 	protected function getAvatarURL(){
 		if($this->getUserData('avatar')){

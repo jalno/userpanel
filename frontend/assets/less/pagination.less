@@ -1,0 +1,37 @@
+.pagination{
+	li{
+		a{
+			cursor: pointer;
+		}
+	}
+	&.squared {
+		border-radius: 0 !important;
+		li{
+			&:first-child{
+				a, > span{
+					border-bottom-left-radius: 0px !important;
+					border-left-width: 1px;
+					border-top-left-radius: 0px !important;
+				}
+			}
+			&:last-child{
+				a, > span{
+					border-bottom-right-radius: 0px !important;
+					border-top-right-radius: 0px !important;
+				}
+			}
+		}
+	}
+	&&-purple, &-purple &{
+		.pagination(#F5F4F9, #333333, #ECEAF3, #222222, #AAAAAA, #57517B, #FFFFFF, #57517B);
+	}
+	&&-teal, &-teal &{
+		.pagination(#F3F8F8, #333333, #D8E4E7, #222222, #AAAAAA, #569099, #FFFFFF, #4D8189);
+	}
+	&&-green, &-green &{
+		.pagination(#EFFBEC, #333333, #CEF3C5, #222222, #EFFBEC, #3D9400, #FFFFFF, #327B00);
+	}
+	&&-bricky, &-bricky &{
+		.pagination(#FDF8F7, #333333, #FBEEEC, #222222, #FDF8F7, #C83A2A, #FFFFFF, #C83A2A);
+	}
+}

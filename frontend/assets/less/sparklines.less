@@ -1,0 +1,48 @@
+.mini-stats {
+	border-left: 1px solid #DDDDDD;
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	li {
+		border-left: 1px solid #FFFFFF;
+		border-right: 1px solid #DDDDDD;
+		padding-bottom: 6px;
+		text-align: center;
+		&:last-child {
+			border-right: 0 none;
+		}
+	}
+	.sparkline_bar{
+		&_good, &_neutral, &_bad{
+			font-size: 12px;
+			font-weight: bold;
+			text-align: center;
+		}
+		&_good{
+			color: #459D30;
+		}
+		&_neutral{
+			color: #757575;
+		}
+		&_bad{
+			color: #BA1E20;
+		}
+	}
+	.values {
+		font-size: 12px;
+		padding: 10px 0;
+		strong {
+			display: block;
+			font-size: 18px;
+			margin-bottom: 2px;
+		}
+	}
+}
+.jqstooltip {
+	width: auto !important;
+	height: auto !important;
+	padding: 2px 6px !important;
+	background-color: rgba(0, 0, 0, 0.7) !important;
+	border: 0 !important;
+	border-radius: 3px;
+}

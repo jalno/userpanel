@@ -10,12 +10,8 @@ class register extends registerView{
 	protected $countries = array();
 	function __beforeLoad(){
 		$this->setTitle("ثبت نام");
+		$this->addBodyClass('register');
 		$this->setCounties();
-		$this->addAssets();
-	}
-	private function addAssets(){
-		$this->addJSFile(theme::url('assets/plugins/jquery-validation/dist/jquery.validate.min.js'));
-		$this->addJSFile(theme::url('assets/js/pages/register.js'));
 	}
 	private function setCounties(){
 		$countries = $this->getData('countries');

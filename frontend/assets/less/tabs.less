@@ -1,0 +1,258 @@
+.tabbable {
+	margin-bottom: 15px;
+}
+.nav-tabs {
+	border-color: #DDDDDD;
+	margin-bottom: 0;
+	margin-left: 0;
+	position: relative;
+	top: 1px;
+	li{
+		.fa{
+			display: inline-block;
+			text-align: center;
+			width: 1.25em;
+		}
+		&.open{
+			.dropdown-toggle {
+				background-color: #4F99C6;
+				border-color: #4F99C6;
+				color: #FFFFFF;
+				> .fa {
+					color: #FFFFFF !important;
+					opacity: 1;
+				}
+			}
+		}
+	}
+	> li{
+		&.active{
+			> a{
+				&,&:hover,&:focus{
+					background-color: #FFFFFF;
+					border-color: #DDDDDD #DDDDDD transparent;
+					border-top: 2px solid #DDDDDD;
+					color: #333333;
+					line-height: 16px;
+					margin-top: -1px;
+					z-index: 12;
+				}
+				> .badge, > .fa {
+					opacity: 1;
+				}
+			}
+		}
+		&:first-child{
+			> a{
+				margin-left: 0;
+			}
+		}
+		&:not(.active){
+			&:not(.open){
+				> a:not(:hover){
+					.disabled.fa{
+						&:first-child{
+							color: #909090 !important;
+						}
+					}
+				}
+			}
+		}
+		> a{
+			&,&:focus{
+				background-color: #F9F9F9;
+				border-color: #DDDDDD;
+				border-radius: 0 0 0 0 !important;
+				color: #999999;
+				line-height: 16px;
+				margin-right: -1px;
+				position: relative;
+			}
+			&:hover {
+				background-color: #FFFFFF;
+				border-color: #DDDDDD;
+				color: #4C8FBD;
+			}
+			> .badge {
+				line-height: 8px;
+				opacity: 0.7;
+			}
+			> .fa{
+				opacity: 0.75;
+			}
+		}
+	}
+	&.tab-space-1{
+		.tab-space(1px);
+	}
+	&.tab-space-2{
+		.tab-space(2px);
+	}
+	&.tab-space-3{
+		.tab-space(3px);
+	}
+	&.tab-space-4{
+		.tab-space(4px);
+	}
+	&.tab-padding {
+		padding: 6px 5px 0;
+		border: 1px solid #DDDDDD;
+	}
+	& .panel-tabs{
+		float: right;
+		margin-top: -52px;
+		border: none;
+		> li{
+			> a {
+				height: 36px;
+				border-top: none;
+				border-bottom: none;
+				background: none;
+				border-right: 1px solid #CDCDCD;
+				box-shadow: 1px 1px 0 0 #FFFFFF;
+			}
+		}
+	}
+}
+
+.tab-content {
+	border: 1px solid #DDDDDD;
+	padding: 16px 12px;
+	position: relative;
+}
+.tabs{
+	&-below{
+		> .nav-tabs {
+			border-bottom-width: 0;
+			border-color: #DDDDDD;
+			margin-bottom: 0;
+			margin-top: -1px;
+			top: auto;
+			> li{
+				> a{
+					&,&:hover,&:focus{
+						border-color: #DDDDDD;
+					}
+				}
+				&.active{
+					> a{
+						&,&:hover,&:focus{
+							border-bottom: 2px solid #DDDDDD;
+							border-color: transparent #DDDDDD #DDDDDD;
+							border-top-width: 1px;
+							margin-top: 0;
+						}
+					}
+				}
+			}
+		}
+	}
+	&-left, &-right{
+		> .nav-tabs{
+			> li{
+				> a{
+					min-width: 60px;
+				}
+			}
+		}
+		.tab-content{
+			overflow: auto;
+		}
+	}
+	&-left{
+		> .nav-tabs {
+			border-color: #DDDDDD;
+			float: left;
+			margin-bottom: 0;
+			top: auto;
+			> li {
+				float: none;
+				> a{
+					&,&:hover,&:focus{
+						border-color: #DDDDDD;
+						margin: 0 -1px 0 0;
+					}
+				}
+				&.active{
+					> a{
+						&,&:hover,&:focus{
+							border-color: #DDDDDD;
+							border-right: none;
+							border-left: 2px solid #DDDDDD;
+							border-top-width: 1px;
+							margin: 0 -1px;
+						}
+					}
+				}
+			}
+		}
+	}
+	&-right{
+		> .nav-tabs {
+			border-color: #DDDDDD;
+			float: right;
+			margin-bottom: 0;
+			top: auto;
+			> li {
+				float: none;
+				> a{
+					&,&:hover,&:focus{
+						border-color: #DDDDDD;
+						margin: 0 -1px;
+					}
+				}
+				&.active{
+					> a{
+						&,&:hover,&:focus{
+							border-color: #DDDDDD;
+							border-left: none;
+							border-right: 2px solid #DDDDDD;
+							border-top-width: 1px;
+							margin: 0 -2px 0 -1px;
+						}
+					}
+				}
+			}
+		}
+	}
+	&-teal{
+		.tab(#569099, #F3F8F8, #7DAFB7, #4D8189);
+	}
+	&-bricky{
+		.tab(#C83A2A, #FBEEEC, #DC6456, #333333);
+	}
+	&-green{
+		.tab(#3D9400, #71B145, #71B145, #333333);
+	}
+	&-purple{
+		.tab(#57517B, #F5F4F9, #71B145, #333333);
+	}
+	&-blue{
+		.tab(#364F6A, #F3F5F6, #6C7F92, #333333);
+	}
+}
+.nav{
+	> li{
+		&.active{
+			> .dropdown-toggle {
+				cursor: pointer !important;
+			}
+			&.dropdown.open{
+				a:focus,a:hover{
+					.fa{
+						color: #FFFFFF !important;
+					}
+				}
+			}
+		}
+	}
+	&-pills{
+		.open{
+			.dropdown-toggle{
+				> .fa{
+					color: #FFFFFF !important;
+				}
+			}
+		}
+	}
+}

@@ -7,119 +7,46 @@
 		"website" : "http://www.cliptheme.com/"
 	},
 	"homepage" : "http://www.cliptheme.com/admin-template-clip-one/",
-	"assets" : [
-		{
-			"type":"css",
-			"file":"assets/plugins/bootstrap/css/bootstrap.min.css"
+	"use":{
+		"npm":{
+			"package":"package.json"	
 		},
-		{
-			"type":"css",
-			"file":"assets/plugins/jquery-ui/jquery-ui.min.css"
-		},
-		{
-			"type":"css",
-			"file":"assets/plugins/font-awesome/css/font-awesome.min.css"
-		},
-		{
-			"type":"css",
-			"file":"assets/plugins/perfect-scrollbar/src/perfect-scrollbar-rtl.css"
-		},
-		{
-			"type":"css",
-			"file":"assets/fonts/style.css"
-		},
-		{
-			"type":"css",
-			"file":"assets/css/main.css"
-		},
-		{
-			"type":"css",
-			"file":"assets/css/main-responsive.css"
-		},
-		{
-			"type":"css",
-			"file":"assets/plugins/iCheck/skins/all.css"
-		},
-		{
-			"type":"css",
-			"file":"assets/plugins/jquery.growl/stylesheets/jquery.growl.css"
-		},
-		{
-			"type":"css",
-			"file":"assets/css/theme_light.css"
-		},
-		{
-			"type":"css",
-			"file":"assets/css/rtl-version.css"
-		},
-		{
-			"type":"css",
-			"file":"assets/css/theme_webuilder.css"
-		},
-		{
-			"type":"js",
-			"file":"assets/plugins/jquery/jquery-2.0.3.min.js"
-		},
-		{
-			"type":"js",
-			"file":"assets/plugins/jquery-ui/jquery-ui.min.js"
-		},
-		{
-			"type":"js",
-			"file":"assets/plugins/bootstrap/js/bootstrap.min.js"
-		},
-		{
-			"type":"js",
-			"file":"assets/plugins/bootstrap-modal/js/bootstrap-modalmanager.js"
-		},
-		{
-			"type":"js",
-			"file":"assets/plugins/bootstrap-modal/js/bootstrap-modal.js"
-		},
-		{
-			"type":"js",
-			"file":"assets/plugins/iCheck/icheck.min.js"
-		},
-		{
-			"type":"js",
-			"file": "assets/plugins/perfect-scrollbar/src/jquery.mousewheel.js"
-		},
-		{
-			"type":"js",
-			"file":"assets/plugins/perfect-scrollbar/src/perfect-scrollbar-rtl.js"
-		},
-		{
-			"type":"js",
-			"file":"assets/plugins/jquery-cookie/jquery.cookie.js"
-		},
-		{
-			"type":"js",
-			"file":"assets/plugins/bootstrap-colorpalette/js/bootstrap-colorpalette.js"
-		},
-		{
-			"type":"js",
-			"file":"assets/plugins/jquery.growl/javascripts/jquery.growl.js"
-		},
-		{
-			"type":"css",
-			"file":"assets/plugins/bootstrap-modal/css/bootstrap-modal.css"
-		},
-		{
-			"type":"css",
-			"file":"assets/plugins/bootstrap-modal/css/bootstrap-modal-bs3patch.css"
-		},
-		{
-			"type":"js",
-			"file":"assets/plugins/bootstrap-inputmsg/bootstrap-inputmsg.min.js"
-		},
-		{
-			"type":"js",
-			"file":"assets/js/main.js"
-		},
-		{
-			"type":"js",
-			"inline":"jQuery(document).ready(function() {Main.init();});"
+		"typescript":{
+			
 		}
+	},
+	"assets" : [
+		{"type":"package","name":"jquery"},
+		{"type":"package","name":"jquery-ui"},
+		{"type":"package","name":"bootstrap"},
+		{"type":"package","name":"bootstrap-rtl"},
+		{"type":"package","name":"font-awesome"},
+		{"type":"package","name":"clipboard"},
+		{"type":"package","name":"jquery-bootstrap-checkbox"},
+		{"type":"package","name":"jquery-validation"},
+		{"type":"package","name":"malihu-custom-scrollbar-plugin"},
+		{"type":"package","name":"jquery-mousewheel"},
+		{"type":"package","name":"jquery-autosize"},
+		{"type":"package","name":"jquery.cookie"},
+		{"type":"package","name":"jquery.growl"},
+		{"type":"package","name":"jschr-bootstrap-modal"},
+		{"type":"package","name":"select2"},
+		{"type":"package","name":"webuilder"},
+		{"type":"package","name":"bootstrap-inputmsg"},
+		{"type":"package","name":"bootstrap-avatar-preview"},
+		{"type":"less","file":"node_modules/bootstrap/less/bootstrap.less"},
+		{"type":"less","file":"node_modules/bootstrap-rtl/less/bootstrap-rtl.less"},
+		{"type":"less","file":"node_modules/font-awesome/less/font-awesome.less"},
+		{"type":"css","file":"node_modules/jquery.growl/stylesheets/jquery.growl.css"},
+		{"type":"css","file":"node_modules/jquery-ui/themes/base/all.css"},
+		{"type":"css","file":"node_modules/jschr-bootstrap-modal/css/bootstrap-modal-bs3patch.css"},
+		{"type":"css","file":"node_modules/jschr-bootstrap-modal/css/bootstrap-modal.css"},
+		{"type":"css","file":"node_modules/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.css"},
+		{"type":"less","file":"node_modules/jquery-bootstrap-checkbox/jquery-bootstrap-checkbox.less"},
+		{"type":"less", "file":"node_modules/bootstrap-avatar-preview/avatarPreview.less"},
+		{"type":"less","file":"assets/less/main.less"},
+		{"type":"ts","file":"assets/ts/pages/Main.ts"}
+
 	],
 	"autoload":"autoloader.json",
 	"languages":{

@@ -1,0 +1,20 @@
+.footer {
+	font-size: 12px;
+	padding: 8px 20px 5px;
+	position: relative;
+	&-inner {
+		float: left;
+	}
+	&-items {
+		float: right;
+	}
+	.footer-fixed &{
+		bottom: 0;
+		left: 0;
+		position: fixed;
+		right: 0;
+		z-index: 1000;
+		border-top-width: 1px;
+		border-top-style: solid;
+	}
+}

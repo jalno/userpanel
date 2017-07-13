@@ -77,7 +77,8 @@ class login  extends controller{
 						session::unsetval('loginto');
 						$this->response->Go($loginto ? $loginto : userpanel\url());
 					}catch(inputValidation $error){
-						$this->response->setData(array('error' => 'invalid'));
+						$error->setInput('');
+						$view->setFormError(FormError::fromException($error));
 					}
 				}else{
 					$this->response->setStatus(true);

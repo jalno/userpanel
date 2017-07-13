@@ -1,0 +1,33 @@
+.wysiwyg {
+	padding: 5px 0;
+	.btn-group{
+		&:after {
+			border-left: 1px solid #E1E6EA;
+			bottom: 6px;
+			content: "";
+			display: block;
+			left: -2px;
+			max-width: 0;
+			position: absolute;
+			top: 6px;
+			width: 0;
+		}
+		.btn, > .inline > .btn{
+			background: #FFFFFF !important;
+			border: none !important;
+			color: #ADB3BE !important;
+			margin: 0 !important;
+			text-shadow: none !important;
+			&:hover{
+				color: #333333 !important;
+			}
+			&:active{
+				background: #FFFFFF !important;
+				border: none !important;
+				color: #fff !important;
+				margin: 0 !important;
+				text-shadow: none !important;
+			}
+		}
+	}
+}

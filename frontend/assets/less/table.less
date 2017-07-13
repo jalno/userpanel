@@ -1,0 +1,39 @@
+th.center,
+td.center {
+	text-align: center !important;
+}
+td.center{
+	.dropdown-menu {
+		text-align: left;
+	}
+}
+.table{
+	thead{
+		tr{
+			color: #707070;
+			font-weight: normal;
+		}
+	}
+	&.table-bordered{
+		thead{
+				tr{
+					th {
+						vertical-align: middle;
+					}
+				}
+			}
+	}
+	thead, tbody, tfoot{
+		> tr{
+			> th, > td{
+				vertical-align: middle;
+			}
+		}
+	}
+}
+.editable-element {
+	border-bottom: 1px dashed #0088CC;
+	text-decoration: none;
+	opacity: 0.5;
+	display: inline;
+}
