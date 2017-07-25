@@ -231,8 +231,9 @@ trait formTrait{
 	}
 	private function buildInputGroupItem($item){
 		$code = '';
+		$ltr = (isset($item['ltr']) and $item['ltr']) ? ' ltr' : '';
 		if($item['type'] == 'addon'){
-			$code .= '<span class="input-group-addon">'.$item['text'].'</span>';
+			$code .= '<span class="input-group-addon'.$ltr.'">'.$item['text'].'</span>';
 		}elseif($item['type'] == 'checkbox' or $item['type'] == 'radio'){
 			$code .= '<span class="input-group-addon">';
 			$code .= "<input type=\"{$item['type']}\" name=\"{$item['name']}\" value=\"{$item['value']}\"";
