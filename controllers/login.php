@@ -121,8 +121,10 @@ class login  extends controller{
 				}
 				$this->response->setView($view);
 			}
+		}elseif(!authentication::check()){
+			$this->response->setStatus(false);
+			$this->response->Go(userpanel\url('lock'));
 		}else{
-			authentication::unlockSession();
 			$this->response->setStatus(true);
 			$this->response->Go(userpanel\url());
 		}
