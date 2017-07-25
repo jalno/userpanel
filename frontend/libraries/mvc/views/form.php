@@ -1,4 +1,4 @@
-c<?php
+<?php
 namespace themes\clipone\views;
 use \packages\base\translator;
 use \themes\clipone\utility;
