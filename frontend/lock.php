@@ -5,7 +5,7 @@ use \packages\userpanel;
 $this->the_header('lock');
 ?>
 <div class="box-ls">
-	<img alt="" src="<?php echo theme::url('assets/images/avatar-1-xl.jpg'); ?>"/>
+	<img alt="" src="<?php echo $this->getSelfAvatarURL(); ?>"/>
 	<div class="user-info">
 		<h1><i class="fa fa-lock"></i> <?php echo $this->getUserData('name') .' '.$this->getUserData('lastname'); ?></h1>
 		<span style="text-align: left;"><?php echo $this->getUserData('email'); ?></span>
