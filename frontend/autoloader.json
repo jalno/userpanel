@@ -123,6 +123,14 @@
 		{
 			"classes":["listeners\\navigation"],
 			"file":"listeners/navigation.php"
+		},
+		{
+			"classes":["views\\resetpwd"],
+			"file":"views/resetpwd.php"
+		},
+		{
+			"classes":["views\\resetpwd\\newpwd"],
+			"file":"views/newpwd.php"
 		}
 	]
 }

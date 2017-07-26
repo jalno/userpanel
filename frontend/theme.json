@@ -143,6 +143,16 @@
 			"name":"\\themes\\clipone\\views\\search",
 			"parent":"\\packages\\userpanel\\views\\search",
 			"file":"search.php"
+		},
+		{
+			"name":"\\themes\\clipone\\views\\resetpwd",
+			"parent":"\\packages\\userpanel\\views\\resetpwd",
+			"file":"html/resetpwd.php"
+		},
+		{
+			"name":"\\themes\\clipone\\views\\resetpwd\\newpwd",
+			"parent":"\\packages\\userpanel\\views\\resetpwd\\newpwd",
+			"file":"html/newpwd.php"
 		}
 	]
 }

@@ -10,7 +10,18 @@
 		"profile": "پروفایل",
 		"profile.view" : "مشاهده پروفایل",
 		"profile.edit" : "ویرایش پروفایل",
-		"usertype.edit.byTitle" : "ویرایش سطح کاربری {title}"
-
+		"usertype.edit.byTitle" : "ویرایش سطح کاربری {title}",
+		"email.template.name.userpanel_resetpwd_token": "ویرایش کلمه عبور در فراموشی کلمه عبور",
+		"sms.template.name.userpanel_resetpwd_token": "ویرایش کلمه عبور در فراموشی کلمه عبور",
+		"email.template.variable.token->id": "شناسه",
+		"email.template.variable.token->sent_at": "زمان ارسال",
+		"email.template.variable.token->user": "کاربر",
+		"email.template.variable.token->token": "شناسه احراز هویت",
+		"email.template.variable.token->ip": "آی پی درخواست دهنده",
+		"sms.template.variable.token->id": "شناسه",
+		"sms.template.variable.token->sent_at": "زمان ارسال",
+		"sms.template.variable.token->user": "کاربر",
+		"sms.template.variable.token->token": "شناسه احراز هویت",
+		"sms.template.variable.token->ip": "آی پی درخواست دهنده"
 	}
 }

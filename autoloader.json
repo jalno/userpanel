@@ -218,6 +218,34 @@
 		{
 			"classes":["views\\search"],
 			"file":"views/search.php"
+		},
+		{
+			"classes":["resetpwd\\token"],
+			"file":"libraries/resetpwd/token.php"
+		},
+		{
+			"classes":["controllers\\resetpwd"],
+			"file":"controllers/resetpwd.php"
+		},
+		{
+			"classes":["views\\resetpwd"],
+			"file":"views/login/resetpwd.php"
+		},
+		{
+			"classes":["listeners\\sms"],
+			"file":"listeners/sms.php"
+		},
+		{
+			"classes":["controllers\\resetpwd\\newpwd"],
+			"file":"controllers/newpwd.php"
+		},
+		{
+			"classes":["views\\resetpwd\\newpwd"],
+			"file":"views/login/newpwd.php"
+		},
+		{
+			"classes":["listeners\\email"],
+			"file":"listeners/email.php"
 		}
 	]
 }

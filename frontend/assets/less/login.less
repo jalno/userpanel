@@ -20,15 +20,33 @@ body.login {
 		}
 	}
 	.box{
-		&-login,&-register,&-forgot{
+		&-login,&-register,&-forgot,&-change-passwd{
 			background: #FFFFFF;
 			border-radius: 5px;
 			box-shadow: -30px 30px 50px rgba(0, 0, 0, 0.32);
 			overflow: hidden;
 			padding: 15px;
 		}
-		&-forgot, &-register{
+		&-register{
 			display: none;
+		}
+		&-forgot{
+			.form-authentication{
+				display: none;
+			}
+			h3{
+				font-family: nazanin;
+			}
+			p{
+				font-family: yekan;
+			}
+			.cellphone{
+				font-size: 15px;
+				font-weight: 700;
+			}
+			.wrong-number{
+				font-size: 11px;
+			}
 		}
 	}
 	.form{

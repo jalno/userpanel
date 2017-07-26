@@ -72,6 +72,36 @@
 		"method":"get"
 	},
 	{
+		"path": ["userpanel", "resetpwd"],
+		"controller": "controllers\\resetpwd@view",
+		"method":"get"
+	},
+	{
+		"path": ["userpanel", "resetpwd"],
+		"controller": "controllers\\resetpwd@reset",
+		"method": "post"
+	},
+	{
+		"path": ["userpanel", "resetpwd", "token", "authentication"],
+		"controller": "controllers\\resetpwd@authenticationToken",
+		"method": "post"
+	},
+	{
+		"path": ["userpanel", "resetpwd", "newpwd"],
+		"controller": "controllers\\resetpwd\\newpwd@edit",
+		"method": "get"
+	},
+	{
+		"path": ["userpanel", "resetpwd", "newpwd"],
+		"controller": "controllers\\resetpwd\\newpwd@update",
+		"method": "post"
+	},
+	{
+		"path": ["userpanel", "resetpwd", "email", "token", "authentication", {"type":"dynamic","name":"token", "regex":"/^\\w+$/"}],
+		"controller": "controllers\\resetpwd@authenticationEmailToken",
+		"method": "get"
+	},
+	{
 		"paths": [
 			"userpanel/"
 		],

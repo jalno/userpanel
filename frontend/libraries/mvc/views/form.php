@@ -38,7 +38,11 @@ trait formTrait{
 		if($options['type'] != 'hidden'){
 			$code .= '<div class="form-group'.($error ? ' has-error' : '').'">';
 			if(isset($options['icon']) and $options['icon']){
-				$code .= "<span class=\"input-icon\">";
+				$code .= "<span class=\"input-icon";
+				if(isset($options['right']) and $options['right']){
+					$code .= ' input-icon-right';
+				}
+				$code .= '">';
 			}
 			if(isset($options['label']) and $options['label'])
 				$code .= '<label class="control-label'.(($this->horizontal_form and $this->label_col) ? ' '.$this->label_col : '').'">'.$options['label'].'</label>';
