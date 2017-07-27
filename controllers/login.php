@@ -86,7 +86,8 @@ class login  extends controller{
 					$backToInput = [
 						'backTo' => [
 							'type' => 'string',
-							'optional' => true
+							'optional' => true,
+							'empty' => true
 						]
 					];
 					try{
