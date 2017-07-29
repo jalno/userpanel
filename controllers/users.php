@@ -663,7 +663,6 @@ class users extends controller{
 				$this->response->setStatus(true);
 				$view->setDataForm($user->toArray());
 			}catch(inputValidation $error){
-				print_r($error);
 				$view->setFormError(FormError::fromException($error));
 				$view->setDataForm($this->inputsvalue($inputs));
 			}catch(InputDataType $error){
