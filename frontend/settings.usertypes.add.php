@@ -27,7 +27,7 @@ $usertype = $this->getUserType();
 						<a class="btn btn-xs btn-link panel-collapse collapses" href="#"></a>
 					</div>
 				</div>
-				<div class="panel-body">
+				<div class="panel-body panel-scroll" style="height:300px;">
 					<table class="table table-condensed table-hover">
 						<thead>
 							<tr>
@@ -64,7 +64,7 @@ $usertype = $this->getUserType();
 						<a class="btn btn-xs btn-link panel-collapse collapses" href="#"></a>
 					</div>
 				</div>
-				<div class="panel-body">
+				<div class="panel-body panel-scroll" style="height:300px;">
 					<table class="table table-condensed table-hover">
 						<thead>
 							<tr>
