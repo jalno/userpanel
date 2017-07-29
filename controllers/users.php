@@ -393,7 +393,8 @@ class users extends controller{
 					'optional' => true,
 				),
 				'cellphone' => array(
-					'type' => 'cellphone'
+					'type' => 'cellphone',
+					'optional' => true
 				),
 				'password' => array(
 					'optional' => true,
