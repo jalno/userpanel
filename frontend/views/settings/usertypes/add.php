@@ -1,15 +1,10 @@
 <?php
 namespace themes\clipone\views\settings\usertypes;
 use \packages\base\translator;
-use \packages\base\frontend\theme;
-use \packages\userpanel;
-use \packages\userpanel\usertype;
 use \packages\userpanel\views\settings\usertypes\edit as usertypeEdit;
 use \themes\clipone\navigation;
-use \themes\clipone\navigation\menuItem;
 use \themes\clipone\viewTrait;
 use \themes\clipone\views\formTrait;
-
 class add extends usertypeEdit{
 	use viewTrait, formTrait;
 	function __beforeLoad(){

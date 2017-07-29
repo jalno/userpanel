@@ -1,16 +1,13 @@
 <?php
 namespace themes\clipone\views\settings\usertypes;
 use \packages\base\translator;
-use \packages\base\frontend\theme;
 use \packages\userpanel;
-use \packages\userpanel\user;
 use \packages\userpanel\views\settings\usertypes\listview as usertype_list;
 use \themes\clipone\navigation;
 use \themes\clipone\navigation\menuItem;
 use \themes\clipone\viewTrait;
 use \themes\clipone\views\listTrait;
 use \themes\clipone\views\formTrait;
-
 class listview extends usertype_list{
 	use viewTrait, listTrait, formTrait;
 	function __beforeLoad(){

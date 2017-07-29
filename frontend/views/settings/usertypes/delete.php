@@ -9,9 +9,8 @@ use \themes\clipone\navigation\menuItem;
 use \themes\clipone\viewTrait;
 use \themes\clipone\views\formTrait;
 use \packages\base\translator;
-use \packages\base\frontend\theme;
 class delete extends usertypesDelete{
-	use viewTrait,formTrait;
+	use viewTrait, formTrait;
 	function __beforeLoad(){
 		$usertype = $this->getUserType();
 		$this->setTitle(array(

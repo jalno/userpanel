@@ -1,15 +1,11 @@
 <?php
 namespace themes\clipone\views\settings\usertypes;
 use \packages\base\translator;
-use \packages\base\frontend\theme;
-use \packages\userpanel;
 use \packages\userpanel\usertype;
 use \packages\userpanel\views\settings\usertypes\edit as usertypeEdit;
 use \themes\clipone\navigation;
-use \themes\clipone\navigation\menuItem;
 use \themes\clipone\viewTrait;
 use \themes\clipone\views\formTrait;
-
 class edit extends usertypeEdit{
 	use viewTrait, formTrait;
 	function __beforeLoad(){
@@ -19,10 +15,6 @@ class edit extends usertypeEdit{
 			translator::trans('edit')
 		));
 		navigation::active("settings/usertypes");
-		$this->addAssets();
-	}
-	private function addAssets(){
-		$this->addJSFile(theme::url('assets/js/pages/settings.usertypes.edit.js'));
 	}
 	protected function translatePermission($permission){
 		$trans = translator::trans('usertype.permissions.'.$permission);
