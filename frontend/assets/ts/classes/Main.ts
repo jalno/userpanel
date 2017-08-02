@@ -80,7 +80,7 @@ export class Main{
         return results != null ? decodeURIComponent(results[1].replace(/\+/g, " ")) : "";
     }
 	private static runCustomCheck () {
-		$('.checkbox label input[type=checkbox], .checkbox-inline input[type=checkbox]').bootstrapCheckbox();
+		$('.checkbox label input[type=checkbox], .checkbox-inline input[type=checkbox], .radio label input[type=radio], .radio-inline input[type=radio]').bootstrapCheckbox();
     }
 	private static runSearchInput(): void{
         let search_form = $('.sidebar-search');
