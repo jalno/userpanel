@@ -4,6 +4,7 @@ use \packages\userpanel\user\socialnetwork;
 use \packages\userpanel\views\form;
 use \packages\userpanel\authorization;
 class edit extends form{
+	use settingsTrait;
 	protected $canEditPrivacy;
 	function __construct(){
 		$this->canEditPrivacy = authorization::is_accessed('profile_edit_privacy');

@@ -12,6 +12,9 @@ use \packages\userpanel\user\socialnetwork;
 			<ul class="nav nav-tabs tab-padding tab-space-3 tab-blue">
 				<li><a  href="<?php echo userpanel\url('profile/view'); ?>"><?php echo translator::trans("profile.view"); ?></a></li>
 				<li class="active"><a href="<?php echo userpanel\url('profile/edit'); ?>"><?php echo translator::trans("profile.edit"); ?></a></li>
+				<?php if($this->canEditSettings() and $this->getSettings()){ ?>
+				<li><a href="<?php echo userpanel\url('profile/settings'); ?>"><?php echo translator::trans("profile.settings"); ?></a></li>
+				<?php } ?>
 			</ul>
 			<div class="tab-content">
 				<div id="edit_panel" class="tab-pane active">
@@ -226,7 +229,7 @@ use \packages\userpanel\user\socialnetwork;
 						</div>
 						<div class="row" style="margin-top: 20px;margin-bottom: 20px;">
 							<div class="col-md-offset-4 col-md-4">
-								<button class="btn btn-teal btn-block" type="submit"><i class="fa fa-arrow-circle-left"></i> <?php echo translator::trans("user.profile.save"); ?></button>
+								<button class="btn btn-success btn-block" type="submit"><i class="fa fa-arrow-circle-left"></i> <?php echo translator::trans("user.profile.save"); ?></button>
 							</div>
 						</div>
 					</form>

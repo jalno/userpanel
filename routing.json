@@ -102,6 +102,26 @@
 		"method": "get"
 	},
 	{
+		"path": ["userpanel", "profile", "settings"],
+		"controller": "controllers\\profile@settings",
+		"method": "get"
+	},
+	{
+		"path": ["userpanel", "profile", "settings"],
+		"controller": "controllers\\profile@change",
+		"method": "post"
+	},
+	{
+		"path": ["userpanel", "users", "settings", {"type":"dynamic","name":"user", "regex":"/^\\d+$/"}],
+		"controller": "controllers\\users@settings",
+		"method": "get"
+	},
+	{
+		"path": ["userpanel", "users", "settings", {"type":"dynamic","name":"user", "regex":"/^\\d+$/"}],
+		"controller": "controllers\\users@change",
+		"method": "post"
+	},
+	{
 		"paths": [
 			"userpanel/"
 		],

@@ -22,14 +22,19 @@ use \packages\userpanel\controller;
 use \packages\userpanel\view;
 use \packages\userpanel\country;
 use \packages\userpanel\log;
-
+use \packages\userpanel\events\settings as settingsEvent;
 
 class profile extends controller{
 	protected $authentication = true;
 	public function view($data){
 		authorization::haveOrFail('profile_view');
 		$view = view::byName("\\packages\\userpanel\\views\\profile\\view");
-		$view->setUserData(authentication::getUser());
+		$user = authentication::getUser();
+		$settingsEvent = new settingsEvent();
+		$settingsEvent->setUser($user);
+		$settingsEvent->trigger();
+		$view->setSettings($settingsEvent->get());
+		$view->setUserData($user);
 		$this->response->setStatus(true);
 		$this->response->setView($view);
 		return $this->response;
@@ -41,6 +46,10 @@ class profile extends controller{
 		$view = view::byName("\\packages\\userpanel\\views\\profile\\edit");
 		$view->setCountries(country::get());
 		$view->setUserData($user);
+		$settingsEvent = new settingsEvent();
+		$settingsEvent->setUser($user);
+		$settingsEvent->trigger();
+		$view->setSettings($settingsEvent->get());
 		if(http::is_post()){
 			$inputs = array(
 				'name' => array(
@@ -305,6 +314,52 @@ class profile extends controller{
 			$this->response->setStatus(true);
 			$view->setForm();
 		}
+		$this->response->setView($view);
+		return $this->response;
+	}
+	public function settings($data){
+		authorization::haveOrFail('profile_settings');
+		$settingsEvent = new settingsEvent();
+		$user = authentication::getUser();
+		$settingsEvent->setUser($user);
+		$settingsEvent->trigger();
+		if(!$settingsEvent->get()){
+			throw new base\NotFound();
+		}
+		$view = view::byName("\\packages\\userpanel\\views\\profile\\settings");
+		$view->setUser($user);
+		$view->setSettings($settingsEvent->get());
+		$this->response->setStatus(true);
+		$this->response->setView($view);
+		return $this->response;
+	}
+	public function change($data){
+		authorization::haveOrFail('profile_settings');
+		$settingsEvent = new settingsEvent();
+		$user = authentication::getUser();
+		$settingsEvent->setUser($user);
+		$settingsEvent->trigger();
+		if(!$settingsEvent->get()){
+			throw new base\NotFound();
+		}
+		$view = view::byName("\\packages\\userpanel\\views\\profile\\settings");
+		$view->setUser($user);
+		$view->setSettings($settingsEvent->get());
+		$this->response->setStatus(true);
+		$inputsRules = [];
+		try{
+			foreach($settingsEvent->get() as $tuning){
+				if($SRules = $tuning->getInputs()){
+					$SRules = $inputsRules = array_merge($inputsRules, $SRules);
+					$ginputs = $this->checkinputs($SRules);
+					$tuning->callController($ginputs, $user);
+				}
+			}
+		}catch(inputValidation $error){
+			$view->setFormError(FormError::fromException($error));
+			$this->response->setStatus(false);
+		}
+		$view->setDataForm($this->inputsvalue($inputsRules));
 		$this->response->setView($view);
 		return $this->response;
 	}

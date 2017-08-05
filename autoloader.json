@@ -120,7 +120,10 @@
 			"file":"views/users/delete.php"
 		},
 		{
-			"classes":["views\\users\\view"],
+			"classes":[
+				"views\\users\\view",
+				"views\\users\\settingsTrait"
+			],
 			"file":"views/users/view.php"
 		},
 		{
@@ -188,7 +191,10 @@
 			"file":"controllers/profile.php"
 		},
 		{
-			"classes":["views\\profile\\view"],
+			"classes":[
+				"views\\profile\\view",
+				"views\\profile\\settingsTrait"
+			],
 			"file":"views/profile/view.php"
 		},
 		{
@@ -246,6 +252,29 @@
 		{
 			"classes":["listeners\\email"],
 			"file":"listeners/email.php"
+		},
+		{
+			"classes":["events\\settings"],
+			"file":"libraries/events/userSettings/settings.php"
+		},
+		{
+			"classes":["events\\settings\\tuning"],
+			"file":"libraries/events/userSettings/tuning.php"
+		},
+		{
+			"classes":[
+				"events\\settings\\controllerException",
+				"events\\settings\\inputNameException"
+			],
+			"file":"libraries/events/userSettings/exceptions.php"
+		},
+		{
+			"classes":["views\\profile\\settings"],
+			"file":"views/profile/settings.php"
+		},
+		{
+			"classes":["views\\users\\settings"],
+			"file":"views/users/settings.php"
 		}
 	]
 }
