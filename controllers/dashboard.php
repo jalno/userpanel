@@ -6,7 +6,7 @@ use \packages\userpanel\controller;
 use \packages\userpanel\view;
 use \packages\userpanel\authentication;
 use \packages\userpanel\search;
-
+use \packages\userpanel\views;
 class dashboard extends controller{
 	function index(){
 		if(authentication::check()){
@@ -17,6 +17,14 @@ class dashboard extends controller{
 		}else{
 			parent::response(authentication::FailResponse());
 		}
+	}
+	public function forbidden(){
+		authentication::check();
+		$this->response->setHttpCode(103);
+		if($view = view::byName(views\forbidden::class)){
+			$this->response->setView($view);
+		}
+		return $this->response;
 	}
 	public function notfound(){
 		authentication::check();

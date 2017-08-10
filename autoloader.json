@@ -48,6 +48,10 @@
 			"file":"libraries/users/authorization.php"
 		},
 		{
+			"classes":["AuthorizationException"],
+			"file":"libraries/users/exceptions/AuthorizationException.php"
+		},
+		{
 			"classes":["authentication\\exception"],
 			"file":"libraries/users/exceptions/authentication.php"
 		},
@@ -154,6 +158,10 @@
 		{
 			"classes":["views\\notfound"],
 			"file":"views/notfound.php"
+		},
+		{
+			"classes":["views\\forbidden"],
+			"file":"views/forbidden.php"
 		},
 		{
 			"classes":["controllers\\settings\\usertypes"],

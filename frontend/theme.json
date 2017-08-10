@@ -110,6 +110,11 @@
 			"file":"notfound.php"
 		},
 		{
+			"name":"\\themes\\clipone\\views\\forbidden",
+			"parent":"\\packages\\userpanel\\views\\forbidden",
+			"file":"forbidden.php"
+		},
+		{
 			"name":"\\themes\\clipone\\views\\settings\\usertypes\\listview",
 			"parent":"\\packages\\userpanel\\views\\settings\\usertypes\\listview",
 			"file":"settings.usertypes.list.php"

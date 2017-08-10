@@ -106,6 +106,15 @@
 			"userpanel/"
 		],
 		"exceptions":[
+			"\\packages\\userpanel\\AuthorizationException"
+		],
+		"handler": "controllers\\dashboard@forbidden"
+	},
+	{
+		"paths": [
+			"userpanel/"
+		],
+		"exceptions":[
 			"\\packages\\base\\NotFound"
 		],
 		"handler": "controllers\\dashboard@notfound"

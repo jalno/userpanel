@@ -69,6 +69,10 @@
 			"file":"views/notfound.php"
 		},
 		{
+			"classes":["views\\forbidden"],
+			"file":"views/forbidden.php"
+		},
+		{
 			"classes":["views\\settings\\usertypes\\listview"],
 			"file":"views/settings/usertypes/list.php"
 		},

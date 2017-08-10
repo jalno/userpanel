@@ -16,18 +16,10 @@ class authorization{
 	}
 	static function haveOrFail($permission, $prefix = 'userpanel'){
 		if(!self::is_accessed($permission, $prefix)){
-			throw new ErrorResponse();
+			throw new AuthorizationException($prefix.$permission);
 		}
 	}
 	static function childrenTypes(){
 		return authentication::getUser()->childrenTypes();
-	}
-	static public function FailResponse(){
-		$view = new ErrorView();
-		$view->setErrorCode(401);
-		$view->setTitle("دسترسی غیرمجاز");
-		$response = new response(false);
-		$response->setView($view);
-		return($response);
 	}
 }
