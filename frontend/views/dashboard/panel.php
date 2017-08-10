@@ -12,6 +12,8 @@ class panel extends box{
 		)
 	);
 	public $title;
+	public $scroll = false;
+	public $scrollHeight = 0;
 	public function setButton($name, $active, $params = array()){
 		if(!isset($params['classes'])){
 			$params['classes'] = array('btn', 'btn-xs', 'btn-link');
@@ -106,7 +108,7 @@ class panel extends box{
 			$code.= '<div class="panel-tools">'.$this->genButtons().'</div>';
 		}
 		$code .= '</div>';
-		$code .= '<div class="panel-body">';
+		$code .= '<div class="panel-body'.($this->scroll ? ' panel-scroll' : '')."\"".($this->scrollHeight > 0 ? " style=\"height:{$this->scrollHeight}px\"" : '').'>';
 		$code .= $this->html;
 		$code .= '</div>';
 		$code .= '</div>';
