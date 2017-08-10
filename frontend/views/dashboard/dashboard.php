@@ -114,6 +114,8 @@ class dashboard extends dashboardView{
 		$panel->size = 5;
 		$panel->title = translator::trans('users.online');
 		$panel->icon = 'fa fa-users';
+		$panel->scroll = true;
+		$panel->scrollHeight = 300;
 		$html  = "<table class=\"table table-condensed table-hover\">";
 		$html .= "<thead><tr>";
 			$html .= "<th>".translator::trans('user.avatar')."</th>";
