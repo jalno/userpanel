@@ -3,13 +3,18 @@ namespace themes\clipone\views;
 use \packages\base;
 use \packages\base\events;
 use \packages\base\translator;
+use \packages\base\frontend\theme;
 use \packages\userpanel;
 use \packages\userpanel\authorization;
+use \packages\userpanel\authentication;
+use \packages\userpanel\date;
+use \packages\userpanel\user;
 use \packages\userpanel\views\dashboard as dashboardView;
 use \themes\clipone\viewTrait;
 use \themes\clipone\navigation;
 use \themes\clipone\navigation\menuItem;
 use \themes\clipone\views\dashboard\box;
+use \themes\clipone\views\dashboard\panel;
 use \themes\clipone\views\dashboard\shortcut;
 use \themes\clipone\events\initializeDashboard;
 class dashboard extends dashboardView{
@@ -30,6 +35,7 @@ class dashboard extends dashboardView{
 			$shortcut->text = translator::trans('shortcut.users.text');
 			$shortcut->setLink(translator::trans('shortcut.users.link'), userpanel\url('users'));
 			self::addShortcut($shortcut);
+			self::addBox($this->createOnlineUsers());
 		}
 	}
 	public static function addShortcut(shortcut $shortcut){
@@ -102,6 +108,48 @@ class dashboard extends dashboardView{
 			$html .= "</div>";
 		}
 		return $html;
+	}
+	protected function createOnlineUsers(){
+		$panel = new panel("users_online");
+		$panel->size = 5;
+		$panel->title = translator::trans('users.online');
+		$panel->icon = 'fa fa-users';
+		$html  = "<table class=\"table table-condensed table-hover\">";
+		$html .= "<thead><tr>";
+			$html .= "<th>".translator::trans('user.avatar')."</th>";
+			$html .= "<th>".translator::trans('user.name')."</th>";
+			$html .= "<th></th>";
+		$html .= "</tr></thead>";
+		$html .= "<tbody>";
+		$types = authorization::childrenTypes();
+		$user = new user();
+		if($types){
+			$user->where("type", $types, 'in');
+		}else{
+			$user->where("id", authentication::getID());
+		}
+		$user->where('lastonline', date::time() - user::onlineTimeout, '>=');
+		foreach($user->get() as $user){
+			$html .= "<tr>";
+			$html .= "<td><img src=\"".$this->getAvatarURL($user)."\" class=\"img-responsive\" width=\"50\" height=\"50\" alt=\"User #{$user->id}\"></td>";
+			$html .= "<td>".$user->getFullName()."</td>";
+			$html .= "<td>";
+			if(authorization::is_accessed('users_view')){
+				$html .= "<a href=\"".userpanel\url('users/view/'.$user->id)."\" class=\"btn btn-xs btn-green tooltips\" title=\"".translator::trans('user.profile')."\"><i class=\"fa fa-credit-card\"></i></a>";
+			}
+			$html .= "</td>";
+			$html .= "</tr></tbody>";
+			$html .= "</table>";
+		}
+		$panel->setHTML($html);
+		return $panel;
+	}
+	protected function getAvatarURL(user $user){
+		if($user->avatar){
+			return packages::package('userpanel')->url($user->avatar);
+		}else{
+			return theme::url('assets/images/defaultavatar.jpg');
+		}
 	}
 	public static function onSourceLoad(){
 		$item = new menuItem("dashboard");

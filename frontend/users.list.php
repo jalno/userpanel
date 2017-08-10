@@ -111,6 +111,15 @@ use \themes\clipone\utility;
 					'options' => $this->getTypesForSelect()
 				),
 				array(
+					'type' => 'checkbox',
+					'label' => translator::trans('user.online'),
+					'name' => 'online',
+					'options' => [array(
+						'value' => 1,
+						'label' => translator::trans('user.online.yes')
+					)]
+				),
+				array(
 					'type' => 'select',
 					'label' => translator::trans('user.status'),
 					'name' => 'status',

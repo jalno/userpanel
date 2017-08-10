@@ -49,7 +49,7 @@ class listview extends usersListView{
 		}
 	}
 	public function getTypesForSelect(){
-		$options = array();
+		$options = [array('title' => '', 'value' => '')];
 		foreach($this->getUserTypes() as $type){
 			$options[] = array(
 				'title' => $type->title,
@@ -60,6 +60,10 @@ class listview extends usersListView{
 	}
 	public function getStatusForSelect(){
 		return array(
+			array(
+				'title' => '',
+				'value' => ''
+			),
 			array(
 				'title' => translator::trans('active'),
 				'value' => user::active

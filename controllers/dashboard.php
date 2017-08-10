@@ -34,6 +34,14 @@ class dashboard extends controller{
 		}
 		return $this->response;
 	}
+
+	public function online(){
+		if(authentication::check()){
+			authentication::getUser()->online();
+		}
+		$this->response->setStatus(true);
+		return $this->response;
+	}
 	public function goToLogin(){
 		return authentication::FailResponse();
 	}

@@ -5,11 +5,14 @@ use packages\base\db\dbObject;
 use packages\base\utility\password;
 use \packages\base\IO;
 use \packages\base\packages;
+use \packages\userpanel\date;
 use \packages\userpanel\user\option;
+
 class user extends dbObject{
 	const active = 1;
 	const deactive = 0;
 	const suspend = 2;
+	const onlineTimeout = 20;
 	protected $dbTable = "userpanel_users";
 	protected $primaryKey = "id";
 	protected $dbFields = array(
@@ -149,5 +152,12 @@ class user extends dbObject{
 		$this->remember_token = $rememberToken;
 		$this->save();
 		return $rememberToken;
+	}
+	public function online(){
+		$this->lastonline = date::time();
+		return $this->save();
+	}
+	public function isOnline():bool{
+		return date::time() - $this->lastonline < self::onlineTimeout;
 	}
 }

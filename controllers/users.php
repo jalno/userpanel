@@ -19,6 +19,7 @@ use \packages\userpanel\usertype;
 use \packages\userpanel\authorization;
 use \packages\userpanel\authentication;
 use \packages\userpanel\controller;
+use \packages\userpanel\date;
 use \packages\userpanel\view;
 use \packages\userpanel\country;
 use \packages\userpanel\log;
@@ -68,6 +69,11 @@ class users extends controller{
 				'optional' => true,
 				'empty' => true
 			),
+			'online' => array(
+				'type' => 'bool',
+				'optional' => true,
+				'empty' => true
+			),
 			'status' => array(
 				'type' => 'number',
 				'optional' => true,
@@ -95,6 +101,9 @@ class users extends controller{
 				if(!in_array($inputs['status'], array(user::active, user::deactive, user::suspend))){
 					throw new inputValidation("status");
 				}
+			}
+			if(isset($inputs['online']) and $inputs['online']){
+				$user->where('lastonline', date::time() - user::onlineTimeout, '>=');
 			}
 			foreach(array('id', 'name', 'lastname', 'type', 'email', 'cellphone', 'status') as $item){
 				if(isset($inputs[$item]) and $inputs[$item]){
