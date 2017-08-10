@@ -1,8 +1,8 @@
 <?php
 namespace packages\userpanel\controllers;
-use \packages\base;
 use \packages\base\http;
 use \packages\base\db;
+use \packages\base\NotFound;
 use \packages\base\inputValidation;
 use \packages\base\db\duplicateRecord;
 use \packages\base\db\InputDataType;
@@ -22,7 +22,7 @@ use \packages\userpanel\controller;
 use \packages\userpanel\view;
 use \packages\userpanel\country;
 use \packages\userpanel\log;
-
+use \packages\userpanel\events\settings as settingsEvent;
 
 class users extends controller{
 	protected $authentication = true;
@@ -360,8 +360,12 @@ class users extends controller{
 		if(!$user){
 			throw new NotFound;
 		}
+		$settingsEvent = new settingsEvent();
+		$settingsEvent->setUser($user);
+		$settingsEvent->trigger();
 		$view = view::byName("\\packages\\userpanel\\views\\users\\view");
 		$view->setUserData($user);
+		$view->setSettings($settingsEvent->get());
 		$this->response->setStatus(true);
 		$this->response->setView($view);
 		return $this->response;
@@ -373,10 +377,14 @@ class users extends controller{
 		if(!$user->id){
 			throw new NotFound();
 		}
+		$settingsEvent = new settingsEvent();
+		$settingsEvent->setUser($user);
+		$settingsEvent->trigger();
 		$view = view::byName("\\packages\\userpanel\\views\\users\\edit");
 		$view->setTypes(usertype::where("id", $types, 'in')->get());
 		$view->setCountries(country::get());
 		$view->setUserData($user);
+		$view->setSettings($settingsEvent->get());
 		if(http::is_post()){
 			$inputs = array(
 				'name' => array(
@@ -704,6 +712,61 @@ class users extends controller{
 			$view->setDataForm($user->toArray());
 			$this->response->setView($view);
 		}
+		return $this->response;
+	}
+	public function settings($data){
+		authorization::haveOrFail('users_settings');
+		$types = authorization::childrenTypes();
+		$user = user::where("id", $data['user'])->where("type", $types, 'in')->getOne();
+		if(!$user->id){
+			throw new NotFound();
+		}
+		$settingsEvent = new settingsEvent();
+		$settingsEvent->setUser($user);
+		$settingsEvent->trigger();
+		if(!$settingsEvent->get()){
+			throw new NotFound();
+		}
+		$view = view::byName("\\packages\\userpanel\\views\\users\\settings");
+		$view->setUser($user);
+		$view->setSettings($settingsEvent->get());
+		$this->response->setStatus(true);
+		$this->response->setView($view);
+		return $this->response;
+	}
+	public function change($data){
+		authorization::haveOrFail('users_settings');
+		$types = authorization::childrenTypes();
+		$user = user::where("id", $data['user'])->where("type", $types, 'in')->getOne();
+		if(!$user->id){
+			throw new NotFound();
+		}
+		$settingsEvent = new settingsEvent();
+		$user = authentication::getUser();
+		$settingsEvent->setUser($user);
+		$settingsEvent->trigger();
+		if(!$settingsEvent->get()){
+			throw new NotFound();
+		}
+		$view = view::byName("\\packages\\userpanel\\views\\users\\settings");
+		$view->setUser($user);
+		$view->setSettings($settingsEvent->get());
+		$this->response->setStatus(true);
+		$inputsRules = [];
+		try{
+			foreach($settingsEvent->get() as $tuning){
+				if($SRules = $tuning->getInputs()){
+					$SRules = $inputsRules = array_merge($inputsRules, $SRules);
+					$ginputs = $this->checkinputs($SRules);
+					$tuning->callController($ginputs, $user);
+				}
+			}
+		}catch(inputValidation $error){
+			$view->setFormError(FormError::fromException($error));
+			$this->response->setStatus(false);
+		}
+		$view->setDataForm($this->inputsvalue($inputsRules));
+		$this->response->setView($view);
 		return $this->response;
 	}
 }

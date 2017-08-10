@@ -135,6 +135,14 @@
 		{
 			"classes":["views\\resetpwd\\newpwd"],
 			"file":"views/newpwd.php"
+		},
+		{
+			"classes":["views\\profile\\settings"],
+			"file":"views/profile/settings.php"
+		},
+		{
+			"classes":["views\\users\\settings"],
+			"file":"views/users/settings.php"
 		}
 	]
 }

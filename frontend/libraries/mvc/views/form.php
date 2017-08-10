@@ -316,6 +316,79 @@ trait formTrait{
 				$code .= '</ul>';
 			}
 			$code .= "</span>";
+		}else{
+			$absuloteName = $item['name'];
+			while(substr($absuloteName, -2) == '[]'){
+				$absuloteName = substr($absuloteName, 0, strlen($absuloteName)-2);
+			}
+			if(!isset($item['error']) or $item['error']){
+				$error =  $this->getFormErrorsByInput($absuloteName);
+			}else{
+				$error = false;
+			}
+			if(!isset($item['value'])){
+				$item['value'] = $this->getDataInput($absuloteName);
+			}
+			$code .= '<span class="input-group-btn form-group'.(($item['name'] and $error and $error->input == $item['name']) ? ' has-error' : '').'">';
+			if($item['type'] == 'select'){
+				$code .= "<select";
+			}elseif($item['type'] == 'input'){
+				$code .= "<input type=\"{$item['type']}\" value=\"{$item['value']}\" ";
+			}
+			$code .= $this->buildHtmlData($item);
+			$code .= " name=\"{$item['name']}\"";
+			if(!isset($item['class'])){
+				$item['class'] = 'form-control';
+			}
+			if(isset($item['ltr']) and $item['ltr']){
+				$item['class'] .= " ltr";
+			}
+			if($item['class']){
+				$code .= " class=\"{$item['class']}\"";
+			}
+			if(isset($item['placeholder']) and $item['placeholder']){
+				$code .= " placeholder=\"{$item['placeholder']}\"";
+			}
+			if(isset($item['disabled']) and $item['disabled']){
+				$code .= " disabled=\"disabled\"";
+			}
+			if(isset($item['readonly']) and $item['readonly']){
+				$code .= " readonly=\"readonly\"";
+			}
+			$code .= ">";
+			if($item['type'] == 'select'){
+				if(array_keys($item['options']) == range(0, count($item['options'])-1)){
+					$code .= utility::selectOptions($item['options'], $item['value']);
+				}else{
+					$code .= utility::SelectGroupOptions($item['options'], $item['value']);
+				}
+				$code .="</select>";
+			}
+			$code .="</span>";
+			if($error){
+				$text = null;
+				if(isset($item['error']) and is_array($item['error'])){
+					foreach($item['error'] as $type => $value){
+						if($type == $error->getCode()){
+							if(substr($value, -strlen($error->getCode())) == $error->getCode()){
+								$text = translator::trans($value);
+							}else{
+								$text = $value;
+							}
+							break;
+						}
+					}
+				}
+				if(!$text){
+					$text = translator::trans("{$absuloteName}.".$error->getCode());
+				}
+				if(!$text){
+					$text = translator::trans($error->getCode());
+				}
+				if($text){
+					$code .= "<span class=\"help-block\" id=\"{$absuloteName}-error\">{$text}</span>";
+				}
+			}
 		}
 		return $code;
 	}

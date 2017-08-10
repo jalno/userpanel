@@ -11,10 +11,12 @@ class usertype{
 			'users_edit',
 			'users_edit_privacy',
 			'users_delete',
+			'users_settings',
 
 			'profile_view',
 			'profile_edit',
 			'profile_edit_privacy',
+			'profile_settings',
 
 			'settings_usertypes_list',
 			'settings_usertypes_add',

@@ -140,6 +140,10 @@
 		"resetpwd.confirm": "تایید",
 		"resetpwd.set.newpwd.description": "{user_name} عزیز کلمه عبور جدید را وارد کنید .",
 		"error.userpanel.resetpwd.losingChance": "شما {times} اشتباه داشتید و تا {expire_at} نمیتوانید هیچ تلاشی انجام دهید .",
-		"usertype.permissions.userpanel_resetpwd_newpwd": "تنظیم کلمه عبور جدید در فراموشی کلمه عبور"
+		"usertype.permissions.userpanel_resetpwd_newpwd": "تنظیم کلمه عبور جدید در فراموشی کلمه عبور",
+		"usertype.permissions.userpanel_profile_settings": "تنظیمات کاربری",
+		"profile.settings": "تنظیمات کاربری",
+		"usertype.permissions.userpanel_users_settings": "تنظیمات کاربر",
+		"users.settings": "تنظیمات کاربری"
 	}
 }

@@ -13,6 +13,9 @@ use \themes\clipone\utility;
 			<ul class="nav nav-tabs tab-padding tab-space-3 tab-blue">
 				<li class="active"><a data-toggle="tab" href="<?php echo userpanel\url('users/view/'.$this->getUserData('id')); ?>"><?php echo translator::trans("user.profile.overview"); ?></a></li>
 				<li><a href="<?php echo userpanel\url('users/edit/'.$this->getUserData('id')); ?>">ویرایش اطلاعات</a></li>
+				<?php if($this->canEditSettings() and $this->getSettings()){ ?>
+				<li><a href="<?php echo userpanel\url('users/settings/'.$this->getUserData('id')); ?>"><?php echo translator::trans("profile.settings"); ?></a></li>
+				<?php } ?>
 			</ul>
 			<div class="tab-content">
 				<div id="panel_overview" class="tab-pane in active">

@@ -12,6 +12,9 @@ use \packages\userpanel\user\socialnetwork;
 			<ul class="nav nav-tabs tab-padding tab-space-3 tab-blue">
 				<li><a href="<?php echo userpanel\url('users/view/'.$this->getDataForm('id')); ?>"><?php echo translator::trans("user.profile.overview"); ?></a></li>
 				<li class="active"><a data-toggle="tab" href="#edit_panel">ویرایش اطلاعات</a></li>
+				<?php if($this->canEditSettings() and $this->getSettings()){ ?>
+				<li><a href="<?php echo userpanel\url('users/settings/'.$this->getDataForm('id')); ?>"><?php echo translator::trans("profile.settings"); ?></a></li>
+				<?php } ?>
 			</ul>
 			<div class="tab-content">
 				<div id="edit_panel" class="tab-pane active">

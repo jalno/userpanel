@@ -14,6 +14,9 @@ use \themes\clipone\utility;
 			<ul class="nav nav-tabs tab-padding tab-space-3 tab-blue">
 				<li class="active"><a data-toggle="tab" href="<?php echo userpanel\url('profile/view'); ?>"><?php echo translator::trans("profile.view"); ?></a></li>
 				<li><a href="<?php echo userpanel\url('profile/edit'); ?>"><?php echo translator::trans("profile.edit"); ?></a></li>
+				<?php if($this->canEditSettings() and $this->getSettings()){ ?>
+				<li><a href="<?php echo userpanel\url('profile/settings'); ?>"><?php echo translator::trans("profile.settings"); ?></a></li>
+				<?php } ?>
 			</ul>
 			<div class="tab-content">
 				<div id="panel_overview" class="tab-pane in active">

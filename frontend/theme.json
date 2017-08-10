@@ -22,7 +22,7 @@
 		{"type":"package","name":"bootstrap-rtl"},
 		{"type":"package","name":"font-awesome"},
 		{"type":"package","name":"clipboard"},
-		{"type":"package","name":"jquery-bootstrap-checkbox"},
+		{"type":"package","name":"jquery-bootstrap-checkbox", "priority": "1", "version": "=1.1.1"},
 		{"type":"package","name":"jquery-validation"},
 		{"type":"package","name":"malihu-custom-scrollbar-plugin"},
 		{"type":"package","name":"jquery-mousewheel"},
@@ -33,7 +33,7 @@
 		{"type":"package","name":"select2"},
 		{"type":"package","name":"webuilder"},
 		{"type":"package","name":"bootstrap-inputmsg"},
-		{"type":"package","name":"bootstrap-avatar-preview"},
+		{"type":"package","name":"bootstrap-avatar-preview", "priority": "10", "version": "1.1.0"},
 		{"type":"less","file":"node_modules/bootstrap/less/bootstrap.less"},
 		{"type":"less","file":"node_modules/bootstrap-rtl/less/bootstrap-rtl.less"},
 		{"type":"less","file":"node_modules/font-awesome/less/font-awesome.less"},
@@ -158,6 +158,16 @@
 			"name":"\\themes\\clipone\\views\\resetpwd\\newpwd",
 			"parent":"\\packages\\userpanel\\views\\resetpwd\\newpwd",
 			"file":"html/newpwd.php"
+		},
+		{
+			"name":"\\themes\\clipone\\views\\profile\\settings",
+			"parent":"\\packages\\userpanel\\views\\profile\\settings",
+			"file":"html/profile/settings.php"
+		},
+		{
+			"name":"\\themes\\clipone\\views\\users\\settings",
+			"parent":"\\packages\\userpanel\\views\\users\\settings",
+			"file":"html/users/settings.php"
 		}
 	]
 }
