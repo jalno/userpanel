@@ -2,6 +2,7 @@
 namespace themes\clipone\views;
 use \packages\base;
 use \packages\base\events;
+use \packages\base\packages;
 use \packages\base\translator;
 use \packages\base\frontend\theme;
 use \packages\userpanel;
@@ -140,9 +141,9 @@ class dashboard extends dashboardView{
 				$html .= "<a href=\"".userpanel\url('users/view/'.$user->id)."\" class=\"btn btn-xs btn-green tooltips\" title=\"".translator::trans('user.profile')."\"><i class=\"fa fa-credit-card\"></i></a>";
 			}
 			$html .= "</td>";
-			$html .= "</tr></tbody>";
-			$html .= "</table>";
+			$html .= "</tr>";
 		}
+		$html .= "</tbody></table>";
 		$panel->setHTML($html);
 		return $panel;
 	}
