@@ -114,11 +114,11 @@ use \themes\clipone\breadcrumb;
 						</div>
 					</div>
 					<!-- end: PAGE HEADER -->
-					<?php
-					$errorcode = $this->getErrorsHTML();
-					if($errorcode){
-					?>
 					<div class="row">
-						<div class="col-xs-12"><?php echo $errorcode; ?></div>
+						<div class="col-xs-12 errors">
+						<?php
+						if($errorcode = $this->getErrorsHTML()){
+							echo $errorcode;
+						}
+						?></div>
 					</div>
-					<?php } ?>
