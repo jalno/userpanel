@@ -101,7 +101,7 @@ trait formTrait{
 				if(isset($option['class']) and $option['class']){
 					$code .= " class=\"{$option['class']}\"";
 				}
-				$code .= $this->buildHtmlData($options);
+				$code .= $this->buildHtmlData($option);
 				if(
 
 					(
