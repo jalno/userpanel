@@ -78,14 +78,22 @@ trait viewTrait{
 					if(!$alert['title'])
 						$alert['title'] = translator::trans('error.'.error::NOTICE.'.title');
 					break;
+				case(error::SUCCESS):
+					$alert['type'] = 'success';
+					if(!$alert['title'])
+						$alert['title'] = translator::trans('error.'.error::NOTICE.'.title');
+					break;
 			}
-			if(isset($alert['classes']) and is_array($alert['classes'])){
-				$alert['classes'] = implode(" ", $alert['classes']);
+			if(isset($alert['classes'])){
+				if(is_array($alert['classes'])){
+					$alert['classes'] = implode(" ", $alert['classes']);
+				}
 			}else{
 				$alert['classes'] = '';
 			}
-			$code .= "<div class=\"alert alert-block alert-{$alert['type']} {$alert['classes']}\">";
-			$code .= "<button data-dismiss=\"alert\" class=\"close\" type=\"button\">&times;</button>";
+			$code .= "<div class=\"alert alert-block alert-{$alert['type']} {$alert['classes']}\"";
+			$code .= $this->buildAlertHtmlData($alert);
+			$code .= "><button data-dismiss=\"alert\" class=\"close\" type=\"button\">&times;</button>";
 			$code .= "<h4 class=\"alert-heading\">";
 			switch($alert['type']){
 				case('danger'):$code.="<i class=\"fa fa-times-circle\"></i>";break;
@@ -118,5 +126,14 @@ trait viewTrait{
 		}else{
 			return theme::url('assets/images/defaultavatar.jpg');
 		}
+	}
+	private function buildAlertHtmlData($alert){
+		$code = "";
+		if(isset($alert['data']) and $alert['data']){
+			foreach($alert['data'] as $key => $value){
+				$code .= " data-{$key}=\"{$value}\" ";
+			}
+		}
+		return $code;
 	}
 }
