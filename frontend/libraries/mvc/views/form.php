@@ -132,6 +132,11 @@ trait formTrait{
 			if(isset($options['rows'])){
 				$code.= " rows=\"{$options['rows']}\"";
 			}
+		}elseif($options['type'] == 'number'){
+			$code .= "<input type=\"number\" value=\"{$options['value']}\" ";
+			if(isset($options['step']) and $options['step']){
+				$code .= "step=\"{$options['step']}\"";
+			}
 		}else{
 			$code .= "<input type=\"{$options['type']}\" value=\"{$options['value']}\" ";
 			$code .= $this->buildHtmlData($options);
