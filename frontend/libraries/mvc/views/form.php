@@ -242,7 +242,9 @@ trait formTrait{
 		$code = '';
 		$ltr = (isset($item['ltr']) and $item['ltr']) ? ' ltr' : '';
 		if($item['type'] == 'addon'){
-			$code .= '<span class="input-group-addon'.$ltr.'">'.$item['text'].'</span>';
+			$code .= "<span class=\"input-group-addon{$ltr}\"";
+			$code .= $this->buildHtmlData($item);
+			$code .= ">{$item['text']}</span>";
 		}elseif($item['type'] == 'checkbox' or $item['type'] == 'radio'){
 			$code .= '<span class="input-group-addon">';
 			$code .= "<input type=\"{$item['type']}\" name=\"{$item['name']}\" value=\"{$item['value']}\"";
@@ -260,6 +262,7 @@ trait formTrait{
 			){
 				$code .= " checked";
 			}
+			$code .= $this->buildHtmlData($item);
 			$code .= ">";
 			$code .= "</span>";
 		}elseif($item['type'] == 'button' or $item['type'] == 'submit'){
