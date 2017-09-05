@@ -133,12 +133,12 @@ trait formTrait{
 				$code.= " rows=\"{$options['rows']}\"";
 			}
 		}elseif($options['type'] == 'number'){
-			$code .= "<input type=\"number\" value=\"{$options['value']}\" ";
+			$code .= '<input type="number" value="'.htmlentities($options['value']).' " ';
 			if(isset($options['step']) and $options['step']){
 				$code .= "step=\"{$options['step']}\"";
 			}
 		}else{
-			$code .= "<input type=\"{$options['type']}\" value=\"{$options['value']}\" ";
+			$code .= "<input type=\"{$options['type']}\" value=\"".htmlentities($options['value']).' " ';
 			$code .= $this->buildHtmlData($options);
 		}
 		if($options['type'] == 'file'){
@@ -180,7 +180,7 @@ trait formTrait{
 			//$code .= "</div>";
 		}
 		if($options['type'] == 'textarea'){
-			$code .= "{$options['value']}</textarea>";
+			$code .= htmlentities($options['value'])."</textarea>";
 		}
 
 		if($options['type'] != 'hidden'){
