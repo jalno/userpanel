@@ -283,6 +283,10 @@
 		{
 			"classes":["views\\users\\settings"],
 			"file":"views/users/settings.php"
+		},
+		{
+			"classes":["listeners\\notice"],
+			"file":"listeners/notice.php"
 		}
 	]
 }
