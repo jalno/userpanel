@@ -12,6 +12,7 @@ class menuItem{
 	private $priority;
 	private $items = array();
 	private $active;
+	private $newTab = false;
 	function __construct($name){
 		$this->name = $name;
 	}
@@ -80,6 +81,12 @@ class menuItem{
 		}
 		return false;
 	}
+	public function setNewTab(bool $newTab = true){
+		$this->newTab = $newTab;
+	}
+	public function getNewTab():bool{
+		return $this->newTab;
+	}
 	function build(){
 		events::trigger(new navigationEvents\menuItem\build($this));
 		$thisuri = http::$request['uri'];
@@ -92,12 +99,12 @@ class menuItem{
 			if($open)$html .=' open';
 			$html .="\"";
 		}
-		$html .="><a href=\"{$this->url}\">".($this->icon ? "<i class=\"{$this->icon}\"></i>" : "")."<span class=\"title\"> {$this->title}</span>".($this->items ? ' <i class="icon-arrow"></i>' : '')."<span class=\"selected\"></span></a>";
+		$newTab = $this->getNewTab() ? ' target="_blank"' : "";
+		$html .="><a href=\"{$this->url}\"{$newTab}>".($this->icon ? "<i class=\"{$this->icon}\"></i>" : "")."<span class=\"title\"> {$this->title}</span>".($this->items ? ' <i class="icon-arrow"></i>' : '')."<span class=\"selected\"></span></a>";
 		if($this->items){
 			$html .= "<ul class=\"sub-menu\">";
 			uasort($this->items, array(__NAMESPACE__, 'sort'));
 			foreach($this->items as $name => $item){
-
 				if($active and is_array($this->active) and $this->active[0] == $name){
 					breadcrumb::addItem($item);
 					$item->active(isset($this->active[1]) ? $this->active[1] : true);
