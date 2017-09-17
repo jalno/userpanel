@@ -22,6 +22,22 @@
 		"sms.template.variable.token->sent_at": "زمان ارسال",
 		"sms.template.variable.token->user": "کاربر",
 		"sms.template.variable.token->token": "شناسه احراز هویت",
-		"sms.template.variable.token->ip": "آی پی درخواست دهنده"
+		"sms.template.variable.token->ip": "آی پی درخواست دهنده",
+		"notice.note.view.name.packages.userpanel.views.dashboard": "پنل کاربری -> پیشخوان",
+		"notice.note.view.name.packages.userpanel.views.forbidden": "پنل کاربری -> خطای 403",
+		"notice.note.view.name.packages.userpanel.views.notfound": "پنل کاربری -> خطای 404",
+		"notice.note.view.name.packages.userpanel.views.profile.view": "پنل کاربری -> پروفایل",
+		"notice.note.view.name.packages.userpanel.views.profile.edit": "پنل کاربری -> پروفایل -> ویرایش",
+		"notice.note.view.name.packages.userpanel.views.profile.settings": "پنل کاربری -> پروفایل -> تنظیمات",
+		"notice.note.view.name.packages.userpanel.views.users.listview": "پنل کاربری -> کاربران",
+		"notice.note.view.name.packages.userpanel.views.users.add": "پنل کاربری -> کاربران -> افزودن",
+		"notice.note.view.name.packages.userpanel.views.users.edit": "پنل کاربری -> کاربران -> ویرایش",
+		"notice.note.view.name.packages.userpanel.views.users.delete": "پنل کاربری -> کاربران -> حذف",
+		"notice.note.view.name.packages.userpanel.views.users.view": "پنل کاربری -> کاربران -> مشاهده",
+		"notice.note.view.name.packages.userpanel.views.users.settings": "پنل کاربری -> کاربران -> تنظیمات",
+		"notice.note.view.name.packages.userpanel.views.settings.usertypes.listview": "پنل کاربری -> تنظیمات -> سطوح کاربری",
+		"notice.note.view.name.packages.userpanel.views.settings.usertypes.add": "پنل کاربری -> تنظیمات -> سطوح کاربری -> افزودن",
+		"notice.note.view.name.packages.userpanel.views.settings.usertypes.edit": "پنل کاربری -> تنظیمات -> سطوح کاربری -> ویرایش",
+		"notice.note.view.name.packages.userpanel.views.settings.usertypes.delete": "پنل کاربری -> تنظیمات -> سطوح کاربری -> حذف"
 	}
 }
