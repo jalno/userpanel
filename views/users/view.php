@@ -15,6 +15,9 @@ class view extends \packages\userpanel\view{
 	public function getUserData($key){
 		return($this->data['user']->$key);
 	}
+	public function canViewLog():bool{
+		return authorization::is_accessed('logs_view');
+	}
 }
 trait settingsTrait{
 	public function canEditSettings():bool{

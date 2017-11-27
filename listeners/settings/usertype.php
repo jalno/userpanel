@@ -13,6 +13,10 @@ class usertype{
 			'users_delete',
 			'users_settings',
 
+			'logs_search',
+			'logs_view',
+			'logs_delete',
+
 			'profile_view',
 			'profile_edit',
 			'profile_edit_privacy',

@@ -168,6 +168,21 @@
 			"name":"\\themes\\clipone\\views\\users\\settings",
 			"parent":"\\packages\\userpanel\\views\\users\\settings",
 			"file":"html/users/settings.php"
+		},
+		{
+			"name":"\\themes\\clipone\\views\\logs\\search",
+			"parent":"\\packages\\userpanel\\views\\logs\\search",
+			"file":"html/logs/search.php"
+		},
+		{
+			"name":"\\themes\\clipone\\views\\logs\\view",
+			"parent":"\\packages\\userpanel\\views\\logs\\view",
+			"file":"html/logs/view.php"
+		},
+		{
+			"name":"\\themes\\clipone\\views\\logs\\delete",
+			"parent":"\\packages\\userpanel\\views\\logs\\delete",
+			"file":"html/logs/delete.php"
 		}
 	]
 }

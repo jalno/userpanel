@@ -26,67 +26,29 @@ class view extends usersView{
 	protected $lastlogin = 0;
 	protected $logs = array();
 	function __beforeLoad(){
+		$this->user = $this->getData('user');
 		$this->setTitle(array(
 			translator::trans('users'),
 			translator::trans('user.profile'),
-			$this->getData('user')->getFullName()
+			$this->user->getFullName()
 		));
-		$this->loadLogs();
 		$this->loadLastLogin();
 		$this->loadSocialnetworks();
 		$this->setNavigation();
 		$this->addBodyClass('users');
 		$this->addBodyClass('users_view');
 	}
-	private function loadLogs($number = 50){
+	protected function loadLogs(int $number = 50){
 		$logsobj = new log();
-		$logsobj->join(new log_user(), 'id', 'LEFT', 'log');
-		$logsobj->where("userpanel_logs_users.user", $this->getUserData('id'));
-		$logsobj->orderBy("userpanel_logs.time", "desc");
-		$logs = $logsobj->get($number);
-		foreach($logs as $log){
-			$params = array();
-			if(in_array($log->type, array(log::user_edit, log::user_delete))){
-				db::join("userpanel_users u", "u.id=l.value", "left");
-				db::where("l.log", $log->id);
-				db::where("l.name", "user");
-				if($user = db::getOne("userpanel_logs_params l", array("l.value as id", "u.name"))){
-					$params['user.name'] = $user['name'] ? '<span class="tooltips" title="#'.$user['id'].'">'.$user['name'].'</span>' : '#'.$user['id'];
-				}else{
-					continue;
-				}
-			}
-			$text = translator::trans(utility::switchcase($log->type, array(
-				'logs.login' => log::login,
-				'logs.user_edit' => log::user_edit,
-				'logs.user_delete' => log::user_delete
-			)), $params);
-			$color = utility::switchcase($log->type, array(
-				'circle-green' => array(log::login),
-				'circle-teal' => array(log::user_edit),
-				'circle-bricky' => array(log::user_delete)
-			));
-			$icon = utility::switchcase($log->type, array(
-				'clip-key' => array(log::login),
-				'clip-pencil' => array(log::user_edit),
-				'fa fa-trash-o' => array(log::user_delete)
-			));
-			if($text and $color and $icon){
-				$this->logs[] = array(
-					'id' => $log->id,
-					'text' => $text,
-					'class' => $color.' '.$icon,
-					'time' => $log->time
-				);
-			}
-		}
+		$logsobj->where("user", $this->user->id);
+		$logsobj->orderBy("userpanel_logs.time", "DESC");
+		return $logsobj->get($number);
 	}
 	private function loadLastLogin(){
-		db::join("userpanel_logs_users link", "link.log=l.id", "LEFT");
-		db::where("link.user", $this->getUserData('id'));
-		db::where("l.type", log::login);
-		db::orderBy("l.time", "desc");
-		$this->lastlogin = db::getValue("userpanel_logs l", 'l.time');
+		$log = new log();
+		$log->where("user", $this->user->id);
+		$log->orderBy("time", "DESC");
+		$this->lastlogin = $log->getValue('userpanel_logs.time');
 	}
 	private function loadSocialnetworks(){
 		$networks = $this->getUserData('socialnetworks');

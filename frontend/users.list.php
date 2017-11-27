@@ -1,7 +1,7 @@
 <?php
 require_once("header.php");
 use \packages\userpanel;
-use \packages\userpanel\user;
+use \packages\userpanel\{user, authentication};
 use \packages\base\translator;
 use \themes\clipone\utility;
 ?>
@@ -39,6 +39,7 @@ use \themes\clipone\utility;
 								$this->setButtonParam('view', 'link', userpanel\url("users/view/".$row->id));
 								$this->setButtonParam('edit', 'link', userpanel\url("users/edit/".$row->id));
 								$this->setButtonParam('delete', 'link', userpanel\url("users/delete/".$row->id));
+								$this->setButtonActive("delete", authentication::getID() != $row->id);
 								$statusClass = utility::switchcase($row->status, array(
 									'label label-inverse' => user::deactive,
 									'label label-success' => user::active,

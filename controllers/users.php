@@ -1,29 +1,9 @@
 <?php
 namespace packages\userpanel\controllers;
-use \packages\base\http;
-use \packages\base\db;
-use \packages\base\NotFound;
-use \packages\base\inputValidation;
-use \packages\base\db\duplicateRecord;
-use \packages\base\db\InputDataType;
-use \packages\base\db\parenthesis;
-use \packages\base\views\FormError;
-use \packages\base\image;
-use \packages\base\IO\file;
-use \packages\base\packages;
+use \packages\base\{http, translator, db, db\duplicateRecord, db\InputDataType, db\parenthesis, views\FormError, image, IO\file, packages, NotFound, inputValidation};
 
 use \packages\userpanel;
-use \packages\userpanel\user;
-use \packages\userpanel\user\socialnetwork;
-use \packages\userpanel\usertype;
-use \packages\userpanel\authorization;
-use \packages\userpanel\authentication;
-use \packages\userpanel\controller;
-use \packages\userpanel\date;
-use \packages\userpanel\view;
-use \packages\userpanel\country;
-use \packages\userpanel\log;
-use \packages\userpanel\events\settings as settingsEvent;
+use \packages\userpanel\{logs, user, user\socialnetwork, usertype, authorization, authentication, controller, date, view, country, log, events\settings as settingsEvent};
 
 class users extends controller{
 	protected $authentication = true;
@@ -339,12 +319,13 @@ class users extends controller{
 				}
 
 				$log = new log();
-				$log->type = log::user_edit;
-				$log->users = array_unique(array($user->id, authentication::getID()));
-				$log->params = array(
-					'user' => $user->id,
+				$log->title = translator::trans("log.userAdd", ['user_name' => $user->getFullName(), 'user_id' => $user->id]);
+				$log->type = logs\register::class;
+				$log->user = authentication::getID();
+				$log->parameters = [
+					'user' => $user,
 					'inputs' => $formdata
-				);
+				];
 				$log->save();
 				$this->response->setStatus(true);
 				$this->response->go(userpanel\url('users/edit/'.$user->id));
@@ -521,6 +502,22 @@ class users extends controller{
 			);
 			$this->response->setStatus(false);
 			try{
+				$logsfeilds = [
+					'name', 
+					'lastname',
+					'password',
+					'zip',
+					'city',
+					'country',
+					'address',
+					'phone',
+					'avatar',
+				];
+
+				$old = [];
+				foreach($logsfeilds as $field){
+					$old[$field] = $user->original_data[$field];
+				}
 				$formdata = $this->checkinputs($inputs);
 				if(isset($formdata['type']) and !usertype::byId($formdata['type'])){
 					throw new inputValidation("type");
@@ -642,11 +639,16 @@ class users extends controller{
 						}
 					}
 				}
+				$inputs = [
+					'oldData' => [],
+					'newData' => []
+				];
 				if(authorization::is_accessed('profile_edit_privacy')){
 					$visibilities = $user->getOption("visibilities");
 					if(!is_array($visibilities)){
 						$visibilities = array();
 					}
+					$inputs['oldData']['visibilities'] = $visibilities;
 					foreach(array(
 						'email',
 						'cellphone',
@@ -668,15 +670,42 @@ class users extends controller{
 					}
 					$visibilities = array_values(array_unique($visibilities));
 					$user->setOption("visibilities", $visibilities);
+					$inputs['newData']['visibilities'] = $visibilities;
 				}
-				$log = new log();
-				$log->type = log::user_edit;
-				$log->users = array_unique(array($user->id, authentication::getID()));
-				$log->params = array(
-					'user' => $user->id,
-					'inputs' => $formdata
-				);
-				$log->save();
+				foreach($old as $field => $val){
+					if($val != $user->original_data[$field]){
+						$inputs['oldData'][$field] = $val;
+					}
+				}
+				if(isset($inputs['oldData']['password'])){
+					$inputs['oldData']['password'] = "***";
+				}
+				if(isset($inputs['newData']['password'])){
+					$inputs['newData']['password'] = "***";
+				}
+				$actionUser = authentication::getUser();
+				if($actionUser->id == $user->id){
+					$log = new log();
+					$log->title = translator::trans("log.profileEdit");
+					$log->type = logs\userEdit::class;
+					$log->user = $user->id;
+					$log->parameters = $inputs;
+					$log->save();
+				}else{
+					$log = new log();
+					$log->title = translator::trans("log.userEdit", ['user_name' => $user->getFullName(), 'user_id' => $user->id]);
+					$log->type = logs\userEdit::class;
+					$log->user = $actionUser->id;
+					$log->parameters = $inputs;
+					$log->save();
+
+					$log = new log();
+					$log->title = translator::trans("log.editedYou", ['user_name' => $actionUser->getFullName(), "user_id" => $actionUser->id]);
+					$log->type = logs\userEdit::class;
+					$log->user = $user->id;
+					$log->parameters = $inputs;
+					$log->save();
+				}
 				$this->response->setStatus(true);
 				$view->setDataForm($user->toArray());
 			}catch(inputValidation $error){
@@ -701,19 +730,20 @@ class users extends controller{
 		authorization::haveOrFail('users_delete');
 		$types = authorization::childrenTypes();
 		$user = user::where("id", $data['user'])->where("type", $types, 'in')->getOne();
-		if(!$user){
+		$actionUser = authentication::getUser();
+		if(!$user or $actionUser->id == $user->id){
 			throw new NotFound;
 		}
 		$view = view::byName("\\packages\\userpanel\\views\\users\\delete");
 		if(http::is_post()){
-			$user->delete();
 			$log = new log();
-			$log->type = log::user_delete;
-			$log->users = array_unique(array($user->id, authentication::getID()));
-			$log->params = array(
-				'user' => $user->id,
-			);
+			$log->title = translator::trans("log.userDelete", ['user_name' => $user->getFullName(), 'user_id' => $user->id]);
+			$log->type = logs\userDelete::class;
+			$log->user = $actionUser->id;
+			$log->parameters = ['user' => $user];
 			$log->save();
+
+			$user->delete();
 			$this->response->setStatus(true);
 			$this->response->go(userpanel\url('users'));
 		}else{

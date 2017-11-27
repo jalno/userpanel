@@ -1,21 +1,9 @@
 <?php
 namespace packages\userpanel\controllers;
 use \packages\base;
-use \packages\base\options;
-use \packages\base\http;
-use \packages\base\session;
-use \packages\base\InputDataType;
-use \packages\base\inputValidation;
-use \packages\base\db\duplicateRecord;
-use \packages\base\views\FormError;
+use \packages\base\{options, http, session, InputDataType, inputValidation, db\duplicateRecord, views\FormError, translator, db};
 use \packages\userpanel;
-use \packages\userpanel\controller;
-use \packages\userpanel\view;
-use \packages\userpanel\log;
-use \packages\userpanel\user;
-use \packages\userpanel\date;
-use \packages\userpanel\authentication;
-use \packages\userpanel\country;
+use \packages\userpanel\{controller, view, log, user, date, authentication, country, logs};
 
 class login  extends controller{
 	protected $authentication = false;
@@ -24,11 +12,10 @@ class login  extends controller{
 		authentication::setSession();
 		authentication::unlockSession();
 		$log = new log();
-		$log->type = log::login;
-		$log->users = array($user->id);
-		$log->params = array(
-			'user' => $user->id
-		);
+		$log->user = $user->id;
+		$log->title = translator::trans("logs.login");
+		$log->type = logs\login::class;
+		$log->parameters = ['user' => $user];
 		$log->save();
 	}
 	public static function checkRememberToken(){
@@ -55,12 +42,13 @@ class login  extends controller{
 				return $user;
 			}else{
 				$log = new log();
-				$log->type = log::loginwrong;
-				$log->users = array($user->id);
-				$log->params = array(
-					'user' => $user->id,
+				$log->title = translator::trans("log.wrongLogin");
+				$log->type = logs\wrongLogin::class;
+				$log->user = $user->id;
+				$log->parameters = [
+					'user' => $user,
 					'wrongpaswd' => $inputs['password']
-				);
+				];
 				$log->save();
 				throw new inputValidation('password');
 			}
@@ -162,12 +150,13 @@ class login  extends controller{
 							$this->response->Go($loginto ? $loginto : userpanel\url());
 						}else{
 							$log = new log();
-							$log->type = log::loginwrong;
-							$log->users = array($user->id);
-							$log->params = array(
-								'user' => $user->id,
+							$log->title = translator::trans("log.wrongLogin");
+							$log->type = logs\wrongLogin::class;
+							$log->user = $user->id;
+							$log->parameters = [
+								'user' => $user,
 								'wrongpaswd' => $inputs['password']
-							);
+							];
 							$log->save();
 							throw new inputValidation('password');
 						}
@@ -202,12 +191,13 @@ class login  extends controller{
 		authentication::setUser($user);
 		authentication::setSession();
 		$log = new log();
-		$log->type = log::register;
-		$log->users = array($user->id);
-		$log->params = array(
-			'user' => $user->id,
+		$log->title = translator::trans("log.register");
+		$log->type = logs\register::class;
+		$log->user = $user->id;
+		$log->parameters = [
+			'user' => $user,
 			'inputs' => $inputs
-		);
+		];
 		$log->save();
 		return $user;
 	}

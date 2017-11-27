@@ -127,6 +127,26 @@
 		"method": "get"
 	},
 	{
+		"path": ["userpanel", "logs", "search"],
+		"controller": "controllers\\logs@search",
+		"method": "get"
+	},
+	{
+		"path": ["userpanel", "logs", "view", {"type":"dynamic","name":"log", "regex":"/^\\d+$/"}],
+		"controller": "controllers\\logs@view",
+		"method": "get"
+	},
+	{
+		"path": ["userpanel", "logs", "delete", {"type":"dynamic","name":"log", "regex":"/^\\d+$/"}],
+		"controller": "controllers\\logs@delete",
+		"method": "get"
+	},
+	{
+		"path": ["userpanel", "logs", "delete", {"type":"dynamic","name":"log", "regex":"/^\\d+$/"}],
+		"controller": "controllers\\logs@terminate",
+		"method": "post"
+	},
+	{
 		"paths": [
 			"userpanel/"
 		],

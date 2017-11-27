@@ -164,14 +164,15 @@ use \themes\clipone\utility;
 								<div class="panel-body panel-scroll" style="height:300px">
 									<ul class="activities">
 									<?php
-									foreach($this->logs as $log){
+									foreach($this->loadLogs() as $log){
+										$lHandler = $log->getHandler();
 									?>
 									<li>
-										<a class="activity" href="#">
-											<i class="circle-icon <?php echo $log['class']; ?>"></i>
-											<span class="desc"><?php echo $log['text']; ?></span>
+										<a class="activity" href="<?php echo $this->canViewLog() ? userpanel\url("logs/view/{$log->id}") : "#"; ?>">
+											<i class="circle-icon <?php echo "{$lHandler->getIcon()} {$lHandler->getColor()}"; ?>"></i>
+											<span class="desc"><?php echo $log->title; ?></span>
 											<div class="time">
-												<i class="fa fa-time bigger-110"></i><?php echo utility::dateFormNow($log['time']); ?>
+												<i class="fa fa-time bigger-110"></i><?php echo utility::dateFormNow($log->time); ?>
 											</div>
 										</a>
 									</li>

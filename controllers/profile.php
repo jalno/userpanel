@@ -1,28 +1,10 @@
 <?php
 namespace packages\userpanel\controllers;
 use \packages\base;
-use \packages\base\http;
-use \packages\base\db;
-use \packages\base\inputValidation;
-use \packages\base\db\duplicateRecord;
-use \packages\base\db\InputDataType;
-use \packages\base\db\parenthesis;
-use \packages\base\views\FormError;
-use \packages\base\image;
-use \packages\base\IO\file;
-use \packages\base\packages;
+use \packages\base\{http, translator, db, inputValidation, db\duplicateRecord, db\InputDataType, db\parenthesis, views\FormError, image, IO\file, packages};
 
 use \packages\userpanel;
-use \packages\userpanel\user;
-use \packages\userpanel\user\socialnetwork;
-use \packages\userpanel\usertype;
-use \packages\userpanel\authorization;
-use \packages\userpanel\authentication;
-use \packages\userpanel\controller;
-use \packages\userpanel\view;
-use \packages\userpanel\country;
-use \packages\userpanel\log;
-use \packages\userpanel\events\settings as settingsEvent;
+use \packages\userpanel\{user, logs, user\socialnetwork, usertype, authorization, authentication, controller, view, country, log, events\settings as settingsEvent};
 
 class profile extends controller{
 	protected $authentication = true;
@@ -149,6 +131,22 @@ class profile extends controller{
 			);
 			$this->response->setStatus(false);
 			try{
+				$logsfeilds = [
+					'name', 
+					'lastname',
+					'password',
+					'zip',
+					'city',
+					'country',
+					'address',
+					'phone',
+					'avatar',
+				];
+
+				$old = [];
+				foreach($logsfeilds as $field){
+					$old[$field] = $user->original_data[$field];
+				}
 				$formdata = $this->checkinputs($inputs);
 				if(isset($formdata['country'])){
 					if(!country::byId($formdata['country'])){
@@ -268,11 +266,16 @@ class profile extends controller{
 						}
 					}
 				}
+				$inputs = [
+					'oldData' => [],
+					'newData' => []
+				];
 				if(authorization::is_accessed('profile_edit_privacy')){
 					$visibilities = $user->getOption("visibilities");
 					if(!is_array($visibilities)){
 						$visibilities = array();
 					}
+					$inputs['oldData']['visibilities'] = $visibilities;
 					foreach(array(
 						'email',
 						'cellphone',
@@ -294,14 +297,25 @@ class profile extends controller{
 					}
 					$visibilities = array_values(array_unique($visibilities));
 					$user->setOption("visibilities", $visibilities);
+					$inputs['newData']['visibilities'] = $visibilities;
+				}
+				foreach($old as $field => $val){
+					if($val != $user->original_data[$field]){
+						$inputs['oldData'][$field] = $val;
+						$inputs['newData'][$field] = $user->$field;
+					}
+				}
+				if(isset($inputs['oldData']['password'])){
+					$inputs['oldData']['password'] = "***";
+				}
+				if(isset($inputs['newData']['password'])){
+					$inputs['newData']['password'] = "***";
 				}
 				$log = new log();
-				$log->type = log::user_edit;
-				$log->users = array(authentication::getID());
-				$log->params = array(
-					'user' => $user->id,
-					'inputs' => $formdata
-				);
+				$log->title = translator::trans("log.profileEdit");
+				$log->type = logs\userEdit::class;
+				$log->user = $user->id;
+				$log->parameters = $inputs;
 				$log->save();
 				$this->response->setStatus(true);
 				$view->setDataForm($user->toArray());

@@ -143,6 +143,18 @@
 		{
 			"classes":["views\\users\\settings"],
 			"file":"views/users/settings.php"
+		},
+		{
+			"classes":["views\\logs\\search"],
+			"file":"views/logs/search.php"
+		},
+		{
+			"classes":["views\\logs\\view"],
+			"file":"views/logs/view.php"
+		},
+		{
+			"classes":["views\\logs\\delete"],
+			"file":"views/logs/delete.php"
 		}
 	]
 }

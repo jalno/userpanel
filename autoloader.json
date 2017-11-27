@@ -287,6 +287,62 @@
 		{
 			"classes":["listeners\\notice"],
 			"file":"listeners/notice.php"
+		},
+		{
+			"classes":["logs"],
+			"file":"libraries/logs/logs.php"
+		},
+		{
+			"classes":["Paramable"],
+			"file":"libraries/base/Paramable.php"
+		},
+		{
+			"classes":["logs\\panel"],
+			"file":"libraries/logs/panel.php"
+		},
+		{
+			"classes":["logs\\login"],
+			"file":"logs/login.php"
+		},
+		{
+			"classes":["logs\\wrongLogin"],
+			"file":"logs/wrongLogin.php"
+		},
+		{
+			"classes":["logging\\Exception"],
+			"file":"libraries/logging/Exceptions/Exception.php"
+		},
+		{
+			"classes":["logging\\Exception\\invalidTypeException"],
+			"file":"libraries/logging/Exceptions/invalidTypeException.php"
+		},
+		{
+			"classes":["controllers\\logs"],
+			"file":"controllers/logs.php"
+		},
+		{
+			"classes":["views\\logs\\search"],
+			"file":"views/logs/search.php"
+		},
+		{
+			"classes":["views\\logs\\view"],
+			"file":"views/logs/view.php"
+		},
+		{
+			"classes":["views\\logs\\delete"],
+			"file":"views/logs/delete.php"
+		},
+		{
+			"classes":["logs\\register"],
+			"file":"logs/register.php"
+		},
+		{
+			"classes":["logs\\userEdit"],
+			"file":"logs/userEdit.php"
+		},
+		{
+			"classes":["logs\\userDelete"],
+			"file":"logs/userDelete.php"
 		}
 	]
 }

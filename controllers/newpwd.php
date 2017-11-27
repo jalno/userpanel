@@ -1,15 +1,10 @@
 <?php
 namespace packages\userpanel\controllers\resetpwd;
-use \packages\base\inputValidation;
-use \packages\base\db\InputDataType;
-use \packages\base\db\parenthesis;
-use \packages\base\views\FormError;
+use \packages\base\{inputValidation, db\InputDataType, db\parenthesis, views\FormError, translator};
+
 use \packages\userpanel;
-use \packages\userpanel\user;
-use \packages\userpanel\authorization;
-use \packages\userpanel\authentication;
-use \packages\userpanel\controller;
-use \packages\userpanel\view;
+use \packages\userpanel\{user, authorization, authentication, controller, view, log, logs};
+
 class newpwd extends controller{
 	protected $authentication = true;
 	public function edit(){
@@ -40,6 +35,18 @@ class newpwd extends controller{
 			$user->password_hash($inputs['password']);
 			unset($inputs['password'], $inputs['password2']);
 			$user->save();
+
+			$log = new log();
+			$log->title = translator::trans("log.resetPWD");
+			$log->type = logs\userEdit::class;
+			$log->user = $user->id;
+			$log->parameters = [
+				'oldData' => [
+					'password' => "***"
+				]
+			];
+			$log->save();
+
 			$this->response->setStatus(true);
 			$this->response->Go(userpanel\url());
 		}catch(inputValidation $error){

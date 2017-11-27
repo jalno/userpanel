@@ -4,6 +4,7 @@ import {Login} from '../classes/Login';
 import {Register} from '../classes/Register';
 import {Resetpwd} from '../classes/Resetpwd';
 import {Users} from '../classes/Users';
+import {Logs} from '../classes/Logs';
 import viewError from "../definitions/viewError";
 export class View{
 	public errors:viewError[] = [];
@@ -61,4 +62,5 @@ $(function(){
 	Register.initIfNeeded();
 	Users.initIfNeeded();
 	Resetpwd.initIfNeeded();
+	Logs.initIfNeeded();
 });
