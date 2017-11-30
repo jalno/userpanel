@@ -15,7 +15,6 @@ class login  extends controller{
 		$log->user = $user->id;
 		$log->title = translator::trans("logs.login");
 		$log->type = logs\login::class;
-		$log->parameters = ['user' => $user];
 		$log->save();
 	}
 	public static function checkRememberToken(){
