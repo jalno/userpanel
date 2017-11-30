@@ -674,7 +674,7 @@ class users extends controller{
 				}
 				foreach($old as $field => $val){
 					if($val != $user->original_data[$field]){
-						$inputs['oldData'][$field] = $val;
+						$inputs['oldData'][$field] = $val ? $val : [];
 					}
 				}
 				if(isset($inputs['oldData']['password'])){

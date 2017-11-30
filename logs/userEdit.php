@@ -27,6 +27,13 @@ class userEdit extends logs{
 			$panel->size = 6;
 			$panel->title = translator::trans('userpanel.user.logs.userEdit');
 			$html = '';
+			if(isset($oldData['avatar'])){
+				$html .= '<div class="form-group">';
+				$html .= '<label class="col-xs-4 control-label">'.translator::trans("user.avatar").': </label>';
+				$html .= '<div class="col-xs-8">تغییر داده شد</div>';
+				$html .= "</div>";
+				unset($oldData['avatar']);
+			}
 			foreach($oldData as $field => $val){
 				$html .= '<div class="form-group">';
 				$html .= '<label class="col-xs-4 control-label">'.translator::trans("register.user.{$field}").': </label>';
