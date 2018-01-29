@@ -29,7 +29,7 @@ class user extends dbObject{
 		'address' => array('type' => 'text'),
 		'web' => array('type' => 'text'),
 		'avatar' => array('type' => 'text'),
-		'credit' => array('type' => 'int'),
+		'credit' => array('type' => 'double'),
 		'lastonline' => array('type' => 'int'),
 		'remember_token' => array('type' => 'text'),
         'status' => array('type' => 'int', 'required' => true)
