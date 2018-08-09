@@ -9,6 +9,7 @@ use \packages\userpanel\date;
 use \packages\userpanel\user\option;
 
 class user extends dbObject{
+	use imageTrait;
 	const active = 1;
 	const deactive = 0;
 	const suspend = 2;
@@ -160,4 +161,7 @@ class user extends dbObject{
 	public function isOnline():bool{
 		return date::time() - $this->lastonline < self::onlineTimeout;
 	}
+    public function getAvatar(int $width, int $height) {
+        return $this->getImage($width, $height, "avatar");
+    }
 }
