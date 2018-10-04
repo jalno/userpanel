@@ -29,6 +29,7 @@ class authentication{
 			session::unsetval("userid");
 			session::unsetval("lock");
 		}
+		self::$user = null;
 		return true;
 	}
 	static function lockSession(){
