@@ -83,6 +83,9 @@ trait listTrait{
 				if(isset($btn['params']['title']) and $btn['params']['title']){
 					$code .= ' title="'.$btn['params']['title'].'"';
 				}
+				if(isset($btn["params"]["target"]) and $btn["params"]["target"]){
+					$code .= ' target="'.$btn["params"]["target"].'"';
+				}
 				$code .= '>';
 				if(isset($btn['params']['icon']) and $btn['params']['icon']){
 					$code .= '<i class="'.$btn['params']['icon'].'"></i>';
