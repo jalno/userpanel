@@ -19,6 +19,6 @@
 		$this->loadCSS();
 		?>
 	</head>
-	<body class="<?php echo $this->genBodyClasses(); ?>">
+	<body class="<?php echo $this->genBodyClasses(); ?> not-logged">
 		<!-- start: PAGE -->
 		<div class="container">
