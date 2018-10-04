@@ -9,8 +9,11 @@ class authorization{
 		$user = authentication::getUser();
 		if($user){
 			return $user->can($prefix.$permission);
-		}elseif($type = usertype::byId(options::get('packages.userpanel.usertypes.guest'))){
-			return $type->hasPermission($prefix.$permission);
+		}else {
+			$guestType = options::get('packages.userpanel.usertypes.guest');
+			if($guestType and $type = usertype::byId($guestType)){
+				return $type->hasPermission($prefix.$permission);
+			}
 		}
 		return false;
 	}
