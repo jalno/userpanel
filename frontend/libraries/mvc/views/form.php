@@ -44,9 +44,10 @@ trait formTrait{
 				}
 				$code .= '">';
 			}
-			if(isset($options['label']) and $options['label'])
-				$code .= '<label class="control-label'.(($this->horizontal_form and $this->label_col) ? ' '.$this->label_col : '').'">'.$options['label'].'</label>';
-
+			if (isset($options["label"]) and $options["label"]) {
+				$required = (isset($options["required"]) and $options["required"]) ? " required" : "";
+				$code .= "<label class=\"control-label{$required}".(($this->horizontal_form and $this->label_col) ? " {$this->label_col}" : "")."\">".$options["label"]."</label>";
+			}
 			if(isset($options['input-group']) and $options['input-group']){
 				$code .= '<div class="input-group';
 				if(isset($options['input-group']['size'])){
@@ -148,6 +149,9 @@ trait formTrait{
 		}
 		if(isset($options['id'])){
 			$code .= " id=\"{$options['id']}\"";
+		}
+		if (isset($options["required"]) and $options["required"]) {
+			$code .= " required";
 		}
 		if(!in_array($options['type'], array('radio', 'checkbox'))){
 			$code .= " name=\"{$options['name']}\"";
