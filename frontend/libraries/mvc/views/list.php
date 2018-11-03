@@ -178,7 +178,7 @@ trait listTrait{
         for($i = 1;$i <= $this->totalPages;$i++){
             $return .= "<option value=\"{$i}\" data-url=\"".$this->pageurl($i)."\"".($i == $this->currentPage ? ' selected' : '').">{$i}</option>";
         }
-		$return .= "</select>";
+		$return .= "</select></div>";
 		echo $return;
 	}
 	private function pageurl($page, $ipp = null){
