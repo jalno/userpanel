@@ -28,13 +28,23 @@ class dashboard extends dashboardView{
 		$initEvent = new initializeDashboard();
 		$initEvent->view = $this;
 		events::trigger($initEvent);
-		if(authorization::is_accessed('users_list')){
+		$types = authorization::childrenTypes();
+		if(authorization::is_accessed("users_list") and $types){
+			$today = date::mktime(0, 0, 0);
+			$user = new user();
+			$user->where("type", $types, "in");
+			$user->where("id", authentication::getID(), "!=");
+			$user->where("lastonline", $today, ">=");
+			$users = $user->count();
 			$shortcut = new shortcut("users");
-			$shortcut->icon = 'fa fa-users';
-			$shortcut->color = shortcut::green;
-			$shortcut->title = translator::trans('shortcut.users.title');
-			$shortcut->text = translator::trans('shortcut.users.text');
-			$shortcut->setLink(translator::trans('shortcut.users.link'), userpanel\url('users'));
+			$shortcut->icon = "fa fa-users";
+			if ($users) {
+				$shortcut->title = $users;
+				$shortcut->text = translator::trans("shortcut.users.loggined");
+			} else {
+				$shortcut->text = translator::trans("shortcut.users.loggined.iszero");
+			}
+			$shortcut->setLink(translator::trans("shortcut.users.link"), userpanel\url("users"));
 			self::addShortcut($shortcut);
 			self::addBox($this->createOnlineUsers());
 		}
@@ -57,29 +67,35 @@ class dashboard extends dashboardView{
 	public function generateShortcuts(){
 		$rows = array();
 		$lastrow = 0;
-		$shortcuts = array_slice(self::$shortcuts, 0, max(3, floor(count(self::$shortcuts)/2)));
-		foreach($shortcuts as $box){
+		foreach (self::$shortcuts as $box) {
 			$rows[$lastrow][] = $box;
 			$size = 0;
-			foreach($rows[$lastrow] as $rowbox){
+			foreach ($rows[$lastrow] as $rowbox) {
 				$size += $rowbox->size;
 			}
-			if($size >= 12){
+			if ($size >= 12) {
 				$lastrow++;
 			}
 		}
 		$html = '';
-		foreach($rows as $row){
+		foreach ($rows as $row) {
 			$html .= "<div class=\"row\">";
-			foreach($row as $shortcut){
+			foreach ($row as $shortcut) {
 				$html .= "<div class=\"col-sm-{$shortcut->size}\">";
-				$html .= "<div class=\"core-box\">";
+				$html .= "<div class=\"core-box " . ($shortcut->color ? "box-{$shortcut->color}" : "") . '">';
 				$html .= "<div class=\"heading\">";
-				$html .= "<i class=\"{$shortcut->icon} circle-icon circle-{$shortcut->color}\"></i>";
+				$html .= "<i class=\"{$shortcut->icon}\"></i>";
 				$html .= "<h2>{$shortcut->title}</h2>";
+				if ($shortcut->description) {
+					$html .= "<p class=\"box-description\">{$shortcut->description}</p>";
+				}
 				$html .= "</div>";
-				$html .= "<div class=\"content\">{$shortcut->text}</div>";
-				$html .= "<a class=\"view-more\" href=\"".$shortcut->link[1]."\"><i class=\"clip-arrow-left-2\"></i> ".$shortcut->link[0]."</a>";
+				if ($shortcut->text) {
+					$html .= "<div class=\"content\">{$shortcut->text}</div>";
+				}
+				if (!empty($shortcut->link)) {
+					$html .= "<a class=\"view-more\" href=\"".$shortcut->link[1]."\"><i class=\"clip-arrow-left-2\"></i> ".$shortcut->link[0]."</a>";
+				}
 				$html .= "</div>";
 				$html .= "</div>";
 			}

@@ -7,7 +7,7 @@ $this->the_header('login');
 <div class="box-login">
 	<h3>به حساب کاربری خود وارد شوید.</h3>
 	<p>برای ورود لطفا ایمیل و کلمه عبور خود را وارد کنید.</p>
-	<form class="form-login" name="form-login" action="<?php echo userpanel\url('login', array('ajax'=>1)); ?>" method="post">
+	<form class="form-login" name="form-login" action="<?php echo userpanel\url("login"); ?>" method="post">
 		<?php
 		$this->createField([
 			'name' => 'backTo',

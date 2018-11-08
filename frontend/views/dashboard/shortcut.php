@@ -1,14 +1,15 @@
 <?php
 namespace themes\clipone\views\dashboard;
 class shortcut{
-	const green = 'green';
-	const bricky = 'bricky';
-	const teal = 'teal';
-	const black = 'black';
+	const Danger = "danger";
+	const Warning = "warning";
+	const Info = "info";
+	const Success = "success";
 	public $name;
 	public $icon;
-	public $color;
 	public $title;
+	public $color;
+	public $description;
 	public $text;
 	public $link;
 	public $priority = 0;
