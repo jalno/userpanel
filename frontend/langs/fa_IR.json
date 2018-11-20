@@ -183,6 +183,7 @@
 		"userpanel.log.delete.warning": "در حذف فعالیت ها دقت کنید ، این عملیات غیر قابل بازگشت است.",
 		"log.information": "مشخصات فعالیت",
 		"shortcut.users.loggined": "کاربر امروز از پنل پشتیبانی استفاده کردند",
-		"shortcut.users.loggined.iszero": "هیچ کاربری امروز از پنل پشتیبانی استفاده نکرده است"
+		"shortcut.users.loggined.iszero": "هیچ کاربری امروز از پنل پشتیبانی استفاده نکرده است",
+		"search": "نتایج جستجو"
 	}
 }
