@@ -4,8 +4,10 @@ use \packages\base;
 use \packages\base\response;
 use \packages\base\session;
 use \packages\base\http;
+use packages\userpanel\user\Api;
 class authentication{
 	static private $user;
+	static private $api;
 	static function setUser(user $user){
 		if($user->id){
 			self::$user = $user;
@@ -64,9 +66,22 @@ class authentication{
 		return false;
 	}
 	static public function check(){
-		if(self::getSession()){
+		if (self::getSession()) {
 			if(!session::get("lock")){
 				return true;
+			}
+		} else {
+			$header = http::getHeader("authentication");
+			if ($header) {
+				$header = explode(" ", $header, 2);
+				if (count($header) == 2 and strtolower($header[0]) == "bearer") {
+					$api = Api::where("token", $header[1])->where("status", Api::active)->getOne();
+					if ($api) {
+						self::$api = $api;
+						self::$user = $api->user;
+						return true;
+					}
+				}
 			}
 		}
 		return false;
@@ -100,5 +115,11 @@ class authentication{
 	}
 	static function getName(){
 		return self::$user->name;
+	}
+	public static function getApi() {
+		return self::$api;
+	}
+	public static function setApi(Api $api) {
+		self::$api = $api;
 	}
 }
