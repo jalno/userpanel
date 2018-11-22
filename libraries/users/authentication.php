@@ -71,7 +71,7 @@ class authentication{
 				return true;
 			}
 		} else {
-			$header = http::getHeader("authentication");
+			$header = http::getHeader("authorization");
 			if ($header) {
 				$header = explode(" ", $header, 2);
 				if (count($header) == 2 and strtolower($header[0]) == "bearer") {
