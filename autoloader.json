@@ -353,7 +353,7 @@
 			"file":"libraries/App.php"
 		},
 		{
-			"classes":["Api"],
+			"classes":["user\\Api"],
 			"file":"libraries/users/Api.php"
 		}
 	]
