@@ -177,7 +177,8 @@ class users extends controller{
 				),
 				'status' => array(
 					'type' => 'number',
-					'values' => array(user::active, user::deactive,user::suspend)
+					'values' => array(user::active, user::deactive,user::suspend),
+					'empty' => true
 				),
 				'socialnets' => array(
 					'optional' => true
@@ -434,8 +435,8 @@ class users extends controller{
 				),
 				'status' => array(
 					'optional' => true,
-					'type' => 'number',
-					'values' => array(user::active, user::deactive,user::suspend)
+					'values' => array(user::active, user::deactive,user::suspend),
+					'empty' => true
 				),
 				'avatar' => array(
 					'optional' => true,
@@ -608,6 +609,9 @@ class users extends controller{
 					$user->password_hash($formdata['password']);
 				}
 				unset($formdata['password']);
+				if (!isset($formdata['status']) or !$formdata['status']) {
+					$formdata['status'] = user::deactive;
+				}
 				$user->save($formdata);
 				unset($formdata['avatar']);
 				if(isset($formdata['socialnets'])){

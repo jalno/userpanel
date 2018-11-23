@@ -3,7 +3,7 @@ $this->the_header();
 use \packages\base;
 use \packages\base\translator;
 use \packages\userpanel;
-use \packages\userpanel\user\socialnetwork;
+use \packages\userpanel\{user, user\socialnetwork};
 ?>
 <!-- start: PAGE CONTENT -->
 <div class="row">
@@ -147,17 +147,17 @@ use \packages\userpanel\user\socialnetwork;
 								'options' => array(
 									array(
 										'label' => translator::trans("user.status.active"),
-										'value' => 1,
+										'value' => user::active,
 										'class' => 'grey'
 									),
 									array(
 										'label' => translator::trans("user.status.suspend"),
-										'value' => 0,
+										'value' => user::suspend,
 										'class' => 'grey'
 									),
 									array(
 										'label' => translator::trans("user.status.deactive"),
-										'value' => 0,
+										'value' => user::deactive,
 										'class' => 'grey'
 									)
 								)
