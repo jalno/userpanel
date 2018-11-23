@@ -29,9 +29,12 @@ class login  extends controller{
 	}
 	function login_helper(array $inputsRules){
 		$inputs = $this->checkinputs($inputsRules);
+		$p = new db\parenthesis();
+		$p->where("email", $inputs['username']);
+		$p->orwhere("cellphone", $inputs['username']);
 		$user = new user();
-		$user->where("email", $inputs['username']);
-		$user->orwhere("cellphone", $inputs['username']);
+		$user->where($p);
+		$user->where("status", user::active);
 		if($user = $user->getOne()){
 			if($user->password_verify($inputs['password'])){
 				self::doLogin($user);
@@ -183,7 +186,7 @@ class login  extends controller{
 		$inputs = $this->checkinputs($inputsRules);
 		$user = new user($inputs);
 		$user->type = options::get('packages.userpanel.register')['type'];
-		$user->status = 1;
+		$user->status = user::active;
 		$user->password_hash($inputs['password']);
 		unset($inputs['password']);
 		$user->save();
