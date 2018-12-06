@@ -13,57 +13,87 @@ class userEdit extends logs{
 	}
 	public function buildFrontend(view $view){
 		$parameters = $this->log->parameters;
-		$oldData = $parameters['oldData'];
-		$newData = $parameters['newData'];
-
-		$oldvisibilities = [];
-		if(isset($oldData['visibilities'])){
-			$oldvisibilities = $oldData['visibilities'];
-			unset($oldData['visibilities']);
-		}
-		if($oldData){
-			$panel = new panel('userpanel.user.logs.register');
-			$panel->icon = 'fa fa-external-link-square';
+		$oldData = $parameters["oldData"];
+		$newData = $parameters["newData"];
+		if ($oldData) {
+			$panel = new panel("userpanel.user.logs.userEdit.oldData");
+			$panel->icon = "fa fa-trash";
 			$panel->size = 6;
-			$panel->title = translator::trans('userpanel.user.logs.userEdit');
-			$html = '';
-			if(isset($oldData['avatar'])){
+			$panel->title = translator::trans("userpanel.user.logs.userEdit.old.data");
+			$html = "";
+			if (isset($oldData["avatar"])) {
 				$html .= '<div class="form-group">';
-				$html .= '<label class="col-xs-4 control-label">'.translator::trans("user.avatar").': </label>';
-				$html .= '<div class="col-xs-8">تغییر داده شد</div>';
+				$html .= '<label class="col-sm-6 col-xs-12 control-label">' . translator::trans("user.avatar") . ": </label>";
+				$html .= '<div class="col-sm-6 col-xs-12">تغییر داده شد</div>';
 				$html .= "</div>";
-				unset($oldData['avatar']);
+				unset($oldData["avatar"]);
 			}
-			foreach($oldData as $field => $val){
+			foreach ($oldData as $field => $val) {
+				if ($field == "visibilities") {
+					continue;
+				}
 				$html .= '<div class="form-group">';
-				$html .= '<label class="col-xs-4 control-label">'.translator::trans("register.user.{$field}").': </label>';
-				$html .= '<div class="col-xs-8'.(!in_array($field, ['name', 'lastname']) ? " ltr" : "").'">'.$val.'</div>';
+				$html .= '<label class="col-sm-6 col-xs-12 control-label">' . translator::trans("log.user.{$field}") . ": </label>";
+				$html .= '<div class="col-sm-6 col-xs-12' . (!in_array($field, ['name', 'lastname']) ? " ltr" : "") . '">' . $val . "</div>";
 				$html .= "</div>";
+			}
+			if (isset($oldData["visibilities"])) {
+				foreach ($oldData["visibilities"] as $field) {
+					$html .= '<div class="form-group">';
+					$html .= '<label class="col-sm-6 col-xs-12 control-label">'.translator::trans("userpnale.logs.userEdit.visibility_{$field}").': </label>';
+					$html .= '<div class="col-sm-6 col-xs-12">عمومی</div>';
+					$html .= "</div>";
+				}
+			}
+			if (isset($newData["visibilities"])) {
+				foreach ($newData["visibilities"] as $field) {
+					$html .= '<div class="form-group">';
+					$html .= '<label class="col-sm-6 col-xs-12 control-label">'.translator::trans("userpnale.logs.userEdit.visibility_{$field}").': </label>';
+					$html .= '<div class="col-sm-6 col-xs-12">خصوصی</div>';
+					$html .= "</div>";
+				}
 			}
 			$panel->setHTML($html);
 			$this->addPanel($panel);
 		}
-		if((isset($newData['visibilities']) and $newData['visibilities']) or $oldvisibilities){
-			$panel = new panel('userpanel.user.logs.register');
-			$panel->icon = 'fa fa-external-link-square';
+		if ($newData) {
+			$panel = new panel("userpanel.user.logs.register");
+			$panel->icon = "fa fa-plus";
 			$panel->size = 6;
-			$panel->title = translator::trans('userpanel.user.logs.userEdit');
-			$html = '';
-			foreach($oldvisibilities as $field){
+			$panel->title = translator::trans("userpanel.user.logs.userEdit.new.data");
+			$html = "";
+			if (isset($newData["avatar"])) {
 				$html .= '<div class="form-group">';
-				$html .= '<label class="col-xs-4 control-label">'.translator::trans("userpnale.logs.userEdit.visibility_{$field}").': </label>';
-				$html .= '<div class="col-xs-8'.(!in_array($field, ['name', 'lastname']) ? " ltr" : "").'">خصوصی شد</div>';
+				$html .= '<label class="col-sm-6 col-xs-12 control-label">' . translator::trans("user.avatar") . ": </label>";
+				$html .= '<div class="col-sm-6 col-xs-12">تغییر داده شد</div>';
+				$html .= "</div>";
+				unset($newData['avatar']);
+			}
+			foreach ($newData as $field => $val) {
+				if ($field == "visibilities") {
+					continue;
+				} 
+				$html .= '<div class="form-group">';
+				$html .= '<label class="col-sm-6 col-xs-12 control-label">' . translator::trans("log.user.{$field}") . ": </label>";
+				$html .= '<div class="col-sm-6 col-xs-12' . (!in_array($field, ["name", "lastname"]) ? " ltr" : "") . '">' . $val . "</div>";
 				$html .= "</div>";
 			}
-			if(isset($newData['visibilities'])){
-				foreach($newData['visibilities'] as $field){
+			if (isset($newData["visibilities"])) {
+				foreach ($newData["visibilities"] as $field) {
 					$html .= '<div class="form-group">';
-					$html .= '<label class="col-xs-4 control-label">'.translator::trans("userpnale.logs.userEdit.visibility_{$field}").': </label>';
-					$html .= '<div class="col-xs-8'.(!in_array($field, ['name', 'lastname']) ? " ltr" : "").'">عمومی شد</div>';
+					$html .= '<label class="col-sm-6 col-xs-12 control-label">'.translator::trans("userpnale.logs.userEdit.visibility_{$field}").': </label>';
+					$html .= '<div class="col-sm-6 col-xs-12">عمومی</div>';
 					$html .= "</div>";
 				}
 			}
-
+			if (isset($oldData["visibilities"])) {
+				foreach ($oldData["visibilities"] as $field) {
+					$html .= '<div class="form-group">';
+					$html .= '<label class="col-sm-6 col-xs-12 control-label">'.translator::trans("userpnale.logs.userEdit.visibility_{$field}").': </label>';
+					$html .= '<div class="col-sm-6 col-xs-12">خصوصی</div>';
+					$html .= "</div>";
+				}
+			}
 			$panel->setHTML($html);
 			$this->addPanel($panel);
 		}

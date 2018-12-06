@@ -514,10 +514,8 @@ class users extends controller{
 					'avatar',
 				];
 
-				$old = [];
-				foreach($logsfeilds as $field){
-					$old[$field] = $user->original_data[$field];
-				}
+				$oldData = $user->original_data;
+				unset($oldData["id"], $oldData["lastonline"], $oldData["remember_token"]);
 				$formdata = $this->checkinputs($inputs);
 				if(isset($formdata['type']) and !usertype::byId($formdata['type'])){
 					throw new inputValidation("type");
@@ -639,49 +637,54 @@ class users extends controller{
 						}
 					}
 				}
-				$inputs = [
-					'oldData' => [],
-					'newData' => []
-				];
+				$inputs = array(
+					"oldData" => array(),
+					"newData" => array()
+				);
 				if(authorization::is_accessed('profile_edit_privacy')){
 					$visibilities = $user->getOption("visibilities");
 					if(!is_array($visibilities)){
 						$visibilities = array();
 					}
-					$inputs['oldData']['visibilities'] = $visibilities;
-					foreach(array(
-						'email',
-						'cellphone',
-						'phone',
-						'socialnetworks_'.socialnetwork::telegram,
-						'socialnetworks_'.socialnetwork::instagram,
-						'socialnetworks_'.socialnetwork::skype,
-						'socialnetworks_'.socialnetwork::twitter,
-						'socialnetworks_'.socialnetwork::facebook,
-						'socialnetworks_'.socialnetwork::gplus,
-					) as $field){
-						if(array_key_exists('visibility_'.$field, $formdata)){
-							if($formdata['visibility_'.$field]){
+					foreach (array(
+						"email",
+						"cellphone",
+						"phone",
+						"socialnetworks_" . socialnetwork::telegram,
+						"socialnetworks_" . socialnetwork::instagram,
+						"socialnetworks_" . socialnetwork::skype,
+						"socialnetworks_" . socialnetwork::twitter,
+						"socialnetworks_" . socialnetwork::facebook,
+						"socialnetworks_" . socialnetwork::gplus,
+					) as $field) {
+						$item = "visibility_" . $field;
+						if (array_key_exists($item, $formdata)) {
+							if ($formdata[$item]) {
+								if (!in_array($field, $visibilities)) {
+									$inputs["newData"]["visibilities"][] = $field;
+								}
 								$visibilities[] = $field;
-							}elseif(($key = array_search($field, $visibilities)) !== false){
+							} else if (($key = array_search($field, $visibilities)) !== false) {
+								$inputs["oldData"]["visibilities"][] = $field;
 								unset($visibilities[$key]);
 							}
 						}
 					}
 					$visibilities = array_values(array_unique($visibilities));
 					$user->setOption("visibilities", $visibilities);
-					$inputs['newData']['visibilities'] = $visibilities;
 				}
-				foreach($old as $field => $val){
-					if($val != $user->original_data[$field]){
-						$inputs['oldData'][$field] = $val ? $val : [];
+				foreach ($oldData as $field => $val) {
+					$newVal = $user->original_data[$field];
+					if ($val != $newVal) {
+						$inputs["oldData"][$field] = $val ? $val : "-";
+						$inputs["newData"][$field] = $newVal;
 					}
 				}
-				if(isset($inputs['oldData']['password'])){
-					$inputs['oldData']['password'] = "***";
+				if (isset($inputs["oldData"]["password"])) {
+					$inputs["oldData"]["password"] = "********";
 				}
-				if(isset($inputs['newData']['password'])){
-					$inputs['newData']['password'] = "***";
+				if (isset($inputs["newData"]["password"])) {
+					$inputs["newData"]["password"] = "********";
 				}
 				$actionUser = authentication::getUser();
 				if($actionUser->id == $user->id){
