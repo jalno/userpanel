@@ -197,6 +197,8 @@
 		"log.user.email" : "رایانامه",
 		"log.user.password" : "کلمه عبور",
 		"log.user.credit" : "موجودی کاربر",
-		"log.user.password_again" : "تکرار کلمه عبور"
+		"log.user.password_again" : "تکرار کلمه عبور",
+		"log.user.type" : "سطح کاربری",
+		"log.user.status" : "وضعیت"
 	}
 }

@@ -293,6 +293,9 @@ trait formTrait{
 			if(isset($item['value']) and $item['value']){
 				$code .= " value=\"{$item['value']}\"";
 			}
+			if(isset($item["title"]) and $item["title"]){
+				$code .= " title=\"{$item["title"]}\"";
+			}
 			if(isset($item['dropdown']) and $item['dropdown']){
 				$code .= " data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\"";
 			}
