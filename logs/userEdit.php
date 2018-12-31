@@ -32,9 +32,18 @@ class userEdit extends logs{
 				if ($field == "visibilities") {
 					continue;
 				}
+				if (is_array($val) and isset($val["title"], $val["value"])) {
+					$title = $val["title"];
+					$value = $val["value"];
+					$isLtr = !is_string($value);
+				} else {
+					$title = translator::trans("log.user.{$field}");
+					$value = $val;
+					$isLtr = !in_array($field, ["name", "lastname"]);
+				}
 				$html .= '<div class="form-group">';
-				$html .= '<label class="col-sm-6 col-xs-12 control-label">' . translator::trans("log.user.{$field}") . ": </label>";
-				$html .= '<div class="col-sm-6 col-xs-12' . (!in_array($field, ['name', 'lastname']) ? " ltr" : "") . '">' . $val . "</div>";
+				$html .= '<label class="col-sm-6 col-xs-12 control-label">' . $title . ": </label>";
+				$html .= '<div class="col-sm-6 col-xs-12' . ($isLtr ? " ltr" : "") . '">' . $value . "</div>";
 				$html .= "</div>";
 			}
 			if (isset($oldData["visibilities"])) {
@@ -72,10 +81,19 @@ class userEdit extends logs{
 			foreach ($newData as $field => $val) {
 				if ($field == "visibilities") {
 					continue;
-				} 
+				}
+				if (is_array($val) and isset($val["title"], $val["value"])) {
+					$title = $val["title"];
+					$value = $val["value"];
+					$isLtr = !is_string($value);
+				} else {
+					$title = translator::trans("log.user.{$field}");
+					$value = $val;
+					$isLtr = !in_array($field, ["name", "lastname"]);
+				}
 				$html .= '<div class="form-group">';
-				$html .= '<label class="col-sm-6 col-xs-12 control-label">' . translator::trans("log.user.{$field}") . ": </label>";
-				$html .= '<div class="col-sm-6 col-xs-12' . (!in_array($field, ["name", "lastname"]) ? " ltr" : "") . '">' . $val . "</div>";
+				$html .= '<label class="col-sm-6 col-xs-12 control-label">' . $title . ": </label>";
+				$html .= '<div class="col-sm-6 col-xs-12' . ($isLtr ? " ltr" : "") . '">' . $value . "</div>";
 				$html .= "</div>";
 			}
 			if (isset($newData["visibilities"])) {

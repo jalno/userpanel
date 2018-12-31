@@ -353,28 +353,40 @@ class profile extends controller{
 		$user = authentication::getUser();
 		$settingsEvent->setUser($user);
 		$settingsEvent->trigger();
-		if(!$settingsEvent->get()){
+		$settings = $settingsEvent->get();
+		if(!$settings){
 			throw new base\NotFound();
 		}
-		$view = view::byName("\\packages\\userpanel\\views\\profile\\settings");
+		$this->response->setView($view = view::byName("\\packages\\userpanel\\views\\profile\\settings"));
 		$view->setUser($user);
-		$view->setSettings($settingsEvent->get());
+		$view->setSettings($settings);
 		$this->response->setStatus(true);
 		$inputsRules = [];
-		try{
-			foreach($settingsEvent->get() as $tuning){
-				if($SRules = $tuning->getInputs()){
-					$SRules = $inputsRules = array_merge($inputsRules, $SRules);
-					$ginputs = $this->checkinputs($SRules);
-					$tuning->callController($ginputs, $user);
-				}
+		$logs = array();
+		foreach ($settings as $setting) {
+			if ($SRules = $setting->getInputs()) {
+				$SRules = $inputsRules = array_merge($inputsRules, $SRules);
+				$ginputs = $this->checkinputs($SRules);
+				$logs = array_merge($logs, $setting->store($ginputs, $user));
 			}
-		}catch(inputValidation $error){
-			$view->setFormError(FormError::fromException($error));
-			$this->response->setStatus(false);
 		}
 		$view->setDataForm($this->inputsvalue($inputsRules));
-		$this->response->setView($view);
+		if ($logs) {
+			$inputs = array(
+				"oldData" => array(),
+				"newData" => array(),
+			);
+			foreach ($logs as $log) {
+				$inputs["oldData"][$log->getName()] = array("title" => $log->getTitle(), "value" => $log->getOldValue());
+				$inputs["newData"][$log->getName()] = array("title" => $log->getTitle(), "value" => $log->getNewValue());
+			}
+			$log = new log();
+			$log->title = translator::trans("log.profileEdit");
+			$log->type = logs\userEdit::class;
+			$log->user = $user->id;
+			$log->parameters = $inputs;
+			$log->save();
+		}
 		return $this->response;
 	}
 }

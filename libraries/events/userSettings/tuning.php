@@ -34,19 +34,22 @@ class tuning{
 		return $this->fields;
 	}
 	public function setController(string $controller){
-		list($class, $method) = explode("@", $controller, 2);
-		if(!(class_exists($class) and method_exists($class, $method))){
+		if(!class_exists($controller) or !((new $controller) instanceof Controller)){
 			throw new controllerException($controller);
 		}
-		$this->controller = [$class, $method];
+		$this->controller = $controller;
 	}
-	public function callController(array $inputs, user $user){
-		if($this->controller){
-			$class = new $this->controller[0];
-			$method = $this->controller[1];
-			return $class->$method($inputs, $user);
+	public function store(array $inputs, user $user) {
+		return $this->callController($inputs, $user, "store");
+	}
+	public function callController(array $inputs, user $user, string $method) {
+		if (!$this->controller) {
+			return null;
 		}
-		return false;
+		if (!method_exists($this->controller, $method)) {
+			throw new controllerException($controller);
+		}
+		return (new $this->controller)->$method($inputs, $user);
 	}
 	public function setDataForm(string $name, $value){
 		$this->data[$name] = $value;
