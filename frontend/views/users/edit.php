@@ -1,24 +1,19 @@
 <?php
 namespace themes\clipone\views\users;
-use \packages\base\translator;
-use \packages\base\packages;
-use \packages\base\frontend\theme;
-use \packages\userpanel\views\users\edit as usersEditView;
-use \packages\userpanel;
-use \packages\userpanel\usertype;
-use \themes\clipone\breadcrumb;
-use \themes\clipone\navigation;
-use \themes\clipone\navigation\menuItem;
-use \themes\clipone\viewTrait;
-use \themes\clipone\views\formTrait;
+use packages\base\{translator, packages, frontend\theme, options};
+use packages\userpanel;
+use packages\userpanel\{views\users\edit as usersEditView, usertype};
+use themes\clipone\{breadcrumb, navigation, navigation\menuItem, viewTrait, views\formTrait};
 class edit extends usersEditView{
 	use viewTrait,formTrait;
 	protected $usertypes = array();
+	private $user;
 	function __beforeLoad(){
+		$this->user = $this->getData("user");
 		$this->setTitle(array(
 			translator::trans('users'),
 			translator::trans('user.edit'),
-			$this->getData('user')->getFullName()
+			$this->user->getFullName()
 		));
 
 		
@@ -111,5 +106,12 @@ class edit extends usersEditView{
 		return array(
 			'left' => array($button)
 		);
+	}
+	protected function getUserCurrency(): string {
+		if (packages::package("financial")) {
+			return \packages\financial\currency::getDefault($this->user)->title;
+		} else {
+			return options::get("packages.userpanel.users.credit.currency.title");
+		}
 	}
 }

@@ -166,7 +166,16 @@ use \packages\userpanel\{user, user\socialnetwork};
 								$this->createField(array(
 									'type' => 'number',
 									'name' => 'credit',
-									'label' => translator::trans("user.credit")
+									'label' => translator::trans("user.credit"),
+									"ltr" => true,
+									"input-group" => array(
+										"right" => array(
+											array(
+												"type" => "addon",
+												"text" => $this->getUserCurrency(),
+											),
+										),
+									),
 								));
 								$this->createField(array(
 									'type' => 'password',
