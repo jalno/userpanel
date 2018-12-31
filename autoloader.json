@@ -355,6 +355,14 @@
 		{
 			"classes":["user\\Api"],
 			"file":"libraries/users/Api.php"
+		},
+		{
+			"classes":["events\\settings\\Controller"],
+			"file":"libraries/events/userSettings/Controller.php"
+		},
+		{
+			"classes":["events\\settings\\Log"],
+			"file":"libraries/events/userSettings/Log.php"
 		}
 	]
 }
