@@ -170,11 +170,6 @@ class users extends controller{
 					'type' => 'string',
 					'empty' => true
 				),
-				'credit' => array(
-					'optional' => true,
-					'type' => 'number',
-					'empty' => true
-				),
 				'status' => array(
 					'type' => 'number',
 					'values' => array(user::active, user::deactive,user::suspend),
@@ -234,6 +229,13 @@ class users extends controller{
 					'empty' => true
 				)
 			);
+			if (authorization::is_accessed("users_edit_credit")) {
+				$inputs["credit"] = array(
+					"optional" => true,
+					"type" => "number",
+					"empty" => true
+				);
+			}
 			$this->response->setStatus(false);
 			try{
 				$formdata = $this->checkinputs($inputs);
@@ -428,11 +430,6 @@ class users extends controller{
 					'type' => 'string',
 					'empty' => true
 				),
-				'credit' => array(
-					'optional' => true,
-					'type' => 'number',
-					'empty' => true
-				),
 				'status' => array(
 					'optional' => true,
 					'values' => array(user::active, user::deactive,user::suspend),
@@ -501,6 +498,13 @@ class users extends controller{
 					'optional' => true
 				]
 			);
+			if (authorization::is_accessed("users_edit_credit")) {
+				$inputs["credit"] = array(
+					"optional" => true,
+					"type" => "number",
+					"empty" => true
+				);
+			}
 			$this->response->setStatus(false);
 			try{
 				$oldData = $user->original_data;

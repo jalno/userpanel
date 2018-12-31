@@ -82,13 +82,17 @@ use \packages\userpanel\{user, user\socialnetwork};
 									'ltr' => true,
 									'input-group' => $this->getFieldPrivacyGroupBtn('cellphone')
 								),
-								array(
-									'type' => 'password',
-									'name' => 'password',
-									'label' => translator::trans("user.password"),
-									'value' => ''
-								),
 							);
+							if ($this->canChangeCredit) {
+								$fields = array_merge($fields, array(
+									array(
+										'type' => 'password',
+										'name' => 'password',
+										'label' => translator::trans("user.password"),
+										'value' => ''
+									),
+								));
+							}
 							foreach($fields as $field){
 								$this->createField($field);
 							}
@@ -162,11 +166,21 @@ use \packages\userpanel\{user, user\socialnetwork};
 									)
 								)
 							));
-							$this->createField(array(
-								'type' => 'number',
-								'name' => 'credit',
-								'label' => translator::trans("user.credit")
-							));
+							if ($this->canChangeCredit) {
+								$this->createField(array(
+									'type' => 'number',
+									'name' => 'credit',
+									'label' => translator::trans("user.credit"),
+									"ltr" => true,
+								));
+							} else {
+								$this->createField(array(
+										'type' => 'password',
+										'name' => 'password',
+										'label' => translator::trans("user.password"),
+										'value' => ''
+								));
+							}
 							$this->createField(array(
 								'type' => 'password',
 								'name' => 'password2',

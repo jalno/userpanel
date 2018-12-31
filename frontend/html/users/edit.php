@@ -1,9 +1,9 @@
 <?php
 $this->the_header();
-use \packages\base;
-use \packages\base\translator;
-use \packages\userpanel;
-use \packages\userpanel\{user, user\socialnetwork};
+use packages\base;
+use packages\base\translator;
+use packages\userpanel;
+use packages\userpanel\{user, user\socialnetwork};
 ?>
 <!-- start: PAGE CONTENT -->
 <div class="row">
@@ -83,15 +83,18 @@ use \packages\userpanel\{user, user\socialnetwork};
 										),
 										'input-group' => $this->getFieldPrivacyGroupBtn('cellphone')
 									),
-									array(
-										'type' => 'password',
-										'name' => 'password',
-										'label' => translator::trans("user.password"),
-										'value' => ''
-									)
-
 								);
-								foreach($fields as $field){
+								if ($this->canChangeCredit) {
+									$fields = array_merge($fields, array(
+										array(
+											'type' => 'password',
+											'name' => 'password',
+											'label' => translator::trans("user.password"),
+											'value' => ''
+										),
+									));
+								}
+								foreach ($fields as $field) {
 									$this->createField($field);
 								}
 								?>
@@ -163,20 +166,29 @@ use \packages\userpanel\{user, user\socialnetwork};
 										)
 									)
 								));
-								$this->createField(array(
-									'type' => 'number',
-									'name' => 'credit',
-									'label' => translator::trans("user.credit"),
-									"ltr" => true,
-									"input-group" => array(
-										"right" => array(
-											array(
-												"type" => "addon",
-												"text" => $this->getUserCurrency(),
+								if ($this->canChangeCredit) {
+									$this->createField(array(
+										'type' => 'number',
+										'name' => 'credit',
+										'label' => translator::trans("user.credit"),
+										"ltr" => true,
+										"input-group" => array(
+											"right" => array(
+												array(
+													"type" => "addon",
+													"text" => $this->getUserCurrency(),
+												),
 											),
 										),
-									),
-								));
+									));
+								} else {
+									$this->createField(array(
+											'type' => 'password',
+											'name' => 'password',
+											'label' => translator::trans("user.password"),
+											'value' => ''
+									));
+								}
 								$this->createField(array(
 									'type' => 'password',
 									'name' => 'password2',

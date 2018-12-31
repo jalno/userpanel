@@ -199,6 +199,10 @@
 		"log.user.credit" : "موجودی کاربر",
 		"log.user.password_again" : "تکرار کلمه عبور",
 		"log.user.type" : "سطح کاربری",
-		"log.user.status" : "وضعیت"
+		"log.user.status" : "وضعیت",
+		"usertype.permissions.userpanel_logs_search":"جستجوی فعالیت کاربران",
+		"usertype.permissions.userpanel_logs_view":"مشاهده فعالیت کاربران",
+		"usertype.permissions.userpanel_logs_delete":"حذف فعالیت کاربران",
+		"usertype.permissions.userpanel_users_edit_credit":"تغییر موجودی کاربری"
 	}
 }

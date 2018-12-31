@@ -6,8 +6,10 @@ use \packages\userpanel\authorization;
 class edit extends form{
 	use settingsTrait;
 	protected $canEditPrivacy;
+	protected $canChangeCredit;
 	function __construct(){
 		$this->canEditPrivacy = authorization::is_accessed('profile_edit_privacy');
+		$this->canChangeCredit = authorization::is_accessed("users_edit_credit");
 	}
 	public function setCountries($countries){
 		$this->setData($countries, 'countries');

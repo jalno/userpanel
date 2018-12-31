@@ -12,6 +12,7 @@ class usertype{
 			'users_edit_privacy',
 			'users_delete',
 			'users_settings',
+			"users_edit_credit",
 
 			'logs_search',
 			'logs_view',
