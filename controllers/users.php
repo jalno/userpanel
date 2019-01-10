@@ -96,11 +96,12 @@ class users extends controller{
 			}
 			if(isset($inputs['word']) and $inputs['word']){
 				$parenthesis = new parenthesis();
-				foreach(array('name', 'lastname', 'email', 'cellphone') as $item){
-					if(!isset($inputs[$item]) or !$inputs[$item]){
-						$parenthesis->where($item,$inputs['word'], $inputs['comparison'], 'OR');
+				foreach (array('name', 'lastname', 'email', 'cellphone') as $item) {
+					if (!isset($inputs[$item]) or !$inputs[$item]) {
+						$parenthesis->orWhere($item, $inputs['word'], $inputs['comparison']);
 					}
 				}
+				$parenthesis->orWhere("CONCAT(`name`, ' ', `lastname`)", $inputs["word"], $inputs["comparison"]);
 				$user->where($parenthesis);
 			}
 		}catch(inputValidation $error){
