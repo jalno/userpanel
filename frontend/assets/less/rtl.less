@@ -55,6 +55,15 @@ body.rtl{
 			right: 0;
 		}
 	}
+	.panel-tabs {
+		.panel-tools { 
+			.nav-tabs {
+				float: right;
+				margin-left: 15px;
+				margin-right: 0;
+			}
+		}
+	}
 
 	.navbar-tools {
 		> ul {
@@ -266,34 +275,36 @@ body.rtl{
 	.progress-bar {
 		float: right;
 	}
-	.tabs-right {
-		>.nav-tabs {
-			>li {
-				float: none;
-			}
-		}
+	.nav {
+		padding-right: 1px;
 	}
 	.panel-tabs {
 		.nav-tabs {
 			float: left;
 		}
 	}
-	.nav {
-		padding-right: 1px;
-	}
 	.nav-tabs {
 		> li {
 			float: right;
 		}
 	}
-	.tabs-left {
-		> .nav-tabs {
-			>li {
-				float: none;
+	@media (min-width: 767px) {
+		.tabs-right {
+			>.nav-tabs {
+				>li {
+					float: none;
+				}
 			}
 		}
-		.nav {
-			padding-right: 0;
+		.tabs-left {
+			> .nav-tabs {
+				> li {
+					float: none;
+				}
+			}
+			.nav {
+				padding-right: 0;
+			}
 		}
 	}
 
