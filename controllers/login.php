@@ -18,9 +18,9 @@ class login  extends controller{
 		$log->save();
 	}
 	public static function checkRememberToken(){
-		if($cookies = http::$request['cookies']){
-			if(isset($cookies['remember']) and $cookies['remember']){
-				if($user = user::where('remember_token', $cookies['remember'])->getOne()){
+		if ($cookies = http::$request['cookies']){
+			if (isset($cookies['remember']) and $cookies['remember']){
+				if ($user = user::where('remember_token', $cookies['remember'])->where("status", user::active)->getOne()){
 					return $user;
 				}
 			}

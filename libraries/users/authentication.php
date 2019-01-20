@@ -49,17 +49,17 @@ class authentication{
 		return false;
 	}
 	static function getSession(){
-		if(!session::status()){
+		if (!session::status()) {
 			session::start();
 		}
-		if(session::status()){
-			if(!self::$user){
-				if(($userid = session::get("userid")) > 0){
-					if(self::$user = user::byId($userid)){
+		if (session::status()) {
+			if (!self::$user) {
+				if (($userid = session::get("userid")) > 0) {
+					if (self::$user = user::where("id", $userid)->where("status", user::active)->getOne()) {
 						return true;
 					}
 				}
-			}else{
+			} else {
 				return true;
 			}
 		}
