@@ -139,9 +139,11 @@ class user extends dbObject{
 	public function toArray($recursive = false){
 		$password = $this->password;
 		unset($this->data['password']);
+		$remember_token = $this->remember_token;
+		unset($this->data["remember_token"]);
 		$return = parent::toArray($recursive);
-
 		$this->password = $password;
+		$this->remember_token = $remember_token;
 		return $return;
 	}
 	public function createRememberToken():string{
