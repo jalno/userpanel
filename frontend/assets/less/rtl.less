@@ -318,6 +318,17 @@ body.rtl{
 		border-right: 2px solid #569099;
 		border-left: none;
 	}
+	.accordion-custom{
+		.panel-heading {
+			.accordion-toggle.collapsed {
+				> .icon-arrow{
+					&:before{
+						content: "\f053" !important;
+					}
+				}
+			}
+		}
+	}
 	.swMain > ul li:first-child > a:before {
 		right: 50%;
 	}
