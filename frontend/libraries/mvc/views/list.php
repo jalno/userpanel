@@ -103,7 +103,7 @@ trait listTrait{
 					if(isset($btn['params']['link']) and $btn['params']['link']){
 						$code .= ' href="'.$btn['params']['link'].'"';
 					}
-					if(isset($btn['data']) and $btn['params']['data']){
+					if(isset($btn['params']['data']) and $btn['params']['data']){
 						foreach($btn['params']['data'] as $name => $value){
 							$code .= ' data-'.$name.'="'.$value.'"';
 						}

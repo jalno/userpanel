@@ -411,7 +411,7 @@ trait formTrait{
 		$code = "";
 		if(isset($element['data']) and $element['data']){
 			foreach($element['data'] as $key => $value){
-				$code .= " data-{$key}=\"{$value}\" ";
+				$code .= " data-{$key}='{$value}' ";
 			}
 		}
 		return $code;
