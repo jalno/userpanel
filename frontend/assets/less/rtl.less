@@ -340,20 +340,21 @@ body.rtl{
 		border-right: none;
 		border-left: 1px solid #ECEAF3;
 		float: right;
-		&-item {
-			padding: 5px 25px 5px 15px;
-			&-star, &-attachment {
+		.messages-item {
+			padding-right: 25px;
+			padding-left: 15px;
+			.messages-item-star, .messages-item-attachment {
 				left: auto;
 				right: 7px;
 			}
-			&-avatar {
+			.messages-item-avatar {
 				float: right;
 			}
-			&-from, &-subject {
+			.messages-item-from, .messages-item-subject {
 				margin-left: 0;
 				margin-right: 45px;
 			}
-			&-time {
+			.messages-item-time {
 				right: auto;
 				left: 15px;
 				.messages-item-actions {
