@@ -9,7 +9,7 @@ class App extends dbObject {
 	protected $dbFields = array(
 		"name" => array("type" => "text", "required" => true),
 		"user" => array("type" => "int", "required" => true),
-		"token" => array("type" => "text", "required" => true),
+		"token" => array("type" => "text", "required" => true, "unique" => true),
 	);
 	protected $relations = array(
 		"user" => array("hasOne", user::class, "user")

@@ -28,7 +28,11 @@ class usertype{
 			'settings_usertypes_edit',
 			'settings_usertypes_delete',
 
-			'resetpwd_newpwd'
+			'resetpwd_newpwd',
+			
+			"apps_search",
+			"apps_add",
+			"apps_delete",
 
 		);
 		foreach($permissions as $permission){

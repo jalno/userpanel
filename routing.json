@@ -147,6 +147,21 @@
 		"method": "post"
 	},
 	{
+		"path": "userpanel/settings/apps",
+		"controller": "controllers/settings/Apps@search",
+		"method": "get"
+	},
+	{
+		"path": "userpanel/settings/apps/add",
+		"controller": "controllers/settings/Apps@add",
+		"method": "post"
+	},
+	{
+		"path": "userpanel/settings/apps/:app/delete",
+		"controller": "controllers/settings/Apps@delete",
+		"method": "post"
+	},
+	{
 		"paths": [
 			"userpanel/"
 		],

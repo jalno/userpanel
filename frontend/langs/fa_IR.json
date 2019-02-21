@@ -203,6 +203,23 @@
 		"usertype.permissions.userpanel_logs_search":"جستجوی فعالیت کاربران",
 		"usertype.permissions.userpanel_logs_view":"مشاهده فعالیت کاربران",
 		"usertype.permissions.userpanel_logs_delete":"حذف فعالیت کاربران",
-		"usertype.permissions.userpanel_users_edit_credit":"تغییر موجودی کاربری"
+		"usertype.permissions.userpanel_users_edit_credit":"تغییر موجودی کاربری",
+		"userpanel.apps": "برنامه ها",
+		"userpanel.app.id": "شناسه",
+		"userpanel.app.name": "نام",
+		"userpanel.app.token": "کد",
+		"userpanel.app.user": "کاربر",
+		"userpanel.search": "جستجو",
+		"userpanel.cancel": "انصراف",
+		"userpanel.add": "افزودن",
+		"userpanel.create": "ایجاد",
+		"userpanel.apps.add": "افزودن برنامه",
+		"userpanel.apps.delete": "حذف برنامه",
+		"userpanel.delete": "حذف",
+		"error.userpanel.apps.notfound": "رابط برنامه ای برای نمایش یافت نشد.",
+		"userpanel.apps.delete.warning": "<p>آیا از حذف برنامه اطمینان دارید؟<br>تمامی رابط های برنامه نویسی مرتبط با این برنامه پاک خواهند شد.</p><p>در حذف برنامه ها دقت کنید! این عملیات بدون بازگشت است.</p>",
+		"usertype.permissions.userpanel_apps_search":"جستجوی برنامه ها",
+		"usertype.permissions.userpanel_apps_add":"افزودن برنامه ها",
+		"usertype.permissions.userpanel_apps_delete":"حذف برنامه ها"
 	}
 }
