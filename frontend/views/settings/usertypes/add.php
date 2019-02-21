@@ -1,7 +1,7 @@
 <?php
 namespace themes\clipone\views\settings\usertypes;
 use \packages\base\translator;
-use \packages\userpanel\views\settings\usertypes\edit as usertypeEdit;
+use \packages\userpanel\views\settings\usertypes\add as usertypeEdit;
 use \themes\clipone\navigation;
 use \themes\clipone\viewTrait;
 use \themes\clipone\views\formTrait;

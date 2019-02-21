@@ -1,54 +1,79 @@
 import "bootstrap";
 import "bootstrap-inputmsg";
-import * as $ from "jquery";
 import "jquery.growl";
+import * as $ from "jquery";
 import AutoComplete from "./../AutoComplete";
 import "webuilder";
 import { Router } from "webuilder";
 import "webuilder/formAjax";
 
-export default class Apps {
+interface IUser {
+	id: number;
+	name: string;
+	lastname?: string;
+}
+
+interface IApp {
+	id: number;
+	name: string;
+	token: string;
+	user: IUser;
+}
+enum Status {
+	ACTIVE = 1,
+	DISABLE = 2,
+}
+interface IApi {
+	id: number;
+	user: IUser;
+	app: IApp;
+	token: string;
+	status: Status,
+}
+
+export default class Apis {
 	public static initIfNeeded() {
-		const $body = $("body.userpanel-apps");
+		const $body = $("body.userpanel-apis");
 		if ($body.length) {
-			Apps.$searchForm = $("#appsSearch", $body);
-			Apps.$addForm = $("#apps-add", $body);
-			Apps.init();
+			Apis.$searchForm = $("#apisSearch", $body);
+			Apis.$addForm = $("#apis-add", $body);
+			Apis.init();
 		}
 	}
 	protected static $searchForm: JQuery;
 	protected static $addForm: JQuery;
 	protected static init() {
-		Apps.runUserAutoComplete();
-		Apps.runDeleteAppsListener();
-		if (Apps.$addForm.length) {
-			Apps.runAutoGenerateToken();
-			Apps.runAddAppsSubmitListener();
+		Apis.runUserAutoComplete();
+		Apis.runDeleteApisListener();
+		Apis.runEditApisListener();
+		if (Apis.$addForm.length) {
+			Apis.runAutoGenerateToken();
+			Apis.runAddApisSubmitListener();
 		}
 	}
 	protected static runUserAutoComplete() {
-		if ($("input[name=search_user_name]", Apps.$searchForm).length) {
-			const ac = new AutoComplete($("input[name=search_user_name]", Apps.$searchForm));
+		if ($("input[name=search_user_name]", Apis.$searchForm).length) {
+			const ac = new AutoComplete($("input[name=search_user_name]", Apis.$searchForm));
 			ac.users();
 		}
-		if ($("input[name=user_name]", Apps.$addForm).length) {
-			const ac = new AutoComplete($("input[name=user_name]", Apps.$addForm));
+		if ($("input[name=user_name]", Apis.$addForm).length) {
+			const ac = new AutoComplete($("input[name=user_name]", Apis.$addForm));
 			ac.users();
 		}
 	}
 	protected static runAutoGenerateToken() {
-		$(".btn.btn-generate-apps-token", Apps.$addForm).on("click", (e) => {
+		$(".btn.btn-generate-apis-token", Apis.$addForm).on("click", (e) => {
 			e.preventDefault();
-			$("input[name=token]", Apps.$addForm).val(Apps.generateToken(32));
+			$("input[name=token]", Apis.$addForm).val(Apis.generateToken(32));
 		});
 	}
-	protected static runAddAppsSubmitListener() {
-		const $btn = $(".btn-submit", Apps.$addForm);
-		Apps.$addForm.on("submit", function(e) {
+	protected static runAddApisSubmitListener() {
+		const $btn = $(".btn-submit", Apis.$addForm);
+		Apis.$addForm.on("submit", function(e) {
 			e.preventDefault();
 			$btn.prop("disabled", true);
 			$(this).formAjax({
-				url: Router.url("userpanel/settings/apps/add?ajax=1"),
+				url: Router.url("userpanel/settings/apis/add?ajax=1"),
 				dataType: "json",
 				success: (data) => {
 					window.location.reload();
@@ -83,29 +108,93 @@ export default class Apps {
 			});
 		});
 	}
-	protected static runDeleteAppsListener() {
-		const $modal = $("#app-delete");
+	protected static runEditApisListener() {
+		const $modal = $("#api-edit");
 		const $btn = $(".btn-submit", $modal);
-		let $tr: JQuery;
-		$('.table-apps tbody [data-action="delete"]').on("click", function(e) {
+		let api: IApi;
+		if ($("input[name=edit_user_name]", $modal).length) {
+			const ac = new AutoComplete($("input[name=edit_user_name]", $modal));
+			ac.users();
+		}
+		$('.table-apis tbody [data-action="edit"]').on("click", function(e) {
 			e.preventDefault();
-			$tr = $(this).parents("tr");
-			$(".app-id", $modal).html($tr.data("app-id"));
+			api = $(this).parents("tr").data("api") as IApi;
+			$(".api-id", $modal).html(api.id.toString());
+			$("input[name=edit_user]", $modal).val(api.user.id);
+			$("input[name=edit_token]", $modal).val(api.token);
+			$("input[name=edit_user_name]", $modal).val(api.user.name + (api.user.lastname ? " " + api.user.lastname : ""));
+			$("select[name=edit_app]", $modal).val(api.app.id);
+			$("select[name=edit_status]", $modal).val(api.status);
 			$modal.modal("show");
 		});
 		$("form", $modal).on("submit", function(e) {
-			if (!$tr.length) {
+			if (!api) {
 				$modal.modal("hide");
 				return false;
 			}
 			e.preventDefault();
 			$btn.prop("disabled", true);
 			$(this).formAjax({
-				url: Router.url(`userpanel/settings/apps/${$tr.data("app-id")}/delete?ajax=1`),
+				url: Router.url(`userpanel/settings/apis/${api.id}/edit?ajax=1`),
+				dataType: "json",
+				type: "POST",
+				success: () => {
+					window.location.reload();
+				},
+				error: (error) => {
+					$btn.prop("disabled", false);
+					if (error.error === "data_duplicate" || error.error === "data_validation") {
+						const $input = $(`[name="${error.input}"]`, this);
+						const $params = {
+							title: "خطا",
+							message: "",
+						};
+						if (error.error === "data_validation") {
+							$params.message = "داده وارد شده معتبر نیست";
+						}
+						if (error.error === "data_duplicate") {
+							$params.message = "داده وارد شده تکراری است";
+						}
+						if ($input.length) {
+							$input.inputMsg($params);
+						} else {
+							$params.message = "پاسخ سرور نامشخص است";
+							$.growl.error($params);
+						}
+					} else {
+						$.growl.error({
+							title: "خطا",
+							message: "درخواست شما توسط سرور قبول نشد",
+						});
+					}
+				},
+			});
+		});
+	}
+	protected static runDeleteApisListener() {
+		const $modal = $("#api-delete");
+		const $btn = $(".btn-submit", $modal);
+		let $tr: JQuery;
+		$('.table-apis tbody [data-action="delete"]').on("click", function(e) {
+			e.preventDefault();
+			$tr = $(this).parents("tr");
+			const api = $tr.data("api") as IApi;
+			$(".api-id", $modal).html(api.id.toString());
+			$modal.modal("show");
+		});
+		$("form", $modal).on("submit", function(e) {
+			if (!$tr.length) {
+				$modal.modal("hide");
+			}
+			e.preventDefault();
+			$btn.prop("disabled", true);
+			const api = $tr.data("api") as IApi;
+			$(this).formAjax({
+				url: Router.url(`userpanel/settings/apis/${api.id}/delete?ajax=1`),
 				dataType: "json",
 				type: "POST",
 				success: (data) => {
-					if ($(".table-apps tbody tr").length > 1) {
+					if ($(".table-apis tbody tr").length > 1) {
 						$tr.remove();
 						$tr = undefined;
 						$modal.modal("hide");

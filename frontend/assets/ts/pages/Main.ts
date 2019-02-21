@@ -7,6 +7,7 @@ import {Users} from '../classes/Users';
 import {Logs} from '../classes/Logs';
 import viewError from "../definitions/viewError";
 import Apps from "../classes/Settings/Apps";
+import Apis from "../classes/Settings/Apis";
 
 export class View{
 	public errors:viewError[] = [];
@@ -66,4 +67,5 @@ $(function(){
 	Resetpwd.initIfNeeded();
 	Logs.initIfNeeded();
 	Apps.initIfNeeded();
+	Apis.initIfNeeded();
 });

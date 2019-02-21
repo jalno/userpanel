@@ -34,6 +34,11 @@ class usertype{
 			"apps_add",
 			"apps_delete",
 
+			"apis_search",
+			"apis_add",
+			"apis_edit",
+			"apis_delete",
+
 		);
 		foreach($permissions as $permission){
 			permissions::add('userpanel_'.$permission);

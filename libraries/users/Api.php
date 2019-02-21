@@ -1,7 +1,7 @@
 <?php
 namespace packages\userpanel\user;
 use packages\base\db\dbObject;
-use packages\userpanel\{App, user};
+use packages\userpanel\{App, user, date};
 
 class Api extends dbObject {
 	const active = 1;
@@ -15,8 +15,17 @@ class Api extends dbObject {
 		"create_at" => array("type" => "int", "required" => true),
 		"status" => array("type" => "int", "required" => true),
 	);
-    protected $relations = array(
+	protected $relations = array(
 		"user" => array("hasOne", user::class, "user"),
 		"app" => array("hasOne", App::class, "app")
-    );
+	);
+	public function preLoad(array $data): array {
+		if (!isset($data["create_at"])) {
+			$data["create_at"] = date::time();
+		}
+		if (!isset($data["status"])) {
+			$data["status"] = Self::active;
+		}
+		return $data;
+	}
 }
