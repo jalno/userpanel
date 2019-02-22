@@ -24,6 +24,7 @@ class dashboard extends controller{
 		if($view = view::byName(views\forbidden::class)){
 			$this->response->setView($view);
 		}
+		$this->response->setStatus(false);
 		return $this->response;
 	}
 	public function notfound(){
