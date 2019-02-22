@@ -25,6 +25,9 @@ class dashboard extends controller{
 			$this->response->setView($view);
 		}
 		$this->response->setStatus(false);
+		if ($this->response->is_api()) {
+			$this->response->setData("forbidden", "error");
+		}
 		return $this->response;
 	}
 	public function notfound(){

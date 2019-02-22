@@ -60,7 +60,10 @@
 	},
 	{
 		"path": ["userpanel","profile", "view"],
-		"controller": "controllers\\profile@view"
+		"controller": "controllers\\profile@view",
+		"permissions": {
+			"api": true
+		}
 	},
 	{
 		"path": ["userpanel","profile", "edit"],
