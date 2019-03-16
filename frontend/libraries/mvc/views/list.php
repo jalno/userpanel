@@ -77,7 +77,7 @@ trait listTrait{
 				}
 				if(isset($btn['params']['data']) and $btn['params']['data']){
 					foreach($btn['params']['data'] as $name => $value){
-						$code .= ' data-'.$name.'="'.$value.'"';
+						$code .= ' data-'.$name.'=\''.$value."'";
 					}
 				}
 				if(isset($btn['params']['title']) and $btn['params']['title']){
