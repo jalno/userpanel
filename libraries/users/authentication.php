@@ -105,6 +105,9 @@ class authentication{
 			}
 			
 		}
+		if ($response->isAjax() or $response->isAPI()) {
+			$response->setHttpCode(401);
+		}
 		return($response);
 	}
 	static function getUser(){
