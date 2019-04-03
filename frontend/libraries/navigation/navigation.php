@@ -15,8 +15,8 @@ class navigation{
 			}
 		}
 		if($found === false){
-			if(!$item->getPriority()){
-				$item->setPriority(count(self::$menu)*100);
+			if($item->getPriority() === null){
+				$item->setPriority((count(self::$menu) + 1)*100);
 			}
 			self::$menu[] = $item;
 		}else{
