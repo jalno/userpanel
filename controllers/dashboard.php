@@ -24,6 +24,10 @@ class dashboard extends controller{
 		if($view = view::byName(views\forbidden::class)){
 			$this->response->setView($view);
 		}
+		$this->response->setStatus(false);
+		if ($this->response->is_api()) {
+			$this->response->setData("forbidden", "error");
+		}
 		return $this->response;
 	}
 	public function notfound(){

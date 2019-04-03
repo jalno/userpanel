@@ -60,7 +60,10 @@
 	},
 	{
 		"path": ["userpanel","profile", "view"],
-		"controller": "controllers\\profile@view"
+		"controller": "controllers\\profile@view",
+		"permissions": {
+			"api": true
+		}
 	},
 	{
 		"path": ["userpanel","profile", "edit"],
@@ -144,6 +147,41 @@
 	{
 		"path": ["userpanel", "logs", "delete", {"type":"dynamic","name":"log", "regex":"/^\\d+$/"}],
 		"controller": "controllers\\logs@terminate",
+		"method": "post"
+	},
+	{
+		"path": "userpanel/settings/apps",
+		"controller": "controllers/settings/Apps@search",
+		"method": "get"
+	},
+	{
+		"path": "userpanel/settings/apps/add",
+		"controller": "controllers/settings/Apps@add",
+		"method": "post"
+	},
+	{
+		"path": "userpanel/settings/apps/:app/delete",
+		"controller": "controllers/settings/Apps@delete",
+		"method": "post"
+	},
+	{
+		"path": "userpanel/settings/apis",
+		"controller": "controllers/settings/Apis@search",
+		"method": "get"
+	},
+	{
+		"path": "userpanel/settings/apis/add",
+		"controller": "controllers/settings/Apis@add",
+		"method": "post"
+	},
+	{
+		"path": "userpanel/settings/apis/:api/edit",
+		"controller": "controllers/settings/Apis@edit",
+		"method": "post"
+	},
+	{
+		"path": "userpanel/settings/apis/:api/delete",
+		"controller": "controllers/settings/Apis@delete",
 		"method": "post"
 	},
 	{

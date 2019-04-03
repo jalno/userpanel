@@ -48,7 +48,9 @@
 		{"type":"ts","file":"assets/ts/pages/Main.ts"}
 
 	],
-	"autoload":"autoloader.json",
+	"autoload": {
+		"directories": ["libraries", "listeners", "views"]
+	},
 	"languages":{
 		"fa_IR" : "langs/fa_IR.json"
 	},

@@ -6,7 +6,7 @@ use \packages\base\translator;
 use \themes\clipone\utility;
 $usertype = $this->getUserType();
 ?>
-<form action="<?php echo(userpanel\url("settings/usertypes/edit/".$usertype->id)); ?>" method="post">
+<form class="edit-usertype" action="<?php echo(userpanel\url("settings/usertypes/edit/".$usertype->id)); ?>" method="post">
 	<div class="row">
 		<div class="col-md-6">
 			<?php

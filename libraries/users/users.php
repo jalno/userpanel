@@ -68,6 +68,13 @@ class user extends dbObject{
 		db::where("child", $type);
 		return array_column(db::get("userpanel_usertypes_priorities", null, ['parent']), 'parent');
 	}
+	public function isManager(): bool {
+		$parents = $this->parentTypes();
+		if (empty($parents)) {
+			return true;
+		}
+		return count($parents) == 1 and $parents[0] == $this->type->id;
+	}
 	public function option($name, $value = null){
 		if($value){
 			return $this->setOption($name, $value);
@@ -166,4 +173,10 @@ class user extends dbObject{
     public function getAvatar(int $width, int $height) {
         return $this->getImage($width, $height, "avatar");
     }
+	public function getPermissions(): array {
+		$type = $this->type->id;
+		$permission = new usertype\permission();
+		$permission->where("type", $type);
+		return array_column($permission->arrayBuilder()->get(null, "name"), "name");
+	}
 }

@@ -15,6 +15,8 @@ class edit extends usertypeEdit{
 			translator::trans('edit')
 		));
 		navigation::active("settings/usertypes");
+		$this->addBodyClass("usertypes");
+		$this->addBodyClass("edit-usertype");
 	}
 	protected function translatePermission($permission){
 		$trans = translator::trans('usertype.permissions.'.$permission);

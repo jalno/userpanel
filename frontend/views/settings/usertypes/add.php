@@ -1,7 +1,7 @@
 <?php
 namespace themes\clipone\views\settings\usertypes;
 use \packages\base\translator;
-use \packages\userpanel\views\settings\usertypes\edit as usertypeEdit;
+use \packages\userpanel\views\settings\usertypes\add as usertypeEdit;
 use \themes\clipone\navigation;
 use \themes\clipone\viewTrait;
 use \themes\clipone\views\formTrait;
@@ -13,6 +13,8 @@ class add extends usertypeEdit{
 			translator::trans('usertype.add')
 		));
 		navigation::active("settings/usertypes");
+		$this->addBodyClass("usertypes");
+		$this->addBodyClass("add-usertype");
 	}
 	protected function translatePermission($permission){
 		$trans = translator::trans('usertype.permissions.'.$permission);
