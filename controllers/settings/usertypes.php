@@ -128,12 +128,17 @@ class usertypes extends controller{
 	public function add(){
 		authorization::haveOrFail('settings_usertypes_add');
 		$view = view::byName("\\packages\\userpanel\\views\\settings\\usertypes\\add");
-		$allPermissions = permissions::get();
+		$me = authentication::getUser();
+		if ($me->isManager()) {
+			$allPermissions = permissions::get();
+		} else {
+			$allPermissions = $me->getPermissions();
+		}
 		$childrenTypes = authorization::childrenTypes();
 
 		//pass data to view
 		$view->setPermissions($allPermissions);
-		$view->setChildrenTypes(usertype::where("id", $childrenTypes, 'in')->get());
+		$view->setChildrenTypes($childrenTypes ? usertype::where("id", $childrenTypes, 'in')->get() : array());
 
 		if(http::is_post()){
 			$this->response->setStatus(false);
@@ -153,7 +158,7 @@ class usertypes extends controller{
 				//Extra validation for permissions and comparing with list of total permissions
 				if(is_array($inputs['permissions'])){
 					foreach($inputs['permissions'] as $key => $permission){
-						if(!in_array($permission,$allPermissions)){
+						if(!in_array($permission, $allPermissions)){
 							throw new inputValidation("permissions[{$key}]");
 						}
 					}
@@ -182,7 +187,6 @@ class usertypes extends controller{
 				$usertype->save();
 
 				//add as child for user's usertype
-				$me = authentication::getUser();
 				$priority = new priority;
 				$priority->parent = $me->type->id;
 				$priority->child = $usertype->id;
@@ -250,7 +254,12 @@ class usertypes extends controller{
 		authorization::haveOrFail('settings_usertypes_edit');
 		$view = view::byName("\\packages\\userpanel\\views\\settings\\usertypes\\edit");
 		$usertype = $this->getUserType($data);
-		$allPermissions = permissions::get();
+		$user = authentication::getUser();
+		if ($user->isManager()) {
+			$allPermissions = permissions::get();
+		} else {
+			$allPermissions = $user->getPermissions();
+		}
 		$childrenTypes = authorization::childrenTypes();
 		$usertypePermissions = array_column($usertype->toArray()['permissions'], 'name');
 		$usertypePriorities = array_column($usertype->toArray()['children'], 'child');
@@ -280,7 +289,7 @@ class usertypes extends controller{
 				//Extra validation for permissions and comparing with list of total permissions
 				if(is_array($inputs['permissions'])){
 					foreach($inputs['permissions'] as $key => $permission){
-						if(!in_array($permission,$allPermissions)){
+						if(!in_array($permission, $allPermissions)){
 							throw new inputValidation("permissions[{$key}]");
 						}
 					}
@@ -308,7 +317,7 @@ class usertypes extends controller{
 				$usertype->title = $inputs['title'];
 
 				// Processing of deleting permissions
-				$permissionsdelete = array_diff($usertypePermissions,$inputs['permissions']);
+				$permissionsdelete = array_diff($usertypePermissions, $inputs['permissions']);
 				if(!empty($permissionsdelete)){
 					foreach($usertype->permissions as $permission){
 						if(in_array($permission->name, $permissionsdelete)){
