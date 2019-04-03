@@ -13,6 +13,8 @@ class add extends usertypeEdit{
 			translator::trans('usertype.add')
 		));
 		navigation::active("settings/usertypes");
+		$this->addBodyClass("usertypes");
+		$this->addBodyClass("add-usertype");
 	}
 	protected function translatePermission($permission){
 		$trans = translator::trans('usertype.permissions.'.$permission);
