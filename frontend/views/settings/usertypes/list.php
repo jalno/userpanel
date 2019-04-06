@@ -7,7 +7,7 @@ use \themes\clipone\navigation;
 use \themes\clipone\navigation\menuItem;
 use \themes\clipone\viewTrait;
 use \themes\clipone\views\listTrait;
-use \themes\clipone\views\formTrait;
+use \themes\clipone\views\{formTrait, dashboard};
 class listview extends usertype_list{
 	use viewTrait, listTrait, formTrait;
 	function __beforeLoad(){
@@ -34,13 +34,12 @@ class listview extends usertype_list{
 	public static function onSourceLoad(){
 		parent::onSourceLoad();
 		if(parent::$navigation){
-			if($settings = navigation::getByName("settings")){
-				$usertype = new menuItem("usertypes");
-				$usertype->setTitle(translator::trans("usertypes"));
-				$usertype->setURL(userpanel\url('settings/usertypes'));
-				$usertype->setIcon('fa fa-address-card-o');
-				$settings->addItem($usertype);
-			}
+			$settings = dashboard::getSettingsMenu();
+			$usertype = new menuItem("usertypes");
+			$usertype->setTitle(translator::trans("usertypes"));
+			$usertype->setURL(userpanel\url('settings/usertypes'));
+			$usertype->setIcon('fa fa-address-card-o');
+			$settings->addItem($usertype);
 		}
 	}
 }
