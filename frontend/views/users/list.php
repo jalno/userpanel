@@ -2,7 +2,7 @@
 namespace themes\clipone\views\users;
 use \packages\userpanel\views\users\listview as usersListView;
 use \packages\userpanel;
-use \packages\userpanel\user;
+use \packages\userpanel\{user, authorization};
 use \themes\clipone\navigation;
 use \themes\clipone\navigation\menuItem;
 use \themes\clipone\viewTrait;
@@ -13,13 +13,15 @@ use \packages\base\frontend\theme;
 
 class listview extends usersListView{
 	use viewTrait, listTrait, formTrait;
-	function __beforeLoad(){
+	protected $types = array();
+	public function __beforeLoad(){
 		$this->setTitle(array(
 			translator::trans('users'),
 			translator::trans('list')
 		));
 		$this->setButtons();
 		navigation::active("users/list");
+		$this->types = authorization::childrenTypes();
 	}
 	public function setButtons(){
 		$this->setButton('view', $this->canView, array(
