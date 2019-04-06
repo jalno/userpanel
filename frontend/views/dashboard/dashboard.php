@@ -185,6 +185,7 @@ class dashboard extends dashboardView{
 		$item->setTitle("پیشخوان");
 		$item->setURL(base\url('userpanel'));
 		$item->setIcon('clip-home-3');
+		$item->setPriority(0);
 		navigation::addItem($item);
 		navigation::addItem(self::getSettingsMenu());
 	}
