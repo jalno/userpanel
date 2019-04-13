@@ -2,20 +2,19 @@
 namespace themes\clipone\views\settings\apps;
 use packages\userpanel;
 use packages\userpanel\{views\settings\apps\Search as parentView, authorization, authentication};
-use themes\clipone\{navigation, navigation\menuItem, viewTrait, views\listTrait, views\formTrait};
+use themes\clipone\{navigation, navigation\menuItem, viewTrait, views\listTrait, views\formTrait, views\dashboard};
 
 class search extends parentView {
 	use viewTrait, listTrait, formTrait;
 	public static function onSourceLoad() {
 		parent::onSourceLoad();
 		if(parent::$navigation) {
-			if($settings = navigation::getByName("settings")){
-				$item = new menuItem("apps");
-				$item->setTitle(t("userpanel.apps"));
-				$item->setURL(userpanel\url("settings/apps"));
-				$item->setIcon("fa fa-cubes");
-				$settings->addItem($item);
-			}
+			$settings = dashboard::getSettingsMenu();
+			$item = new menuItem("apps");
+			$item->setTitle(t("userpanel.apps"));
+			$item->setURL(userpanel\url("settings/apps"));
+			$item->setIcon("fa fa-cubes");
+			$settings->addItem($item);
 		}
 	}
 	protected $multiuser;

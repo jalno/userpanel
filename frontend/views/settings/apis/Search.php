@@ -1,7 +1,7 @@
 <?php
 namespace themes\clipone\views\settings\apis;
 use packages\userpanel;
-use themes\clipone\{navigation, navigation\menuItem, viewTrait, views\listTrait, views\formTrait};
+use themes\clipone\{navigation, navigation\menuItem, viewTrait, views\listTrait, views\formTrait, views\dashboard};
 use packages\userpanel\{views\settings\apis\Search as parentView, authorization, authentication, user\Api};
 
 class search extends parentView {
@@ -9,13 +9,12 @@ class search extends parentView {
 	public static function onSourceLoad() {
 		parent::onSourceLoad();
 		if(parent::$navigation) {
-			if($settings = navigation::getByName("settings")){
-				$item = new menuItem("apis");
-				$item->setTitle(t("userpanel.apis"));
-				$item->setURL(userpanel\url("settings/apis"));
-				$item->setIcon("fa fa-share-alt-square");
-				$settings->addItem($item);
-			}
+			$settings = dashboard::getSettingsMenu();
+			$item = new menuItem("apis");
+			$item->setTitle(t("userpanel.apis"));
+			$item->setURL(userpanel\url("settings/apis"));
+			$item->setIcon("fa fa-share-alt-square");
+			$settings->addItem($item);
 		}
 	}
 	protected $multiuser;

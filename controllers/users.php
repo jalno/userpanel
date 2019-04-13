@@ -11,7 +11,6 @@ class users extends controller{
 		authorization::haveOrFail('users_list');
 		$view = view::byName("\\packages\\userpanel\\views\\users\\listview");
 		$types = authorization::childrenTypes();
-
 		$user = new user();
 		if($types){
 			$user->where("type", $types, 'in');
@@ -114,7 +113,9 @@ class users extends controller{
 
 		$view->setDataList($users);
 		$view->setPaginate($this->page, $user->totalCount, $this->items_per_page);
-		$view->setUserTypes(usertype::where("id", $types, 'in')->get());
+		if ($types) {
+			$view->setUserTypes(usertype::where("id", $types, 'in')->get());
+		}
 
 		$this->response->setStatus(true);
 		$this->response->setView($view);
@@ -125,7 +126,7 @@ class users extends controller{
 		$view = view::byName("\\packages\\userpanel\\views\\users\\add");
 		$types = authorization::childrenTypes();
 		$view->setCountries(country::get());
-		$view->setTypes(usertype::where("id", $types, 'in')->get());
+		$view->setTypes($types ? usertype::where("id", $types, 'in')->get() : array());
 		if(http::is_post()){
 			$inputs = array(
 				'name' => array(
@@ -134,7 +135,6 @@ class users extends controller{
 				'lastname' => array(
 					'type' => 'string',
 					'optional' => true,
-					'empty' => true
 				),
 				'email' => array(
 					'type' => 'email',
@@ -149,32 +149,26 @@ class users extends controller{
 				'zip' => array(
 					'optional' => true,
 					'type' => 'number',
-					'empty' => true
 				),
 				'city' => array(
 					'optional' => true,
 					'type' => 'string',
-					'empty' => true
 				),
 				'country' => array(
 					'optional' => true,
 					'type' => 'number',
-					'empty' => true
 				),
 				'address' => array(
 					'optional' => true,
 					'type' => 'string',
-					'empty' => true
 				),
 				'phone' => array(
 					'optional' => true,
 					'type' => 'string',
-					'empty' => true
 				),
 				'status' => array(
 					'type' => 'number',
 					'values' => array(user::active, user::deactive,user::suspend),
-					'empty' => true
 				),
 				'socialnets' => array(
 					'optional' => true
@@ -182,59 +176,48 @@ class users extends controller{
 				'visibility_email' => array(
 					'optional' => true,
 					'type' => 'bool',
-					'empty' => true
 				),
 				'visibility_cellphone' => array(
 					'optional' => true,
 					'type' => 'bool',
-					'empty' => true
 				),
 				'visibility_phone' => array(
 					'optional' => true,
 					'type' => 'bool',
-					'empty' => true
 				),
 				'visibility_socialnetworks_'.socialnetwork::twitter => array(
 					'optional' => true,
 					'type' => 'bool',
-					'empty' => true
 				),
 				'visibility_socialnetworks_'.socialnetwork::twitter => array(
 					'optional' => true,
 					'type' => 'bool',
-					'empty' => true
 				),
 				'visibility_socialnetworks_'.socialnetwork::facebook => array(
 					'optional' => true,
 					'type' => 'bool',
-					'empty' => true
 				),
 				'visibility_socialnetworks_'.socialnetwork::skype => array(
 					'optional' => true,
 					'type' => 'bool',
-					'empty' => true
 				),
 				'visibility_socialnetworks_'.socialnetwork::gplus => array(
 					'optional' => true,
 					'type' => 'bool',
-					'empty' => true
 				),
 				'visibility_socialnetworks_'.socialnetwork::instagram => array(
 					'optional' => true,
 					'type' => 'bool',
-					'empty' => true
 				),
 				'visibility_socialnetworks_'.socialnetwork::telegram => array(
 					'optional' => true,
 					'type' => 'bool',
-					'empty' => true
 				)
 			);
 			if (authorization::is_accessed("users_edit_credit")) {
 				$inputs["credit"] = array(
 					"optional" => true,
 					"type" => "number",
-					"empty" => true
 				);
 			}
 			$this->response->setStatus(false);
@@ -288,7 +271,6 @@ class users extends controller{
 				$user->password_hash($formdata['password']);
 				unset($formdata['password']);
 				$user->save();
-
 				if(isset($formdata['socialnets'])){
 					foreach($formdata['socialnets'] as $network => $username){
 						if($username){
@@ -367,6 +349,9 @@ class users extends controller{
 	public function edit($data){
 		authorization::haveOrFail('users_edit');
 		$types = authorization::childrenTypes();
+		if (!$types) {
+			throw new NotFound();
+		}
 		$user = user::where("id", $data['user'])->where("type", $types, 'in')->getOne();
 		if(!$user->id){
 			throw new NotFound();
@@ -729,6 +714,9 @@ class users extends controller{
 	public function delete($data){
 		authorization::haveOrFail('users_delete');
 		$types = authorization::childrenTypes();
+		if (!$types) {
+			throw new NotFound();
+		}
 		$user = user::where("id", $data['user'])->where("type", $types, 'in')->getOne();
 		$actionUser = authentication::getUser();
 		if(!$user or $actionUser->id == $user->id){
@@ -756,6 +744,9 @@ class users extends controller{
 	public function settings($data){
 		authorization::haveOrFail('users_settings');
 		$types = authorization::childrenTypes();
+		if (!$types) {
+			throw new NotFound();
+		}
 		$user = user::where("id", $data['user'])->where("type", $types, 'in')->getOne();
 		if(!$user->id){
 			throw new NotFound();
@@ -776,6 +767,9 @@ class users extends controller{
 	public function change($data){
 		authorization::haveOrFail('users_settings');
 		$types = authorization::childrenTypes();
+		if (!$types) {
+			throw new NotFound();
+		}
 		$user = user::where("id", $data['user'])->where("type", $types, 'in')->getOne();
 		if(!$user->id){
 			throw new NotFound();

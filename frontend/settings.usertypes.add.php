@@ -4,9 +4,8 @@ use \packages\userpanel;
 use \packages\userpanel\user;
 use \packages\base\translator;
 use \themes\clipone\utility;
-$usertype = $this->getUserType();
 ?>
-<form action="<?php echo(userpanel\url("settings/usertypes/add")); ?>" method="post">
+<form class="add-usertypes" action="<?php echo(userpanel\url("settings/usertypes/add")); ?>" method="post" style="padding: 0 15px;">
 	<div class="row">
 		<div class="col-md-6">
 			<?php
