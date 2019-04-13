@@ -105,7 +105,7 @@ class authentication{
 			}
 			
 		}
-		if ($response->isAjax() or $response->isAPI()) {
+		if ($response->is_ajax() or $response->is_api()) {
 			$response->setHttpCode(401);
 		}
 		return($response);
