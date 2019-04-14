@@ -22,6 +22,16 @@ class dashboard extends dashboardView{
 	use viewTrait;
 	public static $shortcuts = array();
 	public static $boxs = array();
+	public static function getSettingsMenu() {
+		if (!self::$settingsMenuItem) {
+			$item = new menuItem("settings");
+			$item->setTitle(translator::trans('settings'));
+			$item->setIcon('clip-settings');
+			self::$settingsMenuItem = $item;
+		}
+		return self::$settingsMenuItem;
+	}
+	protected static $settingsMenuItem;
 	public function __beforeLoad(){
 		$this->setTitle(translator::trans('dashboard'));
 		navigation::active("dashboard");
@@ -177,9 +187,6 @@ class dashboard extends dashboardView{
 		$item->setIcon('clip-home-3');
 		$item->setPriority(0);
 		navigation::addItem($item);
-		$item = new menuItem("settings");
-		$item->setTitle(translator::trans('settings'));
-		$item->setIcon('clip-settings');
-		navigation::addItem($item);
+		navigation::addItem(self::getSettingsMenu());
 	}
 }

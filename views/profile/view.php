@@ -26,7 +26,7 @@ class view extends \packages\userpanel\view{
 					"cellphone" => $user->cellphone,
 					"phone" => $user->phone,
 					"city" => $user->city,
-					"country" => $user->country->name,
+					"country" => $user->country ? $user->country->name : null,
 					"zip" => $user->zip,
 					"address" => $user->address,
 					"credit" => $user->credit,

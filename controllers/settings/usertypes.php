@@ -187,10 +187,14 @@ class usertypes extends controller{
 				$usertype->save();
 
 				//add as child for user's usertype
-				$priority = new priority;
-				$priority->parent = $me->type->id;
-				$priority->child = $usertype->id;
-				$priority->save();
+				$parentTypes = $me->parentTypes();
+				$parentTypes[] = $me->type->id;
+				foreach (array_unique($parentTypes) as $type) {
+					$priority = new priority;
+					$priority->parent = $type;
+					$priority->child = $usertype->id;
+					$priority->save();
+				}
 
 				// Processing of adding permissions
 				foreach($inputs['permissions'] as $permissionName){

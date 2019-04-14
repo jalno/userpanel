@@ -39,6 +39,13 @@ use \themes\clipone\utility;
 								$this->setButtonParam('view', 'link', userpanel\url("users/view/".$row->id));
 								$this->setButtonParam('edit', 'link', userpanel\url("users/edit/".$row->id));
 								$this->setButtonParam('delete', 'link', userpanel\url("users/delete/".$row->id));
+								$canEdit = false;
+								if ($this->types) {
+									$canEdit = in_array($row->type->id, $this->types);
+								} else {
+									$canEdit = authentication::getID() != $row->id;
+								}
+								$this->setButtonActive("edit", $canEdit);
 								$this->setButtonActive("delete", authentication::getID() != $row->id);
 								$statusClass = utility::switchcase($row->status, array(
 									'label label-inverse' => user::deactive,
