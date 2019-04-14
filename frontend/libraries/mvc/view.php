@@ -11,6 +11,10 @@ use \packages\userpanel\authentication;
 
 trait viewTrait{
 	protected $bodyClasses = array('rtl');
+
+	/** @var bool */
+	protected $fixedHeader = true;
+
 	function the_header($template = ''){
 		require_once(__DIR__.'/../../header'.($template ? '.'.$template : '').'.php');
 	}
@@ -38,6 +42,15 @@ trait viewTrait{
 		if(($key = array_search($class, $this->bodyClasses)) !== false){
 			unset($this->bodyClasses[$key]);
 		}
+	}
+	public function fixHeader(bool $fix = true): void {
+		$this->isFixedHeader = $fix;
+	}
+	public function staticHeader(bool $static = true): void {
+		$this->isFixedHeader = !$static;
+	}
+	public function isFixedHeader(): bool {
+		return $this->isFixedHeader;
 	}
 	protected function genBodyClasses(){
 		return implode(' ', $this->bodyClasses);

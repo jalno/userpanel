@@ -29,7 +29,7 @@ use \themes\clipone\breadcrumb;
 	</head>
 	<body class="<?php echo $this->genBodyClasses(); ?>">
 		<!-- start: HEADER -->
-		<div class="navbar navbar-inverse navbar-fixed-top">
+		<div class="navbar navbar-inverse <?php if ($this->isFixedHeader()) echo "navbar-fixed-top"; ?>">
 			<!-- start: TOP NAVIGATION CONTAINER -->
 			<div class="container">
 				<div class="navbar-header">
