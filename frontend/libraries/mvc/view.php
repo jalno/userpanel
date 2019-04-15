@@ -44,13 +44,13 @@ trait viewTrait{
 		}
 	}
 	public function fixHeader(bool $fix = true): void {
-		$this->isFixedHeader = $fix;
+		$this->fixedHeader = $fix;
 	}
 	public function staticHeader(bool $static = true): void {
-		$this->isFixedHeader = !$static;
+		$this->fixedHeader = !$static;
 	}
 	public function isFixedHeader(): bool {
-		return $this->isFixedHeader;
+		return $this->fixedHeader;
 	}
 	protected function genBodyClasses(){
 		return implode(' ', $this->bodyClasses);
