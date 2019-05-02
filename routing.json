@@ -28,11 +28,21 @@
 	},
 	{
 		"path": "userpanel/login",
-		"controller": "controllers\\login@login"
+		"controller": "controllers/login@loginView",
+		"method": "get"
+	},
+	{
+		"path": "userpanel/login",
+		"controller": "controllers/login@login",
+		"method": "post"
 	},
 	{
 		"path": "userpanel/logout",
-		"controller": "controllers\\login@logout"
+		"controller": "controllers/login@logout"
+	},
+	{
+		"path": "userpanel/register",
+		"controller": "controllers\\login@signup"
 	},
 	{
 		"path": "userpanel/register",
@@ -40,7 +50,13 @@
 	},
 	{
 		"path": "userpanel/lock",
-		"controller": "controllers\\login@lock"
+		"controller": "controllers/Lock@lockdown",
+		"method": "get"
+	},
+	{
+		"path": "userpanel/lock",
+		"controller": "controllers/Lock@unlock",
+		"method": "post"
 	},
 	{
 		"path": "userpanel/settings/usertypes",
@@ -147,41 +163,6 @@
 	{
 		"path": ["userpanel", "logs", "delete", {"type":"dynamic","name":"log", "regex":"/^\\d+$/"}],
 		"controller": "controllers\\logs@terminate",
-		"method": "post"
-	},
-	{
-		"path": "userpanel/settings/apps",
-		"controller": "controllers/settings/Apps@search",
-		"method": "get"
-	},
-	{
-		"path": "userpanel/settings/apps/add",
-		"controller": "controllers/settings/Apps@add",
-		"method": "post"
-	},
-	{
-		"path": "userpanel/settings/apps/:app/delete",
-		"controller": "controllers/settings/Apps@delete",
-		"method": "post"
-	},
-	{
-		"path": "userpanel/settings/apis",
-		"controller": "controllers/settings/Apis@search",
-		"method": "get"
-	},
-	{
-		"path": "userpanel/settings/apis/add",
-		"controller": "controllers/settings/Apis@add",
-		"method": "post"
-	},
-	{
-		"path": "userpanel/settings/apis/:api/edit",
-		"controller": "controllers/settings/Apis@edit",
-		"method": "post"
-	},
-	{
-		"path": "userpanel/settings/apis/:api/delete",
-		"controller": "controllers/settings/Apis@delete",
 		"method": "post"
 	},
 	{
