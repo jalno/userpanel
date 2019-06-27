@@ -79,3 +79,145 @@ body.profile-settings, body.users-settings{
 		}
 	}
 }
+body.users_view {
+	.tab-content{
+		padding: 0;
+	}
+	.panel-scroll {
+		margin: 0 0 10px;
+	}
+}
+
+.panel-activity {
+	margin-right: -30px;
+	.panel-heading {
+		font-family: yekan;
+	}
+	.panel-body {
+		padding: 0;
+	}
+}
+.user-left {
+	padding-top: 20px;
+	h4 {
+		margin-top: 0px;
+	}
+}
+.calender {
+	overflow: hidden;
+	font-family: "yekan";
+	font-size: 8px;
+	line-height: 1em;
+	margin: 1em auto 0;
+	width: 63.6em;
+	.days {
+		float: right;
+		margin-left: 0.5em;
+		padding-top: 1.5em;
+		.day {
+			margin-top: 1.22em;
+			display: block;
+			text-align: left;
+		}
+	}
+	.months {
+		height: 1em;
+		margin-bottom: 0.5em;
+		margin-right: 4em;
+		.month {
+			width: 4.83em;
+			display: inline-block;
+			&.month-margin-1 {
+				margin-right: 0.9em;
+			}
+			&:last-child {
+				width: auto;
+				margin-right: 0;
+			}
+		}
+	}
+	.dates {
+		overflow: hidden;
+		.column {
+			float: right;
+			margin-left: 0.125em;
+			.month {
+				margin-bottom: 0.5em;
+			}
+		}
+		.calendar-square {
+			&:hover {
+				cursor: pointer;
+				border: 1px solid #333;
+			}
+			&.color0, &.calendar-square-empty{
+				&:hover {
+					cursor: default;
+					border: none;
+				}
+			}
+		}
+		
+	}
+}
+
+.calendar-square {
+	width: 1em;
+	height: 1em;
+	margin-bottom: 0.125em;
+	&.color0 {
+		background: #ededed;
+	}
+	&.color1 {
+		background: rgb(172, 213, 242);
+	}
+	&.color2 {
+		background: rgb(127, 168, 201);
+	}
+	&.color3 {
+		background: rgb(82, 123, 160);
+	}
+	&.color4 {
+		background: rgb(37, 78, 119);
+	}
+}
+.calendar-guide {
+	margin-left: 10px;
+	.calendar-square {
+		display: inline-block;
+		margin: 0;
+	}
+}
+.mt-30 {
+	margin-top: 30px;
+}
+@media (min-width: 1080px) {
+	.calender {
+		font-size: 9px;
+	}
+}
+@media (min-width: 1170px) {
+	.calender {
+		font-size: 10px;
+	}
+}
+@media (min-width: 1280px) {
+	.calender {
+		font-size: 11px;
+	}
+}
+@media (min-width: 1480px) {
+	.calender {
+		font-size: 12px;
+	}
+}
+@media (min-width: 1680px) {
+	.calender {
+		font-size: 13px;
+	}
+}
+@media (max-width: 989px) {
+	.calendar-guide, .calender {
+		display:none;
+	}
+}

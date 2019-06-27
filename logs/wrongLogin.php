@@ -5,6 +5,9 @@ use \packages\base\{view, translator};
 use \packages\userpanel;
 use \packages\userpanel\{date, logs\box, logs\panel, logs};
 class wrongLogin extends logs{
+	public static function isActivity() {
+		return false;
+	}
 	public function getColor():string{
 		return "circle-bricky";
 	}

@@ -146,6 +146,11 @@
 		"method": "get"
 	},
 	{
+		"path": ["userpanel", "logs"],
+		"controller": "controllers\\logs@search",
+		"method": "get"
+	},
+	{
 		"path": ["userpanel", "logs", "search"],
 		"controller": "controllers\\logs@search",
 		"method": "get"
