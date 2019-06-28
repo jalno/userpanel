@@ -1,5 +1,5 @@
 <?php
-namespace themes\clipone\views\profile;
+namespace themes\clipone\views\Profile;
 use \packages\base\translator;
 use \packages\base\frontend\theme;
 use packages\base\db;
@@ -13,33 +13,25 @@ use \packages\userpanel\log_user;
 use \packages\userpanel\user\socialnetwork;
 use \packages\userpanel\views\profile\view as profileView;
 
-use \themes\clipone\navigation;
-use \themes\clipone\navigation\menuItem;
-use \themes\clipone\breadcrumb;
-use \themes\clipone\utility;
-use \themes\clipone\viewTrait;
+use themes\clipone\{viewTrait, views\BoxyTrait, events, Breadcrumb, Navigation};
 
 
 class view extends profileView{
-	use viewTrait;
+	use viewTrait, BoxyTrait;
 	protected $networks = array();
 	protected $lastlogin = 0;
 	protected $logs = array();
-	function __beforeLoad(){
-		$this->setTitle(array(
-			translator::trans('profile.view')
-		));
+	public function __beforeLoad(){
+		$this->setTitle(t('profile.view'));
 		$this->loadLastLogin();
 		$this->loadSocialnetworks();
 		$this->addBodyClass('profile');
 		$this->addBodyClass('profile_view');
 		$this->setNavigation();
-	}
-	protected function loadLogs($number = 50){
-		$logsobj = new log();
-		$logsobj->where("user", $this->getUserData('id'));
-		$logsobj->orderBy("userpanel_logs.time", "DESC");
-		return $logsobj->get($number);
+		$initEvent = new events\InitializeProfile();
+		$initEvent->view = $this;
+		$initEvent->trigger();
+		$this->addBox(new ActivityCalendarBox($this->getData('user')));
 	}
 	private function loadLastLogin(){
 		$log = new log();
@@ -69,12 +61,12 @@ class view extends profileView{
 		}
 	}
 	private function setNavigation(){
-		$item = new menuItem("profile");
-		$item->setTitle(translator::trans('profile.view'));
+		$item = new Navigation\MenuItem("profile");
+		$item->setTitle(t('profile.view'));
 		$item->setURL(userpanel\url('profile/view'));
 		$item->setIcon('clip-user');
-		breadcrumb::addItem($item);
-		navigation::active("dashboard");
+		Breadcrumb::addItem($item);
+		Navigation::active("dashboard");
 	}
 	protected function getAvatarURL(){
 		if($this->getUserData('avatar')){

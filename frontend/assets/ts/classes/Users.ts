@@ -1,8 +1,9 @@
 /// <reference path="../definitions/jquery.growl.d.ts" />
 import * as $ from "jquery";
+import * as moment from "jalali-moment";
 import "jquery.growl";
 import "bootstrap-inputmsg";
-import { webuilder} from "webuilder";
+import { webuilder, AjaxRequest, Router} from "webuilder";
 import {Main} from "./Main";
 import  "./jquery.formAjax";
 import {AvatarPreview} from 'bootstrap-avatar-preview/AvatarPreview';
@@ -193,11 +194,10 @@ class runAvatarPreview {
 	}
 }
 class UserView {
-	protected form:JQuery;
-	constructor(form:JQuery){
-		this.form = form;
+	protected runAvatarPreview: runAvatarPreview;
+	public constructor(protected form: JQuery) {
+		this.runAvatarPreview = new runAvatarPreview(this.form);
 	}
-	protected runAvatarPreview = new runAvatarPreview(this.form);
 	private formSubmitListener(){
 		this.form.on('submit', function(e){
 			e.preventDefault();
@@ -246,10 +246,50 @@ class UserView {
 			}
 		});
 	}
+	private initActivityCalendar() {
+		$(".calender .calendar-square").on("click", function(e) {
+			e.preventDefault();
+			const $this = $(this);
+			if ($this.hasClass("calendar-square-empty") || $this.hasClass("color0")) {
+				return;
+			}
+			const spinner = `<p class="text-center mt-30"><i class="fa fa-3x fa-spinner fa-spin"></i></p>`;
+			const $panel = $(".panel-activity .panel-scroll .mCSB_container");
+			$panel.html(spinner);
+			$panel.mCustomScrollbar("update");
+			AjaxRequest({
+				url: 'userpanel/logs',
+				data: {
+					ajax: 1,
+					user: $panel.data("user"),
+					timeFrom: $this.data("from"),
+					timeUntil: $this.data("until"),
+					activity: "true",
+					ipp: 50,
+				},
+				success: (data) =>  {
+					let html = `<ul class="activities">`;
+					for (const item of data.items) {
+						html += `<li>
+							<a class="activity" href="${data.permissions.canView ? Router.url("logs/view/" + item.id) : "#"}">
+								<i class="circle-icon ${item.icon} ${item.color}"></i> <span class="desc">${item.title}</span>
+								<div class="time">
+									<i class="fa fa-time bigger-110"></i>  ${moment(item.time * 1000).locale("fa").fromNow()}
+								</div>
+							</a>
+						</li>`;
+					}
+					html += `</ul>`;
+					$panel.html(html);
+				}
+			})
+		});
+	}
 	public init(){
 		this.avatarListener();
 		this.formSubmitListener();
 		this.runAvatarPreview.init();
+		this.initActivityCalendar();
 	}
 }
 export class Users{

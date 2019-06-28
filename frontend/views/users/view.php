@@ -17,11 +17,11 @@ use \themes\clipone\navigation;
 use \themes\clipone\navigation\menuItem;
 use \themes\clipone\breadcrumb;
 use \themes\clipone\utility;
-use \themes\clipone\viewTrait;
+use themes\clipone\{viewTrait, views\BoxyTrait, events, views\Profile\ActivityCalendarBox};
 
 
 class view extends usersView{
-	use viewTrait;
+	use viewTrait, BoxyTrait;
 	protected $networks = array();
 	protected $lastlogin = 0;
 	protected $logs = array();
@@ -37,12 +37,10 @@ class view extends usersView{
 		$this->setNavigation();
 		$this->addBodyClass('users');
 		$this->addBodyClass('users_view');
-	}
-	protected function loadLogs(int $number = 50){
-		$logsobj = new log();
-		$logsobj->where("user", $this->user->id);
-		$logsobj->orderBy("userpanel_logs.time", "DESC");
-		return $logsobj->get($number);
+		$initEvent = new events\InitializeProfile();
+		$initEvent->view = $this;
+		$initEvent->trigger();
+		$this->addBox(new ActivityCalendarBox($this->user));
 	}
 	private function loadLastLogin(){
 		$log = new log();
@@ -52,11 +50,11 @@ class view extends usersView{
 	}
 	private function loadSocialnetworks(){
 		$networks = $this->getUserData('socialnetworks');
-		if($networks){
+		if ($networks) {
 			foreach($networks as $network){
 				if($this->is_public('socialnetworks_'.$network->network)){
 					$name = '';
-					switch($network->network){
+					switch ($network->network) {
 						case(socialnetwork::facebook):$name = 'facebook';break;
 						case(socialnetwork::twitter):$name = 'twitter';break;
 						case(socialnetwork::gplus):$name = 'google-plus';break;

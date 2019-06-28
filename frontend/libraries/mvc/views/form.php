@@ -140,8 +140,10 @@ trait formTrait{
 			}
 		}elseif($options['type'] == 'number'){
 			$code .= '<input type="number" value="'.htmlentities($options['value']).'" ';
-			if(isset($options['step']) and $options['step']){
-				$code .= "step=\"{$options['step']}\"";
+			foreach (['step', 'min', 'max'] as $attr) {
+				if(isset($options[$attr]) and $options[$attr] !== null){
+					$code .= "{$attr}=\"{$options[$attr]}\"";
+				}
 			}
 		}else{
 			$code .= "<input type=\"{$options['type']}\" value=\"".htmlentities($options['value']).'" ';

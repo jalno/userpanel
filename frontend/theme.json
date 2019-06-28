@@ -34,6 +34,7 @@
 		{"type":"package","name":"webuilder", "version": "^1.0.6"},
 		{"type":"package","name":"bootstrap-inputmsg", "version": "^1.0.0"},
 		{"type":"package","name":"bootstrap-avatar-preview", "priority": "10", "version": "1.1.0"},
+		{"type":"package","name":"jalali-moment", "version": "^3.3.1"},
 		{"type":"less","file":"node_modules/bootstrap/less/bootstrap.less"},
 		{"type":"less","file":"node_modules/bootstrap-rtl/less/bootstrap-rtl.less"},
 		{"type":"less","file":"node_modules/font-awesome/less/font-awesome.less"},

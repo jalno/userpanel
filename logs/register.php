@@ -5,6 +5,9 @@ use \packages\base\{view, translator};
 use \packages\userpanel;
 use \packages\userpanel\{logs\panel, logs};
 class register extends logs{
+	public static function isActivity() {
+		return false;
+	}
 	public function getColor():string{
 		return "circle-green";
 	}
