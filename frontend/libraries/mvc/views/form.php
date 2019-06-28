@@ -18,6 +18,11 @@ trait formTrait{
 		}
 		$this->horizontal_form = true;
 	}
+	public function removeHorizontalForm(){
+		$this->label_col = "";
+		$this->input_col = "";
+		$this->horizontal_form = false;
+	}
 	public function createField($options = array()){
 		if(!isset($options['name'])){
 			$options['name'] = '';
