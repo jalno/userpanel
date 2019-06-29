@@ -19,7 +19,7 @@ class Activity {
 	}
 	protected $user;
 	protected $from;
-	public function __construct($user) {
+	public function __construct(int $user) {
 		$this->user = $user;
 	}
 
@@ -30,11 +30,14 @@ class Activity {
 		if ($this->from) {
 			db::where("time", $this->from, '>=');
 		}
-		return db::where("user", $this->user)
-				 ->where("type", self::getActivityTypes(), "IN")
+		db::where("user", $this->user);
+		$types = self::getActivityTypes();
+		$a =  db::where("user", $this->user)
+				  ->where("type", $types, "IN")
 				 ->groupBy("date")
 				 ->orderBy("date", "DESC")
 				 ->get("userpanel_logs", null, ["FROM_UNIXTIME(`time`, '%Y/%m/%d') as `date`", "count(*) as `activities`"]);
+		return $a;
 	}
 	public function get() {
 		if ($this->from) {
