@@ -261,7 +261,7 @@ class UserView {
 				url: 'userpanel/logs',
 				data: {
 					ajax: 1,
-					user: $panel.data("user"),
+					user: $(".panel-activity").data("user"),
 					timeFrom: $this.data("from"),
 					timeUntil: $this.data("until"),
 					activity: "true",
@@ -271,7 +271,7 @@ class UserView {
 					let html = `<ul class="activities">`;
 					for (const item of data.items) {
 						html += `<li>
-							<a class="activity" href="${data.permissions.canView ? Router.url("logs/view/" + item.id) : "#"}">
+							<a class="activity" href="${data.permissions.canView ? Router.url("userpanel/logs/view/" + item.id) : "#"}">
 								<i class="circle-icon ${item.icon} ${item.color}"></i> <span class="desc">${item.title}</span>
 								<div class="time">
 									<i class="fa fa-time bigger-110"></i>  ${moment(item.time * 1000).locale("fa").fromNow()}
