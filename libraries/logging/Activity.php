@@ -32,12 +32,14 @@ class Activity {
 		}
 		db::where("user", $this->user);
 		$types = self::getActivityTypes();
-		$a =  db::where("user", $this->user)
+		if (!$types) {
+			return [];
+		}
+		return  db::where("user", $this->user)
 				  ->where("type", $types, "IN")
 				 ->groupBy("date")
 				 ->orderBy("date", "DESC")
 				 ->get("userpanel_logs", null, ["FROM_UNIXTIME(`time`, '%Y/%m/%d') as `date`", "count(*) as `activities`"]);
-		return $a;
 	}
 	public function get() {
 		if ($this->from) {
