@@ -41,7 +41,7 @@ class ActivityCalendarBox extends Box {
 	public function getHTML(){
 		$calender = $this->buildCalendar();
 		$logs = $this->buildLogs();
-		$this->html = '<div class="panel panel-white panel-activity">
+		$this->html = '<div class="panel panel-white panel-activity" data-user="' . $this->user->id . '">
 		<div class="panel-heading">
 			<i class="clip-calendar-3"></i> <strong>' . $this->totalActivities . '</strong> فعالیت در یکسال گذشته
 			<div class="panel-tools">
@@ -75,7 +75,7 @@ class ActivityCalendarBox extends Box {
 			$month = intval(Date::format('n', $lastyear));
 			$year = intval(Date::format('Y', $lastyear));
 			$day = intval(Date::format('w', $lastyear));
-			if ($day == 0) {
+			if ($day == 0 and !$first) {
 				$dates .= '</div>';
 			}
 			if ($day == 0 or $first) {
