@@ -10,13 +10,18 @@ trait formTrait{
 	public function setHorizontalForm($label_col, $input_col){
 		$label_cols = explode(' ', $label_col);
 		foreach($label_cols as $label_col){
-			$this->label_col = 'col-'.$label_col;
+			$this->label_col .= ' col-'.$label_col;
 		}
 		$input_cols = explode(' ', $input_col);
 		foreach($input_cols as $input_col){
-			$this->input_col = 'col-'.$input_col;
+			$this->input_col .= ' col-'.$input_col;
 		}
 		$this->horizontal_form = true;
+	}
+	public function removeHorizontalForm(){
+		$this->label_col = "";
+		$this->input_col = "";
+		$this->horizontal_form = false;
 	}
 	public function createField($options = array()){
 		if(!isset($options['name'])){
