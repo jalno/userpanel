@@ -160,6 +160,12 @@ trait formTrait{
 		if (isset($options["required"]) and $options["required"]) {
 			$code .= " required";
 		}
+		if (isset($options["minlength"]) and $options["minlength"] !== null) {
+			$code .= " minlength=\"{$options["minlength"]}\"";
+		}
+		if (isset($options["maxlength"]) and $options["maxlength"] !== null) {
+			$code .= " maxlength=\"{$options["maxlength"]}\"";
+		}
 		if(!in_array($options['type'], array('radio', 'checkbox'))){
 			$code .= " name=\"{$options['name']}\"";
 			if(isset($options['ltr']) and $options['ltr']){
