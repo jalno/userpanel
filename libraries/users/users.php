@@ -137,10 +137,14 @@ class user extends dbObject{
 		return $id;
 	}
 	public function delete(){
-		parent::delete();
-		db::where("avatar", $this->avatar);
-		if(!db::has($this->dbTable)){
-			IO\unlink(packages::package('userpanel')->getFilePath($this->avatar));
+		if (!parent::delete()) {
+			return false;
+		}
+		if ($this->avatar) {
+			db::where("avatar", $this->avatar);
+			if(!db::has($this->dbTable)){
+				Packages::package('userpanel')->getFile($this->avatar)->delete();
+			}
 		}
 	}
 	public function toArray($recursive = false){
