@@ -487,7 +487,8 @@ class users extends controller{
 			if (authorization::is_accessed("users_edit_credit")) {
 				$inputs["credit"] = array(
 					"optional" => true,
-					"type" => "number",
+					"type" => "int",
+					'negetive' => true,
 					"empty" => true
 				);
 			}
