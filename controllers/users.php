@@ -484,11 +484,10 @@ class users extends controller{
 					'optional' => true
 				]
 			);
-			if (authorization::is_accessed("users_edit_credit")) {
+			if (Authorization::is_accessed("users_edit_credit")) {
 				$inputs["credit"] = array(
 					"optional" => true,
-					"type" => "number",
-					"empty" => true
+					"type" => "int",
 				);
 			}
 			$this->response->setStatus(false);

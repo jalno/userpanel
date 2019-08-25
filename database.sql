@@ -56,7 +56,7 @@ CREATE TABLE `userpanel_users` (
 	`web` varchar(255) DEFAULT NULL,
 	`lastonline` int(11) NOT NULL,
 	`remember_token` varchar(32) DEFAULT NULL,
-	`credit` int(10) unsigned NOT NULL,
+	`credit` int(11) NOT NULL,
 	`avatar` varchar(255) DEFAULT NULL,
 	`status` tinyint(4) NOT NULL,
 	PRIMARY KEY (`id`),
