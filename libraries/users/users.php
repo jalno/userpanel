@@ -3,10 +3,9 @@ namespace packages\userpanel;
 use packages\base\db;
 use packages\base\db\dbObject;
 use packages\base\utility\password;
-use \packages\base\IO;
-use \packages\base\packages;
-use \packages\userpanel\date;
-use \packages\userpanel\user\option;
+use packages\base\IO;
+use packages\base\packages;
+use packages\userpanel\user\option;
 
 class user extends dbObject{
 	use imageTrait;
@@ -33,6 +32,7 @@ class user extends dbObject{
 		'credit' => array('type' => 'double'),
 		'lastonline' => array('type' => 'int'),
 		'remember_token' => array('type' => 'text'),
+		'registered_at' => array('type' => 'int', 'required' => true),
         'status' => array('type' => 'int', 'required' => true)
     );
     protected $relations = array(
@@ -182,5 +182,14 @@ class user extends dbObject{
 		$permission = new usertype\permission();
 		$permission->where("type", $type);
 		return array_column($permission->arrayBuilder()->get(null, "name"), "name");
+	}
+	public function preLoad(array $data): array {
+		if (!isset($data["lastonline"])) {
+			$data["lastonline"] = date::time();
+		}
+		if (!isset($data["registered_at"])) {
+			$data["registered_at"] = date::time();
+		}
+		return $data;
 	}
 }

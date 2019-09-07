@@ -54,10 +54,11 @@ CREATE TABLE `userpanel_users` (
 	`zip` int(11) DEFAULT NULL,
 	`address` varchar(255) DEFAULT NULL,
 	`web` varchar(255) DEFAULT NULL,
-	`lastonline` int(11) NOT NULL,
+	`lastonline` int(11) NOT NULL DEFAULT '0',
 	`remember_token` varchar(32) DEFAULT NULL,
-	`credit` int(11) NOT NULL,
+	`credit` int(11) NOT NULL DEFAULT '0',
 	`avatar` varchar(255) DEFAULT NULL,
+	`registered_at` int(10) unsigned NOT NULL,
 	`status` tinyint(4) NOT NULL,
 	PRIMARY KEY (`id`),
 	UNIQUE KEY `email` (`email`),
@@ -67,7 +68,7 @@ CREATE TABLE `userpanel_users` (
 	KEY `country` (`country`),
 	CONSTRAINT `userpanel_users_ibfk_1` FOREIGN KEY (`type`) REFERENCES `userpanel_usertypes` (`id`),
 	CONSTRAINT `userpanel_users_ibfk_2` FOREIGN KEY (`country`) REFERENCES `userpanel_countries` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8
 
 CREATE TABLE `userpanel_users_options` (
 	`id` int(11) NOT NULL AUTO_INCREMENT,

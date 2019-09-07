@@ -114,6 +114,11 @@ use \themes\clipone\utility;
 									<td></td>
 								</tr>
 								<tr>
+									<td>تاریخ ثبت نام</td>
+									<td><?php echo utility::dateFormNow($this->getUserData('registered_at')); ?></td>
+									<td></td>
+								</tr>
+								<tr>
 									<td>آخرین فعالیت</td>
 									<td><?php echo utility::dateFormNow($this->getUserData('lastonline')); ?></td>
 									<td></td>
