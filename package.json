@@ -9,7 +9,7 @@
 				"function": true
 			}
 		],
-		"directories": ["controllers", "libraries", "listeners", "logs", "views"]
+		"directories": ["controllers", "libraries", "listeners", "logs", "views", "processes"]
 	},
 	"dependencies": ["base"],
 	"languages":{
