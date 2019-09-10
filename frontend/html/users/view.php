@@ -131,6 +131,14 @@ use \themes\clipone\utility;
 									<td></td>
 								</tr>
 								<tr>
+									<td>موجودی فعلی</td>
+									<td class="user-credit">
+										<span class="ltr"><?php echo $this->getUserData("credit"); ?></span>
+										<?php echo ' ' . $this->getUserCurrency(); ?>
+									</td>
+									<td></td>
+								</tr>
+								<tr>
 									<td>وضعیت</td>
 									<td>
 									<?php

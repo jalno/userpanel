@@ -1,10 +1,6 @@
 <?php
 namespace themes\clipone\views\users;
-use \packages\base\translator;
-use \packages\base\frontend\theme;
-use packages\base\db;
-use packages\base\packages;
-
+use packages\base\{db, frontend\theme, translator, Packages, Options};
 use \packages\userpanel;
 use \packages\userpanel\user;
 use \packages\userpanel\usertype;
@@ -12,7 +8,6 @@ use \packages\userpanel\log;
 use \packages\userpanel\log_user;
 use \packages\userpanel\user\socialnetwork;
 use \packages\userpanel\views\users\view as usersView;
-
 use \themes\clipone\navigation;
 use \themes\clipone\navigation\menuItem;
 use \themes\clipone\breadcrumb;
@@ -96,5 +91,12 @@ class view extends usersView{
 		}
 		$user = $this->getData('user');
 		return $user->getVisibility($field);
+	}
+	protected function getUserCurrency(): string {
+		if (Packages::package("financial")) {
+			return \packages\financial\Currency::getDefault($this->user)->title;
+		} else {
+			return Options::get("packages.userpanel.users.credit.currency.title");
+		}
 	}
 }
