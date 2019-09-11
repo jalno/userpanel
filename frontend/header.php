@@ -19,6 +19,7 @@ use themes\clipone\{breadcrumb, Navigation, ViewTrait};
 		<?php
 			if ($this->getFavicon()) {
 				echo '<link rel="icon" href="' . $this->getFavicon() . '" type="image/x-icon" />';
+				echo '<link rel="shortcut icon" href="' . $this->getFavicon() . '" type="image/x-icon" />';
 			}
 		?>
 		<meta name="apple-mobile-web-app-capable" content="yes">
