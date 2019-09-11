@@ -1,26 +1,31 @@
 <?php
 namespace themes\clipone;
-use \packages\base\packages;
-use \packages\base\date;
-use \packages\base\translator;
-use \packages\base\view\error;
-use \packages\base\frontend\theme;
-use \packages\userpanel\frontend;
-use \packages\userpanel\authorization;
-use \packages\userpanel\authentication;
 
-trait viewTrait{
+use packages\base;
+use packages\base\{Date, view\Error, Packages, frontend\Theme, Translator};
+use packages\userpanel;
+use packages\userpanel\{Authentication, Authorization, Frontend};
+
+trait ViewTrait {
 	protected $bodyClasses = array('rtl');
 
 	/** @var bool */
 	protected $fixedHeader = true;
 
+	/**
+	 * location of favicon
+	 * @var string
+	 */
+	protected $favicon = "";
+
 	function the_header($template = ''){
 		require_once(__DIR__.'/../../header'.($template ? '.'.$template : '').'.php');
 	}
+
 	function the_footer($template = ''){
 		require_once(__DIR__.'/../../footer'.($template ? '.'.$template : '').'.php');
 	}
+
 	function getLogoHTML(){
 		$logo = frontend::getLogoHTML();
 		if(!$logo){
@@ -28,6 +33,7 @@ trait viewTrait{
 		}
 		return $logo;
 	}
+
 	function getCopyRightHTML(){
 		$copyright = frontend::getCopyRightHTML();
 		if(!$copyright){
@@ -35,26 +41,49 @@ trait viewTrait{
 		}
 		return $copyright;
 	}
+
+	/**
+	 * Set Favicon for userpanel pages
+	 * @param string $icon must be full path to icon file
+	 */
+	public function setFavicon(string $icon): void {
+		$this->favicon = $icon;
+	}
+
+	/**
+	 * return full path of icon file
+	 * @return string that is full path to favicon logo or empty string if not set before.
+	 */
+	public function getFavicon(): string {
+		return $this->favicon;
+	}
+
 	public function addBodyClass($class){
 		$this->bodyClasses[] = $class;
 	}
+
 	public function removeBodyClass($class){
 		if(($key = array_search($class, $this->bodyClasses)) !== false){
 			unset($this->bodyClasses[$key]);
 		}
 	}
+
 	public function fixHeader(bool $fix = true): void {
 		$this->fixedHeader = $fix;
 	}
+
 	public function staticHeader(bool $static = true): void {
 		$this->fixedHeader = !$static;
 	}
+
 	public function isFixedHeader(): bool {
 		return $this->fixedHeader;
 	}
+
 	protected function genBodyClasses(){
 		return implode(' ', $this->bodyClasses);
 	}
+
 	protected function getErrorsHTML(){
 		$code = '';
 		foreach($this->getErrors() as $error){
@@ -129,9 +158,11 @@ trait viewTrait{
 
 		return $code;
 	}
+
 	protected function canViewProfile(){
 		return authorization::is_accessed('profile_view');
 	}
+
 	protected function getSelfAvatarURL(){
 		$user = authentication::getUser();
 		if($user->avatar){
@@ -140,6 +171,7 @@ trait viewTrait{
 			return theme::url('assets/images/defaultavatar.jpg');
 		}
 	}
+
 	private function buildAlertHtmlData($alert){
 		$code = "";
 		if(isset($alert['data']) and $alert['data']){
