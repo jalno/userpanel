@@ -59,6 +59,10 @@
 		{
 			"name":"\\themes\\clipone\\events\\navigation\\build",
 			"listener": "listeners\\navigation@removeSettings"
+		},
+        {
+			"name":"events/InitTabsEvent",
+			"listener": "listeners/UserProfileTabs@handle"
 		}
 	],
 	"views":[
@@ -76,21 +80,6 @@
 			"name":"\\themes\\clipone\\views\\users\\listview",
 			"parent":"\\packages\\userpanel\\views\\users\\listview",
 			"file":"users.list.php"
-		},
-		{
-			"name":"\\themes\\clipone\\views\\users\\add",
-			"parent":"\\packages\\userpanel\\views\\users\\add",
-			"file":"html/users/add.php"
-		},
-		{
-			"name":"\\themes\\clipone\\views\\users\\edit",
-			"parent":"\\packages\\userpanel\\views\\users\\edit",
-			"file":"html/users/edit.php"
-		},
-		{
-			"name":"\\themes\\clipone\\views\\users\\view",
-			"parent":"\\packages\\userpanel\\views\\users\\view",
-			"file":"html/users/view.php"
 		},
 		{
 			"name":"\\themes\\clipone\\views\\users\\delete",
@@ -138,16 +127,6 @@
 			"file":"settings.usertypes.add.php"
 		},
 		{
-			"name":"\\themes\\clipone\\views\\profile\\view",
-			"parent":"\\packages\\userpanel\\views\\profile\\view",
-			"file":"html/profile/view.php"
-		},
-		{
-			"name":"\\themes\\clipone\\views\\profile\\edit",
-			"parent":"\\packages\\userpanel\\views\\profile\\edit",
-			"file":"html/profile/edit.php"
-		},
-		{
 			"name":"\\themes\\clipone\\views\\search",
 			"parent":"\\packages\\userpanel\\views\\search",
 			"file":"search.php"
@@ -161,16 +140,6 @@
 			"name":"\\themes\\clipone\\views\\resetpwd\\newpwd",
 			"parent":"\\packages\\userpanel\\views\\resetpwd\\newpwd",
 			"file":"html/newpwd.php"
-		},
-		{
-			"name":"\\themes\\clipone\\views\\profile\\settings",
-			"parent":"\\packages\\userpanel\\views\\profile\\settings",
-			"file":"html/profile/settings.php"
-		},
-		{
-			"name":"\\themes\\clipone\\views\\users\\settings",
-			"parent":"\\packages\\userpanel\\views\\users\\settings",
-			"file":"html/users/settings.php"
 		},
 		{
 			"name":"\\themes\\clipone\\views\\logs\\search",

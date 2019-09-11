@@ -12,11 +12,11 @@ use \themes\clipone\navigation;
 use \themes\clipone\navigation\menuItem;
 use \themes\clipone\breadcrumb;
 use \themes\clipone\utility;
-use themes\clipone\{viewTrait, views\BoxyTrait, events, views\Profile\ActivityCalendarBox};
+use themes\clipone\{viewTrait, views\BoxyTrait, views\TabTrait, events, views\Profile\ActivityCalendarBox};
 
 
-class view extends usersView{
-	use viewTrait, BoxyTrait;
+class Overview extends usersView{
+	use viewTrait, BoxyTrait, TabTrait;
 	protected $networks = array();
 	protected $lastlogin = 0;
 	protected $logs = array();

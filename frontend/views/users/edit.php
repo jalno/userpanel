@@ -3,9 +3,9 @@ namespace themes\clipone\views\users;
 use packages\base\{translator, packages, frontend\theme, options};
 use packages\userpanel;
 use packages\userpanel\{views\users\edit as usersEditView, usertype};
-use themes\clipone\{breadcrumb, navigation, navigation\menuItem, viewTrait, views\formTrait};
+use themes\clipone\{breadcrumb, navigation, navigation\menuItem, viewTrait, views\formTrait, views\TabTrait};
 class edit extends usersEditView{
-	use viewTrait,formTrait;
+	use viewTrait,formTrait, TabTrait;
 	protected $usertypes = array();
 	private $user;
 	function __beforeLoad(){

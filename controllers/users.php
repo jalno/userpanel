@@ -5,6 +5,8 @@ use \packages\base\{http, translator, db, db\duplicateRecord, db\InputDataType, 
 use \packages\userpanel;
 use \packages\userpanel\{logs, user, user\socialnetwork, usertype, authorization, authentication, controller, date, view, country, log, events\settings as settingsEvent};
 
+use themes\clipone\views;
+
 class users extends controller{
 	protected $authentication = true;
 	public function index(){
@@ -339,8 +341,10 @@ class users extends controller{
 		$settingsEvent = new settingsEvent();
 		$settingsEvent->setUser($user);
 		$settingsEvent->trigger();
-		$view = view::byName("\\packages\\userpanel\\views\\users\\view");
-		$view->setUserData($user);
+		$view = View::byName(views\users\View::class);
+		$view->setData($user, "user");
+		$view->triggerTabs();
+		$view->activeTab("view");
 		$view->setSettings($settingsEvent->get());
 		$this->response->setStatus(true);
 		$this->response->setView($view);
@@ -359,7 +363,10 @@ class users extends controller{
 		$settingsEvent = new settingsEvent();
 		$settingsEvent->setUser($user);
 		$settingsEvent->trigger();
-		$view = view::byName("\\packages\\userpanel\\views\\users\\edit");
+		$view = View::byName(views\users\View::class);
+		$view->setData($user, "user");
+		$view->triggerTabs();
+		$view->activeTab("edit");
 		$view->setTypes(usertype::where("id", $types, 'in')->get());
 		$view->setCountries(country::get());
 		$view->setUserData($user);
@@ -756,8 +763,10 @@ class users extends controller{
 		if(!$settingsEvent->get()){
 			throw new NotFound();
 		}
-		$view = view::byName("\\packages\\userpanel\\views\\users\\settings");
-		$view->setUser($user);
+		$view = View::byName(views\users\View::class);
+		$view->setData($user, "user");
+		$view->triggerTabs();
+		$view->activeTab("settings");
 		$view->setSettings($settingsEvent->get());
 		$this->response->setStatus(true);
 		$this->response->setView($view);
@@ -781,8 +790,12 @@ class users extends controller{
 			throw new NotFound();
 		}
 		$actionUser = authentication::getUser();
-		$this->response->setView($view = view::byName("\\packages\\userpanel\\views\\users\\settings"));
-		$view->setUser($user);
+
+		$view = View::byName(views\users\View::class);
+		$view->setData($user, "user");
+		$view->triggerTabs();
+		$view->activeTab("settings");
+		$this->response->setView($view);
 		$view->setSettings($settings);
 		$this->response->setStatus(false);
 		$inputsRules = [];

@@ -1,8 +1,8 @@
 <?php
 use \packages\base\frontend\theme;
+use \packages\base\translator;
 use \packages\userpanel;
 use \packages\userpanel\user;
-use \packages\base\translator;
 use \themes\clipone\utility;
 ?>
 <div class="row">
@@ -10,7 +10,7 @@ use \themes\clipone\utility;
 		<div class="user-left">
 			<div class="center">
 				<h4><?php echo $this->getData('user')->getFullName(); ?></h4>
-				<form class="profile_image"action="<?php echo userpanel\url('profile/edit'); ?>" method="post">
+				<form class="user_image"action="<?php echo userpanel\url('users/edit/'.$this->getUserData('id')); ?>" method="post">
 					<div class="fileupload fileupload-new" data-provides="fileupload">
 						<div class="form-group">
 							<div class="user-image avatarPreview">
@@ -57,7 +57,9 @@ use \themes\clipone\utility;
 					?>
 					<tr>
 						<td>تارنما:</td>
-						<td><a href="http://<?php echo $this->getUserData('web'); ?>" target="_blank">www.<?php echo $this->getUserData('web'); ?></a></td>
+						<td>
+						<a href="http://<?php echo $this->getUserData('web'); ?>" target="_blank">www.<?php echo $this->getUserData('web'); ?></a></td>
+						<td><a href="<?php echo userpanel\url('users/edit/'.$this->getUserData('id')); ?>"><i class="fa fa-pencil edit-user-info"></i></a></td>
 					</tr>
 					<?php
 					}
@@ -66,6 +68,7 @@ use \themes\clipone\utility;
 					<tr>
 						<td>رایانامه:</td>
 						<td><?php echo $this->getUserData('email'); ?></td>
+						<td><a href="<?php echo userpanel\url('email/send/', array('user' => $this->getUserData('id'))); ?>"><i class="fa fa-envelope-o edit-user-info"></i></a></td>
 					</tr>
 					<?php
 					}
@@ -74,7 +77,7 @@ use \themes\clipone\utility;
 					<tr>
 						<td>تلفن:</td>
 						<td><?php echo $this->getUserData('phone'); ?></td>
-
+						<td></td>
 					</tr>
 					<?php
 					}
@@ -83,6 +86,7 @@ use \themes\clipone\utility;
 					<tr>
 						<td>تلفن همراه:</td>
 						<td><?php echo $this->getUserData('cellphone'); ?></td>
+						<td><a href="<?php echo userpanel\url('sms/send/', array('user' => $this->getUserData('id'))); ?>" ><i class="clip-mobile-3 edit-user-info"></i></a></td>
 					</tr>
 					<?php } ?>
 				</tbody>
@@ -113,6 +117,14 @@ use \themes\clipone\utility;
 					<tr>
 						<td>آخرین ورود</td>
 						<td><?php echo($this->lastlogin ? utility::dateFormNow($this->lastlogin) : translator::trans('user.lastlogin.never')) ; ?></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td>موجودی فعلی</td>
+						<td class="user-credit">
+							<span class="ltr"><?php echo $this->getUserData("credit"); ?></span>
+							<?php echo ' ' . $this->getUserCurrency(); ?>
+						</td>
 						<td></td>
 					</tr>
 					<tr>

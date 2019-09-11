@@ -12,10 +12,9 @@ use \packages\userpanel\usertype;
 use \themes\clipone\breadcrumb;
 use \themes\clipone\navigation;
 use \themes\clipone\navigation\menuItem;
-use \themes\clipone\viewTrait;
-use \themes\clipone\views\formTrait;
+use themes\clipone\{viewTrait, views\formTrait, views\TabTrait};
 class edit extends profileEditView{
-	use viewTrait,formTrait;
+	use viewTrait,formTrait, TabTrait;
 	function __beforeLoad(){
 		$this->setTitle(array(
 			translator::trans('profile.edit')

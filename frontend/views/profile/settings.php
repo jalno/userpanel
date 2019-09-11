@@ -5,11 +5,10 @@ use \packages\userpanel;
 use \themes\clipone\breadcrumb;
 use \themes\clipone\navigation;
 use \themes\clipone\navigation\menuItem;
-use \themes\clipone\viewTrait;
-use \themes\clipone\views\formTrait;
+use themes\clipone\{viewTrait, views\formTrait, views\TabTrait};
 use \packages\userpanel\views\profile\settings as profileSettingsView;
 class settings extends profileSettingsView{
-	use viewTrait, formTrait;
+	use viewTrait, formTrait, TabTrait;
 	protected $user;
 	function __beforeLoad(){
 		$this->user = $this->getUser();
