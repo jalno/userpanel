@@ -281,6 +281,9 @@ trait formTrait{
 			}
 			$code .= $this->buildHtmlData($item);
 			$code .= ">";
+			if (isset($item['label'])) {
+				$code .= " <label>" . $item['label'] . "</label>";
+			}
 			$code .= "</span>";
 		}elseif($item['type'] == 'button' or $item['type'] == 'submit'){
 			if(!isset($item['class'])){
