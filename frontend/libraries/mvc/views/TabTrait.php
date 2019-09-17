@@ -10,6 +10,15 @@ trait TabTrait {
 	 * @return void
 	 */
 	public function output() {
+		$this->outputTab();
+	}
+
+	/**
+	 * Ouput the html file.
+	 * 
+	 * @return void
+	 */
+	public function outputTab() {
 		if ($this->source) {
 			if ($this->file) {
 				if (is_string($this->file)) {
@@ -29,12 +38,9 @@ trait TabTrait {
 				}
 			}
 		}
-		
 		if (!$this->file) {
 			return;
 		}
-
-
 		require_once($this->file->getPath());
 		(new View\events\AfterOutput($this))->trigger();
 	}
