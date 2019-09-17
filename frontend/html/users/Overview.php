@@ -1,9 +1,8 @@
 <?php
-use \packages\base\frontend\theme;
-use \packages\base\translator;
-use \packages\userpanel;
-use \packages\userpanel\user;
-use \themes\clipone\utility;
+use packages\base\frontend\theme;
+use packages\userpanel;
+use packages\userpanel\User;
+use themes\clipone\utility;
 ?>
 <div class="row">
 	<div class="col-sm-5 col-md-4">
@@ -116,13 +115,13 @@ use \themes\clipone\utility;
 					</tr>
 					<tr>
 						<td>آخرین ورود</td>
-						<td><?php echo($this->lastlogin ? utility::dateFormNow($this->lastlogin) : translator::trans('user.lastlogin.never')) ; ?></td>
+						<td><?php echo($this->lastlogin ? utility::dateFormNow($this->lastlogin) : t('user.lastlogin.never')) ; ?></td>
 						<td></td>
 					</tr>
 					<tr>
 						<td>موجودی فعلی</td>
 						<td class="user-credit">
-							<span class="ltr"><?php echo $this->getUserData("credit"); ?></span>
+							<span class="ltr"><?php echo number_format($this->getUserData("credit")); ?></span>
 							<?php echo ' ' . $this->getUserCurrency(); ?>
 						</td>
 						<td></td>
@@ -142,7 +141,7 @@ use \themes\clipone\utility;
 							'suspend' => user::suspend
 						));
 						?>
-						<span class="<?php echo $statusClass; ?>"><?php echo translator::trans($statusTxt); ?></span>
+						<span class="<?php echo $statusClass; ?>"><?php echo t($statusTxt); ?></span>
 						</td>
 						<td></td>
 					</tr>
