@@ -1,9 +1,13 @@
 <?php
 use packages\base;
-use packages\base\{frontend\Theme, Translator};
+use packages\base\{Options, frontend\Theme, Translator};
 use packages\userpanel;
 use packages\userpanel\Authentication;
 use themes\clipone\{breadcrumb, Navigation, ViewTrait};
+$faviconUrl = Options::get('packages.userpanel.favicon');
+if ($faviconUrl) {
+	$this->setFavicon($faviconUrl);
+}
 ?>
 <!DOCTYPE html>
 <!--[if IE 8]><html class="ie8 no-js" lang="en"><![endif]-->
