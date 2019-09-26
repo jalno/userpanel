@@ -57,12 +57,16 @@
 	},
 	"events": [
 		{
-			"name":"\\themes\\clipone\\events\\navigation\\build",
-			"listener": "listeners\\navigation@removeSettings"
+			"name":"events/navigation/build",
+			"listener": "listeners/navigation@removeSettings"
 		},
         {
 			"name":"events/InitTabsEvent",
 			"listener": "listeners/UserProfileTabs@handle"
+		},
+        {
+			"name":"packages/base/view/events/afterLoad",
+			"listener": "listeners/AfterLoad@setFavicon"
 		}
 	],
 	"views":[
