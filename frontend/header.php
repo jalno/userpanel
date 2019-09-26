@@ -1,6 +1,6 @@
 <?php
 use packages\base;
-use packages\base\{frontend\Theme, Translator};
+use packages\base\{Options, frontend\Theme, Translator};
 use packages\userpanel;
 use packages\userpanel\Authentication;
 use themes\clipone\{breadcrumb, Navigation, ViewTrait};
