@@ -68,7 +68,7 @@ CREATE TABLE `userpanel_users` (
 	KEY `country` (`country`),
 	CONSTRAINT `userpanel_users_ibfk_1` FOREIGN KEY (`type`) REFERENCES `userpanel_usertypes` (`id`),
 	CONSTRAINT `userpanel_users_ibfk_2` FOREIGN KEY (`country`) REFERENCES `userpanel_countries` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8;
 
 CREATE TABLE `userpanel_users_options` (
 	`id` int(11) NOT NULL AUTO_INCREMENT,

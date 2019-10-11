@@ -1,12 +1,16 @@
 <?php
 namespace themes\clipone\views;
-use \packages\base\translator;
-use \themes\clipone\utility;
-use \themes\clipone\viewTrait;
-trait formTrait{
+
+use packages\base\translator;
+use themes\clipone\utility;
+use packages\base\utility\safe;
+use themes\clipone\viewTrait;
+
+trait formTrait {
 	protected $horizontal_form = false;
 	protected $label_col;
 	protected $input_col;
+	
 	public function setHorizontalForm($label_col, $input_col){
 		$label_cols = explode(' ', $label_col);
 		foreach($label_cols as $label_col){
@@ -139,14 +143,14 @@ trait formTrait{
 				$code.= " rows=\"{$options['rows']}\"";
 			}
 		}elseif($options['type'] == 'number'){
-			$code .= '<input type="number" value="'.htmlentities($options['value']).'" ';
+			$code .= '<input type="number" value="' . Safe::htmlentities($options['value']) . '" ';
 			foreach (['step', 'min', 'max'] as $attr) {
 				if(isset($options[$attr]) and $options[$attr] !== null){
 					$code .= "{$attr}=\"{$options[$attr]}\"";
 				}
 			}
 		}else{
-			$code .= "<input type=\"{$options['type']}\" value=\"".htmlentities($options['value']).'" ';
+			$code .= "<input type=\"{$options['type']}\" value=\"" . Safe::htmlentities($options['value']) . '" ';
 			$code .= $this->buildHtmlData($options);
 		}
 		if($options['type'] == 'file'){
@@ -197,7 +201,7 @@ trait formTrait{
 			//$code .= "</div>";
 		}
 		if($options['type'] == 'textarea'){
-			$code .= htmlentities($options['value'])."</textarea>";
+			$code .= Safe::htmlentities($options['value']) . "</textarea>";
 		}
 
 		if($options['type'] != 'hidden'){
