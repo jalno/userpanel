@@ -9,7 +9,7 @@ use themes\clipone\{breadcrumb, Navigation, ViewTrait};
 <!--[if IE 8]><html class="ie8 no-js" lang="en"><![endif]-->
 <!--[if IE 9]><html class="ie9 no-js" lang="en"><![endif]-->
 <!--[if !IE]><!-->
-<html lang="en" class="no-js">
+<html lang="<?php echo Translator::getShortCodeLang(); ?>" class="no-js">
 	<!--<![endif]-->
 	<head>
 		<title><?php echo $this->getTitle(); ?></title>
