@@ -93,9 +93,12 @@ body.users_view {
 		}
 	}
 }
-
-.panel-activity {
+body .panel-activity {
+	margin-left: -30px;
+}
+body.rtl .panel-activity {
 	margin-right: -30px;
+	margin-left: 0;
 	.panel-heading {
 		font-family: yekan;
 	}
@@ -111,13 +114,12 @@ body.users_view {
 }
 .calender {
 	overflow: hidden;
-	font-family: "yekan";
 	font-size: 8px;
 	line-height: 1em;
 	margin: 1em auto 0;
 	width: 63.6em;
 	.days {
-		float: right;
+		float: left;
 		margin-left: 0.5em;
 		padding-top: 1.5em;
 		.day {
@@ -129,7 +131,7 @@ body.users_view {
 	.months {
 		height: 1em;
 		margin-bottom: 0.5em;
-		margin-right: 4em;
+		margin-right: 2em;
 		.month {
 			width: 4.83em;
 			display: inline-block;
@@ -166,7 +168,15 @@ body.users_view {
 		
 	}
 }
-
+body.rtl .calender{
+	font-family: "yekan";
+	.days {
+		float: right;
+	}
+	.months {
+		margin-right: 2em;
+	}
+}
 .calendar-square {
 	width: 1em;
 	height: 1em;

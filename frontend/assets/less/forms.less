@@ -55,7 +55,7 @@ label {
 		color: #909090;
 		display: inline-block;
 		font-size: 14px;
-		left: 5px;
+		right: 5px;
 		line-height: 35px;
 		padding: 0 3px;
 		position: absolute;
@@ -67,6 +67,12 @@ label {
 			left: auto;
 			right: 4px;
 		}
+	}
+}
+body.rtl .input-icon {
+	> .fa , > [class*="clip-"] {
+		left: 5px;
+		right: auto;
 	}
 }
 span.input-help {
