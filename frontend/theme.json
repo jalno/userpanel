@@ -36,7 +36,6 @@
 		{"type":"package","name":"bootstrap-avatar-preview", "priority": "10", "version": "1.1.0"},
 		{"type":"package","name":"jalali-moment", "version": "^3.3.1"},
 		{"type":"less","file":"node_modules/bootstrap/less/bootstrap.less"},
-		{"type":"less","file":"node_modules/bootstrap-rtl/less/bootstrap-rtl.less"},
 		{"type":"less","file":"node_modules/font-awesome/less/font-awesome.less"},
 		{"type":"css","file":"node_modules/jquery.growl/stylesheets/jquery.growl.css"},
 		{"type":"css","file":"node_modules/jquery-ui/themes/base/all.css"},
@@ -53,7 +52,8 @@
 		"directories": ["libraries", "listeners", "views"]
 	},
 	"languages":{
-		"fa_IR" : "langs/fa_IR.json"
+		"fa_IR" : "langs/fa_IR.json",
+		"en_US" : "langs/en_US.json"
 	},
 	"events": [
 		{

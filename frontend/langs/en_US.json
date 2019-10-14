@@ -1,0 +1,45 @@
+{
+	"author": {
+		"name" : "JeyServer Ltd",
+		"website" : "http://www.jeyserver.com/"
+	},
+	"rtl": true,
+	"phrases":{
+		"back": "Back",
+		"dashboard": "Dashboard",
+		"settings": "Settings",
+		"usertypes": "User Types",
+		"users": "Users",
+		"login": "Login",
+		"users.logs": "User Activities",
+
+		"user.status.active": "Active",
+		"user.status.suspend": "Suspend",
+		"user.status.deactive": "Deactive",
+
+		"register" : "Register",
+		"register.signup": "SignUp",
+		"register.user.name" : "First Name",
+		"register.user.lastname" : "Last Name",
+		"register.user.country":"Country",
+		"register.user.city" : "City",
+		"register.user.address" : "Street Address",
+		"register.user.zip": "Zip/Postal Code",
+		"register.user.phone": "Telephone",
+		"register.user.cellphone": "Mobile Phone",
+		"register.user.email" : "Email Address",
+		"register.user.password" : "Password",
+		"register.user.password_again" : "Confirm Password",
+		"register.accept_tos" : "By clicking Sign Up, you agree to our Terms.",
+
+		"userpanel.login.heading": "Signin to continue",
+		"userpanel.login.description": "to Signin, Please enter your Email and Password",
+		"userpanel.login.forgot_password": "Forgot password?",
+		"userpanel.login.remember_me": "Remember me",
+		"userpanel.login.email_or_phone": "Email or phone",
+		"userpanel.login.password": "Password",
+		"userpanel.login.signin_btn": "Signin",
+		"userpanel.login.register.text": "I don't have an account.",
+		"userpanel.login.register.link": "How do I register?"
+	}
+}
