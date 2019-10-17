@@ -9,7 +9,7 @@ class register extends registerView{
 	use viewTrait,formTrait;
 	protected $countries = array();
 	function __beforeLoad(){
-		$this->setTitle("ثبت نام");
+		$this->setTitle(t("register"));
 		$this->addBodyClass('register');
 		$this->setCounties();
 	}

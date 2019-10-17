@@ -3,6 +3,7 @@ use \packages\base;
 use \packages\base\frontend\theme;
 use \packages\base\translator;
 use \packages\userpanel;
+$isRTL = (bool) base\translator::getLang()->isRTL();
 $this->the_header('login');
 ?>
 <!-- start: REGISTER BOX -->
@@ -121,8 +122,8 @@ $this->the_header('login');
 			?>
 
 			<div class="form-actions">
-				<a class="btn btn-light-grey" href="<?php echo userpanel\url('login'); ?>"> <i class="fa fa-arrow-circle-right"></i> <?php echo translator::trans('back'); ?></a>
-				<button type="submit" class="btn btn-bricky pull-left"> <i class="fa fa-arrow-circle-left"></i> <?php echo translator::trans('register'); ?></button>
+				<a class="btn btn-light-grey" href="<?php echo userpanel\url('login'); ?>"> <i class="fa fa-arrow-circle-<?php echo (!$isRTL) ? "left" : "right"; ?>"></i> <?php echo translator::trans('back'); ?></a>
+				<button type="submit" class="btn btn-bricky pull-<?php echo ($isRTL) ? "left" : "right"; ?>"> <i class="fa fa-arrow-circle-<?php echo ($isRTL) ? "left" : "right"; ?>"></i> <?php echo translator::trans('register.signup'); ?></button>
 			</div>
 		</fieldset>
 	</form>

@@ -9,7 +9,7 @@ class login extends loginView{
 	use viewTrait, formTrait;
 	protected $registerEnable = false;
 	function __beforeLoad(){
-		$this->setTitle("ورود");
+		$this->setTitle(t("login"));
 		$registerOption = options::load('packages.userpanel.register');
 		$this->registerEnable = $registerOption['enable'];
 	}

@@ -44,7 +44,7 @@ class listview extends usersListView{
 		parent::onSourceLoad();
 		if(parent::$navigation){
 			$item = new menuItem("users");
-			$item->setTitle('کاربران');
+			$item->setTitle(t("users"));
 			$item->setURL(userpanel\url('users'));
 			$item->setIcon('clip-users');
 			navigation::addItem($item);

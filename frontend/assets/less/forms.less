@@ -64,9 +64,15 @@ label {
 	}
 	&.input-icon-right{
 		> .fa , > [class*="clip-"]{
-			left: auto;
-			right: 4px;
+			right: auto;
+			left: 4px;
 		}
+	}
+}
+body.rtl .input-icon {
+	> .fa , > [class*="clip-"] {
+		right: 5px;
+		left: auto;
 	}
 }
 span.input-help {

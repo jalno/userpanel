@@ -10,6 +10,7 @@
 		"suspend": "معلق",
 		"deactive": "غیرفعال",
 		"users":"کاربران",
+		"login": "ورود",
 		"user.add":"افزودن کاربر",
 		"user.id" : "شناسه کاربری",
 		"user.name":"نام کاربر",
@@ -210,6 +211,16 @@
 		"userpanel.edit": "ویرایش",
 		"userpanel.create": "ایجاد",
 		"userpanel.delete": "حذف",
-		"userpanel.choose": "انتخاب کنید.."
+		"userpanel.choose": "انتخاب کنید..",
+
+		"userpanel.login.signin_btn": "ورود",
+		"userpanel.login.heading": "به حساب کاربری خود وارد شوید",
+		"userpanel.login.description": "برای ورود لطفا ایمیل و کلمه عبور خود را وارد کنید",
+		"userpanel.login.forgot_password": "من کلمه عبورم را فراموش کردم",
+		"userpanel.login.remember_me": "مرا به یاد داشته باش",
+		"userpanel.login.email_or_phone": "ایمیل یا تلفن همراه",
+		"userpanel.login.password": "کلمه عبور",
+		"userpanel.login.register.text": "هنوز حساب کاربری ندارید؟",
+		"userpanel.login.register.link": "به جمع ما بپیوندید"
 	}
 }

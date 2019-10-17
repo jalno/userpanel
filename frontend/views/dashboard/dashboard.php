@@ -103,8 +103,10 @@ class dashboard extends dashboardView{
 				if ($shortcut->text) {
 					$html .= "<div class=\"content\">{$shortcut->text}</div>";
 				}
+				$iconDirection = ((bool)translator::getLang()->isRTL()) ? "left" : "right";
 				if (!empty($shortcut->link)) {
-					$html .= "<a class=\"view-more\" href=\"".$shortcut->link[1]."\"><i class=\"clip-arrow-left-2\"></i> ".$shortcut->link[0]."</a>";
+					$html .= "<a class=\"view-more\" href=\"".$shortcut->link[1]."\">";
+					$html .= "<i class=\"clip-arrow-" . $iconDirection . "-2\"></i> ".$shortcut->link[0]."</a>";
 				}
 				$html .= "</div>";
 				$html .= "</div>";
@@ -182,7 +184,7 @@ class dashboard extends dashboardView{
 	}
 	public static function onSourceLoad(){
 		$item = new menuItem("dashboard");
-		$item->setTitle("پیشخوان");
+		$item->setTitle(t("dashboard"));
 		$item->setURL(base\url('userpanel'));
 		$item->setIcon('clip-home-3');
 		$item->setPriority(0);

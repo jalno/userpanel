@@ -1,6 +1,13 @@
 body {
 	font-family: Tahoma,Arial,sans-serif;
 	font-size: 13px;
+	.radio, .radio-inline {
+		label {
+			&:after{
+				left: 3px;
+			}
+		}
+	}
 }
 .btn {
 	font-family: yekan;
@@ -25,9 +32,6 @@ body {
 			display: inline-block;
 		}
 	}
-}
-.dropdown-menu {
-	text-align: right;
 }
 body.login {
 	label.error {
@@ -97,6 +101,11 @@ body.rtl {
 		}
 	}
 	.radio, .radio-inline {
+		label {
+			&:after{
+				right: 3px;
+			}
+		}
 		input[type="radio"] {
 			margin-left: 0;
 			margin-right: -20px;
@@ -106,8 +115,6 @@ body.rtl {
 		.heading {
 			h2 {
 				font-family: nazanin;
-				font-size: 20px;
-				font-weight: 700;
 			}
 		}
 	}
@@ -131,6 +138,9 @@ body.rtl {
 				color: #333;
 			}
 		}
+	}
+	.dropdown-menu {
+		text-align: right;
 	}
 }
 .ltr {
