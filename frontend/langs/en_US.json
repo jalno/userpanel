@@ -60,6 +60,8 @@
 		"userpanel.login.incorrect": "Username or password is incorrect",
 
 		"userpanel.data_validation.password_again": "Confirm password is incorrect",
+		"userpanel.data_validation.username": "Can not find user with this item",
+		"userpanel.data_validation.resetpwd.emailorcellphone": "Email or Cellphone is incorrect",
 
 		"profile.view":"Profile",
 		"profile.edit": "Edit Profile",
@@ -240,6 +242,9 @@
 		"userpane.formajax.success": "Your request has been done.",
 		"userpanel.formajax.error": "Can not connect to server correctly, please try again.",
 		"userpanel.users.save": "User has been saved",
-		"userpanel.users.update": "Your informations has been updated"
+		"userpanel.users.update": "Your informations has been updated",
+		"userpanel.resetpwd.withemail.success.title": "Email has been sent",
+		"userpanel.resetpwd.withemail.success.description": "Please check your email inbox or spam and follow instructions",
+		"userpanel.newpwd.title": "Set new password"
 	}
 }

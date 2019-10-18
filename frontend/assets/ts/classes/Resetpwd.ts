@@ -57,14 +57,14 @@ export class Resetpwd{
 						if(error.error == 'data_duplicate' || error.error == 'data_validation'){
 							let $input = $('[name='+error.input+']');
 							let $params = {
-								title: 'خطا',
+								title: t("error.fatal.title"),
 								message:''
 							};
 							if(error.error == 'data_validation'){
 								if(error.input == 'username'){
-									$params.message = 'کاربری با این مشخصه یافت نشد .';
+									$params.message = t("userpanel.data_validation.username");
 								}else{
-									$params.message = 'داده وارد شده معتبر نیست';
+									$params.message = t("data_validation");
 								}
 							}
 							if($input.length){

@@ -207,6 +207,8 @@
 		"userpanel.login.incorrect": "نام کاربری یا کلمه عبور وارد شده صحیح نمیباشد",
 
 		"userpanel.data_validation.password_again": "کلمه عبور و تکرار آن مطابقت ندارند",
+		"userpanel.data_validation.username": "کاربری با این مشخصه یافت نشد",
+		"userpanel.data_validation.resetpwd.emailorcellphone": "ادرس ایمیل و یا شماره همراه نادرست است",
 		
 		"userpanel.profile.contact_info": "اطلاعات تماس",
 		"userpanel.profile.web": "تارنما",
@@ -230,6 +232,10 @@
 		"userpanel.formajax.error": "ارتباط با سامانه بدرستی برقرار نشد. لطفا مجددا تلاش کنید.",
 
 		"userpanel.users.save": "کاربر با موفقیت ذخیره شد",
-		"userpanel.users.update": "اطلاعات شما با موفقیت ذخیره شد"
+		"userpanel.users.update": "اطلاعات شما با موفقیت ذخیره شد",
+		"register.signup": "ثبت نام",
+		"userpanel.resetpwd.withemail.success.title": "ایمیل ارسال شد",
+		"userpanel.resetpwd.withemail.success.description": "درخواست تغییر کلمه عبور شما موفقیت ثبت و با احراز هویت شما از طریق ایمیل تکمیل خواهد شد",
+		"userpanel.newpwd.title": "تنظیم کلمه عبور جدید"
 	}
 }

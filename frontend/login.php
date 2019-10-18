@@ -16,7 +16,7 @@ $isRTL = (bool) base\translator::getLang()->isRTL();
 		]);
 		?>
 		<div class="errorHandler alert alert-danger no-display">
-			<i class="fa fa-remove-sign"></i> اطلاعات وارد شده دارای مشکلاتی می باشد.
+			<i class="fa fa-remove-sign"></i> <?php echo t("userpanel.login.incorrect"); ?>.
 		</div>
 		<fieldset>
 			<div class="form-group">
