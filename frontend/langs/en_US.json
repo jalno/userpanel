@@ -3,8 +3,9 @@
 		"name" : "JeyServer Ltd",
 		"website" : "http://www.jeyserver.com/"
 	},
-	"rtl": true,
+	"rtl": false,
 	"phrases":{
+		"list": "List",
 		"back": "Back",
 		"dashboard": "Dashboard",
 		"settings": "Settings",
@@ -13,6 +14,21 @@
 		"login": "Login",
 		"users.logs": "User Activities",
 
+		"user.add": "New User",
+		"user.profile.save": "Update",
+		"user.id": "ID",
+		"user.name": "First Name",
+		"user.lastname": "Last Name",
+		"user.type": "User Type",
+		"user.status": "Status",
+		"user.country": "Country",
+		"user.address": "Address",
+		"user.city":"City",
+		"user.zip": "Postal Code",
+		"user.password":"Password",
+		"user.password_repeat":"Repeat Password",
+		"user.online": "Online",
+		"user.online.yes":"Yes",
 		"user.status.active": "Active",
 		"user.status.suspend": "Suspend",
 		"user.status.deactive": "Deactive",
@@ -40,6 +56,74 @@
 		"userpanel.login.password": "Password",
 		"userpanel.login.signin_btn": "Signin",
 		"userpanel.login.register.text": "I don't have an account.",
-		"userpanel.login.register.link": "How do I register?"
+		"userpanel.login.register.link": "How do I register?",
+
+		"profile.view":"Profile",
+		"profile.edit": "Edit Profile",
+		"profile.settings": "User Options",
+		"user.profile.overview": "Overview",
+		"userpanel.profile.contact_info": "Contact Information",
+		"userpanel.profile.general_info": "General information",
+		"userpanel.profile.web": "Web",
+		"user.email": "Email",
+		"user.phone": "Phone",
+		"user.cellphone": "Mobile phone",
+		"user.credit": "User Balance",
+		"userpanel.profile.register_date": "Registration Date",
+		"userpanel.profile.last_activity": "Last Activity",
+		"userpanel.profile.last_login": "Last Login",
+
+		"log.search": "Search",
+		"log.id": "ID",
+		"log.title": "Action",
+		"log.user": "User",
+		"log.ip": "IP",
+		"log.time": "Date",
+		"log.timeFrom": "From Date",
+		"log.timeUntil": "To Date",
+		"logs.delete": "Delete Log",
+		"log.information": "Log Information",
+
+		"search.comparison": "Comparison",
+		"search.comparison.equals": "Equals",
+		"search.comparison.startswith": "Starts with",
+		"search.comparison.contains": "Contains",
+
+
+		"pagination.previousPage" : "Previous",
+		"pagination.nextPage" : "Next",
+		"pagination.page" : "Page",
+
+
+		"searchbox.placeholder": "Search...",
+
+
+		"user.edit.privacy.public" : "Public",
+		"user.edit.privacy.private" : "Private",
+		"userpanel.lock": "Lock Screen",
+		"userpanel.logout": "Log Out",
+		"userpanel.search": "Search",
+		"userpanel.delete": "Delete",
+		"userpanel.cancel": "Cancel",
+
+		"user.delete.warning.title": "Delete User",
+		"user.delete.warning": "Are sure want to delete user {user.name} with ID #{user.id}? This action can't be reverted.",
+		
+
+		"userpanel.profile.activity_calendar.title": "<strong>{activities}</strong> activities in the last year ",
+		"userpanel.profile.activity_calendar.no_activity": "No Activity",
+		"userpanel.profile.activity_calendar.up_to_activities": "Up to {activities} activities",
+		"userpanel.profile.activity_calendar.sunday": "Sunday",
+		"userpanel.profile.activity_calendar.tuesday": "Tuesday",
+		"userpanel.profile.activity_calendar.thursday": "Thursday",
+		"userpanel.profile.socialnetworks": "Social Network Profiles",
+
+
+		"notfound":"Not Found",
+		"notfound.heading" : "Oops! That page can’t be found.",
+		"notfound.description" : "Unfortunately the page you were looking for could not be found.<br>It may be temporarily unavailable, moved or no longer exist.<br>Check the URL you entered for any mistakes and try again. ",
+		"forbidden":"Access Denied",
+		"forbidden.heading" : "Oops! That page can’t be opened.",
+		"forbidden.description" : "Unfortunately you can't access to this page.<br>If you think this is an error, Please contact website administrator."
 	}
 }

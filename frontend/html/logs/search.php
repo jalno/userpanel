@@ -118,8 +118,8 @@ use \packages\base\translator;
 		</form>
 	</div>
 	<div class="modal-footer">
-		<button type="submit" form="userLogsSearch" class="btn btn-success">جستجو</button>
-		<button type="button" class="btn btn-default" data-dismiss="modal" aria-hidden="true">انصراف</button>
+		<button type="submit" form="userLogsSearch" class="btn btn-success"><?php echo t("userpanel.search"); ?></button>
+		<button type="button" class="btn btn-default" data-dismiss="modal" aria-hidden="true"><?php echo t("userpanel.cancel"); ?></button>
 	</div>
 </div>
 <?php

@@ -1,13 +1,13 @@
 <?php
 use packages\base;
-use packages\base\{Options, frontend\Theme, Translator};
+use packages\base\Translator;
 use packages\userpanel;
 use packages\userpanel\Authentication;
-use themes\clipone\{breadcrumb, Navigation, ViewTrait};
+use themes\clipone\{Breadcrumb, Navigation};
 ?>
 <!DOCTYPE html>
-<!--[if IE 8]><html class="ie8 no-js" lang="en"><![endif]-->
-<!--[if IE 9]><html class="ie9 no-js" lang="en"><![endif]-->
+<!--[if IE 8]><html class="ie8 no-js" lang="<?php echo Translator::getShortCodeLang(); ?>"><![endif]-->
+<!--[if IE 9]><html class="ie9 no-js" lang="<?php echo Translator::getShortCodeLang(); ?>"><![endif]-->
 <!--[if !IE]><!-->
 <html lang="<?php echo Translator::getShortCodeLang(); ?>" class="no-js">
 	<!--<![endif]-->
@@ -33,18 +33,14 @@ use themes\clipone\{breadcrumb, Navigation, ViewTrait};
 		?>
 	</head>
 	<body class="<?php echo $this->genBodyClasses(); ?>">
-		<!-- start: HEADER -->
 		<div class="navbar navbar-inverse <?php if ($this->isFixedHeader()) echo "navbar-fixed-top"; ?>">
-			<!-- start: TOP NAVIGATION CONTAINER -->
 			<div class="container">
 				<div class="navbar-header">
 					<button data-target=".navbar-collapse" data-toggle="collapse" class="navbar-toggle" type="button"><span class="clip-list-2"></span></button>
 					<a class="navbar-brand" href="<?php echo userpanel\url(''); ?>"><?php echo $this->getLogoHTML(); ?></a>
 				</div>
 				<div class="navbar-tools">
-					<!-- start: TOP NAVIGATION MENU -->
 					<ul class="nav navbar-right">
-						<!-- start: USER DROPDOWN -->
 						<li class="dropdown current-user">
 							<a data-toggle="dropdown" data-hover="dropdown" class="dropdown-toggle" data-close-others="true" href="#">
 								<img src="<?php echo $this->getSelfAvatarURL(); ?>" width="30" height="30" class="circle-img" alt="">
@@ -58,51 +54,32 @@ use themes\clipone\{breadcrumb, Navigation, ViewTrait};
 								<li><a href="<?php echo userpanel\url('profile/view'); ?>"><i class="clip-user-2"></i>&nbsp;<?php echo translator::trans('profile.view'); ?></a></li>
 								<li class="divider"></li>
 								<?php } ?>
-								<li><a href="<?php echo base\url('userpanel/lock'); ?>"><i class="clip-locked"></i>&nbsp;خروج موقت </a></li>
-								<li><a href="<?php echo base\url('userpanel/logout'); ?>"><i class="clip-exit"></i> &nbsp;خروج </a></li>
+								<li><a href="<?php echo base\url('userpanel/lock'); ?>"><i class="clip-locked"></i> <?php echo t("userpanel.lock"); ?></a></li>
+								<li><a href="<?php echo base\url('userpanel/logout'); ?>"><i class="clip-exit"></i> <?php echo t("userpanel.logout"); ?></a></li>
 							</ul>
 						</li>
-						<!-- end: USER DROPDOWN -->
 					</ul>
-					<!-- end: TOP NAVIGATION MENU -->
 				</div>
 			</div>
-			<!-- end: TOP NAVIGATION CONTAINER -->
 		</div>
-		<!-- end: HEADER -->
-		<!-- start: MAIN CONTAINER -->
 		<div class="main-container">
 			<div class="navbar-content">
-				<!-- start: SIDEBAR -->
 				<div class="main-navigation navbar-collapse collapse">
-					<!-- start: MAIN MENU TOGGLER BUTTON -->
 					<div class="navigation-toggler">
 						<i class="clip-chevron-left"></i>
 						<i class="clip-chevron-right"></i>
 					</div>
-					<!-- end: MAIN MENU TOGGLER BUTTON -->
-					<!-- start: MAIN NAVIGATION MENU -->
 					<ul class="main-navigation-menu">
-						<?php
-						echo navigation::build();
-						?>
+						<?php echo navigation::build(); ?>
 					</ul>
-					<!-- end: MAIN NAVIGATION MENU -->
 				</div>
-				<!-- end: SIDEBAR -->
 			</div>
-			<!-- start: PAGE -->
 			<div class="main-content">
-				<!-- end: SPANEL CONFIGURATION MODAL FORM -->
 				<div class="container">
-					<!-- start: PAGE HEADER -->
 					<div class="row">
 						<div class="col-sm-12">
-							<!-- start: PAGE TITLE & BREADCRUMB -->
 							<ol class="breadcrumb">
-								<?php
-								echo breadcrumb::build();
-								?>
+								<?php echo Breadcrumb::build(); ?>
 								<li class="search-box">
 									<form class="sidebar-search" action="<?php echo userpanel\url('search'); ?>" method="get">
 										<div class="form-group">
@@ -115,14 +92,12 @@ use themes\clipone\{breadcrumb, Navigation, ViewTrait};
 							<div class="page-header">
 								<h1><?php echo $this->title[count($this->title)-1]; if($this->shortdescription){ ?> <small><?php echo $this->shortdescription; ?></small><?php } ?></h1>
 							</div>
-							<!-- end: PAGE TITLE & BREADCRUMB -->
 						</div>
 					</div>
-					<!-- end: PAGE HEADER -->
 					<div class="row">
 						<div class="col-xs-12 errors">
 						<?php
-						if($errorcode = $this->getErrorsHTML()){
+						if ($errorcode = $this->getErrorsHTML()) {
 							echo $errorcode;
 						}
 						?></div>

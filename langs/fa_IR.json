@@ -38,6 +38,27 @@
 		"notice.note.view.name.packages.userpanel.views.settings.usertypes.listview": "پنل کاربری -> تنظیمات -> سطوح کاربری",
 		"notice.note.view.name.packages.userpanel.views.settings.usertypes.add": "پنل کاربری -> تنظیمات -> سطوح کاربری -> افزودن",
 		"notice.note.view.name.packages.userpanel.views.settings.usertypes.edit": "پنل کاربری -> تنظیمات -> سطوح کاربری -> ویرایش",
-		"notice.note.view.name.packages.userpanel.views.settings.usertypes.delete": "پنل کاربری -> تنظیمات -> سطوح کاربری -> حذف"
+		"notice.note.view.name.packages.userpanel.views.settings.usertypes.delete": "پنل کاربری -> تنظیمات -> سطوح کاربری -> حذف",
+		"usertype.permissions.userpanel_users_settings": "تنظیمات کاربر",
+		"usertype.permissions.userpanel_resetpwd_newpwd": "تنظیم کلمه عبور جدید در فراموشی کلمه عبور",
+		"usertype.permissions.userpanel_profile_settings": "تنظیمات کاربری",
+		"usertype.permissions.userpanel_users_list" : "لیست کاربران",
+		"usertype.permissions.userpanel_users_add" : "افزودن کاربر",
+		"usertype.permissions.userpanel_users_view" : "مشاهده کاربر",
+		"usertype.permissions.userpanel_users_view_invisibles" : "مشاهده مقادیر خصوصی کاربر",
+		"usertype.permissions.userpanel_users_edit" : "ویرایش کاربر",
+		"usertype.permissions.userpanel_users_edit_privacy" : "ویرایش حریم خصوصی کاربر",
+		"usertype.permissions.userpanel_users_delete" : "حذف کاربر",
+		"usertype.permissions.userpanel_settings_usertypes_list" : "لیست سطوح کاربری",
+		"usertype.permissions.userpanel_settings_usertypes_add" : "افزودن سطح کاربری",
+		"usertype.permissions.userpanel_settings_usertypes_edit" : "ویرایش سطح کاربری",
+		"usertype.permissions.userpanel_settings_usertypes_delete" : "حذف سطح کاربری",
+		"usertype.permissions.userpanel_profile_view":"مشاهده پروفایل",
+		"usertype.permissions.userpanel_profile_edit":"ویرایش پروفایل",
+		"usertype.permissions.userpanel_profile_edit_privacy" : "ویرایش حریم خصوصی پروفایل",
+		"usertype.permissions.userpanel_logs_search":"جستجوی فعالیت کاربران",
+		"usertype.permissions.userpanel_logs_view":"مشاهده فعالیت کاربران",
+		"usertype.permissions.userpanel_logs_delete":"حذف فعالیت کاربران",
+		"usertype.permissions.userpanel_users_edit_credit":"تغییر موجودی کاربری"
 	}
 }

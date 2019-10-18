@@ -6,7 +6,7 @@ use \themes\clipone\views\formTrait;
 class resetpwd extends resetpwdView{
 	use viewTrait, formTrait;
 	function __beforeLoad(){
-		$this->setTitle("بازیابی کلمه عبور");
+		$this->setTitle(t("userpanel.resetpwd"));
 		$this->addBodyClass('login');
 		$this->addBodyClass('resetpwd');
 	}

@@ -1,7 +1,7 @@
 <?php
 namespace themes\clipone\views\Profile;
 
-use packages\base\db;
+use packages\base\{db, Date as BaseDate};
 use packages\userpanel;
 use packages\userpanel\{User, Date, Log, Authorization};
 use themes\clipone\views\Dashboard\Box;
@@ -43,14 +43,14 @@ class ActivityCalendarBox extends Box {
 		$logs = $this->buildLogs();
 		$this->html = '<div class="panel panel-white panel-activity" data-user="' . $this->user->id . '">
 		<div class="panel-heading">
-			<i class="clip-calendar-3"></i> <strong>' . $this->totalActivities . '</strong> فعالیت در یکسال گذشته
+			<i class="clip-calendar-3"></i> ' . t("userpanel.profile.activity_calendar.title", ['activities' => $this->totalActivities]) . '
 			<div class="panel-tools">
 				<div class="calendar-guide">
-					<div class="calendar-square tooltips color0" title="بدون فعالیت"></div>
-					<div class="calendar-square tooltips color1" title="تا 20 فعالیت"></div>
-					<div class="calendar-square tooltips color2" title="تا 40 فعالیت"></div>
-					<div class="calendar-square tooltips color3" title="تا 60 فعالیت"></div>
-					<div class="calendar-square tooltips color4" title="تا 80 فعالیت"></div>
+					<div class="calendar-square tooltips color0" title="' . t("userpanel.profile.activity_calendar.no_activity") . '"></div>
+					<div class="calendar-square tooltips color1" title="' . t("userpanel.profile.activity_calendar.up_to_activities", ['activities' => 20]) . '"></div>
+					<div class="calendar-square tooltips color2" title="' . t("userpanel.profile.activity_calendar.up_to_activities", ['activities' => 40]) . '"></div>
+					<div class="calendar-square tooltips color3" title="' . t("userpanel.profile.activity_calendar.up_to_activities", ['activities' => 60]) . '"></div>
+					<div class="calendar-square tooltips color4" title="' . t("userpanel.profile.activity_calendar.up_to_activities", ['activities' => 80]) . '"></div>
 				</div>
 			</div>
 		</div>
@@ -108,9 +108,9 @@ class ActivityCalendarBox extends Box {
 		$this->totalActivities = array_sum($activities);
 		return '<div class="calender">
 			<div class="days">
-				<div class="day">یک شنبه</div>
-				<div class="day">سه شنبه</div>
-				<div class="day">پنج شنبه</div>
+				<div class="day">' . t("userpanel.profile.activity_calendar.sunday") . '</div>
+				<div class="day">' . t("userpanel.profile.activity_calendar.tuesday") . '</div>
+				<div class="day">' . t("userpanel.profile.activity_calendar.thursday") . '</div>
 		 	</div>
 			<div class="months">' . $months . '</div>
 			<div class="dates">' . $dates . '</div>

@@ -1,7 +1,7 @@
 <?php
 use packages\base\frontend\theme;
 use packages\userpanel;
-use packages\userpanel\User;
+use packages\userpanel\{User, Date};
 use themes\clipone\utility;
 ?>
 <div class="row">
@@ -47,7 +47,7 @@ use themes\clipone\utility;
 			<table class="table table-condensed table-hover">
 				<thead>
 					<tr>
-						<th colspan="3">اطلاعات تماس</th>
+						<th colspan="3"><?php echo t("userpanel.profile.contact_info"); ?></th>
 					</tr>
 				</thead>
 				<tbody>
@@ -55,7 +55,7 @@ use themes\clipone\utility;
 					if($web){
 					?>
 					<tr>
-						<td>تارنما:</td>
+						<td><?php echo t("userpanel.profile.web"); ?>:</td>
 						<td>
 						<a href="http://<?php echo $this->getUserData('web'); ?>" target="_blank">www.<?php echo $this->getUserData('web'); ?></a></td>
 						<td><a href="<?php echo userpanel\url('users/edit/'.$this->getUserData('id')); ?>"><i class="fa fa-pencil edit-user-info"></i></a></td>
@@ -65,7 +65,7 @@ use themes\clipone\utility;
 					if($email){
 					?>
 					<tr>
-						<td>رایانامه:</td>
+						<td><?php echo t("user.email"); ?>:</td>
 						<td><?php echo $this->getUserData('email'); ?></td>
 						<td><a href="<?php echo userpanel\url('email/send/', array('user' => $this->getUserData('id'))); ?>"><i class="fa fa-envelope-o edit-user-info"></i></a></td>
 					</tr>
@@ -74,7 +74,7 @@ use themes\clipone\utility;
 					if($phone){
 					?>
 					<tr>
-						<td>تلفن:</td>
+						<td><?php echo t("user.phone"); ?>:</td>
 						<td><?php echo $this->getUserData('phone'); ?></td>
 						<td></td>
 					</tr>
@@ -83,7 +83,7 @@ use themes\clipone\utility;
 					if($cellphone){
 					?>
 					<tr>
-						<td>تلفن همراه:</td>
+						<td><?php echo t("user.cellphone"); ?>:</td>
 						<td><?php echo $this->getUserData('cellphone'); ?></td>
 						<td><a href="<?php echo userpanel\url('sms/send/', array('user' => $this->getUserData('id'))); ?>" ><i class="clip-mobile-3 edit-user-info"></i></a></td>
 					</tr>
@@ -94,32 +94,32 @@ use themes\clipone\utility;
 			<table class="table table-condensed table-hover">
 				<thead>
 					<tr>
-						<th colspan="3">اطلاعات کلی</th>
+						<th colspan="3"><?php echo t("userpanel.profile.general_info"); ?></th>
 					</tr>
 				</thead>
 				<tbody>
 					<tr>
-						<td>سطح کاربری</td>
+						<td><?php echo t("user.type"); ?></td>
 						<td><?php echo $this->getUserData('type')->title; ?></td>
 						<td></td>
 					</tr>
 					<tr>
-						<td>تاریخ ثبت نام</td>
-						<td><?php echo utility::dateFormNow($this->getUserData('registered_at')); ?></td>
+						<td><?php echo t("userpanel.profile.register_date"); ?></td>
+						<td><?php echo Date::relativeTime($this->getUserData('registered_at')); ?></td>
 						<td></td>
 					</tr>
 					<tr>
-						<td>آخرین فعالیت</td>
-						<td><?php echo utility::dateFormNow($this->getUserData('lastonline')); ?></td>
+						<td><?php echo t("userpanel.profile.last_activity"); ?></td>
+						<td><?php echo Date::relativeTime($this->getUserData('lastonline')); ?></td>
 						<td></td>
 					</tr>
 					<tr>
-						<td>آخرین ورود</td>
-						<td><?php echo($this->lastlogin ? utility::dateFormNow($this->lastlogin) : t('user.lastlogin.never')) ; ?></td>
+						<td><?php echo t("userpanel.profile.last_login"); ?></td>
+						<td><?php echo($this->lastlogin ? Date::relativeTime($this->lastlogin) : t('user.lastlogin.never')) ; ?></td>
 						<td></td>
 					</tr>
 					<tr>
-						<td>موجودی فعلی</td>
+						<td><?php echo t("user.credit"); ?></td>
 						<td class="user-credit">
 							<span class="ltr"><?php echo number_format($this->getUserData("credit")); ?></span>
 							<?php echo ' ' . $this->getUserCurrency(); ?>
@@ -127,7 +127,7 @@ use themes\clipone\utility;
 						<td></td>
 					</tr>
 					<tr>
-						<td>وضعیت</td>
+						<td><?php echo t("user.status"); ?></td>
 						<td>
 						<?php
 						$statusClass = utility::switchcase($this->getUserData('status'), array(
@@ -136,9 +136,9 @@ use themes\clipone\utility;
 							'label label-warning' => user::suspend
 						));
 						$statusTxt = utility::switchcase($this->getUserData('status'), array(
-							'deactive' => user::deactive,
-							'active' => user::active,
-							'suspend' => user::suspend
+							'user.status.deactive' => user::deactive,
+							'user.status.active' => user::active,
+							'user.status.suspend' => user::suspend
 						));
 						?>
 						<span class="<?php echo $statusClass; ?>"><?php echo t($statusTxt); ?></span>

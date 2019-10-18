@@ -67,15 +67,15 @@ class listview extends usersListView{
 				'value' => ''
 			),
 			array(
-				'title' => translator::trans('active'),
+				'title' => t('user.status.active'),
 				'value' => user::active
 			),
 			array(
-				'title' => translator::trans('suspend'),
+				'title' => t('user.status.suspend'),
 				'value' => user::suspend
 			),
 			array(
-				'title' => translator::trans('deactive'),
+				'title' => t('user.status.deactive'),
 				'value' => user::deactive
 			)
 		);

@@ -31,6 +31,7 @@ class view extends \packages\userpanel\view{
 					"address" => $user->address,
 					"credit" => $user->credit,
 					"status" => $user->status,
+					"avatar" => $user->avatar,
 				),
 			),
 		);

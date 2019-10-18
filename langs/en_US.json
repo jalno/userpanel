@@ -3,7 +3,7 @@
 		"name" : "JeyServer Ltd",
 		"website" : "http://www.jeyserver.com/"
 	},
-	"rtl": true,
+	"rtl": false,
 	"phrases":{
 		
 	}

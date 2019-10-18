@@ -27,7 +27,7 @@ use packages\userpanel\{user, user\socialnetwork};
 	?>
 	<div class="row">
 		<div class="col-md-12">
-			<h3>اطلاعات پایه</h3>
+			<h3><?php echo t("userpanel.profile.general_info"); ?></h3>
 			<hr>
 		</div>
 	</div>
@@ -187,7 +187,7 @@ use packages\userpanel\{user, user\socialnetwork};
 
 	<div class="row">
 		<div class="col-md-12">
-			<h3>شبکه های اجتماعی</h3>
+			<h3><?php echo t("userpanel.profile.socialnetworks"); ?></h3>
 			<hr>
 		</div>
 	</div>
@@ -256,7 +256,7 @@ use packages\userpanel\{user, user\socialnetwork};
 	</div>
 	<div class="row" style="margin-top: 20px;margin-bottom: 20px;">
 		<div class="col-md-offset-4 col-md-4">
-			<button class="btn btn-teal btn-block" type="submit"><i class="fa fa-arrow-circle-<?php echo ((bool)translator::getLang()->isRTL()) ? "left" : "right"; ?>"></i> <?php echo translator::trans("user.profile.save"); ?></button>
+			<button class="btn btn-teal btn-block" type="submit"><i class="fa fa-arrow-circle-<?php echo translator::getLang()->isRTL() ? "left" : "right"; ?>"></i> <?php echo translator::trans("user.profile.save"); ?></button>
 		</div>
 	</div>
 </form>
