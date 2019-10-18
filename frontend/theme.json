@@ -35,6 +35,7 @@
 		{"type":"package","name":"bootstrap-inputmsg", "version": "^1.0.0"},
 		{"type":"package","name":"bootstrap-avatar-preview", "priority": "10", "version": "1.1.0"},
 		{"type":"package","name":"jalali-moment", "version": "^3.3.1"},
+		{"type":"package","name":"@jalno/translator", "version": "^1.0.4"},
 		{"type":"less","file":"node_modules/bootstrap/less/bootstrap.less"},
 		{"type":"less","file":"node_modules/font-awesome/less/font-awesome.less"},
 		{"type":"css","file":"node_modules/jquery.growl/stylesheets/jquery.growl.css"},

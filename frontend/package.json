@@ -1,6 +1,6 @@
 {
   "dependencies": {
-    "@jalno/translator": "^1.0.2",
+    "@jalno/translator": "^1.0.4",
     "@types/bootstrap": "^3.3.42",
     "@types/clipboard": "^1.5.33",
     "@types/jquery": "^2.0.53",

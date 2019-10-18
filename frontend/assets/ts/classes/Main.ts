@@ -132,8 +132,8 @@ export class Main{
         });
     }
 	public static importValidationTranslator() {
-        if (Translator.getDefaultShortLang() !== "en") {
-            require(`jquery-validation/dist/localization/messages_${Translator.getDefaultShortLang()}.js`)
+        if (Translator.getActiveShortLang() !== "en") {
+            require(`jquery-validation/dist/localization/messages_${Translator.getActiveShortLang()}.js`)
         }
     }
 	public static SetDefaultValidation(): void{
