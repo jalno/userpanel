@@ -1,5 +1,6 @@
 /// <reference path="../definitions/jquery.growl.d.ts" />
 
+import "@jalno/translator";
 import * as $ from "jquery";
 import "jquery.growl";
 import {Main} from "./Main"
@@ -25,6 +26,7 @@ export class Resetpwd{
 		}).trigger('change');
 	}
 	private static runResetpwdValidator():void {
+		Main.importValidationTranslator();
         Resetpwd.form.validate({
             rules: {
 				cellphone:{
@@ -102,12 +104,9 @@ export class Resetpwd{
 					if(error.error == 'data_duplicate' || error.error == 'data_validation'){
 						let $input:JQuery = $('[name='+error.input+']');
 						let $params = {
-							title: 'خطا',
-							message:''
+							title: t("error.fatal.title"),
+							message: t(error.error),
 						};
-						if(error.error == 'data_validation'){
-							$params.message = 'داده وارد شده معتبر نیست';
-						}
 						if($input.length){
 							$input.inputMsg($params);
 						}else{
@@ -115,8 +114,8 @@ export class Resetpwd{
 						}
 					}else{
 						$.growl.error({
-							title:"خطا",
-							message:'درخواست شما توسط سرور قبول نشد'
+							title: t("error.fatal.title"),
+							message: t("userpanel.formajax.error"),
 						});
 						if(error.hasOwnProperty('code')){
 							const $error:any = error;
@@ -140,8 +139,8 @@ export class Resetpwd{
 			$(this).formAjax({
 				success: (data: webuilder.AjaxResponse) => {
 					$.growl.notice({
-						title:"موفق",
-						message:"با موفقیت انجام شد ."
+						title: t("userpane.success"),
+						message: t("userpane.formajax.success"),
 					});
 					setTimeout(()=>{
 						window.location.href = data.redirect;
@@ -151,24 +150,21 @@ export class Resetpwd{
 					if(error.error == 'data_duplicate' || error.error == 'data_validation'){
 						let $input:JQuery = $('[name='+error.input+']');
 						let $params = {
-							title: 'خطا',
-							message:''
+							title: t("error.fatal.title"),
+							message: t(error.error),
 						};
-						if(error.error == 'data_validation'){
-							$params.message = 'داده وارد شده معتبر نیست';
-						}
 						if($input.length){
 							$input.inputMsg($params);
 						}else{
 							$.growl.error($params);
 						}
 						if(error.input == 'dontmatch'){
-							$('.form-changepwd .errorHandler').html('<i class="fa fa-remove-sign"></i> کلمه عبور و تکرار آن مطابقت ندارند .').show();
+							$('.form-changepwd .errorHandler').html(`<i class="fa fa-remove-sign"></i> ${t("userpanel.data_validation.password_again")} .`).show();
 						}
 					}else{
 						$.growl.error({
-							title:"خطا",
-							message:'درخواست شما توسط سرور قبول نشد'
+							title: t("error.fatal.title"),
+							message: t("userpanel.formajax.error"),
 						});
 					}
 				}

@@ -1,3 +1,4 @@
+import "@jalno/translator";
 import * as $ from 'jquery';
 import {Main} from '../classes/Main';
 import {Login} from '../classes/Login';
@@ -22,22 +23,16 @@ export class View{
 			switch(error.getType()){
 				case(error.FATAL):
 					alert['type'] = 'danger';
-					if(!alert['title']){
-						alert['title'] = 'خطا';
-					}
 					break;
 				case(error.WARNING):
 					alert['type'] = 'warning';
-					if(!alert['title']){
-						alert['title'] = 'اخطار';
-					}
 					break;
 				case(error.NOTICE):
 					alert['type'] = 'info';
-					if(!alert['title']){
-						alert['title'] = 'توجه';
-					}
 					break;
+			}
+			if (alert["title"] === undefined) {
+				alert['title'] = t(`error.${error.getType()}.title`);
 			}
 			const html = `
 				<div class="row">

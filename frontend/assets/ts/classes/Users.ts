@@ -1,4 +1,5 @@
 /// <reference path="../definitions/jquery.growl.d.ts" />
+import "@jalno/translator";
 import * as $ from "jquery";
 import * as moment from "jalali-moment";
 import "jquery.growl";
@@ -20,19 +21,15 @@ class UserForm{
 			success: this.successForm,
 			error: function(error:webuilder.AjaxError) {
 				let $params = {
-					title: 'خطا',
+					title: t("error.fatal.title"),
 					message:''
 				}
 				if(error.input){
 					let $input = $(`[name="${error.input}"]`, $(form));
-					if(error.error == 'data_duplicate'){
-						if(error.input == 'email'){
-							$params.message = 'این ایمیل متعلق به کاربر دیگری می باشد.';
-						}else if(error.input == 'cellphone'){
-							$params.message = 'این تلفن همراه متعلق به کاربر دیگری می باشد.';
-						}
-					}else if(error.error == 'data_validation'){
-						$params.message = 'داده وارد شده معتبر نیست';
+					if (error.error == 'data_duplicate') {
+						$params.message = t(`user.${error.input}.data_duplicate`);
+					} else if (error.error == 'data_validation') {
+						$params.message = t("data_validation");
 					}
 					if($input.length){
 						$input.inputMsg($params);
@@ -56,7 +53,7 @@ class UserForm{
 		});
 	}
 	public successForm(){
-		$.growl.notice({title:"ثبت شد", message:"کاربر با موفقیت ذخیره شد."});
+		$.growl.notice({title: t("userpanel.success"), message: t("userpanel.users.save")});
 	}
 	protected init():void{
 		Main.SetDefaultValidation();
@@ -174,7 +171,7 @@ class ProfileEdit extends UserForm{
 	}
 
 	public successForm(){
-		$.growl.notice({title:"ثبت شد", message:"اطلاعات شما با موفقیت ذخیره شد."});
+		$.growl.notice({title: t("userpanel.success"), message: t("userpanel.users.update") });
 	}
 	public init(){
 		super.init();
@@ -207,20 +204,17 @@ class UserView {
 				processData: false,
 				success: (data: webuilder.AjaxResponse) => {
 					$.growl.notice({
-						title:"موفق",
-						message:"درخواست شما با موفقیت انجام شد ."
+						title: t("userpanel.success"),
+						message: t("userpane.formajax.success"),
 					});
 				},
 				error: function(error:webuilder.AjaxError){
 					if(error.error == 'data_duplicate' || error.error == 'data_validation'){
 						let $input = $('[name='+error.input+']');
 						let $params = {
-							title: 'خطا',
-							message:''
+							title: t("error.fatal.title"),
+							message: t(error.error),
 						};
-						if(error.error == 'data_validation'){
-							$params.message = 'داده وارد شده معتبر نیست';
-						}
 						if($input.length){
 							$input.inputMsg($params);
 						}else{
@@ -228,8 +222,8 @@ class UserView {
 						}
 					}else{
 						$.growl.error({
-							title:"خطا",
-							message:'درخواست شما توسط سرور قبول نشد'
+							title: t("error.fatal.title"),
+							message: t("userpanel.formajax.error"),
 						});
 					}
 				}

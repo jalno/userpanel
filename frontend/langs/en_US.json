@@ -57,6 +57,9 @@
 		"userpanel.login.signin_btn": "Signin",
 		"userpanel.login.register.text": "I don't have an account.",
 		"userpanel.login.register.link": "How do I register?",
+		"userpanel.login.incorrect": "Username or password is incorrect",
+
+		"userpanel.data_validation.password_again": "Confirm password is incorrect",
 
 		"profile.view":"Profile",
 		"profile.edit": "Edit Profile",
@@ -232,6 +235,11 @@
 		"userpanel.choose": "Choose...",
 		"userpanel.profile.email": "Email",
 		"shortcut.users.loggined": "Users logged in to system today.",
-		"shortcut.users.loggined.iszero": "No users logged in to system today."
+		"shortcut.users.loggined.iszero": "No users logged in to system today.",
+		"userpane.success": "Success",
+		"userpane.formajax.success": "Your request has been done.",
+		"userpanel.formajax.error": "Can not connect to server correctly, please try again.",
+		"userpanel.users.save": "User has been saved",
+		"userpanel.users.update": "Your informations has been updated"
 	}
 }

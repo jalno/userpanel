@@ -204,7 +204,9 @@
 		"userpanel.login.password": "کلمه عبور",
 		"userpanel.login.register.text": "هنوز حساب کاربری ندارید؟",
 		"userpanel.login.register.link": "به جمع ما بپیوندید",
+		"userpanel.login.incorrect": "نام کاربری یا کلمه عبور وارد شده صحیح نمیباشد",
 
+		"userpanel.data_validation.password_again": "کلمه عبور و تکرار آن مطابقت ندارند",
 		
 		"userpanel.profile.contact_info": "اطلاعات تماس",
 		"userpanel.profile.web": "تارنما",
@@ -221,7 +223,13 @@
 		"userpanel.profile.activity_calendar.sunday": "یکشنبه",
 		"userpanel.profile.activity_calendar.tuesday": "سه شنبه",
 		"userpanel.profile.activity_calendar.thursday": "پنج شنبه",
-		"userpanel.profile.socialnetworks": "شبکه های اجتماعی"
+		"userpanel.profile.socialnetworks": "شبکه های اجتماعی",
 
+		"userpane.success": "موفق",
+		"userpane.formajax.success": "درخواست شما با موفقیت انجام شد",
+		"userpanel.formajax.error": "ارتباط با سامانه بدرستی برقرار نشد. لطفا مجددا تلاش کنید.",
+
+		"userpanel.users.save": "کاربر با موفقیت ذخیره شد",
+		"userpanel.users.update": "اطلاعات شما با موفقیت ذخیره شد"
 	}
 }

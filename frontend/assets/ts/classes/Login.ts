@@ -1,3 +1,4 @@
+import "@jalno/translator";
 import * as $ from "jquery";
 import "jquery-validation";
 import {Main} from "./Main";
@@ -37,7 +38,7 @@ export class Login{
 					},
 					error: function(error:webuilder.AjaxError){
 						if(error.error == "data_validation"){
-							errorHandler.html('<i class="fa fa-remove-sign"></i> نام کاربری یا کلمه عبور وارد شده صحیح نمیباشد.').show();
+							errorHandler.html(`<i class="fa fa-remove-sign"></i> ${t("userpanel.login.incorrect")}.`).show();
 						}
 					}
 				})

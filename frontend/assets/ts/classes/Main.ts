@@ -1,3 +1,4 @@
+import "@jalno/translator";
 import * as $ from "jquery";
 import "bootstrap";
 import "jquery-bootstrap-checkbox";
@@ -130,30 +131,11 @@ export class Main{
             }
         });
     }
-	private static runLocalization(): void{
-    	if($.validator){
-			$.extend($.validator.messages, {
-				required: "تکمیل این فیلد اجباری است.",
-				remote: "لطفا این فیلد را تصحیح کنید.",
-				email: ".لطفا یک ایمیل صحیح وارد کنید",
-				url: "لطفا آدرس صحیح وارد کنید.",
-				date: "لطفا یک تاریخ صحیح وارد کنید",
-				dateISO: "لطفا تاریخ صحیح وارد کنید (ISO).",
-				number: "لطفا عدد صحیح وارد کنید.",
-				digits: "لطفا تنها رقم وارد کنید",
-				creditcard: "لطفا کریدیت کارت صحیح وارد کنید.",
-				equalTo: "لطفا مقدار برابری وارد کنید",
-				accept: "لطفا مقداری وارد کنید که ",
-				maxlength: $.validator.format("لطفا بیشتر از {0} حرف وارد نکنید."),
-				minlength: $.validator.format("لطفا کمتر از {0} حرف وارد نکنید."),
-				rangelength: $.validator.format("لطفا مقداری بین {0} تا {1} حرف وارد کنید."),
-				range: $.validator.format("لطفا مقداری بین {0} تا {1} حرف وارد کنید."),
-				max: $.validator.format("لطفا مقداری کمتر از {0} حرف وارد کنید."),
-				min: $.validator.format("لطفا مقداری بیشتر از {0} حرف وارد کنید.")
-			});
-		}
+	public static importValidationTranslator() {
+        if (Translator.getDefaultShortLang() !== "en") {
+            require(`jquery-validation/dist/localization/messages_${Translator.getDefaultShortLang()}.js`)
+        }
     }
-	
 	public static SetDefaultValidation(): void{
 		if($.hasOwnProperty('validator')){
 	        $.validator.setDefaults({
@@ -183,7 +165,8 @@ export class Main{
 	                label.addClass('help-block valid');
 	                $(element).closest('.form-group').removeClass('has-error');
 	            }
-	        });
+            });
+            Main.importValidationTranslator();
 		}
 	}
 	
@@ -324,7 +307,6 @@ export class Main{
 		Main.runShowTab();
 		Main.runAccordionFeatures();
 		Main.runCustomCheck();
-		Main.runLocalization();
 		Main.runPagination();
 		Main.runNavbarToggleListener();
 		Main.runOnlinePing();

@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "@jalno/translator": "^1.0.2",
     "@types/bootstrap": "^3.3.42",
     "@types/clipboard": "^1.5.33",
     "@types/jquery": "^2.0.53",
@@ -9,10 +10,12 @@
     "@types/mcustomscrollbar": "^2.8.30",
     "@types/select2": "^4.0.34",
     "bootstrap": "^3.3.7",
+    "bootstrap-avatar-preview": "1.1.0",
     "bootstrap-inputmsg": "^1.0.0",
     "bootstrap-rtl": "^3.3.4",
     "clipboard": "^1.6.1",
     "font-awesome": "^4.7.0",
+    "jalali-moment": "^3.3.1",
     "jquery": "^3.2.1",
     "jquery-autosize": "^1.18.18",
     "jquery-bootstrap-checkbox": "=1.1.1",
@@ -24,8 +27,6 @@
     "jschr-bootstrap-modal": "^2.2.5",
     "malihu-custom-scrollbar-plugin": "^3.1.5",
     "select2": "^4.0.3",
-    "webuilder": "^1.0.6",
-    "bootstrap-avatar-preview": "1.1.0",
-    "jalali-moment": "^3.3.1"
+    "webuilder": "^1.0.6"
   }
 }
