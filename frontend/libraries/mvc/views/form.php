@@ -66,6 +66,17 @@ trait formTrait {
 					$code .= ' '.$this->input_col;
 				}
 				$code .= '">';
+				$isRTL = (bool) translator::getLang()->isRTL();
+				if (isset($options['input-group']['first'])) {
+					$direction = $isRTL ? 'right' : 'left';
+					$options['input-group'][$direction] = $options['input-group']['first'];
+					unset($options['input-group']['first']);
+				}
+				if (isset($options['input-group']['last'])) {
+					$direction = $isRTL ? 'left' : 'right';
+					$options['input-group'][$direction] = $options['input-group']['last'];
+					unset($options['input-group']['last']);
+				}
 				if(isset($options['input-group']['left'])){
 					if(is_string($options['input-group']['left'])){
 						$options['input-group']['left'] = array(
