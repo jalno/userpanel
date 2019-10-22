@@ -1,7 +1,7 @@
 <?php
 namespace packages\userpanel;
-use \packages\base\date as baseDate;
-use \packages\base\options;
+use \packages\base\{date as baseDate, options, Translator};
+
 class date extends baseDate{
 	protected static $calendar;
 	public static function format($format ,$timestamp = null){
@@ -23,10 +23,14 @@ class date extends baseDate{
 		return parent::mktime($hour, $minute, $second, $month, $day, $year, $is_dst);
 	}
 	public static function setDefaultcalendar(){
-		if(($option = options::load('packages.userpanel.date')) !== false){
-			parent::setCanlenderName($option['calendar']);
-			self::$calendar = $option['calendar'];
+		$calendar = "";
+		if ($langCalendar = Translator::getLang()->getCalendar()) {
+			$calendar = $langCalendar;
+		} elseif (($option = options::load('packages.userpanel.date')) !== false) {
+			$calendar = $option['calendar'];
 		}
+		parent::setCanlenderName($calendar);
+		self::$calendar = $calendar;
 	}
 	public static function getCanlenderName(){
 		if(!self::$calendar){
