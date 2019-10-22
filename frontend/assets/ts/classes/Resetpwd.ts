@@ -139,8 +139,8 @@ export class Resetpwd{
 			$(this).formAjax({
 				success: (data: webuilder.AjaxResponse) => {
 					$.growl.notice({
-						title: t("userpane.success"),
-						message: t("userpane.formajax.success"),
+						title: t("userpanel.success"),
+						message: t("userpanel.formajax.success"),
 					});
 					setTimeout(()=>{
 						window.location.href = data.redirect;

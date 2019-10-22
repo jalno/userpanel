@@ -227,8 +227,8 @@
 		"userpanel.profile.activity_calendar.thursday": "پنج شنبه",
 		"userpanel.profile.socialnetworks": "شبکه های اجتماعی",
 
-		"userpane.success": "موفق",
-		"userpane.formajax.success": "درخواست شما با موفقیت انجام شد",
+		"userpanel.success": "موفق",
+		"userpanel.formajax.success": "درخواست شما با موفقیت انجام شد",
 		"userpanel.formajax.error": "ارتباط با سامانه بدرستی برقرار نشد. لطفا مجددا تلاش کنید.",
 
 		"userpanel.users.save": "کاربر با موفقیت ذخیره شد",

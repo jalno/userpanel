@@ -205,7 +205,7 @@ class UserView {
 				success: (data: webuilder.AjaxResponse) => {
 					$.growl.notice({
 						title: t("userpanel.success"),
-						message: t("userpane.formajax.success"),
+						message: t("userpanel.formajax.success"),
 					});
 				},
 				error: function(error:webuilder.AjaxError){
