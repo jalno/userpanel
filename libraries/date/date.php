@@ -1,6 +1,6 @@
 <?php
 namespace packages\userpanel;
-use \packages\base\{date as baseDate, options, Translator};
+use packages\base\{date as baseDate, options, Translator};
 
 class date extends baseDate{
 	protected static $calendar;
@@ -24,10 +24,19 @@ class date extends baseDate{
 	}
 	public static function setDefaultcalendar(){
 		$calendar = "";
-		if ($langCalendar = Translator::getLang()->getCalendar()) {
-			$calendar = $langCalendar;
-		} elseif (($option = options::load('packages.userpanel.date')) !== false) {
-			$calendar = $option['calendar'];
+		if ($user = Authentication::getUser()) {
+			if ($lang = Translator::getCodeLang() and $option = $user->option("packages.base.date")) {
+				if (isset($option[$lang])) {
+					$calendar = $option[$lang]["calendar"];
+				}
+			}
+		}
+		if (!$calendar) {
+			if ($langCalendar = Translator::getLang()->getCalendar()) {
+				$calendar = $langCalendar;
+			} elseif (($option = options::load('packages.userpanel.date')) !== false) {
+				$calendar = $option['calendar'];
+			}
 		}
 		parent::setCanlenderName($calendar);
 		self::$calendar = $calendar;
