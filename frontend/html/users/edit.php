@@ -256,7 +256,7 @@ use packages\userpanel\{user, user\socialnetwork};
 	</div>
 	<div class="row" style="margin-top: 20px;margin-bottom: 20px;">
 		<div class="col-md-offset-4 col-md-4">
-			<button class="btn btn-teal btn-block" type="submit"><i class="fa fa-arrow-circle-<?php echo translator::getLang()->isRTL() ? "left" : "right"; ?>"></i> <?php echo translator::trans("user.profile.save"); ?></button>
+			<button class="btn btn-teal btn-block" type="submit"><i class="fa fa-check-square-o"></i> <?php echo translator::trans("user.profile.save"); ?></button>
 		</div>
 	</div>
 </form>

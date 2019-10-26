@@ -89,7 +89,7 @@ class ActivityCalendarBox extends Box {
 			if (($dates or $day == 0 or $date == 1) and $i != $month) {
 				if ($day == 0) {
 					$i = $month;
-					$months .= '<div class="month month-margin-' . $w . '">' . date::format("F", $lastyear) . '</div>';
+					$months .= '<div class="month month-margin-' . $w . '">' . date::format(Date::getCanlenderName() == "jdate" ? "F" : "M", $lastyear) . '</div>';
 					$w = 0;
 				} else {
 					$w++;
@@ -97,7 +97,13 @@ class ActivityCalendarBox extends Box {
 			}
 			$count = $activities[$year .'/' . $month . '/' . $date] ?? 0;
 			$color = min(ceil($count / 20), 4);
-			$dates .= '<div class="calendar-square tooltips color' . $color . '" title="' . ($count ? $count . " فعالیت" : "هیچ فعالیتی") . " در " .date::format("d F Y", $lastyear) . '"';
+			$tooltip = $count ? t("userpanel.logs.activities.ondate", array(
+				"count" => $count,
+				"date" => date::format("LL", $lastyear),
+			)) : t("userpanel.logs.activities.ondate.empty", array(
+				"date" => date::format("LL", $lastyear),
+			));
+			$dates .= '<div class="calendar-square tooltips color' . $color . '" title="' . $tooltip . '"';
 			if ($count) {
 				$dates .= ' data-from="'.$year .'/' . $month . '/' . $date . '"';
 				$dates .= ' data-until="' . Date::format("Y/n/j", $lastyear + 86400) . '"';

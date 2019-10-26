@@ -236,6 +236,9 @@
 		"register.signup": "ثبت نام",
 		"userpanel.resetpwd.withemail.success.title": "ایمیل ارسال شد",
 		"userpanel.resetpwd.withemail.success.description": "درخواست تغییر کلمه عبور شما موفقیت ثبت و با احراز هویت شما از طریق ایمیل تکمیل خواهد شد",
-		"userpanel.newpwd.title": "تنظیم کلمه عبور جدید"
+		"userpanel.newpwd.title": "تنظیم کلمه عبور جدید",
+
+		"userpanel.logs.activities.ondate": "{count} فعالیت در {date}",
+		"userpanel.logs.activities.ondate.empty": "هیچ فعالیتی در {date}"
 	}
 }

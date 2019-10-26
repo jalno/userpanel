@@ -3,7 +3,6 @@ namespace packages\userpanel;
 use \packages\base\date as baseDate;
 use \packages\base\options;
 class date extends baseDate{
-	protected static $calendar;
 	public static function format($format ,$timestamp = null){
 		if(!self::$calendar){
 			self::setDefaultcalendar();

@@ -61,7 +61,7 @@ use \packages\base\translator;
 							<div class="btn-group btn-group-justified" role="group">
 								<div class="btn-group" role="group">
 									<a href="<?php echo userpanel\url('logs/view/'.$this->log->id); ?>" class="btn btn-default">
-										<i class="fa fa-chevron-circle-right"></i>
+										<i class="fa fa-chevron-circle-<?php echo Translator::getLang()->isRTL() ? "right" : "left"; ?>"></i>
 										<?php echo translator::trans("return"); ?>
 									</a>
 								</div>

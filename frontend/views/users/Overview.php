@@ -22,11 +22,7 @@ class Overview extends usersView{
 	protected $logs = array();
 	function __beforeLoad(){
 		$this->user = $this->getData('user');
-		$this->setTitle(array(
-			translator::trans('users'),
-			translator::trans('user.profile'),
-			$this->user->getFullName()
-		));
+		$this->setTitle(t("user.profile.overview"));
 		$this->loadLastLogin();
 		$this->loadSocialnetworks();
 		$this->setNavigation();

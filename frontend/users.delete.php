@@ -18,8 +18,8 @@ use \packages\base\translator;
 					)); ?>
 				</p>
 				<p>
-					<a href="<?php echo userpanel\url('users'); ?>" class="btn btn-light-grey"><i class="fa fa-chevron-circle-right"></i> <?php echo t("userpanel.cancel"); ?></a>
-					<button type="submit" class="btn btn-yellow"><i class="fa fa-trash-o"></i> <?php echo t("userpanel.delete"); ?></button>
+					<a href="<?php echo userpanel\url('users'); ?>" class="btn btn-light-grey"><i class="fa fa-chevron-circle-<?php echo Translator::getLang()->isRTL() ? "right" : "left"; ?>"></i> <?php echo t("userpanel.cancel"); ?></a>
+					<button type="submit" class="btn btn-danger"><i class="fa fa-trash-o"></i> <?php echo t("userpanel.delete"); ?></button>
 				</p>
 			</div>
 		</form>

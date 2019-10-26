@@ -339,7 +339,7 @@ trait formTrait {
 
 			$code .= "</button>";
 			if(isset($item['dropdown']) and $item['dropdown']){
-				$code .= '<ul class="dropdown-menu">';
+				$code .= '<ul class="dropdown-menu ' . (!(bool) translator::getLang()->isRTL() ? "dropdown-menu-right" : "") . '">';
 				foreach($item['dropdown'] as $menu){
 					$code .= '<li>';
 					if(isset($menu['link'])){

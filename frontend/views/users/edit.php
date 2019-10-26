@@ -10,11 +10,7 @@ class edit extends usersEditView{
 	private $user;
 	function __beforeLoad(){
 		$this->user = $this->getData("user");
-		$this->setTitle(array(
-			translator::trans('users'),
-			translator::trans('user.edit'),
-			$this->user->getFullName()
-		));
+		$this->setTitle(t("profile.edit"));
 
 		
 		$this->addBodyClass('users');
@@ -104,7 +100,7 @@ class edit extends usersEditView{
 			'title' => translator::trans('user.edit.privacy.private')
 		);
 		return array(
-			'left' => array($button)
+			'last' => array($button)
 		);
 	}
 	protected function getUserCurrency(): string {

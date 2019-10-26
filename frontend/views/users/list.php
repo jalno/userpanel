@@ -15,10 +15,7 @@ class listview extends usersListView{
 	use viewTrait, listTrait, formTrait;
 	protected $types = array();
 	public function __beforeLoad(){
-		$this->setTitle(array(
-			translator::trans('users'),
-			translator::trans('list')
-		));
+		$this->setTitle(t("users"));
 		$this->setButtons();
 		navigation::active("users/list");
 		$this->types = authorization::childrenTypes();

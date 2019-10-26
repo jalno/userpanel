@@ -17,7 +17,7 @@
 		"user.add": "New User",
 		"user.profile.save": "Update",
 		"user.id": "ID",
-		"user.name": "First Name",
+		"user.name": "Name",
 		"user.lastname": "Last Name",
 		"user.type": "User Type",
 		"user.status": "Status",
@@ -245,6 +245,8 @@
 		"userpanel.users.update": "Your informations has been updated",
 		"userpanel.resetpwd.withemail.success.title": "Email has been sent",
 		"userpanel.resetpwd.withemail.success.description": "Please check your email inbox or spam and follow instructions",
-		"userpanel.newpwd.title": "Set new password"
+		"userpanel.newpwd.title": "Set new password",
+		"userpanel.logs.activities.ondate": "{count} activities on {date}",
+		"userpanel.logs.activities.ondate.empty": "No activity on {date}"
 	}
 }

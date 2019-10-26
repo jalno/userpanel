@@ -47,6 +47,19 @@ body.login {
 		margin-bottom: 6px;
 	}
 }
+
+.form-group {
+	> .input-icon {
+		> .input-group {
+			> .form-control {
+				padding-right: 25px;
+				&.ltr {
+					padding-left: 25px;
+				}
+			}
+		}
+	}
+}
 body.rtl {
 	.btn-group {
 		> .btn {
@@ -115,18 +128,6 @@ body.rtl {
 		.heading {
 			h2 {
 				font-family: nazanin;
-			}
-		}
-	}
-	.form-group {
-		> .input-icon {
-			> .input-group {
-				> .form-control {
-					padding-right: 25px;
-					&.ltr {
-						padding-left: 25px;
-					}
-				}
 			}
 		}
 	}

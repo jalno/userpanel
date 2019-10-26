@@ -45,7 +45,7 @@ class UserProfileTabs {
 		$view->addTab($tab);
 
 		$tab = new Tab("settings", views\users\Settings::class);
-		$tab->setTitle(t("profile.settings"));
+		$tab->setTitle(t("users.settings"));
 		$tab->setLink(userpanel\url("users/settings/" . $user));
 		$view->addTab($tab);
 	}
