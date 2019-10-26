@@ -1,9 +1,8 @@
 <?php
-use \packages\base\frontend\theme;
-use \packages\userpanel;
-use \packages\userpanel\user;
-use \packages\base\translator;
-use \themes\clipone\utility;
+use packages\base\frontend\theme;
+use packages\userpanel;
+use packages\userpanel\{Date, User};
+use themes\clipone\utility;
 ?>
 <div class="row">
 	<div class="col-sm-5 col-md-4">
@@ -48,7 +47,7 @@ use \themes\clipone\utility;
 			<table class="table table-condensed table-hover">
 				<thead>
 					<tr>
-						<th colspan="3">اطلاعات تماس</th>
+						<th colspan="3"><?php echo t("userpanel.profile.contact_info"); ?></th>
 					</tr>
 				</thead>
 				<tbody>
@@ -56,7 +55,7 @@ use \themes\clipone\utility;
 					if($web){
 					?>
 					<tr>
-						<td>تارنما:</td>
+						<td><?php echo t("userpanel.profile.web"); ?>:</td>
 						<td><a href="http://<?php echo $this->getUserData('web'); ?>" target="_blank">www.<?php echo $this->getUserData('web'); ?></a></td>
 					</tr>
 					<?php
@@ -64,7 +63,7 @@ use \themes\clipone\utility;
 					if($email){
 					?>
 					<tr>
-						<td>رایانامه:</td>
+						<td><?php echo t("user.email"); ?>:</td>
 						<td><?php echo $this->getUserData('email'); ?></td>
 					</tr>
 					<?php
@@ -72,7 +71,7 @@ use \themes\clipone\utility;
 					if($phone){
 					?>
 					<tr>
-						<td>تلفن:</td>
+						<td><?php echo t("user.phone"); ?>:</td>
 						<td><?php echo $this->getUserData('phone'); ?></td>
 
 					</tr>
@@ -81,7 +80,7 @@ use \themes\clipone\utility;
 					if($cellphone){
 					?>
 					<tr>
-						<td>تلفن همراه:</td>
+						<td><?php echo t("user.cellphone"); ?>:</td>
 						<td><?php echo $this->getUserData('cellphone'); ?></td>
 					</tr>
 					<?php } ?>
@@ -91,32 +90,32 @@ use \themes\clipone\utility;
 			<table class="table table-condensed table-hover">
 				<thead>
 					<tr>
-						<th colspan="3">اطلاعات کلی</th>
+						<th colspan="3"><?php echo t("userpanel.profile.general_info"); ?></th>
 					</tr>
 				</thead>
 				<tbody>
 					<tr>
-						<td>سطح کاربری</td>
+						<td><?php echo t("user.type"); ?></td>
 						<td><?php echo $this->getUserData('type')->title; ?></td>
 						<td></td>
 					</tr>
 					<tr>
-						<td>تاریخ ثبت نام</td>
-						<td><?php echo utility::dateFormNow($this->getUserData('registered_at')); ?></td>
+						<td><?php echo t("userpanel.profile.register_date"); ?></td>
+						<td><?php echo Date::relativeTime($this->getUserData('registered_at')); ?></td>
 						<td></td>
 					</tr>
 					<tr>
-						<td>آخرین فعالیت</td>
-						<td><?php echo utility::dateFormNow($this->getUserData('lastonline')); ?></td>
+						<td><?php echo t("userpanel.profile.last_activity"); ?></td>
+						<td><?php echo Date::relativeTime($this->getUserData('lastonline')); ?></td>
 						<td></td>
 					</tr>
 					<tr>
-						<td>آخرین ورود</td>
-						<td><?php echo($this->lastlogin ? utility::dateFormNow($this->lastlogin) : translator::trans('user.lastlogin.never')) ; ?></td>
+						<td><?php echo t("userpanel.profile.last_login"); ?></td>
+						<td><?php echo($this->lastlogin ? Date::relativeTime($this->lastlogin) : t('user.lastlogin.never')) ; ?></td>
 						<td></td>
 					</tr>
 					<tr>
-						<td>وضعیت</td>
+						<td><?php echo t("user.status"); ?></td>
 						<td>
 						<?php
 						$statusClass = utility::switchcase($this->getUserData('status'), array(
@@ -130,7 +129,7 @@ use \themes\clipone\utility;
 							'suspend' => user::suspend
 						));
 						?>
-						<span class="<?php echo $statusClass; ?>"><?php echo translator::trans($statusTxt); ?></span>
+						<span class="<?php echo $statusClass; ?>"><?php echo t($statusTxt); ?></span>
 						</td>
 						<td></td>
 					</tr>
