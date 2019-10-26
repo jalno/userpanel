@@ -43,7 +43,7 @@ use \packages\base\translator;
 								<?php if($this->multiuser){ ?>
 									<td><a href="<?php echo userpanel\url("users", ['id' => $log->user->id]); ?>" class="tootips" title="#<?php echo $log->user->id; ?>"><?php echo $log->user->getFullName(); ?></a></td>
 								<?php } ?>
-								<td class="ltr"><?php echo date::format("Y/m/d H:i:s", $log->time); ?></td>
+								<td class="ltr"><?php echo date::format("Q QTS", $log->time); ?></td>
 								<?php
 								if($hasButtons){
 									echo("<td class=\"center\">".$this->genButtons()."</td>");
@@ -82,13 +82,13 @@ use \packages\base\translator;
 				[
 					'label' => translator::trans('log.timeFrom'),
 					'name' => 'timeFrom',
-					'placeholder' => date::format("Y/m/d", date::time()),
+					'placeholder' => date::format("Q", date::time()),
 					'ltr' => true
 				],
 				[
 					'label' => translator::trans('log.timeUntil'),
 					'name' => 'timeUntil',
-					'placeholder' => date::format("Y/m/d", date::time()),
+					'placeholder' => date::format("Q", date::time()),
 					'ltr' => true
 				],
 				[

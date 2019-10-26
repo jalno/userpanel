@@ -28,7 +28,7 @@ use \packages\base\translator;
 				</div>
 				<div class="form-group">
 					<label class="col-xs-5 control-label"><?php echo translator::trans("log.time"); ?>: </label>
-					<div class="col-xs-7 ltr"><?php echo date::format('Y/m/d H:i:s', $this->log->time); ?></div>
+					<div class="col-xs-7 ltr"><?php echo date::format('Q QTS', $this->log->time); ?></div>
 				</div>
 			</div>
 		</div>

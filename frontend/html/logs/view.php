@@ -18,7 +18,7 @@ $this->the_header();
 				</div>
 				<div class="form-group"><label class="col-xs-4 control-label"><?php echo t("log.time"); ?>: </label>
 					<div class="col-xs-8">
-						<span class="tooltips" title="<?php echo Date::format("Y/m/d H:i:s", $this->log->time); ?>"><?php echo date::format("l j F Y", $this->log->time); ?></span>
+						<span class="tooltips" title="<?php echo Date::format("Q QTS", $this->log->time); ?>"><?php echo date::format("QQQQ", $this->log->time); ?></span>
 					</div>
 				</div>
 			</div>
