@@ -11,7 +11,7 @@
 		padding: 0;
 		.messages-item {
 			border-bottom: 1px solid #D9D9D9;
-			padding: 5px 15px 5px 25px;
+			padding: 5px 25px 5px 15px;
 			position: relative;
 			span {
 				color: #555555;
@@ -50,12 +50,14 @@
 			}
 			.messages-item-from {
 				margin-left: 45px;
+				margin-right: 0;
 				font-weight: bold;
 				margin-top: 2px;
 			}
 			.messages-item-time {
 				opacity: 1;
 				right: 15px;
+				left: auto;
 				top: 8px;
 				transition: opacity 0.2s ease-in-out 0s;
 				.text {
@@ -81,6 +83,7 @@
 						display: none;
 					}
 					> a{
+						float: right;
 						color: #007AFF;
 						margin-left: 5px;
 					}
@@ -147,7 +150,8 @@
 	background-color: rgba(0, 0, 0, 0);
 	border-top: 1px solid #ECEAF3;
 	height: auto;
-	margin-left: 260px;
+	margin-left: auto;
+	margin-right: 0;
 	position: relative;
 	.message-header {
 		border-bottom: 1px solid #D9D9D9;
