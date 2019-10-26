@@ -40,6 +40,14 @@ class date extends baseDate{
 		}
 		parent::setCanlenderName($calendar);
 		self::$calendar = $calendar;
+		foreach (Translator::getLangs() as $lang) {
+			if ($lang->getCalendar() == $calendar) {
+				foreach ($lang->getDateFormats() as $key => $format) {
+					parent::setPresetsFormat($key, $format);
+				}
+				break;
+			}
+		}
 	}
 	public static function getCanlenderName(){
 		if(!self::$calendar){
