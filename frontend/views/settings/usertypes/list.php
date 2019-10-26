@@ -11,11 +11,7 @@ use \themes\clipone\views\{formTrait, dashboard};
 class listview extends usertype_list{
 	use viewTrait, listTrait, formTrait;
 	function __beforeLoad(){
-		$this->setTitle(array(
-			translator::trans('settings'),
-			translator::trans('usertypes'),
-			translator::trans('list')
-		));
+		$this->setTitle(t("usertypes"));
 		$this->setButtons();
 		navigation::active("settings/usertypes");
 	}

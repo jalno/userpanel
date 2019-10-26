@@ -9,11 +9,7 @@ use \themes\clipone\views\formTrait;
 class edit extends usertypeEdit{
 	use viewTrait, formTrait;
 	function __beforeLoad(){
-		$this->setTitle(array(
-			translator::trans('settings'),
-			translator::trans('usertype.byTitle', array('title' => $this->getUserType()->title)),
-			translator::trans('edit')
-		));
+		$this->setTitle(t("usertype.edit"));
 		navigation::active("settings/usertypes");
 		$this->addBodyClass("usertypes");
 		$this->addBodyClass("edit-usertype");

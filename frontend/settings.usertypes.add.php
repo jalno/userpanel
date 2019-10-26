@@ -5,7 +5,7 @@ use packages\base\translator;
 use packages\userpanel;
 use packages\userpanel\user;
 use themes\clipone\utility;
-$isRTL = (bool)translator::getLang()->isRTL();
+
 ?>
 <form class="add-usertypes" action="<?php echo(userpanel\url("settings/usertypes/add")); ?>" method="post" style="padding: 0 15px;">
 	<div class="row">
@@ -97,7 +97,10 @@ $isRTL = (bool)translator::getLang()->isRTL();
 		<!-- end: CONDENSED TABLE PANEL -->
 		<div class="row" style="margin-top: 20px;margin-bottom: 20px;">
 			<div class="col-md-offset-4 col-md-4">
-				<button class="btn btn-teal btn-block" type="submit"> <?php echo translator::trans('usertype.add'); ?><i class="fa fa-arrow-circle-<?php echo ($isRTL) ? "left" : "right"; ?>"></i></button>
+				<button class="btn btn-teal btn-block" type="submit">
+					<i class="fa fa-check-square-o"></i>
+				<?php echo translator::trans('usertype.add'); ?>
+				</button>
 			</div>
 		</div>
 	</div>

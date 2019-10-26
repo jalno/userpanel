@@ -6,7 +6,7 @@ use packages\userpanel;
 use packages\userpanel\user;
 use themes\clipone\utility;
 $usertype = $this->getUserType();
-$isRTL = (bool)translator::getLang()->isRTL();
+
 ?>
 <form class="edit-usertype" action="<?php echo(userpanel\url("settings/usertypes/edit/".$usertype->id)); ?>" method="post">
 	<div class="row">
@@ -98,7 +98,10 @@ $isRTL = (bool)translator::getLang()->isRTL();
 		<!-- end: CONDENSED TABLE PANEL -->
 		<div class="row" style="margin-top: 20px;margin-bottom: 20px;">
 			<div class="col-md-offset-4 col-md-4">
-				<button class="btn btn-teal btn-block" type="submit"><?php echo translator::trans('usertype.edit'); ?><i class="fa fa-arrow-circle-<?php echo ($isRTL) ? "left" : "right"; ?>"></i></button>
+				<button class="btn btn-teal btn-block" type="submit">
+					<i class="fa fa-check-square-o"></i>
+				<?php echo translator::trans('usertype.edit'); ?>
+				</button>
 			</div>
 		</div>
 	</div>

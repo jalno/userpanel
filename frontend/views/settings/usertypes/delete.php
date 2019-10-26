@@ -13,12 +13,7 @@ class delete extends usertypesDelete{
 	use viewTrait, formTrait;
 	function __beforeLoad(){
 		$usertype = $this->getUserType();
-		$this->setTitle(array(
-			translator::trans('usertypes'),
-			translator::trans('usertype.delete'),
-			$usertype->title
-		));
-		$this->setShortDescription(translator::trans('usertype.delete.byTitle', array('title' => $usertype->title)));
+		$this->setTitle(t("usertype.delete"));
 		$this->setNavigation();
 	}
 	private function setNavigation(){
