@@ -115,7 +115,7 @@ trait formTrait {
 			//$code .= "<div>";
 			foreach($options['options'] as $option){
 				$code .= '<div class="'.$options['type'].($options['inline'] ? '-inline' : '').'">';
-				if($option['label']){
+				if (isset($option['label'])) {
 					$code .= '<label>';
 				}
 				$code .= "<input type=\"{$options['type']}\" name=\"{$options['name']}\" value=\"{$option['value']}\"";
@@ -138,8 +138,8 @@ trait formTrait {
 					$code .= " checked";
 				}
 				$code .= ">";
-				if(isset($option['label']))$code .= $option['label'];
-				if($option['label']){
+				if (isset($option['label'])) {
+					$code .= $option['label'];
 					$code .= '</label>';
 				}
 				$code .= '</div>';
