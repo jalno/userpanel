@@ -99,9 +99,9 @@ class ActivityCalendarBox extends Box {
 			$color = min(ceil($count / 20), 4);
 			$tooltip = $count ? t("userpanel.logs.activities.ondate", array(
 				"count" => $count,
-				"date" => date::format("LL", $lastyear),
+				"date" => date::format("QQ", $lastyear),
 			)) : t("userpanel.logs.activities.ondate.empty", array(
-				"date" => date::format("LL", $lastyear),
+				"date" => date::format("QQ", $lastyear),
 			));
 			$dates .= '<div class="calendar-square tooltips color' . $color . '" title="' . $tooltip . '"';
 			if ($count) {
