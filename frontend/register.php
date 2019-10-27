@@ -123,7 +123,7 @@ $this->the_header('login');
 
 			<div class="form-actions">
 				<a class="btn btn-light-grey" href="<?php echo userpanel\url('login'); ?>"> <i class="fa fa-arrow-circle-<?php echo (!$isRTL) ? "left" : "right"; ?>"></i> <?php echo translator::trans('back'); ?></a>
-				<button type="submit" class="btn btn-bricky pull-<?php echo ($isRTL) ? "left" : "right"; ?>"> <i class="fa fa-arrow-circle-<?php echo ($isRTL) ? "left" : "right"; ?>"></i> <?php echo translator::trans('register.signup'); ?></button>
+				<button type="submit" class="btn btn-bricky pull-<?php echo ($isRTL) ? "left" : "right"; ?>"> <?php echo translator::trans('register.signup'); ?> <i class="fa fa-arrow-circle-<?php echo ($isRTL) ? "left" : "right"; ?>"></i></button>
 			</div>
 		</fieldset>
 	</form>

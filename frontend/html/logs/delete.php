@@ -8,7 +8,7 @@ use \packages\base\translator;
 	<div class="col-sm-4">
 		<div class="panel panel-default">
 			<div class="panel-heading">
-				<i class="fa fa-external-link-square"></i> <?php echo translator::trans("log.information"); ?>
+				<i class="fa  fa-info-circle"></i> <?php echo translator::trans("log.information"); ?>
 				<div class="panel-tools">
 					<a class="btn btn-xs btn-link panel-collapse collapses" href="#"></a>
 				</div>
@@ -16,19 +16,19 @@ use \packages\base\translator;
 			<div class="panel-body form-horizontal">
 				<div class="form-group">
 					<label class="col-xs-3 control-label"><?php echo translator::trans("log.user"); ?>: </label>
-					<div class="col-xs-9"><a href="<?php echo userpanel\url('users', ["id" => $this->log->user->id]); ?>"><?php echo $this->log->user->getFullName(); ?></a></div>
+					<div class="col-xs-9 text"><a href="<?php echo userpanel\url('users', ["id" => $this->log->user->id]); ?>"><?php echo $this->log->user->getFullName(); ?></a></div>
 				</div>
 				<div class="form-group">
 					<label class="col-xs-3 control-label"><?php echo translator::trans("log.ip"); ?>: </label>
-					<div class="col-xs-9 ltr"><?php echo $this->log->ip; ?></a></div>
+					<div class="col-xs-9 text ltr"><?php echo $this->log->ip; ?></a></div>
 				</div>
 				<div class="form-group">
 					<label class="col-xs-3 control-label"><?php echo translator::trans("log.title"); ?>: </label>
-					<div class="col-xs-9"><?php echo $this->log->title; ?></a></div>
+					<div class="col-xs-9 text"><?php echo $this->log->title; ?></a></div>
 				</div>
 				<div class="form-group">
-					<label class="col-xs-5 control-label"><?php echo translator::trans("log.time"); ?>: </label>
-					<div class="col-xs-7 ltr"><?php echo date::format('Q QTS', $this->log->time); ?></div>
+					<label class="col-xs-3 control-label"><?php echo translator::trans("log.time"); ?>: </label>
+					<div class="col-xs-9 text ltr"><?php echo date::format('Q QTS', $this->log->time); ?></div>
 				</div>
 			</div>
 		</div>
@@ -36,7 +36,7 @@ use \packages\base\translator;
 	<div class="col-sm-8">
 		<div class="panel panel-danger">
 			<div class="panel-heading">
-				<i class="fa fa-trash"></i> <?php echo translator::trans('log.delete'); ?>
+				<i class="fa fa-trash"></i> <?php echo translator::trans('logs.delete'); ?>
 				<div class="panel-tools">
 					<a class="btn btn-xs btn-link panel-collapse collapses" href="#"></a>
 				</div>

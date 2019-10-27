@@ -124,9 +124,12 @@ span.input-help {
 .form-group{
 	.text {
 		display: block;
-		font-size: 14px;
-		font-weight: 400;
 		margin-top: 7px;
+		&.ellipsis {
+			overflow: hidden;
+			text-overflow: ellipsis;
+			white-space: nowrap;
+		}
 	}
 }
 @import "select2.less";

@@ -9,7 +9,6 @@ use \themes\clipone\viewTrait;
 use \themes\clipone\views\listTrait;
 use \themes\clipone\views\formTrait;
 use \packages\base\translator;
-use \packages\base\frontend\theme;
 
 class listview extends usersListView{
 	use viewTrait, listTrait, formTrait;

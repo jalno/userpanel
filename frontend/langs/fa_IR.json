@@ -135,6 +135,7 @@
 		"users.settings": "تنظیمات کاربری",
 		"log.wrongLogin": "ورود ناموفق",
 		"logs.view": "مشاهده فعالیت",
+		"logs.view.title": "مشاهده فعالیت #{log}",
 		"userpanel.user.logs.wrongLogin": "مشخصات ورود اشتباه",
 		"userpanel.user.logs.wrongLogin.wrongPassword": "کلمه عبور اشتباه",
 		"log.register": "ثبت نام کرد",
