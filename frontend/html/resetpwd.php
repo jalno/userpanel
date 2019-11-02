@@ -49,7 +49,7 @@ $this->the_header('login');
 				'icon' => 'fa fa-phone',
 				'right' => true,
 				'placeholder' => translator::trans('resetpwd.username'),
-				'ltr' => true
+				'ltr' => !$isRTL
 			]); ?>
 			<div class="form-actions">
 				<a class="btn btn-light-grey pull-<?php echo (!$isRTL) ? "left" : "right"; ?>" href="<?php echo userpanel\url(); ?>">

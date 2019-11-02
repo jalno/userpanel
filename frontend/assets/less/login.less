@@ -13,7 +13,6 @@ body.login {
 	}
 	.logo {
 		padding: 20px;
-		text-align: center;
 		font-size: 20px;
 		i{
 			font-size: 20px;
@@ -96,5 +95,47 @@ body.login {
 		margin-top: 15px;
 		padding-top: 10px;
 		display: block;
+	}
+
+	.dropdown-menu {
+		min-width: 125px;
+		.lang-text {
+			padding-right: 5px;
+			padding-left: 5px;
+		}
+		.flag-icon {
+			line-height: inherit;
+		}
+	}
+	.lang-select {
+		float: right;
+	}
+	.btn-lang-select {
+		&:hover {
+			color: #FFFFFF;
+		}
+		float: right;
+		color: #f5f5f5;
+		background-color: transparent;
+		border: none;
+		border-bottom: #F5F5F5 solid 3px;
+		border-radius: 0;
+		padding-right: 8px;
+		padding-left: 8px;
+		i {
+			vertical-align: middle;
+			padding-left: 5px;
+		}
+	}
+}
+.float-right {
+	float: right;
+}
+.float-left {
+	float: left;
+}
+body.rtl.login {
+	.lang-select {
+		float: left;
 	}
 }
