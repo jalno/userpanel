@@ -2,6 +2,7 @@
 use packages\base;
 use packages\base\Translator;
 $codeLang = Translator::getCodeLang();
+$availableLangs = Translator::getAvailableLangs();
 $isRTL = Translator::getLang()->isRTL();
 $direction = ($isRTL) ? "left" : "right"
 ?>
@@ -32,7 +33,10 @@ $direction = ($isRTL) ? "left" : "right"
 	<!-- start: BODY -->
 	<body class="login example1 <?php echo $this->genBodyClasses(); ?>">
 		<div class="main-login col-md-4 col-md-offset-4 col-sm-6 col-sm-offset-3">
-			<div class="logo"><span><?php echo $this->getLogoHTML(); ?></span>
+			<div class="logo<?php if (count($availableLangs) == 1) { echo " text-center";} ?>"><span><?php echo $this->getLogoHTML(); ?></span>
+			<?php 
+				if (count($availableLangs) > 1) {
+			?>
 				<div class="btn-group lang-select">
 					<button class="btn dropdown-toggle btn-lang-select" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" >
 						<span class="flag-icon flag-icon-<?php echo strtolower(substr($codeLang, -2)); ?>"></span>
@@ -40,23 +44,25 @@ $direction = ($isRTL) ? "left" : "right"
 					</button>
 					<div class="dropdown-menu">
 						<?php
-						foreach (Translator::getAvailableLangs() as $lang) {
+						foreach ($availableLangs as $lang) {
 							if ($lang == $codeLang) {
 								continue;
 							}
 							$shortCode = Translator::getShortCodeLang($lang);
-							$direction = Translator::getLang($lang)->isRTL() ? "right" : "left";
+							$direction = Translator::getLang($lang)->isRTL() ? "rtl" : "ltr";
 						?>
-							<li class="text-<?php echo $direction ?>">
+							<li class="<?php echo $direction ?>">
 								<a href="<?php echo base\url(".", array("@lang" => $shortCode)); ?>">
+									<span class="flag-icon flag-icon-<?php echo strtolower(substr($lang, -2)); ?>"></span>
 									<span class="lang-text"><?php echo t("translations.langs." . $shortCode) ?></span>
-									<span class="flag-icon flag-icon-<?php echo strtolower(substr($lang, -2)) . " float-" . $direction; ?>"></span>
 								</a>
 							</li>
-						<?php
-						}
-						?>
 					</div>
+					<?php
+						}
+					?>
 				</div>
-
+			<?php
+				}
+			?>
 			</div>

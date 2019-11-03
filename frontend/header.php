@@ -57,15 +57,15 @@ $availableLangs = Translator::getAvailableLangs();
 								<?php
 								foreach ($availableLangs as $lang) {
 									if ($lang == $codeLang) {
-										continue;
+										// continue;
 									}
 									$shortCode = Translator::getShortCodeLang($lang);
-									$direction = Translator::getLang($lang)->isRTL() ? "right" : "left";
+									$direction = Translator::getLang($lang)->isRTL() ? "rtl" : "ltr";
 								?>
-									<li class="lang text-<?php echo $direction ?>">
+									<li class="lang <?php echo $direction ?>">
 										<a href="<?php echo base\url(".", array("@lang" => $shortCode)); ?>">
+											<span class="flag-icon flag-icon-<?php echo strtolower(substr($lang, -2)); ?>"></span>
 											<span class="lang-text"><?php echo t("translations.langs." . $shortCode) ?></span>
-											<span class="flag-icon flag-icon-<?php echo strtolower(substr($lang, -2)) . " float-" . $direction; ?>"></span>
 										</a>
 									</li>
 								<?php
