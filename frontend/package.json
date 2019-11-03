@@ -14,6 +14,7 @@
     "bootstrap-inputmsg": "^1.0.0",
     "bootstrap-rtl": "^3.3.4",
     "clipboard": "^1.6.1",
+    "flag-icon-css": "^3.4.5",
     "font-awesome": "^4.7.0",
     "jalali-moment": "^3.3.1",
     "jquery": "^3.2.1",
