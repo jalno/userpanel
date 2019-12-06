@@ -17,19 +17,47 @@ class Settings {
 			'type' => 'string',
 			'values' => DateTimeZone::listIdentifiers(DateTimeZone::ALL),
 		));
-		$field = array(
+		$tuning->addInput(array(
+			'name' => 'userpanel_calendar',
+			'type' => 'string',
+			'values' => array(
+				"jdate",
+				"gregorian",
+			),
+		));
+		$tuning->addField(array(
 			'name' => 'userpanel_timezone',
 			'type' => 'select',
-			'label' => t("userpanel.usersettings.message.timezone"),
+			'label' => t('userpanel.usersettings.message.timezone'),
 			'options' => $this->getTimeZonesForSelect(),
-		);
-		$tuning->addField($field);
-		$dataform = Date::getTimeZone();
+		));
+		$tuning->addField(array(
+			'name' => 'userpanel_calendar',
+			'type' => 'select',
+			'label' => t('userpanel.usersettings.message.calendar'),
+			'options' => array(
+				array(
+					'title' => t('userpanel.usersettings.message.calendar.jdate'),
+					'value' => 'jdate',
+				),
+				array(
+					'title' => t('userpanel.usersettings.message.calendar.gregorian'),
+					'value' => 'gregorian',
+				),
+			),
+		));
+		$timezone = Date::getTimeZone();
 		$userTimeZone = $settings->getUser()->option('userpanel_timezone');
 		if ($userTimeZone) {
-			$dataform = $userTimeZone;
+			$timezone = $userTimeZone;
 		}
-		$tuning->setDataForm('userpanel_timezone', $dataform);
+		$calendar = Date::getCanlenderName();
+		$userCalendar = $settings->getUser()->option('userpanel_calendar');
+		if ($userCalendar) {
+			$calendar = $userCalendar;
+		}
+		$tuning->setDataForm('userpanel_calendar', $userCalendar);
+		$tuning->setDataForm('userpanel_timezone', $timezone);
 		$settings->addTuning($tuning);
 	}
 

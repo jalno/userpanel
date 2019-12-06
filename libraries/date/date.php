@@ -27,26 +27,22 @@ class date extends baseDate {
 
 	public static function setDefaultcalendar() {
 		$calendar = "";
-		if ($user = Authentication::getUser()) {
-			if ($lang = Translator::getCodeLang() and $option = $user->option("packages.base.date")) {
-				if (isset($option[$lang])) {
-					$calendar = $option[$lang]["calendar"];
-				}
-			}
+		$user = Authentication::getUser();
+		if ($user) {
+			$calendar = $user->option('userpanel_calendar');
 		}
 		if (!$calendar) {
-			if ($langCalendar = Translator::getLang()->getCalendar()) {
-				$calendar = $langCalendar;
-			} elseif (($option = options::load('packages.userpanel.date')) !== false) {
-				$calendar = $option['calendar'];
-			}
+			$calendar = Translator::getLang()->getCalendar();
 		}
-		parent::setCanlenderName($calendar);
-		self::$calendar = $calendar;
+		$option = Options::get('packages.userpanel.date');
+		if (!$calendar and isset($option['calendar'])) {
+			$calendar = $option['calendar'];
+		}
+		self::setCanlenderName($calendar);
 		foreach (Translator::getLangs() as $lang) {
 			if ($lang->getCalendar() == $calendar) {
 				foreach ($lang->getDateFormats() as $key => $format) {
-					parent::setPresetsFormat($key, $format);
+					self::setPresetsFormat($key, $format);
 				}
 				break;
 			}

@@ -61,6 +61,9 @@
 		"usertype.permissions.userpanel_logs_delete":"حذف فعالیت کاربران",
 		"usertype.permissions.userpanel_users_edit_credit":"تغییر موجودی کاربری",
 
-		"userpanel.usersettings.message.timezone": "منطقه زمانی"
+		"userpanel.usersettings.message.timezone": "منطقه زمانی",
+		"userpanel.usersettings.message.calendar": "تقویم",
+		"userpanel.usersettings.message.calendar.jdate": "جلالی",
+		"userpanel.usersettings.message.calendar.gregorian": "میلادی"
 	}
 }
