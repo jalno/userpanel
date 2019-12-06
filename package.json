@@ -40,6 +40,10 @@
 		{
 			"name":"packages/notice/events/views",
 			"listener": "listeners/notice@views"
+		},
+		{
+			"name":"packages/userpanel/events/settings",
+			"listener": "listeners/Settings@settingsList"
 		}
 	]
 }
