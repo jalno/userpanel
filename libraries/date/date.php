@@ -1,27 +1,31 @@
 <?php
 namespace packages\userpanel;
+
 use packages\base\{date as baseDate, options, Translator};
 
-class date extends baseDate{
+class date extends baseDate {
+
 	public static function format($format ,$timestamp = null){
-		if(!self::$calendar){
-			self::setDefaultcalendar();
-		}
-		return parent::format($format ,$timestamp);
+		self::init();
+		return parent::format($format, $timestamp);
 	}
+
+	public static function getTimeZone(): string {
+		self::init();
+		return parent::getTimeZone();
+	}
+
 	public static function strtotime($time,$now = null){
-		if(!self::$calendar){
-			self::setDefaultcalendar();
-		}
-		return parent::strtotime($time ,$now);
+		self::init();
+		return parent::strtotime($time, $now);
 	}
-	public static function mktime($hour = null, $minute = null, $second = null , $month = null, $day = null, $year = null, $is_dst = -1){
-		if(!self::$calendar){
-			self::setDefaultcalendar();
-		}
-		return parent::mktime($hour, $minute, $second, $month, $day, $year, $is_dst);
+
+	public static function mktime($hour = null, $minute = null, $second = null , $month = null, $day = null, $year = null){
+		self::init();
+		return parent::mktime($hour, $minute, $second, $month, $day, $year);
 	}
-	public static function setDefaultcalendar(){
+
+	public static function setDefaultcalendar() {
 		$calendar = "";
 		if ($user = Authentication::getUser()) {
 			if ($lang = Translator::getCodeLang() and $option = $user->option("packages.base.date")) {
@@ -48,10 +52,32 @@ class date extends baseDate{
 			}
 		}
 	}
-	public static function getCanlenderName(){
+
+	public static function setDefaultTimeZone() {
+		$user = Authentication::getUser();
+		if ($user) {
+			$userOption = $user->option('userpanel_timezone');
+			if ($userOption) {
+				parent::setTimeZone($userOption);
+				return;
+			}
+		} 
+		$option = Options::get('packages.userpanel.date');
+		if ($option !== false and isset($option['timezone'])) {
+			parent::setTimeZone($option['timezone']);
+			return;
+		}
+		parent::setDefaultTimeZone();
+	}
+
+	public static function init() {
+		if (self::$inited) {
+			return;
+		}
+		self::setDefaultTimeZone();
 		if(!self::$calendar){
 			self::setDefaultcalendar();
 		}
-		return self::$calendar;
+		self::$inited = true;
 	}
 }

@@ -59,6 +59,8 @@
 		"usertype.permissions.userpanel_logs_search":"جستجوی فعالیت کاربران",
 		"usertype.permissions.userpanel_logs_view":"مشاهده فعالیت کاربران",
 		"usertype.permissions.userpanel_logs_delete":"حذف فعالیت کاربران",
-		"usertype.permissions.userpanel_users_edit_credit":"تغییر موجودی کاربری"
+		"usertype.permissions.userpanel_users_edit_credit":"تغییر موجودی کاربری",
+
+		"userpanel.usersettings.message.timezone": "منطقه زمانی"
 	}
 }
