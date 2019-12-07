@@ -1,7 +1,7 @@
 <?php
 namespace packages\userpanel\listeners;
 
-use packages\base\Date;
+use packages\base\{Date, Options, Translator};
 use packages\userpanel\events\settings as SettingsEvent;
 use packages\userpanel\controllers\Settings as Controller;
 use \DateTimeZone;
@@ -46,18 +46,31 @@ class Settings {
 				),
 			),
 		));
-		$timezone = Date::getTimeZone();
-		$userTimeZone = $settings->getUser()->option('userpanel_timezone');
-		if ($userTimeZone) {
-			$timezone = $userTimeZone;
+		$userCustoms = $settings->getUser()->option('userpanel_date');
+		$timeZone = '';
+		if (isset($userCustoms['timezone'])) {
+			$timeZone = $userCustoms['timezone'];
 		}
-		$calendar = Date::getCanlenderName();
-		$userCalendar = $settings->getUser()->option('userpanel_calendar');
-		if ($userCalendar) {
-			$calendar = $userCalendar;
+		$option = Options::get('packages.userpanel.date');
+		if (!$timeZone and $option !== false and isset($option['timezone'])) {
+			$timeZone = $option['timezone'];
 		}
-		$tuning->setDataForm('userpanel_calendar', $userCalendar);
-		$tuning->setDataForm('userpanel_timezone', $timezone);
+		if (!$timeZone) {
+			$timeZone = Date::getTimeZone();
+		}
+		$calendar = '';
+		if (isset($userCustoms['calendar'])) {
+			$calendar = $userCustoms['calendar'];
+		}
+		if (!$calendar) {
+			$calendar = Translator::getLang()->getCalendar();
+		}
+		$option = Options::get('packages.userpanel.date');
+		if (!$calendar and isset($option['calendar'])) {
+			$calendar = $option['calendar'];
+		}
+		$tuning->setDataForm('userpanel_timezone', $timeZone);
+		$tuning->setDataForm('userpanel_calendar', $calendar);
 		$settings->addTuning($tuning);
 	}
 

@@ -29,7 +29,10 @@ class date extends baseDate {
 		$calendar = "";
 		$user = Authentication::getUser();
 		if ($user) {
-			$calendar = $user->option('userpanel_calendar');
+			$userOptions = $user->option('userpanel_date');
+			if (isset($userOptions['calendar'])) {
+				$calendar = $userOptions['calendar'];
+			}
 		}
 		if (!$calendar) {
 			$calendar = Translator::getLang()->getCalendar();
@@ -52,9 +55,9 @@ class date extends baseDate {
 	public static function setDefaultTimeZone() {
 		$user = Authentication::getUser();
 		if ($user) {
-			$userOption = $user->option('userpanel_timezone');
-			if ($userOption) {
-				parent::setTimeZone($userOption);
+			$userOptions = $user->option('userpanel_date');
+			if (isset($userOptions['timezone'])) {
+				parent::setTimeZone($userOptions['timezone']);
 				return;
 			}
 		} 
