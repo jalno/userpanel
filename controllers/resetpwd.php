@@ -1,7 +1,7 @@
 <?php
 namespace packages\userpanel\controllers;
 
-use packages\base\{Cache, view\Error, Exception, views\FormError, http, InputValidation, NotFound, Options};
+use packages\base\{Cache, db, view\Error, Exception, views\FormError, http, InputValidationException, NotFound, Options};
 use packages\notifications\events\Channels;
 use packages\userpanel;
 use packages\userpanel\{Authentication, Controller, Date, events, Log, resetpwd\Token, User, View, views};
@@ -13,37 +13,38 @@ class resetpwd  extends Controller {
 	public function view() {
 		$view = View::byName(views\resetpwd::class);
 		$view->setData($this->getChannelsNames(), "channelsnames");
+		$this->response->setView($view);
 		try {
 			$this->haveChance();
-			$inputs = $this->checkinputs(array(
-				'username' => array(
-					'type' => array('email', 'cellphone'),
-					'optional' => true
-				),
-				'method' => array(
-					'type' => 'string',
-					'values' => $this->getChannelsNames(),
-					'optional' => true
-				),
-			));
-			foreach (array("username", "method") as $item) {
-				if (isset($inputs[$item])){
-					$view->setDataForm($inputs[$item], $item);
-				}
-			}
-		} catch (InputValidation $error) {
-			$view->setFormError(FormError::fromException($error));
 		} catch (losingChance $error) {
 			$error = $this->losingChanceError();
 			$view->addError($error);
+			$this->response->setStatus(false);
+			return $this->response;
+		}
+		$inputs = $this->checkinputs(array(
+			'username' => array(
+				'type' => array('email', 'cellphone'),
+				'optional' => true
+			),
+			'method' => array(
+				'type' => 'string',
+				'values' => $this->getChannelsNames(),
+				'optional' => true
+			),
+		));
+		foreach (array("username", "method") as $item) {
+			if (isset($inputs[$item])){
+				$view->setDataForm($inputs[$item], $item);
+			}
 		}
 		$this->response->setStatus(true);
-		$this->response->setView($view);
 		return $this->response;
 	}
 	public function reset() {
 		$view = View::byName(views\resetpwd::class);
 		$view->setData($this->getChannelsNames(), "channelsnames");
+		$this->response->setView($view);
 		$inputsRules = array(
 			'username' => array(
 				'type' => array('email', 'cellphone'),
@@ -53,39 +54,40 @@ class resetpwd  extends Controller {
 				'values' => $this->getChannelsNames(),
 			),
 		);
+		$view->setDataForm($this->inputsvalue($inputsRules));
 		try {
 			$this->haveChance();
-			$this->response->setStatus(true);
-			$inputs = $this->checkinputs($inputsRules);
-			if ($inputs["method"] == "sms") {
-				$prob = "cellphone";
-			} elseif ($inputs['method'] == "email") {
-				$prob = "email";
-			} else {
-				// What should I do with this?
-				throw new InputValidation('method');
-			}
-			$user = (new User)->where($prob, $inputs['username'])->getOne();
-			if(!$user){
-				$this->loseOneChance();
-				throw new InputValidation('username');
-			}
-			$this->notifyUser($user, $inputs["method"]);
-			$this->response->setData($inputs['username'], 'username');
-		} catch (InputValidation $error) {
-			$view->setFormError(FormError::fromException($error));
-			$this->response->setStatus(false);
 		} catch (losingChance $error) {
 			$error = $this->losingChanceError();
 			$view->addError($error);
 			$this->response->setStatus(false);
+			return $this->response;
 		}
-		$view->setDataForm($this->inputsvalue($inputsRules));
-		$this->response->setView($view);
+		$inputs = $this->checkinputs($inputsRules);
+		$parenthesis = new db\Parenthesis();
+		$parenthesis->where("email", $inputs['username']);
+		$parenthesis->orwhere("cellphone", $inputs['username']);
+		$user = (new User)->where($parenthesis)->getOne();
+		if(!$user){
+			$this->loseOneChance();
+			throw new InputValidationException('username');
+		}
+		$this->notifyUser($user, $inputs["method"]);
+		$this->response->setData($inputs['username'], 'username');
+		$this->response->setStatus(true);
 		return $this->response;
 	}
 	public function authenticationToken() {
 		$view = view::byName(views\resetpwd::class);
+		$this->response->setView($view);
+		try {
+			$this->haveChance();
+		} catch (losingChance $error) {
+			$error = $this->losingChanceError();
+			$view->addError($error);
+			$this->response->setStatus(false);
+			return $this->response;
+		}
 		$inputsRules = [
 			'token' => [
 				'type' => 'number'
@@ -94,35 +96,24 @@ class resetpwd  extends Controller {
 				'type' => 'cellphone'
 			]
 		];
-		try {
-			$this->haveChance();
-			$this->response->setStatus(false);
-			$inputs = $this->checkinputs($inputsRules);
-			$user = new User();
-			$user->where('cellphone', $inputs['username']);
-			if(!$user = $user->getOne()){
-				throw new NotFound();
-			}
-			$token = new Token();
-			$token->where('user', $user->id);
-			$token->where('sent_at', Date::time() - 7200, '>');
-			$token->where('token', $inputs['token']);
-			$token->orderBy('sent_at', 'DESC');
-			if(!$token = $token->getOne()){
-				throw new InputValidation('token');
-			}
-			$token->delete();
-			Login::doLogin($user);
-			$this->response->setStatus(true);
-			$this->response->Go(userpanel\url('resetpwd/newpwd'));
-		} catch (InputValidation $error) {
-			$view->setFormError(FormError::fromException($error));
-		} catch (losingChance $error) {
-			$error = $this->losingChanceError();
-			$view->addError($error);
-			$this->response->setStatus(false);
+		$inputs = $this->checkinputs($inputsRules);
+		$user = new User();
+		$user->where('cellphone', $inputs['username']);
+		if(!$user = $user->getOne()){
+			throw new NotFound();
 		}
-		$this->response->setView($view);
+		$token = new Token();
+		$token->where('user', $user->id);
+		$token->where('sent_at', Date::time() - 7200, '>');
+		$token->where('token', $inputs['token']);
+		$token->orderBy('sent_at', 'DESC');
+		if(!$token = $token->getOne()){
+			throw new InputValidationException('token');
+		}
+		Login::doLogin($user);
+		$token->delete();
+		$this->response->setStatus(true);
+		$this->response->Go(userpanel\url('resetpwd/newpwd'));
 		return $this->response;
 	}
 	public function authenticationEmailToken($data) {
@@ -138,8 +129,8 @@ class resetpwd  extends Controller {
 			throw new NotFound();
 		}
 		Login::doLogin($token->user);
-		$this->response->setStatus(true);
 		$token->delete();
+		$this->response->setStatus(true);
 		$this->response->Go(userpanel\url('resetpwd/newpwd'));
 		return $this->response;
 	}
