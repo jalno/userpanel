@@ -185,7 +185,7 @@ class resetpwd  extends Controller {
 		$token->token = ($method == "sms") ? rand(10000, 99999) : md5(rand(1000, 999999));
 		$token->user = $user->id;
 		$token->ip = http::$client['ip'];
-		$this->getChannelByName($method)->notify(events\ResetPWD($token));
+		$this->getChannelByName($method)->notify(new events\ResetPWD($token));
 		$token->sent_at = Date::time();
 		$token->save();
 	}
