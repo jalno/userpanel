@@ -3,13 +3,13 @@ namespace packages\userpanel\events;
 
 use packages\base\Event;
 use packages\userpanel\{resetpwd\Token, User};
-use packages\notifications\notifiable;
+use packages\notifications\Notifiable;
 
-class ResetPWD extends Event implements notifiable {
+class ResetPWD extends Event implements Notifiable {
 
 	private $token;
 
-	public function __construct(Token $toekn) {
+	public function __construct(Token $token) {
 		$this->token = $token;
 	}
 
