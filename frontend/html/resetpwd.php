@@ -32,17 +32,7 @@ $this->the_header('login');
 				'name' => 'method',
 				'type' => 'radio',
 				'inline' => true,
-				'options' => [
-					[
-						'label' => translator::trans('user.sendemail'),
-						'value' => 'email',
-						'class' => 'grey'
-					],
-					[
-						'label' => translator::trans('user.sendsms'),
-						'value' => 'sms'
-					]
-				]
+				'options' => $this->getChannelsOptions(),
 			]); ?>
 			<?php $this->createField([
 				'name' => 'username',
