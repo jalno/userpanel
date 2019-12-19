@@ -63,7 +63,7 @@
 
 		"userpanel.usersettings.message.timezone": "TimeZone",
 		"userpanel.usersettings.message.calendar": "Calendar",
-		"userpanel.usersettings.message.calendar.jdate": "JDate",
+		"userpanel.usersettings.message.calendar.jdate": "Jalali",
 		"userpanel.usersettings.message.calendar.gregorian": "Gregorian",
 
 		"date.timezone.Atlantic": "Atlantic",
