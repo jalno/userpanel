@@ -30,6 +30,10 @@
 			"listener": "listeners/AuthenticationHandlers@add"
 		},
 		{
+			"name": "packages/notifications/events",
+			"listener": "listeners/Notifications@events"
+		},
+		{
 			"name":"packages/sms/events/templates",
 			"listener": "listeners/sms@templates"
 		},
@@ -40,6 +44,10 @@
 		{
 			"name":"packages/notice/events/views",
 			"listener": "listeners/notice@views"
+		},
+		{
+			"name":"packages/userpanel/events/settings",
+			"listener": "listeners/Settings@settingsList"
 		}
 	]
 }
