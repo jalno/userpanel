@@ -65,6 +65,7 @@
 		"userpanel.usersettings.message.calendar": "تقویم",
 		"userpanel.usersettings.message.calendar.jdate": "جلالی",
 		"userpanel.usersettings.message.calendar.gregorian": "میلادی",
+		"userpanel.usersettings.message.calendar.hdate": "هجری قمری",
 
 		"date.timezone.Atlantic": "آتلانتیک",
 		"date.timezone.Atlantic/Azores": "(UTC{timezone}) آزورس",

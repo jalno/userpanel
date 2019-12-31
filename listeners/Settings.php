@@ -23,6 +23,7 @@ class Settings {
 			'values' => array(
 				"jdate",
 				"gregorian",
+				"hdate",
 			),
 		));
 		$tuning->addField(array(
@@ -43,6 +44,10 @@ class Settings {
 				array(
 					'title' => t('userpanel.usersettings.message.calendar.gregorian'),
 					'value' => 'gregorian',
+				),
+				array(
+					'title' => t('userpanel.usersettings.message.calendar.hdate'),
+					'value' => 'hdate',
 				),
 			),
 		));
