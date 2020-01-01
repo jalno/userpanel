@@ -131,6 +131,9 @@ trait formTrait{
 			}
 		}elseif($options['type'] == 'select'){
 			$code .= "<select";
+			if(isset($options["multiple"]) and $options["multiple"]){
+				$code .= " multiple=\"multiple\"";
+			}
 			$code .= $this->buildHtmlData($options);
 		}elseif($options['type'] == 'textarea'){
 			$code .= "<textarea";

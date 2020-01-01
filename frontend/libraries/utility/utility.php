@@ -49,7 +49,8 @@ class utility{
 				}
 			}
 			$option['title'] = htmlentities($option['title']);
-			$html .= "<option value=\"{$option['value']}\"{$data}".(($selected !== false and $selected == $option['value']) ? ' selected' : '').">{$option['title']}</option>";
+			$isSelected = is_array($selected) ? in_array($option['value'], $selected) : ($selected !== false and $selected == $option['value']);
+			$html .= "<option value=\"{$option['value']}\"{$data}".($isSelected ? ' selected' : '').">{$option['title']}</option>";
 
 		}
 		return $html;
