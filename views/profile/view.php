@@ -31,7 +31,9 @@ class view extends \packages\userpanel\view{
 					"address" => $user->address,
 					"credit" => $user->credit,
 					"status" => $user->status,
+					"avatar" => $user->avatar,
 				),
+				"permissions" => $user->getPermissions(),
 			),
 		);
 		if (packages::package("financial")) {
@@ -39,6 +41,7 @@ class view extends \packages\userpanel\view{
 		} else {
 			$data["data"]["user"]["currency"] = options::get("packages.userpanel.users.credit.currency.title");
 		}
+
 		return $data;
 	}
 }

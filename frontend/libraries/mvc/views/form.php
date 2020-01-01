@@ -1,12 +1,16 @@
 <?php
 namespace themes\clipone\views;
-use \packages\base\translator;
-use \themes\clipone\utility;
-use \themes\clipone\viewTrait;
-trait formTrait{
+
+use packages\base\translator;
+use themes\clipone\utility;
+use packages\base\utility\safe;
+use themes\clipone\viewTrait;
+
+trait formTrait {
 	protected $horizontal_form = false;
 	protected $label_col;
 	protected $input_col;
+	
 	public function setHorizontalForm($label_col, $input_col){
 		$label_cols = explode(' ', $label_col);
 		foreach($label_cols as $label_col){
@@ -62,6 +66,17 @@ trait formTrait{
 					$code .= ' '.$this->input_col;
 				}
 				$code .= '">';
+				$isRTL = (bool) translator::getLang()->isRTL();
+				if (isset($options['input-group']['first'])) {
+					$direction = $isRTL ? 'right' : 'left';
+					$options['input-group'][$direction] = $options['input-group']['first'];
+					unset($options['input-group']['first']);
+				}
+				if (isset($options['input-group']['last'])) {
+					$direction = $isRTL ? 'left' : 'right';
+					$options['input-group'][$direction] = $options['input-group']['last'];
+					unset($options['input-group']['last']);
+				}
 				if(isset($options['input-group']['left'])){
 					if(is_string($options['input-group']['left'])){
 						$options['input-group']['left'] = array(
@@ -100,7 +115,7 @@ trait formTrait{
 			//$code .= "<div>";
 			foreach($options['options'] as $option){
 				$code .= '<div class="'.$options['type'].($options['inline'] ? '-inline' : '').'">';
-				if($options['label']){
+				if (isset($option['label'])) {
 					$code .= '<label>';
 				}
 				$code .= "<input type=\"{$options['type']}\" name=\"{$options['name']}\" value=\"{$option['value']}\"";
@@ -123,8 +138,8 @@ trait formTrait{
 					$code .= " checked";
 				}
 				$code .= ">";
-				if(isset($option['label']))$code .= $option['label'];
-				if($options['label']){
+				if (isset($option['label'])) {
+					$code .= $option['label'];
 					$code .= '</label>';
 				}
 				$code .= '</div>';
@@ -142,14 +157,14 @@ trait formTrait{
 				$code.= " rows=\"{$options['rows']}\"";
 			}
 		}elseif($options['type'] == 'number'){
-			$code .= '<input type="number" value="'.htmlentities($options['value']).'" ';
+			$code .= '<input type="number" value="' . Safe::htmlentities($options['value']) . '" ';
 			foreach (['step', 'min', 'max'] as $attr) {
 				if(isset($options[$attr]) and $options[$attr] !== null){
 					$code .= "{$attr}=\"{$options[$attr]}\"";
 				}
 			}
 		}else{
-			$code .= "<input type=\"{$options['type']}\" value=\"".htmlentities($options['value']).'" ';
+			$code .= "<input type=\"{$options['type']}\" value=\"" . Safe::htmlentities($options['value']) . '" ';
 			$code .= $this->buildHtmlData($options);
 		}
 		if($options['type'] == 'file'){
@@ -200,7 +215,7 @@ trait formTrait{
 			//$code .= "</div>";
 		}
 		if($options['type'] == 'textarea'){
-			$code .= htmlentities($options['value'])."</textarea>";
+			$code .= Safe::htmlentities($options['value']) . "</textarea>";
 		}
 
 		if($options['type'] != 'hidden'){
@@ -327,7 +342,7 @@ trait formTrait{
 
 			$code .= "</button>";
 			if(isset($item['dropdown']) and $item['dropdown']){
-				$code .= '<ul class="dropdown-menu">';
+				$code .= '<ul class="dropdown-menu ' . (!(bool) translator::getLang()->isRTL() ? "dropdown-menu-right" : "") . '">';
 				foreach($item['dropdown'] as $menu){
 					$code .= '<li>';
 					if(isset($menu['link'])){

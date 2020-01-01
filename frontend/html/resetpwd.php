@@ -1,6 +1,7 @@
 <?php
-use \packages\base\translator;
-use \packages\userpanel;
+use packages\base\translator;
+use packages\userpanel;
+$isRTL = (bool) translator::getLang()->isRTL();
 $this->the_header('login');
 ?>
 <div class="box-forgot">
@@ -20,41 +21,31 @@ $this->the_header('login');
 		‍	<?php echo translator::trans('resetpwd.box.description'); ?>
 		</p>
 		<div class="alert alert-success no-display email-alert" role="alert">
-			<strong>ایمیل ارسال شد . </strong> 
-			<p>درخواست تغییر کلمه عبور شما موفقیت ثبت و با احراز هویت شما از طریق ایمیل تکمیل خواهد شد .</p>
+			<strong><?php echo t("userpanel.resetpwd.withemail.success.title"); ?></strong> 
+			<p><?php echo t("userpanel.resetpwd.withemail.success.description"); ?></p>
 		</div>
 		<div class="errorHandler alert alert-danger no-display">
-			<i class="fa fa-remove-sign"></i> اطلاعات وارد شده دارای مشکلاتی می باشد.
+			<i class="fa fa-remove-sign"></i> <?php echo t("userpanel.data_validation.resetpwd.emailorcellphone"); ?>
 		</div>
 		<fieldset>
 			<?php $this->createField([
 				'name' => 'method',
 				'type' => 'radio',
 				'inline' => true,
-				'options' => [
-					[
-						'label' => translator::trans('user.sendemail'),
-						'value' => 'email',
-						'class' => 'grey'
-					],
-					[
-						'label' => translator::trans('user.sendsms'),
-						'value' => 'sms'
-					]
-				]
+				'options' => $this->getChannelsOptions(),
 			]); ?>
 			<?php $this->createField([
 				'name' => 'username',
 				'icon' => 'fa fa-phone',
 				'right' => true,
 				'placeholder' => translator::trans('resetpwd.username'),
-				'ltr' => true
+				'ltr' => !$isRTL
 			]); ?>
 			<div class="form-actions">
-				<a class="btn btn-light-grey" href="<?php echo userpanel\url(); ?>">
-					<i class="fa fa-arrow-circle-right "></i> <?php echo translator::trans('resetpwd.return'); ?>
+				<a class="btn btn-light-grey pull-<?php echo (!$isRTL) ? "left" : "right"; ?>" href="<?php echo userpanel\url(); ?>">
+					<i class="fa fa-arrow-circle-<?php echo (!$isRTL) ? "left" : "right"; ?>"></i> <?php echo translator::trans('resetpwd.return'); ?>
 				</a>
-				<button type="submit" class="btn btn-bricky pull-left" <?php if($this->hasBlocked())echo "disabled"; ?>>
+				<button type="submit" class="btn btn-bricky pull-<?php echo ($isRTL) ? "left" : "right"; ?>" <?php if($this->hasBlocked())echo "disabled"; ?>>
 					<i class="fa fa-unlock-alt"></i> <?php echo translator::trans('resetpwd.recovery'); ?>
 				</button>
 			</div>

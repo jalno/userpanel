@@ -5,10 +5,10 @@ $this->the_header('login');
 ?>
 <div class="box-change-passwd">
 	<form action="<?php echo userpanel\url('resetpwd/newpwd', array('ajax'=>1)); ?>" class="form-changepwd" method="POST">
-		<h3>تنظیم کلمه عبور جدید</h3>
+		<h3><?php echo t("userpanel.newpwd.title"); ?></h3>
 		<p><?php echo translator::trans('resetpwd.set.newpwd.description', ['user_name' => $this->user->getFullName()]); ?></p>
 		<div class="errorHandler alert alert-danger no-display">
-			<i class="fa fa-remove-sign"></i> اطلاعات وارد شده دارای مشکلاتی می باشد.
+			<i class="fa fa-remove-sign"></i> <?php echo t("data_validation"); ?>
 		</div>
 		<fieldset>
 			<?php $this->createField([

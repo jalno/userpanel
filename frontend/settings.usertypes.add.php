@@ -1,9 +1,11 @@
 <?php
 require_once("header.php");
-use \packages\userpanel;
-use \packages\userpanel\user;
-use \packages\base\translator;
-use \themes\clipone\utility;
+
+use packages\base\translator;
+use packages\userpanel;
+use packages\userpanel\user;
+use themes\clipone\utility;
+
 ?>
 <form class="add-usertypes" action="<?php echo(userpanel\url("settings/usertypes/add")); ?>" method="post" style="padding: 0 15px;">
 	<div class="row">
@@ -95,7 +97,10 @@ use \themes\clipone\utility;
 		<!-- end: CONDENSED TABLE PANEL -->
 		<div class="row" style="margin-top: 20px;margin-bottom: 20px;">
 			<div class="col-md-offset-4 col-md-4">
-				<button class="btn btn-teal btn-block" type="submit"><i class="fa fa-arrow-circle-left"></i> <?php echo translator::trans('usertype.add'); ?></button>
+				<button class="btn btn-teal btn-block" type="submit">
+					<i class="fa fa-check-square-o"></i>
+				<?php echo translator::trans('usertype.add'); ?>
+				</button>
 			</div>
 		</div>
 	</div>

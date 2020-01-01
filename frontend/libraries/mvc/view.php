@@ -7,7 +7,7 @@ use packages\userpanel;
 use packages\userpanel\{Authentication, Authorization, Frontend};
 
 trait ViewTrait {
-	protected $bodyClasses = array('rtl');
+	protected $bodyClasses = array();
 
 	/** @var bool */
 	protected $fixedHeader = true;
@@ -80,7 +80,14 @@ trait ViewTrait {
 		return $this->fixedHeader;
 	}
 
-	protected function genBodyClasses(){
+	protected function genBodyClasses() {
+		$key = array_search("ltr", $this->bodyClasses);
+		if (!in_array("rtl", $this->bodyClasses) and $key === false and Translator::getLang()->isRTL()) {
+			$this->addBodyClass("rtl");
+		}
+		if ($key !== false) {
+			unset($this->bodyClasses[$key]);
+		}
 		return implode(' ', $this->bodyClasses);
 	}
 

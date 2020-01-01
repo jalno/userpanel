@@ -9,7 +9,7 @@ class newpwd extends newpwdView{
 	protected $user;
 	function __beforeLoad(){
 		$this->user = authentication::getUser();
-		$this->setTitle("تنظیم کلمه عبور جدید");
+		$this->setTitle(t("userpanel.resetpwd.set_new_password"));
 		$this->addBodyClass('newpwd');
 	}
 }

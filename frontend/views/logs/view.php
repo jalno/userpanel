@@ -1,29 +1,30 @@
 <?php
 namespace themes\clipone\views\logs;
-use \packages\base\translator;
-use \packages\userpanel;
-use \packages\userpanel\views\logs\view as logsView;
-use \themes\clipone\{navigation, navigation\menuItem, breadcrumb, viewTrait};
 
-class view extends logsView{
-	use viewTrait;
+use packages\userpanel\views;
+use themes\clipone\{Navigation, Breadcrumb, ViewTrait};
+
+class View extends Views\Logs\View{
+	use ViewTrait;
 	protected $user;
 	protected $log;
 	protected $handler;
-	function __beforeLoad(){
+	public function __beforeLoad(){
 		$this->user = $this->getUser();
 		$this->log = $this->getLog();
 		$this->handler = $this->log->getHandler();
-		$this->setTitle(translator::trans('logs.view'));
+		$this->setTitle(t('logs.view.title', ['log' => $this->log->id]));
 		$this->addBodyClass('logs');
 		$this->addBodyClass('logs_view');
 		$this->setNavigation();
 	}
 	private function setNavigation(){
-		$item = new menuItem("logs");
-		$item->setTitle(translator::trans('logs.view'));
+
+		Breadcrumb::addItem(Navigation::getByName("logs"));
+		$item = new Navigation\MenuItem("log");
+		$item->setTitle($this->getTitle());
 		$item->setIcon('fa fa-exclamation-circle');
-		breadcrumb::addItem($item);
-		navigation::active("dashboard");
+		Breadcrumb::addItem($item);
+		Navigation::active("logs");
 	}
 }

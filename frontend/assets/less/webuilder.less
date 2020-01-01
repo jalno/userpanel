@@ -1,22 +1,10 @@
 body {
-	font-family: Tahoma,Arial,sans-serif;
-	font-size: 13px;
-}
-.btn {
-	font-family: yekan;
-}
-.box-login {
-	h3 {
-		font-family: nazanin;
-		font-weight: 800;
-	}
-	.btn-bricky {
-		font-family: yekan;
-	}
-}
-.page-header {
-	h1 {
-		font-family: nazanin;
+	.radio, .radio-inline {
+		label {
+			&:after{
+				left: 3px;
+			}
+		}
 	}
 }
 .panel {
@@ -25,9 +13,6 @@ body {
 			display: inline-block;
 		}
 	}
-}
-.dropdown-menu {
-	text-align: right;
 }
 body.login {
 	label.error {
@@ -43,7 +28,40 @@ body.login {
 		margin-bottom: 6px;
 	}
 }
+
+.form-group {
+	> .input-icon {
+		> .input-group {
+			> .form-control {
+				padding-right: 25px;
+				&.ltr {
+					padding-left: 25px;
+				}
+			}
+		}
+	}
+}
 body.rtl {
+	font-family: Tahoma,Arial,sans-serif;
+	font-size: 13px;
+
+	.btn {
+		font-family: yekan;
+	}
+	.box-login {
+		h3 {
+			font-family: nazanin;
+			font-weight: 800;
+		}
+		.btn-bricky {
+			font-family: yekan;
+		}
+	}
+	.page-header {
+		h1 {
+			font-family: nazanin;
+		}
+	}
 	.btn-group {
 		> .btn {
 			&:first-child {
@@ -97,6 +115,11 @@ body.rtl {
 		}
 	}
 	.radio, .radio-inline {
+		label {
+			&:after{
+				right: 3px;
+			}
+		}
 		input[type="radio"] {
 			margin-left: 0;
 			margin-right: -20px;
@@ -106,20 +129,6 @@ body.rtl {
 		.heading {
 			h2 {
 				font-family: nazanin;
-				font-size: 20px;
-				font-weight: 700;
-			}
-		}
-	}
-	.form-group {
-		> .input-icon {
-			> .input-group {
-				> .form-control {
-					padding-right: 25px;
-					&.ltr {
-						padding-left: 25px;
-					}
-				}
 			}
 		}
 	}
@@ -131,6 +140,9 @@ body.rtl {
 				color: #333;
 			}
 		}
+	}
+	.dropdown-menu {
+		text-align: right;
 	}
 }
 .ltr {

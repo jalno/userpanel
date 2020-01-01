@@ -1,6 +1,7 @@
 <?php
-use \packages\base\translator;
-use \packages\userpanel;
+use packages\base\translator;
+use packages\userpanel;
+
 ?>
 <form action="<?php echo userpanel\url('users/settings/'.$this->user->id); ?>" method="POST" role="form" id="settings_form">
 	<div class="row">
@@ -24,7 +25,7 @@ use \packages\userpanel;
 	</div>
 	<div class="row" style="margin-top: 20px;margin-bottom: 20px;">
 		<div class="col-md-offset-4 col-md-4">
-			<button class="btn btn-success btn-block" type="submit"><i class="fa fa-arrow-circle-left"></i> <?php echo translator::trans("user.profile.save"); ?></button>
+			<button class="btn btn-success btn-block" type="submit"><i class="fa fa-check-square-o"></i> <?php echo translator::trans("user.profile.save"); ?></button>
 		</div>
 	</div>
 </form>

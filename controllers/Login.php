@@ -271,7 +271,7 @@ class Login extends Controller {
 				'type' => 'cellphone'
 			)
 		);
-		$this->register_helper($inputsRules);
+		$this->register_helper($inputs);
 		$this->response->setStatus(true);
 		$this->response->Go(userpanel\url());
 		$this->response->setView($view);

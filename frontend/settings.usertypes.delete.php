@@ -17,7 +17,7 @@ $usertype = $this->getUserType();
 					?>
 				</p>
 				<p>
-					<a href="<?php echo userpanel\url("settings/usertypes"); ?>" class="btn btn-light-grey"><i class="fa fa-chevron-circle-right"></i> <?php echo translator::trans('back'); ?></a>
+					<a href="<?php echo userpanel\url("settings/usertypes"); ?>" class="btn btn-light-grey"><i class="fa fa-chevron-circle-<?php echo Translator::getLang()->isRTL() ? "right" : "left"; ?>"></i> <?php echo translator::trans('back'); ?></a>
 					<button type="submit" class="btn btn-danger"><i class="fa fa-trash"></i> <?php echo translator::trans('usertype.delete'); ?></button>
 				</p>
 			</div>

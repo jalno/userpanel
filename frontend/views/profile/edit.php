@@ -91,7 +91,7 @@ class edit extends profileEditView{
 			'title' => translator::trans('user.edit.privacy.private')
 		);
 		return array(
-			'left' => array($button)
+			'last' => array($button)
 		);
 	}
 }

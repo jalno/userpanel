@@ -9,16 +9,12 @@ use \themes\clipone\viewTrait;
 use \themes\clipone\views\listTrait;
 use \themes\clipone\views\formTrait;
 use \packages\base\translator;
-use \packages\base\frontend\theme;
 
 class listview extends usersListView{
 	use viewTrait, listTrait, formTrait;
 	protected $types = array();
 	public function __beforeLoad(){
-		$this->setTitle(array(
-			translator::trans('users'),
-			translator::trans('list')
-		));
+		$this->setTitle(t("users"));
 		$this->setButtons();
 		navigation::active("users/list");
 		$this->types = authorization::childrenTypes();
@@ -44,7 +40,7 @@ class listview extends usersListView{
 		parent::onSourceLoad();
 		if(parent::$navigation){
 			$item = new menuItem("users");
-			$item->setTitle('کاربران');
+			$item->setTitle(t("users"));
 			$item->setURL(userpanel\url('users'));
 			$item->setIcon('clip-users');
 			navigation::addItem($item);
@@ -67,15 +63,15 @@ class listview extends usersListView{
 				'value' => ''
 			),
 			array(
-				'title' => translator::trans('active'),
+				'title' => t('user.status.active'),
 				'value' => user::active
 			),
 			array(
-				'title' => translator::trans('suspend'),
+				'title' => t('user.status.suspend'),
 				'value' => user::suspend
 			),
 			array(
-				'title' => translator::trans('deactive'),
+				'title' => t('user.status.deactive'),
 				'value' => user::deactive
 			)
 		);

@@ -1,4 +1,5 @@
-body.rtl{
+body.rtl {
+	direction: rtl;
 	.list-unstyled {
 		padding-right: 0;
 	}
@@ -31,7 +32,7 @@ body.rtl{
 	&.login{
 		a.forgot {
 			right: auto;
-			left: 10px;
+			left: 25px;
 		}
 		input.password {
 			padding-left: 130px;
@@ -341,8 +342,8 @@ body.rtl{
 		border-left: 1px solid #ECEAF3;
 		float: right;
 		.messages-item {
-			padding-right: 25px;
-			padding-left: 15px;
+			padding-right: 15px;
+			padding-left: 25px;
 			.messages-item-star, .messages-item-attachment {
 				left: auto;
 				right: 7px;
@@ -350,7 +351,7 @@ body.rtl{
 			.messages-item-avatar {
 				float: right;
 			}
-			.messages-item-from, .messages-item-subject {
+			.messages-item-subject {
 				margin-left: 0;
 				margin-right: 45px;
 			}
@@ -358,6 +359,9 @@ body.rtl{
 				right: auto;
 				left: 15px;
 				.messages-item-actions {
+					a {
+						float: left;
+					}
 					.tag-icon {
 						margin: 0 -13px 0 5px;
 					}
@@ -367,7 +371,7 @@ body.rtl{
 	}
 	.messages-content {
 		margin-left: 0;
-		margin-right: 260px;
+		margin-right: auto;
 		.message-header {
 			.message-time {
 				right: auto;
@@ -428,11 +432,12 @@ body.rtl{
 
 	.core-box {
 		.heading {
+			h2 {
+				font-family: yekan !important;
+			}
 			> i {
 				position: absolute;
 				left: 0;
-				font-size: 25px;
-				color: #f63;
 			}
 		}
 		.view-more {
@@ -712,10 +717,13 @@ body.rtl{
 
 	.form-horizontal{
 		.control-label{
-			text-align: right;
+			text-align: left;
 			font-family: koodak;
 			font-size: 15px;
 			padding-top: 0px;
+		}
+		.control-label + .text {
+			padding-top: 7px;
 		}
 	}
 }

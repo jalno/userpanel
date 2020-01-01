@@ -1,37 +1,82 @@
 <?php
 namespace packages\userpanel;
-use \packages\base\date as baseDate;
-use \packages\base\options;
-class date extends baseDate{
-	protected static $calendar;
+
+use packages\base\{date as baseDate, options, Translator};
+
+class date extends baseDate {
+
 	public static function format($format ,$timestamp = null){
-		if(!self::$calendar){
-			self::setDefaultcalendar();
-		}
-		return parent::format($format ,$timestamp);
+		self::init();
+		return parent::format($format, $timestamp);
 	}
+
+	public static function getTimeZone(): string {
+		self::init();
+		return parent::getTimeZone();
+	}
+
 	public static function strtotime($time,$now = null){
+		self::init();
+		return parent::strtotime($time, $now);
+	}
+
+	public static function mktime($hour = null, $minute = null, $second = null , $month = null, $day = null, $year = null){
+		self::init();
+		return parent::mktime($hour, $minute, $second, $month, $day, $year);
+	}
+
+	public static function setDefaultcalendar() {
+		$calendar = "";
+		$user = Authentication::getUser();
+		if ($user) {
+			$userOptions = $user->option('userpanel_date');
+			if (isset($userOptions['calendar'])) {
+				$calendar = $userOptions['calendar'];
+			}
+		}
+		if (!$calendar) {
+			$calendar = Translator::getLang()->getCalendar();
+		}
+		$option = Options::get('packages.userpanel.date');
+		if (!$calendar and isset($option['calendar'])) {
+			$calendar = $option['calendar'];
+		}
+		self::setCanlenderName($calendar);
+		foreach (Translator::getLangs() as $lang) {
+			if ($lang->getCalendar() == $calendar) {
+				foreach ($lang->getDateFormats() as $key => $format) {
+					self::setPresetsFormat($key, $format);
+				}
+				break;
+			}
+		}
+	}
+
+	public static function setDefaultTimeZone() {
+		$user = Authentication::getUser();
+		if ($user) {
+			$userOptions = $user->option('userpanel_date');
+			if (isset($userOptions['timezone'])) {
+				parent::setTimeZone($userOptions['timezone']);
+				return;
+			}
+		} 
+		$option = Options::get('packages.userpanel.date');
+		if ($option !== false and isset($option['timezone'])) {
+			parent::setTimeZone($option['timezone']);
+			return;
+		}
+		parent::setDefaultTimeZone();
+	}
+
+	public static function init() {
+		if (self::$inited) {
+			return;
+		}
+		self::setDefaultTimeZone();
 		if(!self::$calendar){
 			self::setDefaultcalendar();
 		}
-		return parent::strtotime($time ,$now);
-	}
-	public static function mktime($hour = null, $minute = null, $second = null , $month = null, $day = null, $year = null, $is_dst = -1){
-		if(!self::$calendar){
-			self::setDefaultcalendar();
-		}
-		return parent::mktime($hour, $minute, $second, $month, $day, $year, $is_dst);
-	}
-	public static function setDefaultcalendar(){
-		if(($option = options::load('packages.userpanel.date')) !== false){
-			parent::setCanlenderName($option['calendar']);
-			self::$calendar = $option['calendar'];
-		}
-	}
-	public static function getCanlenderName(){
-		if(!self::$calendar){
-			self::setDefaultcalendar();
-		}
-		return self::$calendar;
+		self::$inited = true;
 	}
 }

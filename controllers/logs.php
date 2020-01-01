@@ -2,9 +2,9 @@
 namespace packages\userpanel\controllers;
 
 use packages\base;
-use packages\base\{db, db\parenthesis, InputValidation, db\duplicateRecord, Response};
+use packages\base\{db, db\DuplicateRecord, InputValidation, db\Parenthesis, Response};
 use packages\userpanel;
-use packages\userpanel\{Date, User, Authorization, Authentication, View, views, Log, Controller, AuthorizationException};
+use packages\userpanel\{Authentication, AuthorizationException, Authorization, Controller, Date, Log, User, View, Views};
 
 class Logs extends Controller {
 	protected $authentication = true;
@@ -106,7 +106,7 @@ class Logs extends Controller {
 		} else {
 			$model->where("userpanel_logs.user", $me->id);
 		}
-		$model->orderBy('userpanel_logs.id', 'DESC');
+		$model->orderBy('userpanel_logs.time', 'DESC');
 		$model->pageLimit = $this->items_per_page;
 		$logs = $model->paginate($this->page);
 		$view->setDataList($logs);

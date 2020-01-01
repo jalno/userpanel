@@ -14,11 +14,7 @@ class delete extends usersDeleteView{
 	use viewTrait,formTrait;
 	protected $usertypes = array();
 	function __beforeLoad(){
-		$this->setTitle(array(
-			translator::trans('users'),
-			translator::trans('user.delete'),
-			$this->getDataForm('name')
-		));
+		$this->setTitle(t("user.delete.warning.title"));
 
 		$this->addAssets();
 		$this->setNavigation();

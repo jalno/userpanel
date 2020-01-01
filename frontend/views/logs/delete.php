@@ -1,25 +1,25 @@
 <?php
 namespace themes\clipone\views\logs;
-use \packages\base\translator;
-use \packages\userpanel;
-use \packages\userpanel\views\logs\delete as logsDelete;
-use \themes\clipone\{navigation, navigation\menuItem, breadcrumb, viewTrait};
 
-class delete extends logsDelete{
+use packages\userpanel\Views;
+use themes\clipone\{Navigation, Breadcrumb, ViewTrait};
+
+class delete extends Views\Logs\Delete{
 	use viewTrait;
 	protected $log;
 	function __beforeLoad(){
 		$this->log = $this->getLog();
-		$this->setTitle(translator::trans('logs.delete'));
+		$this->setTitle(t('logs.delete.title', ['log' => $this->log->id]));
 		$this->addBodyClass('logs');
 		$this->addBodyClass('logs-delete');
 		$this->setNavigation();
 	}
 	private function setNavigation(){
-		$item = new menuItem("logs");
-		$item->setTitle(translator::trans('logs.view'));
+		Breadcrumb::addItem(Navigation::getByName("logs"));
+		$item = new Navigation\MenuItem("log");
+		$item->setTitle($this->getTitle());
 		$item->setIcon('fa fa-exclamation-circle');
-		breadcrumb::addItem($item);
-		navigation::active("dashboard");
+		Breadcrumb::addItem($item);
+		Navigation::active("logs");
 	}
 }

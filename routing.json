@@ -42,11 +42,13 @@
 	},
 	{
 		"path": "userpanel/register",
-		"controller": "controllers\\login@signup"
+		"controller": "controllers\\login@signup",
+		"method": "get"
 	},
 	{
 		"path": "userpanel/register",
-		"controller": "controllers\\login@register"
+		"controller": "controllers\\login@register",
+		"method": "post"
 	},
 	{
 		"path": "userpanel/lock",

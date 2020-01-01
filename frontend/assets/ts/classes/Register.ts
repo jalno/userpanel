@@ -1,8 +1,9 @@
 /// <reference path="../definitions/jquery.growl.d.ts" />
 
+import "@jalno/translator";
 import * as $ from "jquery";
 import "jquery.growl";
-import {Router} from "webuilder";
+import "jquery-validation";
 import {Main} from "./Main"
 import "./jquery.formAjax";
 import { webuilder } from "webuilder";
@@ -11,6 +12,7 @@ export class Register{
 	private static form = $('.form-register');
 	private static errorHandler = $('.errorHandler', Register.form);
 	private static runRegisterValidator():void {
+		Main.importValidationTranslator();
         Register.form.validate({
             rules: {
                 name: {
@@ -65,17 +67,13 @@ export class Register{
 						if(error.error == 'data_duplicate' || error.error == 'data_validation'){
 							let $input = $('[name='+error.input+']');
 							let $params = {
-								title: 'خطا',
+								title: t("error.fatal.title"),
 								message:''
 							};
-							if(error.error == 'data_duplicate'){
-								if(error.input == 'email'){
-									$params.message = 'این ایمیل متعلق به کاربر دیگری می باشد.';
-								}else if(error.input == 'cellphone'){
-									$params.message = 'این تلفن همراه متعلق به کاربر دیگری می باشد.';
-								}
-							}else if(error.error == 'data_validation'){
-								$params.message = 'داده وارد شده معتبر نیست';
+							if (error.error == 'data_duplicate') {
+								$params.message = t(`user.${error.input}.data_duplicate`);
+							} else if (error.error == 'data_validation') {
+								$params.message = t("data_validation");
 							}
 							if($input.length){
 								$input.inputMsg($params);
@@ -83,7 +81,7 @@ export class Register{
 								$.growl.error($params);
 							}
 						}else{
-							Register.errorHandler.html('<i class="fa fa-remove-sign"></i> درخواست شما توسط سرور قبول نشد').show();
+							Register.errorHandler.html(`<i class="fa fa-remove-sign"></i> ${t("userpanel.formajax.error")}`).show();
 						}
 					}
 				});
@@ -91,7 +89,8 @@ export class Register{
             invalidHandler: function (event, validator) {
                 Register.errorHandler.html(Register.errorHandler.data('orghtml')).show();
             }
-        });
+		});
+		
     }
     public static init():void {
 		Main.SetDefaultValidation();

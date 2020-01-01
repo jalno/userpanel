@@ -44,7 +44,7 @@ class search{
 			$result->setDescription(translator::trans("search.user.description", array(
 				'email' => $user->email,
 				'cellphone' => $user->cellphone,
-				'lastonline' => date::format("Y/m/d H:i", $user->lastonline),
+				'lastonline' => date::format("Q QT", $user->lastonline),
 				'type_name' => $user->type->title
 			)));
 			saerchHandler::addResult($result);
