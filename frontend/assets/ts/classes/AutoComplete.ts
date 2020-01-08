@@ -16,10 +16,10 @@ export default class AutoComplete{
 	public users(){
 		this.runAutocomplete("userpanel/users", function( ul:any, item:any ) {
 			return $( "<li>" )
-				.append( "<strong>" +item.name+ "</strong>" )
+				.append( "<strong>" + item.name + (item.lastname ? " " + item.lastname : "") + "</strong><small class=\"ltr\">" + item.email + "</small><small class=\"ltr\">" + item.cellphone + "</small>"  )
 				.appendTo( ul );
 		}, (event, ui) => {
-			this.$element.val(ui.item.name);
+			this.$element.val(ui.item.name + (ui.item.lastname ? " " + ui.item.lastname : ""));
 			this.$input.val(ui.item.id).trigger('change');
 			return false;
 		});
