@@ -115,7 +115,14 @@ trait TabbableTrait {
 		}
 	}
 	public function export() {
-		return $this->___call(__FUNCTION__, func_get_args());
+		$tab = $this->getActiveTab();
+		if ($tab) {
+			$view = $tab->getView();
+			if (method_exists($view, "export")) {
+				return call_user_func_array([$view, "export"], $arguments);
+
+			}
+		}
 	}
 	public function getData(?string $key = null) {
 		$tab = $this->getActiveTab();
