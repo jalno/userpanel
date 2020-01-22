@@ -50,8 +50,8 @@ class utility{
 			}
 			$option['title'] = htmlentities($option['title']);
 			$isSelected = is_array($selected) ? in_array($option['value'], $selected) : ($selected !== false and $selected == $option['value']);
-			$html .= "<option value=\"{$option['value']}\"{$data}".($isSelected ? ' selected' : '').">{$option['title']}</option>";
-
+			$isDisabled = (isset($option['disabled']) and $option['disabled']);
+			$html .= "<option value=\"{$option['value']}\"{$data}".($isSelected ? ' selected' : '').($isDisabled ? ' disabled="disabled"' : ''). ">{$option['title']}</option>";
 		}
 		return $html;
 	}
