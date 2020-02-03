@@ -240,6 +240,10 @@
 		"userpanel.newpwd.title": "تنظیم کلمه عبور جدید",
 
 		"userpanel.logs.activities.ondate": "{count} فعالیت در {date}",
-		"userpanel.logs.activities.ondate.empty": "هیچ فعالیتی در {date}"
+		"userpanel.logs.activities.ondate.empty": "هیچ فعالیتی در {date}",
+		"error.user_status_is_deactive_in_register": "<h4> <i class=\"fa fa-check-square\"></i> از ثبت نام شما متشکریم.</h4> بعد از تایید حساب کاربری میتوانید وارد شوید",
+		"error.user_status_is_suspend_in_register": "<h4> <i class=\"fa fa-check-square\"></i> از ثبت نام شما متشکریم.</h4> بعد از تایید حساب کاربری میتوانید وارد شوید",
+		"error.user_status_is_deactive_in_login": "<h4> <i class=\"fa fa-user-times\"></i> حساب کاربری شما غیرفعال است</h4> برای بررسی و حل این موضوع لطفا با مدیریت سایت تماس بگیرید",
+		"error.user_status_is_suspend_in_login": "<h4> <i class=\"fa fa-ban\"></i> حساب کاربری شما مسدود است.</h4> برای بررسی و حل این موضوع لطفا با مدیریت سایت تماس بگیرید"
 	}
 }
