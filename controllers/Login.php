@@ -3,7 +3,7 @@ namespace packages\userpanel\controllers;
 
 use packages\base\{Options, Response, http, InputValidationException, db, View\Error};
 use packages\userpanel;
-use packages\userpanel\{Controller, View, Log, User, date, Authentication, Country, logs, views};
+use packages\userpanel\{Controller, View, Log, User, date, Authentication, Country, logs, views, Exceptions\UserIsNotActiveException};
 
 class Login extends Controller {
 

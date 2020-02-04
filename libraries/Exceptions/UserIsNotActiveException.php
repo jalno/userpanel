@@ -1,5 +1,5 @@
 <?php
-namespace packages\userpanel\controllers;
+namespace packages\userpanel\Exceptions;
 use packages\base\Exception;
 
 class UserIsNotActiveException extends Exception {
