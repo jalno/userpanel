@@ -14,7 +14,7 @@ export default class Suspend {
 	public static createButtonAndInit($container: JQuery, user: number) {
 		Suspend.$btn = $(`<button class="btn btn-warning btn-suspend-user" type="button">
 			<div class="btn-icons">
-				<i class="fa fa-check-square"></i>
+				<i class="fa fa-user-times"></i>
 			</div>
 		${t('userpanel.user.suspend')}
 		</button>`).appendTo($container);
