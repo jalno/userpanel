@@ -509,6 +509,10 @@
 		"date.timezone.Antarctica/Troll": "(UTC{timezone}) Troll",
 		"date.timezone.Antarctica/Vostok": "(UTC{timezone}) Vostok",
 
-		"date.timezone.Arctic/Longyearbyen": "(UTC{timezone}) Longyearbyen"
+		"date.timezone.Arctic/Longyearbyen": "(UTC{timezone}) Longyearbyen",
+		"email.template.name.userpanel_users_activate": "Activate users",
+		"sms.template.name.userpanel_users_activate": "Activate users",
+		"email.template.name.userpanel_users_suspend": "Suspend users",
+		"sms.template.name.userpanel_users_suspend": "Suspend users"
 	}
 }

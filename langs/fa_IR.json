@@ -510,6 +510,10 @@
 		"date.timezone.Antarctica/Casey": "(UTC{timezone}) کاسی",
 		"date.timezone.Arctic": "شمالگان",
 
-		"date.timezone.Arctic/Longyearbyen": "(UTC{timezone}) لانگ‌یربین"
+		"date.timezone.Arctic/Longyearbyen": "(UTC{timezone}) لانگ‌یربین",
+		"email.template.name.userpanel_users_activate": "فعال سازی کاربر در کاربران",
+		"sms.template.name.userpanel_users_activate": "فعال سازی کاربر در کاربران",
+		"email.template.name.userpanel_users_suspend": "مسدودسازی کاربر در کاربران",
+		"sms.template.name.userpanel_users_suspend": "مسدودسازی کاربر در کاربران"
 	}
 }

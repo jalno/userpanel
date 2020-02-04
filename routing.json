@@ -173,6 +173,16 @@
 		"method": "post"
 	},
 	{
+		"path":"userpanel/users/edit/:user/activate",
+		"controller": "controllers/Users@activate",
+		"method": "post"
+	},
+	{
+		"path":"userpanel/users/edit/:user/suspend",
+		"controller": "controllers/Users@suspend",
+		"method": "post"
+	},
+	{
 		"paths": [
 			"userpanel/"
 		],

@@ -23,9 +23,33 @@ use themes\clipone\utility;
 						</div>
 					</div>
 				</form>
+			<?php if ($this->canEdit) { ?>
+				<hr>
+				<div class="admin-actions">
 				<?php
-				if($this->networks){
+				$status = $this->getUserData('status');
+				$id = $this->getUserData('id');
+				if ($status == User::active) {
 				?>
+					<button class="btn btn-warning btn-suspend-user" type="button" data-user="<?php echo $id; ?>">
+						<div class="btn-icons">
+							<i class="fa fa-user-times"></i>
+						</div>
+					<?php echo t('userpanel.user.suspend'); ?>
+					</button>
+				<?php } else { ?>
+					<button class="btn btn-success btn-active-user" type="button" data-user="<?php echo $id; ?>">
+						<div class="btn-icons">
+							<i class="fa fa-check-square"></i>
+						</div>
+					<?php echo t('userpanel.user.activate'); ?>
+					</button>
+			<?php } ?>
+				</div>
+			<?php
+			}
+			if($this->networks){
+			?>
 				<hr>
 				<p>
 				<?php
@@ -131,9 +155,9 @@ use themes\clipone\utility;
 						<td>
 						<?php
 						$statusClass = utility::switchcase($this->getUserData('status'), array(
-							'label label-inverse' => user::deactive,
-							'label label-success' => user::active,
-							'label label-warning' => user::suspend
+							'label-inverse' => user::deactive,
+							'label-success' => user::active,
+							'label-warning' => user::suspend
 						));
 						$statusTxt = utility::switchcase($this->getUserData('status'), array(
 							'user.status.deactive' => user::deactive,
@@ -141,7 +165,7 @@ use themes\clipone\utility;
 							'user.status.suspend' => user::suspend
 						));
 						?>
-						<span class="<?php echo $statusClass; ?>"><?php echo t($statusTxt); ?></span>
+							<span class="label user-status-container <?php echo $statusClass; ?>"><?php echo t($statusTxt); ?></span>
 						</td>
 						<td></td>
 					</tr>

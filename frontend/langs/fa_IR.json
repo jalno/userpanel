@@ -244,6 +244,11 @@
 		"error.user_status_is_deactive_in_register": "<h4> <i class=\"fa fa-check-square\"></i> از ثبت نام شما متشکریم.</h4> بعد از تایید حساب کاربری میتوانید وارد شوید",
 		"error.user_status_is_suspend_in_register": "<h4> <i class=\"fa fa-check-square\"></i> از ثبت نام شما متشکریم.</h4> بعد از تایید حساب کاربری میتوانید وارد شوید",
 		"error.user_status_is_deactive_in_login": "<h4> <i class=\"fa fa-user-times\"></i> حساب کاربری شما غیرفعال است</h4> برای بررسی و حل این موضوع لطفا با مدیریت سایت تماس بگیرید",
-		"error.user_status_is_suspend_in_login": "<h4> <i class=\"fa fa-ban\"></i> حساب کاربری شما مسدود است.</h4> برای بررسی و حل این موضوع لطفا با مدیریت سایت تماس بگیرید"
+		"error.user_status_is_suspend_in_login": "<h4> <i class=\"fa fa-ban\"></i> حساب کاربری شما مسدود است.</h4> برای بررسی و حل این موضوع لطفا با مدیریت سایت تماس بگیرید",
+		"userpanel.user.activate": "فعال سازی کاربر",
+		"userpanel.user.suspend": "مسدود سازی کاربر",
+		"userpanel.user.activate.confirm": "مایل به فعال سازی این کاربر هستید؟ <br> شما میتوانید در آینده وضعیت کاربر را مجددا تغییر دهید.",
+		"userpanel.user.suspend.confirm": "مایل به مسدود سازی این کاربر هستید؟ <br> شما میتوانید در آینده وضعیت کاربر را مجددا تغییر دهید.",
+		"userpanel.submit": "تایید"
 	}
 }

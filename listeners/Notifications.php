@@ -8,6 +8,8 @@ class Notifications {
 
 	public function events(Events $events){
 		$events->add(UserpanelEvents\ResetPWD::class);
+		$events->add(UserpanelEvents\Users\Activate::class);
+		$events->add(UserpanelEvents\Users\Suspend::class);
 	}
 
 }
