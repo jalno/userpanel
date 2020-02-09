@@ -6,6 +6,7 @@ import {Register} from '../classes/Register';
 import {Resetpwd} from '../classes/Resetpwd';
 import {Users} from '../classes/Users';
 import {Logs} from '../classes/Logs';
+import Settings from '../classes/Settings';
 import viewError from "../definitions/viewError";
 
 export class View{
@@ -57,6 +58,7 @@ $(function(){
 	Login.initIfNeeded();
 	Register.initIfNeeded();
 	Users.initIfNeeded();
+	Settings.initIfNeeded();
 	Resetpwd.initIfNeeded();
 	Logs.initIfNeeded();
 });

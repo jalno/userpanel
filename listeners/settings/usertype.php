@@ -29,6 +29,8 @@ class usertype{
 			'settings_usertypes_delete',
 
 			'resetpwd_newpwd',
+
+			'settings',
 		);
 		foreach($permissions as $permission){
 			permissions::add('userpanel_'.$permission);

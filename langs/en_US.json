@@ -513,6 +513,14 @@
 		"email.template.name.userpanel_users_activate": "Activate users",
 		"sms.template.name.userpanel_users_activate": "Activate users",
 		"email.template.name.userpanel_users_suspend": "Suspend users",
-		"sms.template.name.userpanel_users_suspend": "Suspend users"
+		"sms.template.name.userpanel_users_suspend": "Suspend users",
+		"usertype.permissions.userpanel_settings": "General Settings",
+		"settings.userpanel.register": "Membership",
+		"settings.userpanel.register.usertype": "New User Default Role",
+		"settings.userpanel.register.status": "New User Default Status",
+		"active": "Active",
+		"suspend": "Suspend",
+		"deactive": "Deactive",
+		"log.settings.update": "Update general settings"
 	}
 }

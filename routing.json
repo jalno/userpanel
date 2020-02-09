@@ -183,6 +183,16 @@
 		"method": "post"
 	},
 	{
+		"path":"userpanel/settings",
+		"controller": "controllers/Settings@view",
+		"method": "get"
+	},
+	{
+		"path":"userpanel/settings",
+		"controller": "controllers/Settings@update",
+		"method": "post"
+	},
+	{
 		"paths": [
 			"userpanel/"
 		],

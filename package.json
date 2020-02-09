@@ -47,7 +47,11 @@
 		},
 		{
 			"name":"packages/userpanel/events/settings",
-			"listener": "listeners/Settings@settingsList"
+			"listener": "listeners/Users/Settings@settingsList"
+		},
+		{
+			"name":"packages/userpanel/events/General/Settings",
+			"listener": "listeners/Settings@init"
 		}
 	]
 }
