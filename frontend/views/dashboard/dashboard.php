@@ -77,6 +77,9 @@ class dashboard extends dashboardView{
 	public function generateShortcuts(){
 		$rows = array();
 		$lastrow = 0;
+		usort(self::$shortcuts, function($a, $b) {
+			return $b->priority - $a->priority;
+		});
 		foreach (self::$shortcuts as $box) {
 			$rows[$lastrow][] = $box;
 			$size = 0;
