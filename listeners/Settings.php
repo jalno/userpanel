@@ -1,110 +1,95 @@
 <?php
 namespace packages\userpanel\listeners;
 
-use packages\base\{Date, Options, Translator};
-use packages\userpanel\events\settings as SettingsEvent;
-use packages\userpanel\controllers\Settings as Controller;
-use \DateTimeZone;
-use \DateTime;
+use packages\base\{Date, Options};
+use packages\userpanel\{events\General\Settings as SettingsEvent, controllers\Settings as Controller, Usertype, User};
 
 class Settings {
 	
-	public function settingsList(SettingsEvent $settings){
-		$tuning = new settingsEvent\Tuning('userpanel');
-		$tuning->setController(Controller::class);
-		$tuning->addInput(array(
-			'name' => 'userpanel_timezone',
-			'type' => 'string',
-			'values' => DateTimeZone::listIdentifiers(DateTimeZone::ALL),
-		));
-		$tuning->addInput(array(
-			'name' => 'userpanel_calendar',
-			'type' => 'string',
-			'values' => array(
-				"jdate",
-				"gregorian",
-				"hdate",
-			),
-		));
-		$tuning->addField(array(
-			'name' => 'userpanel_timezone',
-			'type' => 'select',
-			'label' => t('userpanel.usersettings.message.timezone'),
-			'options' => $this->getTimeZonesForSelect(),
-		));
-		$tuning->addField(array(
-			'name' => 'userpanel_calendar',
-			'type' => 'select',
-			'label' => t('userpanel.usersettings.message.calendar'),
-			'options' => array(
-				array(
-					'title' => t('userpanel.usersettings.message.calendar.jdate'),
-					'value' => 'jdate',
-				),
-				array(
-					'title' => t('userpanel.usersettings.message.calendar.gregorian'),
-					'value' => 'gregorian',
-				),
-				array(
-					'title' => t('userpanel.usersettings.message.calendar.hdate'),
-					'value' => 'hdate',
-				),
-			),
-		));
-		$userCustoms = $settings->getUser()->option('userpanel_date');
-		$timeZone = '';
-		if (isset($userCustoms['timezone'])) {
-			$timeZone = $userCustoms['timezone'];
-		}
-		$option = Options::get('packages.userpanel.date');
-		if (!$timeZone and $option !== false and isset($option['timezone'])) {
-			$timeZone = $option['timezone'];
-		}
-		if (!$timeZone) {
-			$timeZone = Date::getTimeZone();
-		}
-		$calendar = '';
-		if (isset($userCustoms['calendar'])) {
-			$calendar = $userCustoms['calendar'];
-		}
-		if (!$calendar) {
-			$calendar = Translator::getLang()->getCalendar();
-		}
-		$option = Options::get('packages.userpanel.date');
-		if (!$calendar and isset($option['calendar'])) {
-			$calendar = $option['calendar'];
-		}
-		$tuning->setDataForm('userpanel_timezone', $timeZone);
-		$tuning->setDataForm('userpanel_calendar', $calendar);
-		$settings->addTuning($tuning);
+	public function init(SettingsEvent $settings){
+		$setting = new SettingsEvent\Setting('userpanel');
+		$setting->setController(Controller::class);
+		$this->addRegisterItems($setting);
+		$settings->addSetting($setting);
 	}
 
-	private function getTimeZonesForSelect() {
-		$timezones = array();
-		static $regions = array(
-			'Asia' => DateTimeZone::ASIA,
-			'Europe' => DateTimeZone::EUROPE,
-			'America' => DateTimeZone::AMERICA,
-			'Africa' => DateTimeZone::AFRICA,
-			'Australia' => DateTimeZone::AUSTRALIA,
-			'Antarctica' => DateTimeZone::ANTARCTICA,
-			'Atlantic' => DateTimeZone::ATLANTIC,
-			'Indian' => DateTimeZone::INDIAN,
-			'Pacific' => DateTimeZone::PACIFIC,
-		);
-		foreach ($regions as $key => $region) {
-			foreach (DateTimeZone::listIdentifiers($region) as $tz) {
-				$tzOffset = (new DateTimeZone($tz))->getOffset(new DateTime);
-				$timezones[t("date.timezone." . $key)][] = array(
-					'title' => t('date.timezone.'.$tz, array(
-						'timezone' => ($tzOffset < 0 ? '-' : '+') . gmdate('H:i', abs($tzOffset)),
-					)),
-					'value' => $tz,
-				);
-			}
-			asort($timezones[t("date.timezone." . $key)]);
+	private function addRegisterItems(SettingsEvent\Setting $setting) {
+		$setting->addInput(array(
+			'name' => 'userpanel_register_enabled',
+			'type' => 'bool',
+		));
+		$setting->addInput(array(
+			'name' => 'userpanel_register_type',
+			'type' => Usertype::class,
+		));
+		$setting->addInput(array(
+			'name' => 'userpanel_register_status',
+			'type' => 'int8',
+			'zero' => true,
+			'values' => array(
+				User::active,
+				User::deactive,
+				User::suspend,
+			),
+		));
+		$setting->addField(array(
+			'name' => 'userpanel_register_enabled',
+			'type' => 'radio',
+			'label' => t('settings.userpanel.register'),
+			'inline' => true,
+			'options' => array(
+				array(
+					'label' => t('active'),
+					'value' => 1,
+				),
+				array(
+					'label' => t('deactive'),
+					'value' => 0,
+				),
+			),
+		));
+		$setting->addField(array(
+			'name' => 'userpanel_register_type',
+			'type' => 'select',
+			'label' => t('settings.userpanel.register.usertype'),
+			'options' => $this->getUserTypesForSelect(),
+		));
+		$setting->addField(array(
+			'name' => 'userpanel_register_status',
+			'type' => 'select',
+			'label' => t('settings.userpanel.register.status'),
+			'options' => $this->getUserStatusForSelect(),
+		));
+		$options = Options::get("packages.userpanel.register");
+		$setting->setDataForm('userpanel_register_enabled', (isset($options["enable"]) and $options["enable"]) ? 1 : 0);
+		$setting->setDataForm('userpanel_register_type', $options["type"]);
+		$setting->setDataForm('userpanel_register_status', $options["status"] ?? User::active);
+	}
+	private function getUserTypesForSelect(): array {
+		$options = array();
+		foreach (Usertype::get() as $type) {
+			$options[] = array(
+				"title" => $type->title,
+				"value" => $type->id,
+			);
 		}
-		return $timezones;
+		return $options;
+	}
+	private function getUserStatusForSelect(): array {
+		return array(
+			array(
+				"title" => t("active"),
+				"value" => User::active,
+			),
+			array(
+				"title" => t("deactive"),
+				"value" => User::deactive,
+			),
+			array(
+				"title" => t("suspend"),
+				"value" => User::suspend,
+			),
+		);
 	}
 
 }

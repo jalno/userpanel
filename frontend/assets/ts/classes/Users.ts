@@ -8,6 +8,15 @@ import { webuilder, AjaxRequest, Router} from "webuilder";
 import {Main} from "./Main";
 import  "./jquery.formAjax";
 import {AvatarPreview} from 'bootstrap-avatar-preview/AvatarPreview';
+import Activate from "./Users/Activate";
+import Suspend from "./Users/Suspend";
+
+export enum Status {
+	DEACTIVE,
+	ACTIVE,
+	SUSPEND,
+}
+
 class UserForm{
 	protected form:JQuery;
 	constructor(form:JQuery){
@@ -286,8 +295,30 @@ class UserView {
 		this.initActivityCalendar();
 	}
 }
-export class Users{
+export class Users {
+	public static getStatusClass(status: Status) {
+		switch (status) {
+			case Status.DEACTIVE:
+				return 'label user-status-container label-inverse';
+			case Status.ACTIVE:
+				return 'label user-status-container label-success';
+			case Status.SUSPEND:
+				return 'label user-status-container label-warning';
+		}
+	}
+	public static getStatusText(status: Status) {
+		switch (status) {
+			case Status.DEACTIVE:
+				return t('user.status.deactive');
+			case Status.ACTIVE:
+				return t('user.status.active');
+			case Status.SUSPEND:
+				return t('user.status.suspend');
+		}
+	}
 	public static initIfNeeded():void{
+		Activate.initIfNeeded();
+		Suspend.initIfNeeded();
 		let $body = $('body');
 		if($body.hasClass('users_add')){
 			let handler = new UserAdd($('#add_form'));

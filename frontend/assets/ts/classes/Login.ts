@@ -18,10 +18,10 @@ export class Login{
 		});
 	}
 	private static runLoginValidator():void {
-		let form = $('.form-login');
-		let errorHandler = $('.errorHandler', form);
-		errorHandler.data('orghtml', errorHandler.html());
-		form.validate({
+		const $form = $('.form-login');
+		const $errorHandler = $('.errorHandler', $form);
+		$errorHandler.data('orghtml', $errorHandler.html());
+		$form.validate({
 			rules: {
 				username: {
 					required: true
@@ -31,20 +31,22 @@ export class Login{
 				}
 			},
 			submitHandler: function (form) {
-				errorHandler.hide();
+				$errorHandler.hide();
 				$(form).formAjax({
 					success: function(data:webuilder.AjaxResponse) {
 						window.location.href = data.redirect;
 					},
-					error: function(error:webuilder.AjaxError){
-						if(error.error == "data_validation"){
-							errorHandler.html(`<i class="fa fa-remove-sign"></i> ${t("userpanel.login.incorrect")}.`).show();
+					error: function(response:webuilder.AjaxError){
+						if (response.error === "user_status_is_deactive_in_login" || response.error === "user_status_is_suspend_in_login") {
+							$errorHandler.html(t(`error.${response.error}`)).show();
+						} else if (response.error == "data_validation"){
+							$errorHandler.html(`<i class="fa fa-remove-sign"></i> ${t("userpanel.login.incorrect")}.`).show();
 						}
 					}
 				})
 			},
 			invalidHandler: function (event, validator) {
-				errorHandler.html(errorHandler.data('orghtml')).show();
+				$errorHandler.html($errorHandler.data('orghtml')).show();
 			}
 		});
 	}

@@ -510,6 +510,18 @@
 		"date.timezone.Antarctica/Casey": "(UTC{timezone}) کاسی",
 		"date.timezone.Arctic": "شمالگان",
 
-		"date.timezone.Arctic/Longyearbyen": "(UTC{timezone}) لانگ‌یربین"
+		"date.timezone.Arctic/Longyearbyen": "(UTC{timezone}) لانگ‌یربین",
+		"email.template.name.userpanel_users_activate": "فعال سازی کاربر در کاربران",
+		"sms.template.name.userpanel_users_activate": "فعال سازی کاربر در کاربران",
+		"email.template.name.userpanel_users_suspend": "مسدودسازی کاربر در کاربران",
+		"sms.template.name.userpanel_users_suspend": "مسدودسازی کاربر در کاربران",
+		"usertype.permissions.userpanel_settings": "تنظیمات عمومی",
+		"settings.userpanel.register": "تنظیمات ثبت نام",
+		"settings.userpanel.register.usertype": "سطح کاربری پیش فرض کاربر تازه",
+		"settings.userpanel.register.status": "وضعیت پیش فرض کاربر تازه",
+		"active": "فعال",
+		"suspend": "معلق",
+		"deactive": "غیرفعال",
+		"log.settings.update": "تنظیمات عمومی را بروز کرد"
 	}
 }

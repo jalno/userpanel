@@ -1,9 +1,9 @@
 <?php
 namespace packages\userpanel\controllers;
 
-use packages\base\{Options, Response, http, InputValidationException, db};
+use packages\base\{Options, Response, http, InputValidationException, db, View\Error};
 use packages\userpanel;
-use packages\userpanel\{Controller, View, Log, User, date, Authentication, Country, logs, views};
+use packages\userpanel\{Controller, View, Log, User, date, Authentication, Country, logs, views, Exceptions\UserIsNotActiveException};
 
 class Login extends Controller {
 
@@ -76,7 +76,6 @@ class Login extends Controller {
 		$p->orwhere("cellphone", $inputs['username']);
 		$user = (new User())
 					->where($p)
-					->where("status", user::active)
 					->getOne();
 		if (!$user) {
 			throw new InputValidationException('username');
@@ -93,9 +92,13 @@ class Login extends Controller {
 			$log->save();
 			throw new InputValidationException('password');
 		}
-		self::doLogin($user);
-		if (isset($inputs['remember']) and $inputs['remember']) {
-			http::setcookie('remember', $user->createRememberToken(), date::time() + 31536000);
+		if ($user->status == User::active) {
+			self::doLogin($user);
+			if (isset($inputs['remember']) and $inputs['remember']) {
+				http::setcookie('remember', $user->createRememberToken(), date::time() + 31536000);
+			}
+		} else {
+			throw new UserIsNotActiveException($user->status);
 		}
 		return $user;
 	}
@@ -145,16 +148,34 @@ class Login extends Controller {
 					http::is_safe_referer(http::$data['backTo'])) ? http::$data['backTo'] : "";
 		$view->setDataForm($backTo, 'backTo');
 		$this->response->setView($view);
+		$this->response->setStatus(false);
 
 		try{
 			$user = $this->login_helper();
+			$this->response->setStatus(true);
+			$this->response->Go($backTo ? $backTo : userpanel\url());
+		} catch(UserIsNotActiveException $e) {
+			$error = "";
+			switch ($e->getStatus()) {
+				case User::deactive:
+					$error = "user_status_is_deactive_in_login";
+					break;
+				case User::suspend:
+					$error = "user_status_is_suspend_in_login";
+					break;
+			}
+			$this->response->setData(array(
+				"error" => array(
+					array(
+						"type" => Error::FATAL,
+						"error" => $error,
+					),
+				),
+			));
 		} catch(InputValidationException $e) {
 			$e->setInput('');
 			throw $e;
 		}
-
-		$this->response->setStatus(true);
-		$this->response->Go($backTo ? $backTo : userpanel\url());
 		return $this->response;
 	}
 
@@ -190,27 +211,31 @@ class Login extends Controller {
 		if (isset($inputs['country'])) {
 			$user->country = $inputs['country']->id;
 		}
-		$user->type = Options::get('packages.userpanel.register')['type'];
-		$user->status = User::active;
+		$reqOptions = Options::get('packages.userpanel.register');
+		$user->type = $reqOptions['type'];
+		$user->status = $reqOptions['status'] ?? User::active;
 		$user->password_hash($inputs['password']);
 		unset($inputs['password']);
 		$user->save();
+		if ($user->status == User::active) {
+			Authentication::setUser($user);
+			$handler = new Authentication\SessionHandler();
+			$handler->setSession();
+			$handler->unlock();
+			Authentication::setHandler($handler);
 		
-		Authentication::setUser($user);
-		$handler = new Authentication\SessionHandler();
-		$handler->setSession();
-		$handler->unlock();
-		Authentication::setHandler($handler);
-		
-		$log = new Log();
-		$log->title = t("log.register");
-		$log->type = logs\Register::class;
-		$log->user = $user->id;
-		$log->parameters = [
-			'user' => $user,
-			'inputs' => $inputs
-		];
-		$log->save();
+			$log = new Log();
+			$log->title = t("log.register");
+			$log->type = logs\Register::class;
+			$log->user = $user->id;
+			$log->parameters = [
+				'user' => $user,
+				'inputs' => $inputs
+			];
+			$log->save();
+		} else {
+			throw new UserIsNotActiveException($user->status);
+		}
 
 		return $user;
 	}
@@ -237,6 +262,7 @@ class Login extends Controller {
 		$view = View::byName(views\Register::class);
 		$this->response->setView($view);
 		$view->setData(Country::get(), 'countries');
+		$this->response->setStatus(false);
 		$inputs = array(
 			'name' => array(
 				'type' => 'string'
@@ -271,10 +297,29 @@ class Login extends Controller {
 				'type' => 'cellphone'
 			)
 		);
-		$this->register_helper($inputs);
-		$this->response->setStatus(true);
-		$this->response->Go(userpanel\url());
-		$this->response->setView($view);
+		try {
+			$user = $this->register_helper($inputs);
+			$this->response->setStatus(true);
+			$this->response->Go(userpanel\url());
+		} catch (UserIsNotActiveException $e) {
+			$error = "";
+			switch ($e->getStatus()) {
+				case User::deactive:
+					$error = "user_status_is_deactive_in_register";
+					break;
+				case User::suspend:
+					$error = "user_status_is_suspend_in_register";
+					break;
+			}
+			$this->response->setData(array(
+				"error" => array(
+					array(
+						"type" => Error::FATAL,
+						"error" => $error,
+					),
+				),
+			));
+		}
 		return $this->response;
 	}
 }

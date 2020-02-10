@@ -252,6 +252,18 @@
 		"userpanel.resetpwd.withemail.success.description": "Please check your email inbox or spam and follow instructions",
 		"userpanel.newpwd.title": "Set new password",
 		"userpanel.logs.activities.ondate": "{count} activities on {date}",
-		"userpanel.logs.activities.ondate.empty": "No activity on {date}"
+		"userpanel.logs.activities.ondate.empty": "No activity on {date}",
+		"error.user_status_is_deactive_in_register": "<h4> <i class=\"fa fa-check-square\"></i> You are registered successfully.</h4> You can login after we accept your registration",
+		"error.user_status_is_suspend_in_register": "<h4> <i class=\"fa fa-check-square\"></i> You are registered successfully.</h4> You can login after we accept your registration",
+		"error.user_status_is_deactive_in_login": "<h4> <i class=\"fa fa-user-times\"></i> Your account is deactive</h4> For more information please contact us",
+		"error.user_status_is_suspend_in_login": "<h4> <i class=\"fa fa-ban\"></i> Your account is suspended.</h4> For more information please contact us",
+		"userpanel.user.activate": "Activation user",
+		"userpanel.user.suspend": "Susoend user",
+		"userpanel.user.activate.confirm": "Want to active this user? <br> You can revert this change any time.",
+		"userpanel.user.suspend.confirm": "Want to suspend this user? <br> You can revert this change any time.",
+		"userpanel.submit": "Submit",
+		"userpanel.settings": "General Settings",
+		"userpanel.old_data": "Old data",
+		"userpanel.new_data": "New data"
 	}
 }

@@ -3,7 +3,7 @@ namespace packages\userpanel\controllers;
 use \packages\base\{http, translator, db, db\duplicateRecord, db\InputDataType, db\parenthesis, views\FormError, image, IO\file, packages, NotFound, inputValidation};
 
 use \packages\userpanel;
-use \packages\userpanel\{logs, user, user\socialnetwork, usertype, authorization, authentication, controller, date, view, country, log, events\settings as settingsEvent};
+use \packages\userpanel\{logs, user, user\socialnetwork, usertype, authorization, authentication, controller, date, view, country, log, events\settings as settingsEvent, Events};
 
 use themes\clipone\views;
 
@@ -839,6 +839,80 @@ class users extends controller{
 				$log->save();
 			}
 		}
+		return $this->response;
+	}
+	public function activate($data) {
+		authorization::haveOrFail('users_edit');
+		$user = User::byId($data['user']);
+		if ($user->status == User::active) {
+			throw new NotFound();
+		}
+		$logparameter = array(
+			"oldData" => array(
+				"status" => $user->status,
+			),
+			"newData" => array(
+				"status" => User::active,
+			),
+		);
+		$user->status = User::active;
+		$user->save();
+		$actionUser = Authentication::getUser();
+		$log = new Log();
+		$log->title = t("log.userEdit", ['user_name' => $user->getFullName(), 'user_id' => $user->id]);
+		$log->type = Logs\userEdit::class;
+		$log->user = $actionUser->id;
+		$log->parameters = $logparameter;
+		$log->save();
+
+		$log = new Log();
+		$log->title = t("log.editedYou", ['user_name' => $actionUser->getFullName(), "user_id" => $actionUser->id]);
+		$log->type = Logs\userEdit::class;
+		$log->user = $user->id;
+		$log->parameters = $logparameter;
+		$log->save();
+
+		$event = new Events\Users\Activate($user);
+		$event->trigger();
+		
+		$this->response->setStatus(true);
+		return $this->response;
+	}
+	public function suspend($data) {
+		authorization::haveOrFail('users_edit');
+		$user = User::byId($data['user']);
+		if ($user->status == User::suspend) {
+			throw new NotFound();
+		}
+		$logparameter = array(
+			"oldData" => array(
+				"status" => $user->status,
+			),
+			"newData" => array(
+				"status" => User::suspend,
+			),
+		);
+		$user->status = User::suspend;
+		$user->save();
+		$actionUser = Authentication::getUser();
+		$log = new Log();
+		$log->title = t("log.userEdit", ['user_name' => $user->getFullName(), 'user_id' => $user->id]);
+		$log->type = Logs\userEdit::class;
+		$log->user = $actionUser->id;
+		$log->parameters = $logparameter;
+		$log->save();
+
+		$log = new Log();
+		$log->title = t("log.editedYou", ['user_name' => $actionUser->getFullName(), "user_id" => $actionUser->id]);
+		$log->type = Logs\userEdit::class;
+		$log->user = $user->id;
+		$log->parameters = $logparameter;
+		$log->save();
+
+		$event = new Events\Users\Suspend($user);
+		$event->trigger();
+		
+		$this->response->setStatus(true);
 		return $this->response;
 	}
 }

@@ -1,17 +1,18 @@
 <?php
 namespace themes\clipone\views\users;
 use packages\base\{db, frontend\theme, translator, Packages, Options};
-use \packages\userpanel;
-use \packages\userpanel\user;
-use \packages\userpanel\usertype;
-use \packages\userpanel\log;
-use \packages\userpanel\log_user;
-use \packages\userpanel\user\socialnetwork;
-use \packages\userpanel\views\users\view as usersView;
-use \themes\clipone\navigation;
-use \themes\clipone\navigation\menuItem;
-use \themes\clipone\breadcrumb;
-use \themes\clipone\utility;
+use packages\userpanel;
+use packages\userpanel\user;
+use packages\userpanel\usertype;
+use packages\userpanel\log;
+use packages\userpanel\log_user;
+use packages\userpanel\user\socialnetwork;
+use packages\userpanel\views\users\view as usersView;
+use packages\userpanel\Authorization;
+use themes\clipone\navigation;
+use themes\clipone\navigation\menuItem;
+use themes\clipone\breadcrumb;
+use themes\clipone\utility;
 use themes\clipone\{viewTrait, views\BoxyTrait, views\TabTrait, events, views\Profile\ActivityCalendarBox};
 
 
@@ -20,6 +21,7 @@ class Overview extends usersView{
 	protected $networks = array();
 	protected $lastlogin = 0;
 	protected $logs = array();
+	protected $canEdit = false;
 	function __beforeLoad(){
 		$this->user = $this->getData('user');
 		$this->setTitle(t("user.profile.overview"));
@@ -32,6 +34,7 @@ class Overview extends usersView{
 		$initEvent->view = $this;
 		$initEvent->trigger();
 		$this->addBox(new ActivityCalendarBox($this->user));
+		$this->canEdit = Authorization::is_accessed('profile_edit');
 	}
 	private function loadLastLogin(){
 		$log = new log();
