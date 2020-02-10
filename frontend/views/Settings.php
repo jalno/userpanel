@@ -32,7 +32,8 @@ class Settings extends Form {
 	private function initFormData() {
 		foreach ($this->getSettings() as $setting) {
 			foreach ($setting->getInputs() as $input) {
-				if ($value = $setting->getDataForm($input['name'])) {
+				$value = $setting->getDataForm($input['name']);
+				if ($value !== null) {
 					$this->setDataForm($value, $input['name']);
 				}
 			}

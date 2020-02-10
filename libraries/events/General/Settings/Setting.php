@@ -55,8 +55,8 @@ class Setting {
 		$this->data[$name] = $value;
 	}
 	public function getDataForm(string $name = '') {
-		if ($name and isset($this->data[$name])) {
-			return $this->data[$name];
+		if ($name) {
+			return $this->data[$name] ?? null;
 		}
 		return $this->data;
 	}
