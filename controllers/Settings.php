@@ -79,7 +79,11 @@ class Settings extends userpanel\Controller implements Controller {
 				if (isset($options["type"])) {
 					$type = UserType::byId($options["type"]);
 				}
-				$logs[] = new Log('userpanel_register_type', $type ? $type->title : $options["type"], $inputs["userpanel_register_type"]->title, t('settings.userpanel.register.usertype'));
+				$oldValue = $options["type"] ?? "-";
+				if ($type) {
+					$oldValue = $type->title;
+				}
+				$logs[] = new Log('userpanel_register_type', $oldValue, $inputs["userpanel_register_type"]->title, t('settings.userpanel.register.usertype'));
 				$options["type"] = $inputs["userpanel_register_type"]->id;
 			}
 		}
@@ -94,7 +98,7 @@ class Settings extends userpanel\Controller implements Controller {
 						return t("suspend");
 				}
 			};
-			$logs[] = new Log('userpanel_register_type', $options["type"] ? $getStatusTitle($options["type"]) : "-", $getStatusTitle($inputs["userpanel_register_status"]), t('settings.userpanel.register.usertype'));
+			$logs[] = new Log('userpanel_register_type', (isset($options["status"]) and $options["status"]) ? $getStatusTitle($options["status"]) : "-", $getStatusTitle($inputs["userpanel_register_status"]), t('settings.userpanel.register.status'));
 			$options["status"] = $inputs["userpanel_register_status"];
 		}
 		Options::save("packages.userpanel.register", $options, true);
