@@ -1,5 +1,6 @@
 <?php
 namespace themes\clipone\views;
+use packages\userpanel;
 use packages\userpanel\{views\Form, Authorization};
 use themes\clipone\{Navigation, ViewTrait, views\FormTrait};
 
@@ -11,6 +12,7 @@ class Settings extends Form {
 			$settings = dashboard::getSettingsMenu();
 			$item = new Navigation\MenuItem("userpanel_settings");
 			$item->setTitle(t('userpanel.settings'));
+			$item->setURL(userpanel\url('settings'));
 			$item->setIcon('fa fa-cogs');
 			$settings->addItem($item);
 		}
