@@ -1,14 +1,11 @@
 <?php
 namespace packages\userpanel\controllers;
-use \packages\base;
-use \packages\base\inputValidation;
-use \packages\userpanel\controller;
-use \packages\userpanel\view;
-use \packages\userpanel\authentication;
-use \packages\userpanel\search;
-use \packages\userpanel\views;
+use packages\base;
+use packages\base\inputValidation;
+use packages\userpanel\{controller, view, authentication, search, views, Events};
+
 class dashboard extends controller{
-	function index(){
+	public function index(){
 		if(authentication::check()){
 			if($view = view::byName("\\packages\\userpanel\\views\\dashboard")){
 				$this->response->setView($view);
@@ -39,9 +36,14 @@ class dashboard extends controller{
 		return $this->response;
 	}
 
-	public function online(){
+	public function online() {
 		if(authentication::check()){
 			authentication::getUser()->online();
+		}
+		$event = new Events\Online();
+		$event->trigger();
+		if ($response = $event->getResponse()) {
+			$this->response->setData($response);
 		}
 		$this->response->setStatus(true);
 		return $this->response;
