@@ -8,7 +8,7 @@ import "jschr-bootstrap-modal/js/bootstrap-modalmanager.js";
 import "select2";
 import "jquery-mousewheel";
 import "malihu-custom-scrollbar-plugin";
-import { AjaxRequest } from "webuilder";
+import Online from "./Online";
 
 export class Main{
 	private static isIE8 = false;
@@ -283,15 +283,6 @@ export class Main{
             $('body').removeClass('modal-open');
         });
     }
-    private static runOnlinePing():void {
-        setInterval(() => {
-            AjaxRequest({
-                url: 'userpanel/online',
-                cache: false,
-                data:{ajax:1}
-            });
-        }, 15000);
-    }
 	public static init(){
 		Main.runInit();
 		Main.runSearchInput();
@@ -309,6 +300,6 @@ export class Main{
 		Main.runCustomCheck();
 		Main.runPagination();
 		Main.runNavbarToggleListener();
-		Main.runOnlinePing();
+		Online.run();
 	}
 }
