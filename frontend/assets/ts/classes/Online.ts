@@ -1,37 +1,12 @@
 
-import { AjaxRequest } from "webuilder";
-
-export interface IOnlineOptions {
-	period?: number;
-}
+import { AjaxRequest, Options } from "webuilder";
 
 export default class Online {
-	public static update(options: IOnlineOptions) {
-		let hasUpdate = false;
-		if (options.hasOwnProperty("period") && options.period > 0 && options.period !== Online.options.period) {
-			Online.options.period = options.period;
-			hasUpdate = true;
-		}
-		if (hasUpdate) {
-			Online.createInterval();
-		}
-	}
 	public static run() {
-		Online.createInterval();
-	}
-	private static options = {
-		period: 15000,
-		data: {
-			ajax: 1,
+		let period = Options.get("packages.userpanel.online.period");
+		if (!period) {
+			period = Online.options.period;
 		}
-	}
-	private static interval: number;
-	private static createInterval() {
-		if (Online.interval !== undefined) {
-			clearInterval(Online.interval);
-			Online.interval = undefined;
-		}
-		console.log("Online.options.period", Online.options.period);
 		Online.interval = setInterval(() => {
             AjaxRequest({
                 url: "userpanel/online",
@@ -40,7 +15,19 @@ export default class Online {
 				success: (response) => {
 					$(window).trigger("packages.userpanel.online.response", [response]);	
 				},
-            });
-		}, Online.options.period);
+			});
+			if (period !== Options.get("packages.userpanel.online.period")) {
+				clearInterval(Online.interval);
+				Online.interval = undefined;
+				Online.run();
+			}
+		}, period);
+	}
+	private static interval: number;
+	private static options = {
+		period: 15000,
+		data: {
+			ajax: 1,
+		},
 	}
 }
