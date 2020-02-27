@@ -3,7 +3,7 @@ namespace packages\userpanel\logs;
 use \packages\base;
 use \packages\base\{view, translator};
 use \packages\userpanel;
-use \packages\userpanel\{logs\panel, logs};
+use \packages\userpanel\{logs\panel, logs,usertype};
 class userEdit extends logs{
 	public function getColor():string{
 		return "circle-teal";
@@ -36,6 +36,17 @@ class userEdit extends logs{
 					$title = $val["title"];
 					$value = $val["value"];
 					$isLtr = !is_string($value);
+				} else if ($field == "type") {
+						$title = translator::trans("log.user.{$field}");
+						$types = new usertype();
+						$types->where("id",$val);
+						$types = $types->getOne();
+						if ($types != null) {
+							$value = $types->title;
+						} else {
+							$value = $val;	
+						}
+						$isLtr = "";
 				} else {
 					$title = translator::trans("log.user.{$field}");
 					$value = $val;
@@ -86,6 +97,17 @@ class userEdit extends logs{
 					$title = $val["title"];
 					$value = $val["value"];
 					$isLtr = !is_string($value);
+				} else if ($field == "type") {
+					$title = translator::trans("log.user.{$field}");
+					$types = new usertype();
+					$types->where("id",$val);
+					$types = $types->getOne();
+					if ($types != null) {
+						$value = $types->title;
+					} else {
+						$value = $val;	
+					}
+					$isLtr = "";
 				} else {
 					$title = translator::trans("log.user.{$field}");
 					$value = $val;
