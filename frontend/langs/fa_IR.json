@@ -64,7 +64,7 @@
 		"register.user.email" : "رایانامه",
 		"register.user.password" : "کلمه عبور",
 		"register.user.password_again" : "تکرار کلمه عبور",
-		"register.accept_tos" : "من همه قوانین را خوانده ام و آن را قبول دارم",
+		"register.accept_tos" : "من همه <a class=\"btn btn-link\" target=\"_blank\" href=\"{url}\">قوانین</a> را خوانده ام و آن را قبول دارم",
 		"register.error.recheck":"لطفا خطا های موجود را رفع کنید",
 		"back" : "انصراف",
 		"unlock": "بازگشایی",

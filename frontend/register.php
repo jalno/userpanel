@@ -116,7 +116,7 @@ $this->the_header('login');
 					'options' => array(
 						array(
 							'value' => '1',
-							'label' => '<a class="btn btn-link" target="_blank" href="' . $url . '">' . t('register.accept_tos') . '</a>',
+							'label' => t('register.accept_tos', array("url" => $url)),
 						)
 					)
 				));

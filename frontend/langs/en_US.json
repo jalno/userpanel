@@ -48,7 +48,7 @@
 		"register.user.email" : "Email Address",
 		"register.user.password" : "Password",
 		"register.user.password_again" : "Password Asgin",
-		"register.accept_tos" : "I agree to the Terms of Service and Privacy Policy",
+		"register.accept_tos" : "I agree to the <a class=\"btn btn-link\" target=\"_blank\" href=\"{url}\">Terms of Service</a> and Privacy Policy",
 
 		"userpanel.login.heading": "Sign in to your account",
 		"userpanel.login.description": " Please enter your name and password to log in. ",
