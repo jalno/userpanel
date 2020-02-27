@@ -1,17 +1,20 @@
 <?php
 namespace themes\clipone\views;
-use \packages\base\options;
-use \packages\base\frontend\theme;
-use \packages\userpanel\views\register as registerView;
-use \themes\clipone\viewTrait;
-use \themes\clipone\views\formTrait;
+
+use packages\base\Options;
+use packages\userpanel\views\register as registerView;
+use themes\clipone\{viewTrait, views\formTrait};
+
 class register extends registerView{
-	use viewTrait,formTrait;
+	use viewTrait, formTrait;
 	protected $countries = array();
-	function __beforeLoad(){
+	public function __beforeLoad(){
 		$this->setTitle(t("register"));
 		$this->addBodyClass('register');
 		$this->setCounties();
+	}
+	protected function getTOSUrl(): ?string {
+		return Options::get("packages.userpanel.tos_url");
 	}
 	private function setCounties(){
 		$countries = $this->getData('countries');

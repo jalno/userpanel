@@ -108,17 +108,19 @@ $this->the_header('login');
 				'icon' => 'fa fa-lock',
 				'placeholder' => translator::trans('register.user.password_again')
 			));
-			$this->createField(array(
-				'name' => 'tos',
-				'type' => 'checkbox',
-				'inline' => true,
-				'options' => array(
-					array(
-						'value' => '1',
-						'label' => translator::trans('register.accept_tos')
+			if ($url = $this->getTOSUrl()) {
+				$this->createField(array(
+					'name' => 'tos',
+					'type' => 'checkbox',
+					'inline' => true,
+					'options' => array(
+						array(
+							'value' => '1',
+							'label' => '<a class="btn btn-link" target="_blank" href="' . $url . '">' . t('register.accept_tos') . '</a>',
+						)
 					)
-				)
-			));
+				));
+			}
 			?>
 
 			<div class="form-actions">
