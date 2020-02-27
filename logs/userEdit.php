@@ -41,7 +41,11 @@ class userEdit extends logs{
 						$types = new usertype();
 						$types->where("id",$val);
 						$types = $types->getOne();
-						$value = $types->title;
+						if ($types != null) {
+							$value = $types->title;
+						} else {
+							$value = $val;	
+						}
 						$isLtr = "";
 				} else {
 					$title = translator::trans("log.user.{$field}");
@@ -98,7 +102,11 @@ class userEdit extends logs{
 					$types = new usertype();
 					$types->where("id",$val);
 					$types = $types->getOne();
-					$value = $types->title;
+					if ($types != null) {
+						$value = $types->title;
+					} else {
+						$value = $val;	
+					}
 					$isLtr = "";
 				} else {
 					$title = translator::trans("log.user.{$field}");
