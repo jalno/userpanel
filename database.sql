@@ -414,3 +414,4 @@ INSERT INTO `userpanel_users` (`id`, `name`, `lastname`, `email`, `cellphone`, `
 INSERT INTO `userpanel_users_options` (`id`, `user`, `name`, `value`) VALUES
 (1, 1, 'visibilities', '["email","cellphone","phone","socialnetworks_5","socialnetworks_4","socialnetworks_6","socialnetworks_2","socialnetworks_1","socialnetworks_3"]');
 
+INSERT INTO `options` (`name`, `value`, `autoload`) VALUES ('packages.userpanel.tos_url', '', '0');
