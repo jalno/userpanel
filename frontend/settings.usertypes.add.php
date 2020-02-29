@@ -1,7 +1,7 @@
 <?php
 require_once("header.php");
 
-use packages\base\translator;
+use packages\base\{translator, options, db};
 use packages\userpanel;
 use packages\userpanel\user;
 use themes\clipone\utility;
@@ -37,7 +37,12 @@ use themes\clipone\utility;
 						</thead>
 						<tbody>
 							<?php
+							$value = options::get("packages.userpanel.disabledpermisions");
+							if (!$value) {
+								$value = array();
+							}
 							foreach($this->getPermissions() as $permission){
+								if (!in_array($permission, $value)) {
 							?>
 							<tr>
 								<td>
@@ -50,6 +55,7 @@ use themes\clipone\utility;
 								</td>
 							</tr>
 							<?php
+								}
 							}
 							?>
 						</tbody>
