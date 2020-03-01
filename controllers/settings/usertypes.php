@@ -319,7 +319,17 @@ class usertypes extends controller{
 
 				//Update Permission's title
 				$usertype->title = $inputs['title'];
-
+				
+				//have Permission if not shown
+				$disablepermissions = options::get("packages.userpanel.disabledpermisions");
+				if (!$disablepermissions) {
+					$disablepermissions = array();
+				}
+				foreach($disablepermissions as $dp){
+					if (in_array($dp, $allPermissions)){
+						$inputs['permissions'][] = $dp;
+					}
+				}
 				// Processing of deleting permissions
 				$permissionsdelete = array_diff($usertypePermissions, $inputs['permissions']);
 				if(!empty($permissionsdelete)){
