@@ -326,7 +326,7 @@ class usertypes extends controller{
 					$disablepermissions = array();
 				}
 				foreach($disablepermissions as $dp){
-					if (in_array($dp, $allPermissions)){
+					if (in_array($dp, $usertypePermissions)){
 						$inputs['permissions'][] = $dp;
 					}
 				}
