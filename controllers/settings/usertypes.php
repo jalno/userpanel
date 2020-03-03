@@ -8,6 +8,7 @@ use \packages\base\db\parenthesis;
 use \packages\base\views\FormError;
 use \packages\base\view\error;
 use \packages\base\inputValidation;
+use \packages\base\options;
 
 use \packages\userpanel;
 use \packages\userpanel\user;
