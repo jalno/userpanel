@@ -521,6 +521,12 @@
 		"active": "Active",
 		"suspend": "Suspend",
 		"deactive": "Deactive",
-		"log.settings.update": "Update general settings"
+		"log.settings.update": "Update general settings",
+		"log.resetPWD": "Your password has been successfully reset.",
+		"log.userAdd": "Added new user <span class=\"tooltips\" title=\"#{user_id}\">{user_name}</span>.",
+		"log.userEdit": "Edited user <span class=\"tooltips\" title=\"#{user_id}\">{user_name}</span>.",
+		"log.editedYou": "User <span class=\"tooltips\" title=\"#{user_id}\">{user_name}</span> edited you",
+		"log.userDelete": "Deleted user <span class=\"tooltips\" title=\"#{user_id}\">{user_name}</span>.",
+		"log.profileEdit": "Updated the profile"
 	}
 }

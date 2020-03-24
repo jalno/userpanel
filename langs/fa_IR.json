@@ -522,6 +522,12 @@
 		"active": "فعال",
 		"suspend": "معلق",
 		"deactive": "غیرفعال",
-		"log.settings.update": "تنظیمات عمومی را بروز کرد"
+		"log.settings.update": "تنظیمات عمومی را بروز کرد",
+		"log.resetPWD": "کلمه عبور بازنشانی شد",
+		"log.userAdd": "کاربر <span class=\"tooltips\" title=\"#{user_id}\">{user_name}</span> را اضافه کرد",
+		"log.userEdit": "کاربر <span class=\"tooltips\" title=\"#{user_id}\">{user_name}</span> را ویرایش کرد",
+		"log.editedYou": "کاربر <span class=\"tooltips\" title=\"#{user_id}\">{user_name}</span> شما را ویرایش کرد",
+		"log.userDelete": "کاربر <span class=\"tooltips\" title=\"#{user_id}\">{user_name}</span> را حذف کرد",
+		"log.profileEdit": "پروفایل خود را به روز کرد"
 	}
 }
