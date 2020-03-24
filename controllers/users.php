@@ -357,7 +357,7 @@ class users extends controller{
 			throw new NotFound();
 		}
 		$user = user::where("id", $data['user'])->where("type", $types, 'in')->getOne();
-		if(!$user->id){
+		if(!$user){
 			throw new NotFound();
 		}
 		$settingsEvent = new settingsEvent();
@@ -685,7 +685,9 @@ class users extends controller{
 					$log->title = translator::trans("log.userEdit", ['user_name' => $user->getFullName(), 'user_id' => $user->id]);
 					$log->type = logs\userEdit::class;
 					$log->user = $actionUser->id;
-					$log->parameters = $inputs;
+					$log->parameters = array_merge(array(
+						"editedUser" => $user->id,
+					), $inputs);
 					$log->save();
 
 					$log = new log();
@@ -828,7 +830,9 @@ class users extends controller{
 				$log->title = translator::trans("log.userEdit", ['user_name' => $user->getFullName(), 'user_id' => $user->id]);
 				$log->type = logs\userEdit::class;
 				$log->user = $actionUser->id;
-				$log->parameters = $inputs;
+				$log->parameters = array_merge(array(
+					"editedUser" => $user->id,
+				), $inputs);
 				$log->save();
 
 				$log = new log();
@@ -862,7 +866,9 @@ class users extends controller{
 		$log->title = t("log.userEdit", ['user_name' => $user->getFullName(), 'user_id' => $user->id]);
 		$log->type = Logs\userEdit::class;
 		$log->user = $actionUser->id;
-		$log->parameters = $logparameter;
+		$log->parameters = array_merge(array(
+			"editedUser" => $user->id,
+		), $logparameter);
 		$log->save();
 
 		$log = new Log();
@@ -899,7 +905,9 @@ class users extends controller{
 		$log->title = t("log.userEdit", ['user_name' => $user->getFullName(), 'user_id' => $user->id]);
 		$log->type = Logs\userEdit::class;
 		$log->user = $actionUser->id;
-		$log->parameters = $logparameter;
+		$log->parameters = array_merge(array(
+			"editedUser" => $user->id,
+		), $logparameter);
 		$log->save();
 
 		$log = new Log();
