@@ -44,7 +44,6 @@ class FixEditUserLogs extends Process {
 		$another = $model->getOne();
 		if ($another) {
 			$l->reply("another id: #", $another->id);
-			var_dump(t("log.userEdit", ['user_name' => $model->user->getFullName(), 'user_id' => $model->user->id]));
 			$log->title = t("log.userEdit", ['user_name' => $model->user->getFullName(), 'user_id' => $model->user->id]);
 			$log->save();
 			if (!$another->title) {
