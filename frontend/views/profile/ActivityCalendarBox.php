@@ -133,7 +133,7 @@ class ActivityCalendarBox extends Box {
 			$html .= '<i class="circle-icon '. $lHandler->getColor() . ' ' . $lHandler->getIcon() . '"></i>';
 			$html .= ' <span class="desc">' . $log->title . '</span>';
 			$html .= '<div class="time">';
-			$html .= '<i class="fa fa-time bigger-110"></i>' . Date::format("Y/m/d", $log->time)."\t". Date::format("G:i:s", $log->time);
+			$html .= '<i class="fa fa-time bigger-110"></i>' . Date::format("QTS Q", $log->time);
 			$html .= '</div>';
 			$html .= '</a>';
 			$html .= '</li>';
