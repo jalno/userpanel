@@ -132,7 +132,7 @@ class ActivityCalendarBox extends Box {
 			$html .= '<a class="activity" href="' . ($canView ? userpanel\url("logs/view/{$log->id}") : "#") . '">';
 			$html .= '<i class="circle-icon '. $lHandler->getColor() . ' ' . $lHandler->getIcon() . '"></i>';
 			$html .= ' <span class="desc">' . $log->title . '</span>';
-			$html .= '<div class="time">';
+			$html .= '<div class="time tooltips" title="' . Date::relativeTime($log->time) . '">';
 			$html .= '<i class="fa fa-time bigger-110"></i>' . Date::format("QTS Q", $log->time);
 			$html .= '</div>';
 			$html .= '</a>';
