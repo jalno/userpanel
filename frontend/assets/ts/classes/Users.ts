@@ -201,6 +201,16 @@ class runAvatarPreview {
 }
 class UserView {
 	protected runAvatarPreview: runAvatarPreview;
+	private userActivityData = {
+		ajax: 1,
+		user: undefined,
+		timeFrom: undefined,
+		timeUntil: undefined,
+		activity: "true",
+		page: 1,
+		ipp: 50,
+	};
+	private preventLoadUserActivity = false;
 	public constructor(protected form: JQuery) {
 		this.runAvatarPreview = new runAvatarPreview(this.form);
 	}
@@ -250,42 +260,17 @@ class UserView {
 		});
 	}
 	private initActivityCalendar() {
+		const that = this;
 		$(".calender .calendar-square").on("click", function(e) {
 			e.preventDefault();
 			const $this = $(this);
 			if ($this.hasClass("calendar-square-empty") || $this.hasClass("color0")) {
 				return;
 			}
-			const spinner = `<p class="text-center mt-30"><i class="fa fa-3x fa-spinner fa-spin"></i></p>`;
-			const $panel = $(".panel-activity .panel-scroll .mCSB_container");
-			$panel.html(spinner);
-			$panel.mCustomScrollbar("update");
-			AjaxRequest({
-				url: 'userpanel/logs',
-				data: {
-					ajax: 1,
-					user: $(".panel-activity").data("user"),
-					timeFrom: $this.data("from"),
-					timeUntil: $this.data("until"),
-					activity: "true",
-					ipp: 50,
-				},
-				success: (data) =>  {
-					let html = `<ul class="activities">`;
-					for (const item of data.items) {
-						html += `<li>
-							<a class="activity" href="${data.permissions.canView ? Router.url("userpanel/logs/view/" + item.id) : "#"}">
-								<i class="circle-icon ${item.icon} ${item.color}"></i> <span class="desc">${item.title}</span>
-								<div class="time">
-									<i class="fa fa-time bigger-110"></i>  ${moment(item.time * 1000).locale("fa").fromNow()}
-								</div>
-							</a>
-						</li>`;
-					}
-					html += `</ul>`;
-					$panel.html(html);
-				}
-			})
+			that.userActivityData.page = 1;
+			that.userActivityData.timeFrom = $(this).data("from");
+			that.userActivityData.timeUntil = $(this).data("until");
+			that.getUserActivities();
 		});
 	}
 	public init(){
@@ -293,6 +278,73 @@ class UserView {
 		this.formSubmitListener();
 		this.runAvatarPreview.init();
 		this.initActivityCalendar();
+		this.setUserActivityEvents();
+	}
+	private getUserActivities() {
+		const spinner = `<li class="text-center mt-30"><i class="fa fa-3x fa-spinner fa-spin"></i></li>`;
+		const $panel = $(".panel-activity .panel-scroll .mCSB_container");
+		let $ul = $(".activities", $panel);
+		if (!$ul.length) {
+			$ul = $(`<ul class="activities"></ul>`).appendTo($panel);
+		}
+		if (this.userActivityData.page === 1) {
+			this.preventLoadUserActivity = false;
+			$ul.html("");
+		}
+		const $spinner = $(spinner).appendTo($ul);
+		this.userActivityData.user = $(".panel-activity").data("user");
+		AjaxRequest({
+			url: 'userpanel/logs',
+			data: this.userActivityData,
+			success: (response) =>  {
+				this.preventLoadUserActivity = this.userActivityData.page >= Math.ceil(response.total_items / response.items_per_page);
+				if ($spinner.length) {
+					$spinner.remove();
+				}
+				for (const item of response.items) {
+					$ul.append(`<li>
+						<a class="activity" href="${response.permissions.canView ? Router.url("userpanel/logs/view/" + item.id) : "#"}">
+							<i class="circle-icon ${item.icon} ${item.color}"></i> <span class="desc">${item.title}</span>
+							<div class="time">
+								<i class="fa fa-time bigger-110"></i>  ${moment(item.time * 1000).locale("fa").fromNow()}
+							</div>
+						</a>
+					</li>`);
+				}
+				$panel.mCustomScrollbar("update");
+			},
+		});
+	}
+	private setUserActivityEvents() {
+		const $panel = $(".panel-activity .panel-scroll");
+		$panel.mCustomScrollbar("destroy");
+		const panelHeight = $panel.height();
+		const that = this;
+		$panel.mCustomScrollbar({
+			axis:"y",
+			theme:"minimal-dark",
+			mouseWheel:{
+				enable:true
+			},
+			callbacks: {
+				whileScrolling: function() {
+					if (that.preventLoadUserActivity) {
+						return;
+					}
+					const $container = $(".mCSB_container", $panel);
+					const height = $container.height() - panelHeight;
+					const top = Math.abs(parseInt($container.css("top"), 10));
+					if (top * 100 / height > 80) {
+						that.userActivityData.page++;
+						that.preventLoadUserActivity = true;
+						that.getUserActivities();
+					}
+				}
+			}
+		});
+		$panel.scroll(function() {
+			
+		});
 	}
 }
 export class Users {

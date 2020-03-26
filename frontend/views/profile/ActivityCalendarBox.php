@@ -123,7 +123,7 @@ class ActivityCalendarBox extends Box {
 	  </div>';
 	}
 	protected function buildLogs(): string {
-		$html = '<div class="panel-scroll" style="height:300px">';
+		$html = '<div class="panel-scroll">';
 		$html .= '<ul class="activities">';
 		$canView = Authorization::is_accessed('logs_view');
 		foreach ($this->getLogs() as $log) {

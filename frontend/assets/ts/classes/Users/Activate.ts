@@ -32,7 +32,7 @@ export default class Activate {
 		Activate.$modal = $(`<div class="modal fade" id="user-activate-modal" tabindex="-1" role="dialog">
 		<div class="modal-header">
 			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-			<h4 class="modal-title">${t("userpanel.user.activate")}</h4>
+			<h4 class="modal-title">${t("araddoc.activate")}</h4>
 		</div>
 		<div class="modal-body">
 			<form id="user-activate-form" method="POST">${t('userpanel.user.activate.confirm')}</form>

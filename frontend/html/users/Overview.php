@@ -23,10 +23,11 @@ use themes\clipone\utility;
 						</div>
 					</div>
 				</form>
-			<?php if ($this->canEdit) { ?>
+			<?php if ($this->canEdit or $this->canViewLogs) { ?>
 				<hr>
 				<div class="admin-actions">
 				<?php
+				if ($this->canEdit) {
 				$status = $this->getUserData('status');
 				$id = $this->getUserData('id');
 				if ($status == User::active) {
@@ -44,6 +45,15 @@ use themes\clipone\utility;
 						</div>
 					<?php echo t('userpanel.user.activate'); ?>
 					</button>
+			<?php
+				}
+			}
+			if ($this->canViewLogs) {
+			?>
+				<a href="<?php echo userpanel\url("logs", array("user" => $id)); ?>" class="btn btn-info">
+					<div class="btn-icons"><i class="fa fa-list-ul"></i></div>
+				<?php echo t("packages.userpanel.logs.all"); ?>
+				</a>
 			<?php } ?>
 				</div>
 			<?php
