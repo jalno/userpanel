@@ -6,8 +6,7 @@ use packages\userpanel\{User, Log};
 
 class Activity {
 	public static function getActivityTypes(bool $useCache = null) {
-		db::setQueryOption("DISTINCT");
-		$types = array_column(db::get("userpanel_logs", null, ['type']), 'type');
+		$types = array_column(db::groupBy("type")->get("userpanel_logs", null, ['type']), 'type');
 		$activities = [];
 		foreach ($types as $type) {
 			// For optimazing purpose isActivity() function should define as static.

@@ -258,6 +258,7 @@
 		"userpanel.submit": "Submit",
 		"userpanel.settings": "General Settings",
 		"userpanel.old_data": "Old data",
-		"userpanel.new_data": "New data"
+		"userpanel.new_data": "New data",
+		"packages.userpanel.logs.all": "All Activities"
 	}
 }

@@ -246,6 +246,7 @@
 		"userpanel.submit": "تایید",
 		"userpanel.settings": "تنظیمات عمومی",
 		"userpanel.old_data": "مقدار قبلی",
-		"userpanel.new_data": "مقدار جدید"
+		"userpanel.new_data": "مقدار جدید",
+		"packages.userpanel.logs.all": "تمامی فعالیت ها"
 	}
 }

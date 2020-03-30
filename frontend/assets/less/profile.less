@@ -93,8 +93,27 @@ body.users_view {
 		}
 	}
 }
-body .panel-activity {
+.panel-activity {
 	margin-left: -30px;
+	.row-ltr {
+		> div {
+			float: left;
+			margin-top: 1.5em;
+			margin-bottom: 1em;
+		}
+	}
+	.panel-scroll {
+		height: 380px !important;
+	}
+
+	@media (max-width: 767px) {
+		margin-left: 0;
+
+		.panel-heading {
+			border-radius: 0;
+			border-top: 1px solid #CDCDCD;
+		}
+	}
 }
 body.rtl .panel-activity {
 	margin-right: -30px;
@@ -105,11 +124,20 @@ body.rtl .panel-activity {
 	.panel-body {
 		padding: 0;
 	}
+	@media (max-width: 767px) {
+		margin-right: 0;
+	}
 }
+
 .user-left {
 	padding-top: 20px;
 	h4 {
 		margin-top: 0px;
+	}
+}
+body.profile {
+	.tabbable > .tab-content {
+		padding: 0;
 	}
 }
 .calender {
@@ -207,6 +235,25 @@ body.rtl .calender{
 	.calendar-square {
 		display: inline-block;
 		margin: 0;
+	}
+	.btn-link ~ & {
+		position: absolute;
+		width: 85px;
+		right: 30px;
+		height: auto;
+		top: -9px;
+		border-right: 1px solid #CDCDCD;
+		margin-left: 0;
+		padding: 9px 0;
+		display: block;
+	}
+}
+body.rtl {
+	.btn-link ~ .calendar-guide {
+		right: auto;
+		left: 30px;
+		border-right: none;
+		border-left: 1px solid #CDCDCD;
 	}
 }
 .mt-30 {

@@ -27,6 +27,7 @@ use themes\clipone\utility;
 				<hr>
 				<div class="admin-actions">
 				<?php
+				if ($this->canEdit) {
 				$status = $this->getUserData('status');
 				$id = $this->getUserData('id');
 				if ($status == User::active) {
@@ -44,7 +45,10 @@ use themes\clipone\utility;
 						</div>
 					<?php echo t('userpanel.user.activate'); ?>
 					</button>
-			<?php } ?>
+			<?php
+				}
+			}
+			?>
 				</div>
 			<?php
 			}
