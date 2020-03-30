@@ -23,7 +23,7 @@ use themes\clipone\utility;
 						</div>
 					</div>
 				</form>
-			<?php if ($this->canEdit or $this->canViewLogs) { ?>
+			<?php if ($this->canEdit) { ?>
 				<hr>
 				<div class="admin-actions">
 				<?php
@@ -48,13 +48,7 @@ use themes\clipone\utility;
 			<?php
 				}
 			}
-			if ($this->canViewLogs) {
 			?>
-				<a href="<?php echo userpanel\url("logs", array("user" => $id)); ?>" class="btn btn-info">
-					<div class="btn-icons"><i class="fa fa-list-ul"></i></div>
-				<?php echo t("packages.userpanel.logs.all"); ?>
-				</a>
-			<?php } ?>
 				</div>
 			<?php
 			}

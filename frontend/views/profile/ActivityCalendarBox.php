@@ -41,11 +41,13 @@ class ActivityCalendarBox extends Box {
 	public function getHTML(){
 		$calender = $this->buildCalendar();
 		$logs = $this->buildLogs();
+		$canViewLogs = Authorization::is_accessed('logs_search');
 		$this->html = '<div class="panel panel-white panel-activity" data-user="' . $this->user->id . '">
 		<div class="panel-heading">
 			<i class="clip-calendar-3"></i> ' . t("userpanel.profile.activity_calendar.title", ['activities' => $this->totalActivities]) . '
-			<div class="panel-tools">
-				<div class="calendar-guide">
+			<div class="panel-tools">' . 
+				($canViewLogs ? '<a class="btn btn-xs btn-link tooltips" title="' . t('packages.userpanel.logs.all') . '" href="' . userpanel\url('logs', ['user' => $this->user->id]) . '"><i class="fa fa-list-ul"></i></a>' : '') .
+				'<div class="calendar-guide">
 					<div class="calendar-square tooltips color0" title="' . t("userpanel.profile.activity_calendar.no_activity") . '"></div>
 					<div class="calendar-square tooltips color1" title="' . t("userpanel.profile.activity_calendar.up_to_activities", ['activities' => 20]) . '"></div>
 					<div class="calendar-square tooltips color2" title="' . t("userpanel.profile.activity_calendar.up_to_activities", ['activities' => 40]) . '"></div>
