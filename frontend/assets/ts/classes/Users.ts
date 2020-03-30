@@ -313,6 +313,15 @@ class UserView {
 				}
 				$panel.mCustomScrollbar("update");
 			},
+			error: () => {
+				if ($spinner.length) {
+					$spinner.remove();
+				}
+				$.growl.error({
+					title: t("error.fatal.title"),
+					message: t("userpanel.formajax.error"),
+				});
+			},
 		});
 	}
 	private setUserActivityEvents() {
