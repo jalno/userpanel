@@ -22,7 +22,6 @@ class Overview extends usersView{
 	protected $lastlogin = 0;
 	protected $logs = array();
 	protected $canEdit = false;
-	protected $canViewLogs = false;
 	function __beforeLoad(){
 		$this->user = $this->getData('user');
 		$this->setTitle(t("user.profile.overview"));
@@ -36,7 +35,6 @@ class Overview extends usersView{
 		$initEvent->trigger();
 		$this->addBox(new ActivityCalendarBox($this->user));
 		$this->canEdit = Authorization::is_accessed('profile_edit');
-		$this->canViewLogs = Authorization::is_accessed('logs_view');
 	}
 	private function loadLastLogin(){
 		$log = new log();
