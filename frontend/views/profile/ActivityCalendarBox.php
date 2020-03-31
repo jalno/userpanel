@@ -61,6 +61,7 @@ class ActivityCalendarBox extends Box {
 
 	protected function buildCalendar(): string {
 		$now = Date::time();
+		$firstDayOfWeek = Date::getFirstDayOfWeek();
 		$lastyear = date::mktime(null, null, null, Date::format('n') + 1, Date::format('j'), Date::format('Y') - 1);
 		$months = "";
 		$dates = "";
@@ -75,10 +76,10 @@ class ActivityCalendarBox extends Box {
 			$month = intval(Date::format('n', $lastyear));
 			$year = intval(Date::format('Y', $lastyear));
 			$day = intval(Date::format('w', $lastyear));
-			if ($day == 6 and !$first) {
+			if ($day == $firstDayOfWeek and !$first) {
 				$dates .= '</div>';
 			}
-			if ($day == 6 or $first) {
+			if ($day == $firstDayOfWeek or $first) {
 				$dates .= '<div class="column">';
 			}
 			if ($first) {
