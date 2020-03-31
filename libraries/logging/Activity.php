@@ -34,6 +34,9 @@ class Activity {
 		if (!$types) {
 			return [];
 		}
+		if ($this->from) {
+			db::where("time", $this->from, '>=');
+		}
 		return  db::where("user", $this->user)
 				  ->where("type", $types, "IN")
 				 ->groupBy("date")

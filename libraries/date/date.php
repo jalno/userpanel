@@ -24,6 +24,15 @@ class date extends baseDate {
 		self::init();
 		return parent::mktime($hour, $minute, $second, $month, $day, $year);
 	}
+	public static function relativeTime(int $time, string $format = "short"): string {
+		self::init();
+		return parent::relativeTime($time, $format);
+	}
+
+	public static function getFirstDayOfWeek(): int {
+		self::init();
+		return parent::getFirstDayOfWeek();
+	}
 
 	public static function setDefaultcalendar() {
 		$calendar = "";
