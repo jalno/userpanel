@@ -496,6 +496,7 @@ class users extends controller{
 				$inputs["credit"] = array(
 					"optional" => true,
 					"type" => "int",
+					"empty" => true,
 				);
 			}
 			$this->response->setStatus(false);
