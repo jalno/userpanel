@@ -293,6 +293,7 @@ class UserView {
 		}
 		const $spinner = $(spinner).appendTo($ul);
 		this.userActivityData.user = $(".panel-activity").data("user");
+		this.userActivityData.activity = (this.userActivityData.timeFrom && this.userActivityData.timeUntil) ? "true" : "false";
 		AjaxRequest({
 			url: 'userpanel/logs',
 			data: this.userActivityData,
@@ -305,13 +306,14 @@ class UserView {
 					$ul.append(`<li>
 						<a class="activity" href="${response.permissions.canView ? Router.url("userpanel/logs/view/" + item.id) : "#"}">
 							<i class="circle-icon ${item.icon} ${item.color}"></i> <span class="desc">${item.title}</span>
-							<div class="time">
-								<i class="fa fa-time bigger-110"></i>  ${moment(item.time * 1000).locale("fa").fromNow()}
+							<div class="time tooltips" data-title=" ${moment(item.time * 1000).locale("fa").fromNow()}">
+								<i class="fa fa-time bigger-110"></i>  ${moment(item.time * 1000).locale("fa").format("HH:mm:ss YYYY/MM/DD")}
 							</div>
 						</a>
 					</li>`);
 				}
 				$panel.mCustomScrollbar("update");
+				$(".tooltips", $panel).tooltip();
 			},
 			error: () => {
 				if ($spinner.length) {
