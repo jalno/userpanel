@@ -59,10 +59,6 @@ class listview extends usersListView{
 	public function getStatusForSelect(){
 		return array(
 			array(
-				'title' => '',
-				'value' => ''
-			),
-			array(
 				'title' => t('user.status.active'),
 				'value' => user::active
 			),
@@ -73,6 +69,10 @@ class listview extends usersListView{
 			array(
 				'title' => t('user.status.deactive'),
 				'value' => user::deactive
+			),
+			array(
+				'title' => '',
+				'value' => ''
 			)
 		);
 	}
