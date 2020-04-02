@@ -12,6 +12,7 @@ class users extends controller{
 	public function index(){
 		authorization::haveOrFail('users_list');
 		$view = view::byName("\\packages\\userpanel\\views\\users\\listview");
+		$view->setCountries(country::get());
 		$types = authorization::childrenTypes();
 		$user = new user();
 		if($types){
@@ -60,6 +61,14 @@ class users extends controller{
 				'optional' => true,
 				'empty' => true
 			),
+			'city' => array(
+				'optional' => true,
+				'type' => 'string',
+			),
+			'country' => array(
+				'optional' => true,
+				'type' => 'number',
+			),
 			'word' => array(
 				'type' => 'string',
 				'optional' => true,
@@ -86,7 +95,7 @@ class users extends controller{
 			if(isset($inputs['online']) and $inputs['online']){
 				$user->where('lastonline', date::time() - user::onlineTimeout, '>=');
 			}
-			foreach(array('id', 'name', 'lastname', 'type', 'email', 'cellphone', 'status') as $item){
+			foreach(array('id', 'name', 'lastname', 'type', 'email', 'cellphone', 'status', 'city', 'country') as $item){
 				if(isset($inputs[$item]) and $inputs[$item]){
 					$comparison = $inputs['comparison'];
 					if(in_array($item, array('type', 'status'))){

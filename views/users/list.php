@@ -23,4 +23,10 @@ class listview extends  list_view{
 	public function getUserTypes(){
 		return $this->getData('usertypes');
 	}
+	public function setCountries($countries){
+		$this->setData($countries, 'countries');
+	}
+	public function getCountries(){
+		return $this->getData('countries');
+	}
 }

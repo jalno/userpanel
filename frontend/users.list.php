@@ -27,6 +27,8 @@ use \themes\clipone\utility;
 						<th><?php echo translator::trans('user.type.name'); ?></th>
 						<th><?php echo translator::trans('user.email'); ?><br><?php echo translator::trans('user.cellphone'); ?></th>
 						<th><?php echo translator::trans('user.status'); ?></th>
+						<th><?php echo translator::trans("user.city"); ?></th>
+						<th><?php echo translator::trans("user.country"); ?></th>
 						<?php if($hasButtons){ ?><th></th><?php } ?>
 					</tr>
 				</thead>
@@ -61,6 +63,17 @@ use \themes\clipone\utility;
 						<td><?php echo $row->type->title; ?></td>
 						<td><?php echo $row->email; ?><br><?php echo $row->cellphone; ?></td>
 						<td class="hidden-xs"><span class="<?php echo $statusClass; ?>"><?php echo translator::trans($statusTxt); ?></span></td>
+						<?php
+						if ($row->city) {?>
+							<td><?php echo $row->city; ?></td>
+						<?php
+						} else{
+						?>	
+							<td class="center">-</td>
+						<?php
+						}
+						?>
+						<td><?php echo $row->country->name; ?></td>
 						<?php
 						if($hasButtons){
 							echo("<td class=\"center\">".$this->genButtons()."</td>");
@@ -126,6 +139,17 @@ use \themes\clipone\utility;
 					'label' => translator::trans('user.status'),
 					'name' => 'status',
 					'options' => $this->getStatusForSelect()
+				),
+				array(
+					'label' => translator::trans("user.city"),
+					'name' => 'city'
+				),
+				array(
+					'type' => 'select',
+					'name' => 'country',
+					'label' => translator::trans("user.country"),
+					'options' => $this->getCountriesForSelect(),
+					'ltr' => true
 				),
 				array(
 					'type' => 'select',

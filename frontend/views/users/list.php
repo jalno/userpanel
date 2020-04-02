@@ -92,4 +92,14 @@ class listview extends usersListView{
 			)
 		);
 	}
+	protected function getCountriesForSelect(){
+		$options = array();
+		foreach($this->getCountries() as $country){
+			$options[] = array(
+				'title' => $country->name,
+				'value' => $country->id
+			);
+		}
+		return $options;
+	}
 }
