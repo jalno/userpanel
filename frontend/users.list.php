@@ -4,7 +4,21 @@ use \packages\userpanel;
 use \packages\userpanel\{user, authentication};
 use \packages\base\translator;
 use \themes\clipone\utility;
-?>
+
+if ($this->canExport) {
+	?>
+	<div class="row">
+		<div class="col-md-3 col-md-offset-9 form-group">
+			<a class="btn btn-info btn-block" href="<?php echo userpanel\url("users", array_merge($this->getFormData(), array(
+				"download" => "csv",
+				))); ?>">
+				<div class="btn-icons"> <i class="fa fa-download"></i> </div>
+				<?php echo t("araddoc.posts.export.csv"); ?>
+			</a>
+		</div>
+	</div>
+<?php } ?>
+
 <div class="panel panel-default">
 	<div class="panel-heading">
 		<i class="fa fa-users"></i> <?php echo translator::trans('users'); ?>

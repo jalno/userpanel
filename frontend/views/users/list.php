@@ -1,14 +1,14 @@
 <?php
 namespace themes\clipone\views\users;
-use \packages\userpanel\views\users\listview as usersListView;
-use \packages\userpanel;
-use \packages\userpanel\{user, authorization};
-use \themes\clipone\navigation;
-use \themes\clipone\navigation\menuItem;
-use \themes\clipone\viewTrait;
-use \themes\clipone\views\listTrait;
-use \themes\clipone\views\formTrait;
-use \packages\base\translator;
+use packages\userpanel\views\users\listview as usersListView;
+use packages\userpanel;
+use packages\userpanel\{user, authorization};
+use themes\clipone\navigation;
+use themes\clipone\navigation\menuItem;
+use themes\clipone\viewTrait;
+use themes\clipone\views\listTrait;
+use themes\clipone\views\formTrait;
+use packages\base\{translator, HTTP};
 
 class listview extends usersListView{
 	use viewTrait, listTrait, formTrait;
@@ -91,5 +91,8 @@ class listview extends usersListView{
 				'value' => 'startswith'
 			)
 		);
+	}
+	protected function getFormData(): array {
+		return Http::$request["get"] ?? array();
 	}
 }

@@ -1,6 +1,6 @@
 <?php
 namespace packages\userpanel\controllers;
-use \packages\base\{http, translator, db, db\duplicateRecord, db\InputDataType, db\parenthesis, views\FormError, image, IO\file, packages, NotFound, inputValidation};
+use \packages\base\{http, translator, db, db\duplicateRecord, db\InputDataType, db\parenthesis, views\FormError, image, IO\file, packages, NotFound, inputValidation, response};
 
 use \packages\userpanel;
 use \packages\userpanel\{logs, user, user\socialnetwork, usertype, authorization, authentication, controller, date, view, country, log, events\settings as settingsEvent, Events};
@@ -69,56 +69,121 @@ class users extends controller{
 				'values' => array('equals', 'startswith', 'contains'),
 				'default' => 'contains',
 				'optional' => true
-			)
+			),
+			"download" => array(
+				"type" => "string",
+				"values" => array("csv"),
+				"optional" => true,
+			),
 		);
-		try{
-			$inputs = $this->checkinputs($inputsRules);
-			if(isset($inputs['type']) and $inputs['type']){
-				if(!in_array($inputs['type'], $types)){
-					throw new inputValidation("type");
-				}
-			}
-			if(isset($inputs['status']) and $inputs['status'] !== ''){
-				if(!in_array($inputs['status'], array(user::active, user::deactive, user::suspend))){
-					throw new inputValidation("status");
-				}
-			}
-			if(isset($inputs['online']) and $inputs['online']){
-				$user->where('lastonline', date::time() - user::onlineTimeout, '>=');
-			}
-			foreach(array('id', 'name', 'lastname', 'type', 'email', 'cellphone', 'status') as $item){
-				if(isset($inputs[$item]) and $inputs[$item]){
-					$comparison = $inputs['comparison'];
-					if(in_array($item, array('type', 'status'))){
-						$comparison = 'equals';
-					}
-					$user->where($item, $inputs[$item], $comparison);
-				}
-			}
-			if(isset($inputs['word']) and $inputs['word']){
-				$parenthesis = new parenthesis();
-				foreach (array('name', 'lastname', 'email', 'cellphone') as $item) {
-					if (!isset($inputs[$item]) or !$inputs[$item]) {
-						$parenthesis->orWhere($item, $inputs['word'], $inputs['comparison']);
-					}
-				}
-				$parenthesis->orWhere("CONCAT(`name`, ' ', `lastname`)", $inputs["word"], $inputs["comparison"]);
-				$user->where($parenthesis);
-			}
-		}catch(inputValidation $error){
-			$view->setFormError(FormError::fromException($error));
+		if (!Authorization::is_accessed("users_export")) {
+			unset($inputsRules["download"]);
 		}
-		$view->setDataForm($this->inputsvalue($inputs));
-		$user->pageLimit = $this->items_per_page;
-		$users = $user->paginate($this->page);
-		$this->total_pages = $user->totalPages;
-
-		$view->setDataList($users);
-		$view->setPaginate($this->page, $user->totalCount, $this->items_per_page);
-		if ($types) {
-			$view->setUserTypes(usertype::where("id", $types, 'in')->get());
+		$inputs = $this->checkinputs($inputsRules);
+		if(isset($inputs['type']) and $inputs['type']){
+			if(!in_array($inputs['type'], $types)){
+				throw new inputValidation("type");
+			}
 		}
+		if(isset($inputs['status']) and $inputs['status'] !== ''){
+			if(!in_array($inputs['status'], array(user::active, user::deactive, user::suspend))){
+				throw new inputValidation("status");
+			}
+		}
+		if(isset($inputs['online']) and $inputs['online']){
+			$user->where('lastonline', date::time() - user::onlineTimeout, '>=');
+		}
+		$me = Authentication::getID();
+		foreach(array('id', 'name', 'lastname', 'type', 'email', 'cellphone', 'status') as $item){
+			if(isset($inputs[$item]) and $inputs[$item]){
+				$comparison = $inputs['comparison'];
+				if(in_array($item, array('type', 'status'))){
+					$comparison = 'equals';
+				}
+				$user->where($item, $inputs[$item], $comparison);
+			}
+		}
+		if(isset($inputs['word']) and $inputs['word']){
+			$parenthesis = new parenthesis();
+			foreach (array('name', 'lastname', 'email', 'cellphone') as $item) {
+				if (!isset($inputs[$item]) or !$inputs[$item]) {
+					$parenthesis->orWhere($item, $inputs['word'], $inputs['comparison']);
+				}
+			}
+			$parenthesis->orWhere("CONCAT(`name`, ' ', `lastname`)", $inputs["word"], $inputs["comparison"]);
+			$user->where($parenthesis);
+		}
+		$user = new user;
+		$users = $user->get();
+		if (isset($inputs["download"])) {
+			$csv = t("araddoc.logs.posts.post.id") . ";" .
+				t("packages.userpanel.user.csv.name") . ";" .
+				t("packages.userpanel.user.csv.lastname") . ";" .
+				t("packages.userpanel.user.csv.email") . ";" .
+				t("packages.userpanel.user.csv.cellphone") . ";" .
+				t("packages.userpanel.user.csv.type") . ";" .
+				t("packages.userpanel.user.csv.phone") . ";" .
+				t("packages.userpanel.user.csv.city") . ";" .
+				t("packages.userpanel.user.csv.country") . ";" .
+				t("packages.userpanel.user.csv.zip") . ";" .
+				t("packages.userpanel.user.csv.address") . ";" .
+				t("packages.userpanel.user.csv.web") . ";" .
+				t("packages.userpanel.user.csv.lastonline") . ";" .
+				t("packages.userpanel.user.csv.credit") . ";" .
+				t("packages.userpanel.user.csv.registered_at") . ";" .
+				t("packages.userpanel.user.csv.status") . ";\n";
+			foreach ($users as $user) {
+				$status = "";
+				switch($user->status) {
+					case user::active:
+						$status = t("packages.userpanel.user.csv.status.active");
+						break;
+					case user::deactive:
+						$status = t("packages.userpanel.user.csv.status.deactive");
+						break;
+					case user::suspend:
+						$status = t("packages.userpanel.user.csv.status.suspend");
+						break;
+				}
+				$csv .= $user->id . ";" .
+						($user->name ? $user->name : "-"). ";" .
+						($user->lastname ? str_replace(";", "", $user->lastname) : "-"). ";" .
+						($user->email ? $user->email : "-"). ";" .
+						($user->cellphone ? $user->cellphone : "-"). ";" .
+						($user->type? $user->type->title: "-"). ";" .
+						($user->phone ? $user->phone : "-"). ";" .
+						($user->city ? $user->city : "-"). ";" .
+						($user->country ? $user->country->name: "-"). ";" .
+						($user->zip ? $user->zip : "-"). ";" .
+						($user->address? $user->address: "-"). ";" .
+						($user->web ? $user->web : "-"). ";" .
+						($user->lastonline ? (Date::format("Y/m/d H:i:s", $user->lastonline)) : "-"). ";" .
+						$user->credit. ";" .
+						($user->registered_at ? (Date::format("Y/m/d H:i:s", $user->registered_at)) : "-"). ";" .
+						$status. ";\n";
+			}
+			$tmp = new File\Tmp();
+			$tmp->write($csv);
+			$file = new response\File();
+			$file->setLocation($tmp);
+			$file->setSize($tmp->size());
+			$file->setName("araddoc-posts.csv");
+			$file->setMimeType("text/csv", "utf-8");
+			$this->response->setFile($file);
+			$this->response->forceDownload();
+			
+		} else {
+			$view->setDataForm($this->inputsvalue($inputs));
+			$user->pageLimit = $this->items_per_page;
+			$users = $user->paginate($this->page);
+			$this->total_pages = $user->totalPages;
 
+			$view->setDataList($users);
+			$view->setPaginate($this->page, $user->totalCount, $this->items_per_page);
+			if ($types) {
+				$view->setUserTypes(usertype::where("id", $types, 'in')->get());
+			}
+		}
 		$this->response->setStatus(true);
 		$this->response->setView($view);
 		return $this->response;
