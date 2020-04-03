@@ -3,7 +3,7 @@ namespace packages\userpanel\controllers;
 use \packages\base\{http, translator, db, db\duplicateRecord, db\InputDataType, db\parenthesis, views\FormError, image, IO\file, packages, NotFound, inputValidation};
 
 use \packages\userpanel;
-use \packages\userpanel\{logs, user, user\socialnetwork, usertype, authorization, authentication, controller, date, view, country, log, events\settings as settingsEvent, Events};
+use \packages\userpanel\{logs, user, user\socialnetwork, usertype, authorization, authentication, controller, controllers\Login, date, view, country, log, events\settings as settingsEvent, Events};
 
 use themes\clipone\views;
 
@@ -922,6 +922,16 @@ class users extends controller{
 		$event->trigger();
 		
 		$this->response->setStatus(true);
+		return $this->response;
+	}
+	public function loginAsUser($data) {
+		authorization::haveOrFail('users_login');
+		$user = user::byId($data['user']);
+
+		Login::doLogin($user);
+
+		$this->response->setStatus(true);
+		$this->response->go(userpanel\url());
 		return $this->response;
 	}
 }

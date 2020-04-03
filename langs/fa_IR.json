@@ -60,6 +60,7 @@
 		"usertype.permissions.userpanel_logs_view":"مشاهده فعالیت کاربران",
 		"usertype.permissions.userpanel_logs_delete":"حذف فعالیت کاربران",
 		"usertype.permissions.userpanel_users_edit_credit":"تغییر موجودی کاربری",
+		"usertype.permissions.userpanel_users_login": "ورود به عنوان کاربر",
 
 		"userpanel.usersettings.message.timezone": "منطقه زمانی",
 		"userpanel.usersettings.message.calendar": "تقویم",

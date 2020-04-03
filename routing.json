@@ -32,6 +32,11 @@
 		"method": "get"
 	},
 	{
+		"path": "userpanel/loginasuser/:user",
+		"controller": "controllers/users@loginAsUser",
+		"method": "post"
+	},
+	{
 		"path": "userpanel/login",
 		"controller": "controllers/login@login",
 		"method": "post"
