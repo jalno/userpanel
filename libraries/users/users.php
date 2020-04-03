@@ -10,7 +10,7 @@ use packages\userpanel\user\option;
 class user extends dbObject{
 	use imageTrait;
 	const active = 1;
-	const deactive = 0;
+	const deactive = 3;
 	const suspend = 2;
 	const onlineTimeout = 20;
 	protected $dbTable = "userpanel_users";
