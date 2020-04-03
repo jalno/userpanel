@@ -1,132 +1,113 @@
 <?php
 namespace packages\userpanel\controllers;
-use \packages\base\{http, translator, db, db\duplicateRecord, db\InputDataType, db\parenthesis, views\FormError, image, IO\file, packages, NotFound, inputValidation};
+use packages\base\{http, db, db\duplicateRecord, db\InputDataType, views\FormError, image, IO\file, packages, NotFound, inputValidation};
 
-use \packages\userpanel;
-use \packages\userpanel\{logs, user, user\socialnetwork, usertype, authorization, authentication, controller, date, view, country, log, events\settings as settingsEvent, Events};
+use packages\userpanel;
+use packages\userpanel\{logs, user, user\socialnetwork, usertype, authorization, authentication, controller, date, view, country, log, events\settings as settingsEvent, Events};
 
 use themes\clipone\views;
 
-class users extends controller{
+class Users extends Controller {
 	protected $authentication = true;
-	public function index(){
-		authorization::haveOrFail('users_list');
-		$view = view::byName("\\packages\\userpanel\\views\\users\\listview");
-		$view->setCountries(country::get());
-		$types = authorization::childrenTypes();
-		$user = new user();
-		if($types){
-			$user->where("type", $types, 'in');
-		}else{
-			$user->where("id", authentication::getID());
+	
+	public function search() {
+		Authorization::haveOrFail("users_list");
+		$types = Authorization::childrenTypes();
+		$view = view::byName(views\users\Search::class);
+		$view->setCountries((new Country)->get());
+		if ($types) {
+			$view->setUserTypes((new Usertype)->where("id", $types, "in")->get());
 		}
-		$inputsRules = array(
-			'id' => array(
-				'type' => 'number',
-				'optional' => true,
-				'empty' => true,
+		$this->response->setView($view);
+
+		$inputs = $this->checkinputs(array(
+			"id" => array(
+				"type" => "number",
+				"optional" => true,
 			),
-			'name' => array(
-				'type' => 'string',
-				'optional' => true,
-				'empty' => true,
+			"name" => array(
+				"type" => "string",
+				"optional" => true,
 			),
-			'lastname' => array(
-				'type' => 'string',
-				'optional' => true,
-				'empty' => true,
+			"lastname" => array(
+				"type" => "string",
+				"optional" => true,
 			),
-			'email' => array(
-				'type' => 'string',
-				'optional' => true,
-				'empty' => true,
+			"email" => array(
+				"type" => "string",
+				"optional" => true,
 			),
-			'cellphone' => array(
-				'type' => 'string',
-				'optional' => true,
-				'empty' => true,
+			"cellphone" => array(
+				"type" => "string",
+				"optional" => true,
 			),
-			'type' => array(
-				'type' => 'number',
-				'optional' => true,
-				'empty' => true
+			"type" => array(
+				"type" => "number",
+				"optional" => true,
+				"values" => $types,
 			),
-			'online' => array(
-				'type' => 'bool',
-				'optional' => true,
-				'empty' => true
+			"online" => array(
+				"type" => "bool",
+				"optional" => true,
+				"default" => false,
 			),
-			'status' => array(
-				'type' => 'number',
-				'optional' => true,
-				'empty' => true
+			"status" => array(
+				"type" => "number",
+				"optional" => true,
+				"values" => [User::active, User::deactive, User::suspend],
 			),
-			'city' => array(
-				'optional' => true,
-				'type' => 'string',
+			"city" => array(
+				"optional" => true,
+				"type" => "string",
 			),
-			'country' => array(
-				'optional' => true,
-				'type' => 'number',
+			"country" => array(
+				"optional" => true,
+				"type" => Country::class,
 			),
-			'word' => array(
-				'type' => 'string',
-				'optional' => true,
-				'empty' => true
+			"word" => array(
+				"type" => "string",
+				"optional" => true,
 			),
-			'comparison' => array(
-				'values' => array('equals', 'startswith', 'contains'),
-				'default' => 'contains',
-				'optional' => true
+			"comparison" => array(
+				"values" => ["equals", "startswith", "contains"],
+				"default" => "contains",
+				"optional" => true
 			)
-		);
-		try{
-			$inputs = $this->checkinputs($inputsRules);
-			if(isset($inputs['type']) and $inputs['type']){
-				if(!in_array($inputs['type'], $types)){
-					throw new inputValidation("type");
-				}
-			}
-			if(isset($inputs['status']) and $inputs['status'] !== ''){
-				if(!in_array($inputs['status'], array(user::active, user::deactive, user::suspend))){
-					throw new inputValidation("status");
-				}
-			}
-			if(isset($inputs['online']) and $inputs['online']){
-				$user->where('lastonline', date::time() - user::onlineTimeout, '>=');
-			}
-			foreach(array('id', 'name', 'lastname', 'type', 'email', 'cellphone', 'status', 'city', 'country') as $item){
-				if(isset($inputs[$item]) and $inputs[$item]){
-					$comparison = $inputs['comparison'];
-					if(in_array($item, array('type', 'status'))){
-						$comparison = 'equals';
-					}
-					$user->where($item, $inputs[$item], $comparison);
-				}
-			}
-			if(isset($inputs['word']) and $inputs['word']){
-				$parenthesis = new parenthesis();
-				foreach (array('name', 'lastname', 'email', 'cellphone') as $item) {
-					if (!isset($inputs[$item]) or !$inputs[$item]) {
-						$parenthesis->orWhere($item, $inputs['word'], $inputs['comparison']);
-					}
-				}
-				$parenthesis->orWhere("CONCAT(`name`, ' ', `lastname`)", $inputs["word"], $inputs["comparison"]);
-				$user->where($parenthesis);
-			}
-		}catch(inputValidation $error){
-			$view->setFormError(FormError::fromException($error));
+		));
+		$model = new User();
+		if ($types) {
+			$model->where("type", $types, 'in');
+		} else {
+			$model->where("id", Authentication::getID());
 		}
-		$view->setDataForm($this->inputsvalue($inputs));
-		$user->pageLimit = $this->items_per_page;
-		$users = $user->paginate($this->page);
-		$this->total_pages = $user->totalPages;
+		if ($inputs["online"]) {
+			$model->where("lastonline", Date::time() - User::onlineTimeout, ">=");
+		}
+		foreach(["id", "name", "lastname", "type", "email", "cellphone", "status", "city", "country"] as $item) {
+			if (!isset($inputs[$item])) {
+				continue;
+			}
+			$comparison = !in_array($item, array("type", "status")) ? $inputs["comparison"] : "equals";
+			$model->where($item, $inputs[$item], $comparison);
+		}
+		if (isset($inputs["word"])) {
+			$parenthesis = new db\Parenthesis();
+			foreach (["name", "lastname", "email", "cellphone"] as $item) {
+				if (isset($inputs[$item])) {
+					continue;
+				}
+				$parenthesis->orWhere($item, $inputs["word"], $inputs["comparison"]);
+			}
+			$parenthesis->orWhere("CONCAT(`name`, ' ', `lastname`)", $inputs["word"], $inputs["comparison"]);
+			$model->where($parenthesis);
+		}
+
+		$model->pageLimit = $this->items_per_page;
+		$users = $model->paginate($this->page);
+		$this->total_pages = $model->totalPages;
 
 		$view->setDataList($users);
-		$view->setPaginate($this->page, $user->totalCount, $this->items_per_page);
-		if ($types) {
-			$view->setUserTypes(usertype::where("id", $types, 'in')->get());
-		}
+		$view->setPaginate($this->page, $model->totalCount, $this->items_per_page);
 
 		$this->response->setStatus(true);
 		$this->response->setView($view);
@@ -316,7 +297,7 @@ class users extends controller{
 				}
 
 				$log = new log();
-				$log->title = translator::trans("log.userAdd", ['user_name' => $user->getFullName(), 'user_id' => $user->id]);
+				$log->title = t("log.userAdd", ['user_name' => $user->getFullName(), 'user_id' => $user->id]);
 				$log->type = logs\register::class;
 				$log->user = authentication::getID();
 				$log->parameters = [
@@ -685,14 +666,14 @@ class users extends controller{
 				$actionUser = authentication::getUser();
 				if($actionUser->id == $user->id){
 					$log = new log();
-					$log->title = translator::trans("log.profileEdit");
+					$log->title = t("log.profileEdit");
 					$log->type = logs\userEdit::class;
 					$log->user = $user->id;
 					$log->parameters = $inputs;
 					$log->save();
 				}else{
 					$log = new log();
-					$log->title = translator::trans("log.userEdit", ['user_name' => $user->getFullName(), 'user_id' => $user->id]);
+					$log->title = t("log.userEdit", ['user_name' => $user->getFullName(), 'user_id' => $user->id]);
 					$log->type = logs\userEdit::class;
 					$log->user = $actionUser->id;
 					$log->parameters = array_merge(array(
@@ -701,7 +682,7 @@ class users extends controller{
 					$log->save();
 
 					$log = new log();
-					$log->title = translator::trans("log.editedYou", ['user_name' => $actionUser->getFullName(), "user_id" => $actionUser->id]);
+					$log->title = t("log.editedYou", ['user_name' => $actionUser->getFullName(), "user_id" => $actionUser->id]);
 					$log->type = logs\userEdit::class;
 					$log->user = $user->id;
 					$log->parameters = $inputs;
@@ -741,7 +722,7 @@ class users extends controller{
 		$view = view::byName("\\packages\\userpanel\\views\\users\\delete");
 		if(http::is_post()){
 			$log = new log();
-			$log->title = translator::trans("log.userDelete", ['user_name' => $user->getFullName(), 'user_id' => $user->id]);
+			$log->title = t("log.userDelete", ['user_name' => $user->getFullName(), 'user_id' => $user->id]);
 			$log->type = logs\userDelete::class;
 			$log->user = $actionUser->id;
 			$log->parameters = ['user' => $user];
@@ -830,14 +811,14 @@ class users extends controller{
 		if ($logs) {
 			if ($actionUser->id == $user->id) {
 				$log = new log();
-				$log->title = translator::trans("log.profileEdit");
+				$log->title = t("log.profileEdit");
 				$log->type = logs\userEdit::class;
 				$log->user = $user->id;
 				$log->parameters = $inputs;
 				$log->save();
 			} else {
 				$log = new log();
-				$log->title = translator::trans("log.userEdit", ['user_name' => $user->getFullName(), 'user_id' => $user->id]);
+				$log->title = t("log.userEdit", ['user_name' => $user->getFullName(), 'user_id' => $user->id]);
 				$log->type = logs\userEdit::class;
 				$log->user = $actionUser->id;
 				$log->parameters = array_merge(array(
@@ -846,7 +827,7 @@ class users extends controller{
 				$log->save();
 
 				$log = new log();
-				$log->title = translator::trans("log.editedYou", ['user_name' => $actionUser->getFullName(), "user_id" => $actionUser->id]);
+				$log->title = t("log.editedYou", ['user_name' => $actionUser->getFullName(), "user_id" => $actionUser->id]);
 				$log->type = logs\userEdit::class;
 				$log->user = $user->id;
 				$log->parameters = $inputs;
