@@ -255,6 +255,8 @@
 		"userpanel.user.suspend": "Susoend user",
 		"userpanel.user.activate.confirm": "Want to active this user? <br> You can revert this change any time.",
 		"userpanel.user.suspend.confirm": "Want to suspend this user? <br> You can revert this change any time.",
+		"userpanel.user.login": "login as user",
+		"userpanel.user.login.confirm": "Are you sure you want to log in to {user-name} account?",
 		"userpanel.submit": "Submit",
 		"userpanel.settings": "General Settings",
 		"userpanel.old_data": "Old data",

@@ -60,6 +60,7 @@
 		"usertype.permissions.userpanel_logs_view":"View log details",
 		"usertype.permissions.userpanel_logs_delete":"Edit log",
 		"usertype.permissions.userpanel_users_edit_credit":"Edit user balance",
+		"usertype.permissions.userpanel_users_login": "login as user",
 
 		"userpanel.usersettings.message.timezone": "TimeZone",
 		"userpanel.usersettings.message.calendar": "Calendar",
