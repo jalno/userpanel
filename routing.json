@@ -1,30 +1,30 @@
 [
 	{
 		"path": "userpanel",
-		"controller": "controllers\\dashboard@index",
+		"controller": "controllers/dashboard@index",
 		"method":"get"
 	},
 	{
 		"path": "userpanel/users",
-		"controller": "controllers\\users@index",
+		"controller": "controllers/Users@search",
 		"method":"get"
 	},
 	{
-		"path": ["userpanel","users","view", {"type":"dynamic","name":"user", "regex":"/^(\\d+)$/"}],
-		"controller": "controllers\\users@view",
+		"path": "userpanel/users/view/:user",
+		"controller": "controllers/Users@view",
 		"method":"get"
-	},
-	{
-		"path": ["userpanel","users","edit", {"type":"dynamic","name":"user", "regex":"/^(\\d+)$/"}],
-		"controller": "controllers\\users@edit"
-	},
-	{
-		"path": ["userpanel","users","delete", {"type":"dynamic","name":"user", "regex":"/^(\\d+)$/"}],
-		"controller": "controllers\\users@delete"
 	},
 	{
 		"path": "userpanel/users/add",
-		"controller": "controllers\\users@add"
+		"controller": "controllers/Users@add"
+	},
+	{
+		"path": "userpanel/users/edit/:user",
+		"controller": "controllers/Users@edit"
+	},
+	{
+		"path": "userpanel/users/delete/:user",
+		"controller": "controllers/Users@delete"
 	},
 	{
 		"path": "userpanel/login",
@@ -47,12 +47,12 @@
 	},
 	{
 		"path": "userpanel/register",
-		"controller": "controllers\\login@signup",
+		"controller": "controllers/login@signup",
 		"method": "get"
 	},
 	{
 		"path": "userpanel/register",
-		"controller": "controllers\\login@register",
+		"controller": "controllers/login@register",
 		"method": "post"
 	},
 	{
@@ -67,114 +67,114 @@
 	},
 	{
 		"path": "userpanel/settings/usertypes",
-		"controller": "controllers\\settings\\usertypes@listTypes"
+		"controller": "controllers/settings\\usertypes@listTypes"
 	},
 	{
 		"path": ["userpanel", "settings", "usertypes", "add"],
-		"controller": "controllers\\settings\\usertypes@add"
+		"controller": "controllers/settings\\usertypes@add"
 	},
 	{
 		"path": ["userpanel", "settings", "usertypes", "edit", {"type":"dynamic","name":"type", "regex":"/^(\\d+)$/"}],
-		"controller": "controllers\\settings\\usertypes@edit"
+		"controller": "controllers/settings\\usertypes@edit"
 	},
 	{
 		"path": ["userpanel", "settings", "usertypes", "delete", {"type":"dynamic","name":"type", "regex":"/^(\\d+)$/"}],
-		"controller": "controllers\\settings\\usertypes@delete"
+		"controller": "controllers/settings\\usertypes@delete"
 	},
 	{
 		"path": ["userpanel","profile", "view"],
-		"controller": "controllers\\profile@view",
+		"controller": "controllers/profile@view",
 		"permissions": {
 			"api": true
 		}
 	},
 	{
 		"path": ["userpanel","profile", "edit"],
-		"controller": "controllers\\profile@edit"
+		"controller": "controllers/profile@edit"
 	},
 	{
 		"path": ["userpanel","search"],
-		"controller": "controllers\\dashboard@search",
+		"controller": "controllers/dashboard@search",
 		"method":"get"
 	},
 	{
 		"path": ["userpanel", "resetpwd"],
-		"controller": "controllers\\resetpwd@view",
+		"controller": "controllers/resetpwd@view",
 		"method":"get"
 	},
 	{
 		"path": ["userpanel", "resetpwd"],
-		"controller": "controllers\\resetpwd@reset",
+		"controller": "controllers/resetpwd@reset",
 		"method": "post"
 	},
 	{
 		"path": ["userpanel", "resetpwd", "token", "authentication"],
-		"controller": "controllers\\resetpwd@authenticationToken",
+		"controller": "controllers/resetpwd@authenticationToken",
 		"method": "post"
 	},
 	{
 		"path": ["userpanel", "resetpwd", "newpwd"],
-		"controller": "controllers\\resetpwd\\newpwd@edit",
+		"controller": "controllers/resetpwd\\newpwd@edit",
 		"method": "get"
 	},
 	{
 		"path": ["userpanel", "resetpwd", "newpwd"],
-		"controller": "controllers\\resetpwd\\newpwd@update",
+		"controller": "controllers/resetpwd\\newpwd@update",
 		"method": "post"
 	},
 	{
 		"path": ["userpanel", "resetpwd", "email", "token", "authentication", {"type":"dynamic","name":"token", "regex":"/^\\w+$/"}],
-		"controller": "controllers\\resetpwd@authenticationEmailToken",
+		"controller": "controllers/resetpwd@authenticationEmailToken",
 		"method": "get"
 	},
 	{
 		"path": ["userpanel", "profile", "settings"],
-		"controller": "controllers\\profile@settings",
+		"controller": "controllers/profile@settings",
 		"method": "get"
 	},
 	{
 		"path": ["userpanel", "profile", "settings"],
-		"controller": "controllers\\profile@change",
+		"controller": "controllers/profile@change",
 		"method": "post"
 	},
 	{
 		"path": ["userpanel", "users", "settings", {"type":"dynamic","name":"user", "regex":"/^\\d+$/"}],
-		"controller": "controllers\\users@settings",
+		"controller": "controllers/Users@settings",
 		"method": "get"
 	},
 	{
 		"path": ["userpanel", "users", "settings", {"type":"dynamic","name":"user", "regex":"/^\\d+$/"}],
-		"controller": "controllers\\users@change",
+		"controller": "controllers/Users@change",
 		"method": "post"
 	},
 	{
 		"path": ["userpanel", "online"],
-		"controller": "controllers\\dashboard@online",
+		"controller": "controllers/dashboard@online",
 		"method": "get"
 	},
 	{
 		"path": ["userpanel", "logs"],
-		"controller": "controllers\\logs@search",
+		"controller": "controllers/logs@search",
 		"method": "get"
 	},
 	{
 		"path": ["userpanel", "logs", "search"],
-		"controller": "controllers\\logs@search",
+		"controller": "controllers/logs@search",
 		"method": "get"
 	},
 	{
 		"path": ["userpanel", "logs", "view", {"type":"dynamic","name":"log", "regex":"/^\\d+$/"}],
-		"controller": "controllers\\logs@view",
+		"controller": "controllers/logs@view",
 		"method": "get"
 	},
 	{
 		"path": ["userpanel", "logs", "delete", {"type":"dynamic","name":"log", "regex":"/^\\d+$/"}],
-		"controller": "controllers\\logs@delete",
+		"controller": "controllers/logs@delete",
 		"method": "get"
 	},
 	{
 		"path": ["userpanel", "logs", "delete", {"type":"dynamic","name":"log", "regex":"/^\\d+$/"}],
-		"controller": "controllers\\logs@terminate",
+		"controller": "controllers/logs@terminate",
 		"method": "post"
 	},
 	{
@@ -204,7 +204,7 @@
 		"exceptions":[
 			"\\packages\\userpanel\\AuthorizationException"
 		],
-		"handler": "controllers\\dashboard@forbidden"
+		"handler": "controllers/dashboard@forbidden"
 	},
 	{
 		"paths": [
@@ -213,7 +213,7 @@
 		"exceptions":[
 			"\\packages\\base\\NotFound"
 		],
-		"handler": "controllers\\dashboard@notfound"
+		"handler": "controllers/dashboard@notfound"
 	},
 	{
 		"paths": [
@@ -222,6 +222,6 @@
 		"exceptions":[
 			"\\packages\\userpanel\\authentication\\exception"
 		],
-		"handler": "controllers\\dashboard@goToLogin"
+		"handler": "controllers/dashboard@goToLogin"
 	}
 ]
