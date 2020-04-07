@@ -113,9 +113,10 @@ class users extends controller{
 			$parenthesis->orWhere("CONCAT(`name`, ' ', `lastname`)", $inputs["word"], $inputs["comparison"]);
 			$user->where($parenthesis);
 		}
-		$user = new user;
-		$users = $user->get();
+		
 		if (isset($inputs["download"])) {
+			$user = new user;
+			$users = $user->get();
 			$csv = t("araddoc.logs.posts.post.id") . ";" .
 				t("packages.userpanel.user.csv.name") . ";" .
 				t("packages.userpanel.user.csv.lastname") . ";" .
@@ -176,13 +177,16 @@ class users extends controller{
 			$view->setDataForm($this->inputsvalue($inputs));
 			$user->pageLimit = $this->items_per_page;
 			$users = $user->paginate($this->page);
+			
 			$this->total_pages = $user->totalPages;
 
 			$view->setDataList($users);
 			$view->setPaginate($this->page, $user->totalCount, $this->items_per_page);
+			
 			if ($types) {
 				$view->setUserTypes(usertype::where("id", $types, 'in')->get());
 			}
+			
 		}
 		$this->response->setStatus(true);
 		$this->response->setView($view);
