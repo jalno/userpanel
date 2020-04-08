@@ -528,6 +528,25 @@
 		"log.userEdit": "Edited user <span class=\"tooltips\" title=\"#{user_id}\">{user_name}</span>.",
 		"log.editedYou": "User <span class=\"tooltips\" title=\"#{user_id}\">{user_name}</span> edited you",
 		"log.userDelete": "Deleted user <span class=\"tooltips\" title=\"#{user_id}\">{user_name}</span>.",
-		"log.profileEdit": "Updated the profile"
+		"log.profileEdit": "Updated the profile",
+		"packages.userpanel.user.csv.id": "ID",
+		"packages.userpanel.user.csv.name": "Name",
+		"packages.userpanel.user.csv.lastname": "Lastname",
+		"packages.userpanel.user.csv.email": "Email",
+		"packages.userpanel.user.csv.cellphone": "Cellphone",
+		"packages.userpanel.user.csv.type": "User Type",
+		"packages.userpanel.user.csv.phone": "Phone",
+		"packages.userpanel.user.csv.city": "City",
+		"packages.userpanel.user.csv.country": "Country",
+		"packages.userpanel.user.csv.zip": "Zip",
+		"packages.userpanel.user.csv.address": "Address",
+		"packages.userpanel.user.csv.web": "Web Site",
+		"packages.userpanel.user.csv.lastonline": "Last Online",
+		"packages.userpanel.user.csv.credit": "Credit",
+		"packages.userpanel.user.csv.registered_at": "Register at",
+		"packages.userpanel.user.csv.status": "Status",
+		"packages.userpanel.user.csv.status.active": "Active",
+		"packages.userpanel.user.csv.status.deactive": "Deactive",
+		"packages.userpanel.user.csv.status.suspend": "Suspend"
 	}
 }

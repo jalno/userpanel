@@ -21,10 +21,13 @@ class Search extends listview {
 
 	protected $canDelete;
 
+	protected $canExport;
+
 	public function __construct() {
 		$this->canView = Authorization::is_accessed("users_view");
 		$this->canEdit = Authorization::is_accessed("users_edit");
 		$this->canDelete = Authorization::is_accessed("users_delete");
+		$this->canExport = Authorization::is_accessed("users_export");
 	}
 	
 	public function setUserTypes(?array $types): void {

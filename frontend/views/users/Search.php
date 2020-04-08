@@ -2,6 +2,7 @@
 namespace themes\clipone\views\users;
 
 use packages\userpanel;
+use packages\base\Http;
 use packages\userpanel\{User, Authorization, views\users\Search as ParentView};
 use themes\clipone\{viewTrait, views\ListTrait, views\FormTrait, Navigation};
 
@@ -105,5 +106,9 @@ class Search extends ParentView {
 			);
 		}
 		return $options;
+	}
+
+	protected function getFormData(): array {
+		return Http::$request["get"] ?? array();
 	}
 }

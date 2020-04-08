@@ -261,6 +261,7 @@
 		"userpanel.settings": "General Settings",
 		"userpanel.old_data": "Old data",
 		"userpanel.new_data": "New data",
-		"packages.userpanel.logs.all": "All Activities"
+		"packages.userpanel.logs.all": "All Activities",
+		"userpanel.users.export.csv": "Export as CSV"
 	}
 }
