@@ -157,7 +157,7 @@ export default class Add {
 	private static translatePermission(permission: string, isTooltip: boolean = false): string {
 		const key = "usertype.permissions." + permission + (isTooltip ? ".tooltip" : "");
 		const translate = t(key);
-		return (translate !== key ? translate : (isTooltip ? "" : permission));
+		return (translate !== key ? translate : (isTooltip ? "" : key));
 	}
 	private static buildFancyTreeItems(groupPermissions: object) {
 		// tslint:disable-next-line: ban-types
@@ -174,6 +174,7 @@ export default class Add {
 						selected: false,
 						title: Add.translatePermission(permission.key),
 						tooltip: Add.translatePermission(permission.key, true),
+						icon: "/packages/userpanel/frontend/assets/images/key_1.png",
 						folder: false,
 						checkbox: true,
 					});

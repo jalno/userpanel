@@ -159,10 +159,9 @@ export default class Edit {
 	private static translatePermission(permission: string, isTooltip: boolean = false): string {
 		const key = "usertype.permissions." + permission + (isTooltip ? ".tooltip" : "");
 		const translate = t(key);
-		return (translate !== key ? translate : (isTooltip ? "" : permission));
+		return (translate !== key ? translate : (isTooltip ? "" : key));
 	}
 	private static buildFancyTreeItems(groupPermissions: object) {
-		console.warn("translatePermission", Edit.translatePermission("assssssssssssssss"));
 		// tslint:disable-next-line: ban-types
 		const isUserpanelPermission = (object: Object) => {
 			return object.hasOwnProperty("key") && object.hasOwnProperty("value");
@@ -178,6 +177,7 @@ export default class Edit {
 						selected: permission.value,
 						title: Edit.translatePermission(permission.key),
 						tooltip: Edit.translatePermission(permission.key, true),
+						icon: "/packages/userpanel/frontend/assets/images/key_1.png",
 						folder: false,
 						checkbox: true,
 					});
