@@ -12,7 +12,7 @@ class Settings extends userpanel\Controller implements Controller {
 	protected $authentication = true;
 
 	public function view() {
-		Authorization::haveOrFail("settings");
+		Authorization::haveOrFail("settings_general-settings");
 		$event = new Event();
 		$event->trigger();
 		if (!$event->get()) {
@@ -24,7 +24,7 @@ class Settings extends userpanel\Controller implements Controller {
 		return $this->response;
 	}
 	public function update() {
-		Authorization::haveOrFail("settings");
+		Authorization::haveOrFail("settings_general-settings");
 		$event = new Event();
 		$event->trigger();
 		$settings = $event->get();
@@ -56,7 +56,7 @@ class Settings extends userpanel\Controller implements Controller {
 		}
 		if ($logs) {
 			$log = new userpanel\Log();
-			$log->title = t("log.settings.update");
+			$log->title = t("log.settings.general-settings.update");
 			$log->type = Logs\Settings::class;
 			$log->user = Authentication::getUser();
 			$log->parameters = $inputs;

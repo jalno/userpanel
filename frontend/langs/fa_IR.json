@@ -244,7 +244,8 @@
 		"userpanel.user.activate.confirm": "مایل به فعال سازی این کاربر هستید؟ <br> شما میتوانید در آینده وضعیت کاربر را مجددا تغییر دهید.",
 		"userpanel.user.suspend.confirm": "مایل به مسدود سازی این کاربر هستید؟ <br> شما میتوانید در آینده وضعیت کاربر را مجددا تغییر دهید.",
 		"userpanel.submit": "تایید",
-		"userpanel.settings": "تنظیمات عمومی",
+		"userpanel.settings": "تنظیمات",
+		"userpanel.general-settings": "تنظیمات اصلی",
 		"userpanel.old_data": "مقدار قبلی",
 		"userpanel.new_data": "مقدار جدید",
 		"packages.userpanel.logs.all": "تمامی فعالیت ها"

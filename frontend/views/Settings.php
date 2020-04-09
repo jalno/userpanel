@@ -8,10 +8,10 @@ class Settings extends Form {
 	use ViewTrait, FormTrait;
 
 	public static function onSourceLoad() {
-		if (Authorization::is_accessed("settings")) {
+		if (Authorization::is_accessed("settings_general-settings")) {
 			$settings = dashboard::getSettingsMenu();
-			$item = new Navigation\MenuItem("userpanel_settings");
-			$item->setTitle(t('userpanel.settings'));
+			$item = new Navigation\MenuItem("userpanel_general-settings");
+			$item->setTitle(t('userpanel.general-settings'));
 			$item->setURL(userpanel\url('settings'));
 			$item->setIcon('fa fa-cogs');
 			$settings->addItem($item);
@@ -20,9 +20,10 @@ class Settings extends Form {
 
 	private $settings = array();
 	public function __beforeLoad(){
-		$this->setTitle(t('userpanel.settings'));
+		$this->setTitle(t('userpanel.general-settings'));
 		$this->addBodyClass('userpanel-settings');
-		navigation::active("settings/userpanel_settings");
+		$this->addBodyClass('userpanel-general-settings');
+		navigation::active("settings/userpanel_general-settings");
 		$this->initFormData();
 	}
 	public function setSettings(array $settings) {

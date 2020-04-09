@@ -70,7 +70,8 @@
 		"usertype.permissions.userpanel_logs_view":"مشاهده فعالیت کاربران",
 		"usertype.permissions.userpanel_logs_delete":"حذف فعالیت کاربران",
 		
-		"usertype.permissions.userpanel_settings": "تنظیمات عمومی",
+		"usertype.permissions.userpanel_settings": "تنظیمات",
+		"usertype.permissions.userpanel_settings_general-settings": "تنظیمات اصلی",
 		"usertype.permissions.userpanel_settings_usertypes": "سطوح کاربری",
 		"usertype.permissions.userpanel_settings_usertypes_list" : "لیست سطوح کاربری",
 		"usertype.permissions.userpanel_settings_usertypes_add" : "افزودن سطح کاربری",
@@ -538,7 +539,7 @@
 		"active": "فعال",
 		"suspend": "معلق",
 		"deactive": "غیرفعال",
-		"log.settings.update": "تنظیمات عمومی را بروز کرد",
+		"log.settings.general-settings.update": "تنظیمات اصلی را بروز کرد",
 		"log.resetPWD": "کلمه عبور بازنشانی شد",
 		"log.userAdd": "کاربر <span class=\"tooltips\" title=\"#{user_id}\">{user_name}</span> را اضافه کرد",
 		"log.userEdit": "کاربر <span class=\"tooltips\" title=\"#{user_id}\">{user_name}</span> را ویرایش کرد",

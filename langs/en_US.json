@@ -68,6 +68,7 @@
 		"usertype.permissions.userpanel_logs_delete":"Delete log",
 		
 		"usertype.permissions.userpanel_settings": "Settings",
+		"usertype.permissions.userpanel_settings_general-settings": "General Settings",
 		"usertype.permissions.userpanel_settings_usertypes": "Usertypes",
 		"usertype.permissions.userpanel_settings_usertypes_list" : "User types list",
 		"usertype.permissions.userpanel_settings_usertypes_add" : "Add User type",
@@ -536,7 +537,7 @@
 		"active": "Active",
 		"suspend": "Suspend",
 		"deactive": "Deactive",
-		"log.settings.update": "Update general settings",
+		"log.settings.main-settings.update": "Update general settings",
 		"log.resetPWD": "Your password has been successfully reset.",
 		"log.userAdd": "Added new user <span class=\"tooltips\" title=\"#{user_id}\">{user_name}</span>.",
 		"log.userEdit": "Edited user <span class=\"tooltips\" title=\"#{user_id}\">{user_name}</span>.",
