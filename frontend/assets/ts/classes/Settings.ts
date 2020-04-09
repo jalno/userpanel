@@ -1,6 +1,7 @@
+import "@jalno/translator";
+import "bootstrap-inputmsg";
 import * as $ from "jquery";
 import "webuilder";
-import "bootstrap-inputmsg";
 
 export default class Settings {
 	public static initIfNeeded() {
@@ -9,7 +10,9 @@ export default class Settings {
 			Settings.init();
 		}
 	}
+
 	private static $form: JQuery;
+
 	private static init() {
 		Settings.runSubmitFormListener();
 	}
@@ -26,20 +29,20 @@ export default class Settings {
 				error: (response) => {
 					if (response.error === "data_duplicate" || response.error === "data_validation") {
 						const $input = $(`[name="${response.input}"]`, this);
-						const $params = {
+						const params = {
 							title: t("error.fatal.title"),
 							message: "",
 						};
 						if (response.error === "data_validation") {
-							$params.message = t("data_validation");
+							params.message = t("data_validation");
 						}
 						if (response.error === "data_duplicate") {
-							$params.message = t("data_duplicate");
+							params.message = t("data_duplicate");
 						}
 						if ($input.length) {
-							$input.inputMsg($params);
+							$input.inputMsg(params);
 						} else {
-							$.growl.error($params);
+							$.growl.error(params);
 						}
 					} else {
 						$.growl.error({
@@ -47,7 +50,7 @@ export default class Settings {
 							message: t("packages.nopo.error.server_error"),
 						});
 					}
-				}
+				},
 			});
 		});
 	}

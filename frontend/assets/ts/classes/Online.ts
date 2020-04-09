@@ -1,4 +1,3 @@
-
 import { AjaxRequest, Options } from "webuilder";
 
 export default class Online {
@@ -8,12 +7,12 @@ export default class Online {
 			period = Online.options.period;
 		}
 		Online.interval = setInterval(() => {
-            AjaxRequest({
-                url: "userpanel/online",
-                cache: false,
+			AjaxRequest({
+				url: "userpanel/online",
+				cache: false,
 				data: Online.options.data,
 				success: (response) => {
-					$(window).trigger("packages.userpanel.online.response", [response]);	
+					$(window).trigger("packages.userpanel.online.response", [response]);
 				},
 			});
 			if (period !== Options.get("packages.userpanel.online.period")) {
@@ -29,5 +28,5 @@ export default class Online {
 		data: {
 			ajax: 1,
 		},
-	}
+	};
 }
