@@ -154,9 +154,10 @@ export default class Add {
 		};
 		return getGroupPermissions(allPermissions as IUserpanelPermission[]);
 	}
-	private static translatePermission(key: string) {
-		const translate = t("usertype.permissions." + key);
-		return (translate.length ? translate : key);
+	private static translatePermission(permission: string, isTooltip: boolean = false): string {
+		const key = "usertype.permissions." + permission + (isTooltip ? ".tooltip" : "");
+		const translate = t(key);
+		return (translate !== key ? translate : (isTooltip ? "" : permission));
 	}
 	private static buildFancyTreeItems(groupPermissions: object) {
 		// tslint:disable-next-line: ban-types
@@ -172,7 +173,7 @@ export default class Add {
 						key: permission.key,
 						selected: false,
 						title: Add.translatePermission(permission.key),
-						icon: true,
+						tooltip: Add.translatePermission(permission.key, true),
 						folder: false,
 						checkbox: true,
 					});
@@ -181,6 +182,7 @@ export default class Add {
 						key: index,
 						selected: false,
 						title: Add.translatePermission(index),
+						tooltip: Add.translatePermission(index, true),
 						icon: true,
 						folder: true,
 						checkbox: true,

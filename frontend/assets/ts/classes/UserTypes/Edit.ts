@@ -1,4 +1,5 @@
 import "@jalno/translator";
+import { dirname, resolve } from "path";
 import * as $ from "jquery";
 import "jquery.fancytree";
 declare const permissions: any; // permissions that put on page by dynamic data
@@ -155,11 +156,13 @@ export default class Edit {
 		};
 		return getGroupPermissions(allPermissions as IUserpanelPermission[]);
 	}
-	private static translatePermission(key: string) {
-		const translate = t("usertype.permissions." + key);
-		return (translate.length ? translate : key);
+	private static translatePermission(permission: string, isTooltip: boolean = false): string {
+		const key = "usertype.permissions." + permission + (isTooltip ? ".tooltip" : "");
+		const translate = t(key);
+		return (translate !== key ? translate : (isTooltip ? "" : permission));
 	}
 	private static buildFancyTreeItems(groupPermissions: object) {
+		console.warn("translatePermission", Edit.translatePermission("assssssssssssssss"));
 		// tslint:disable-next-line: ban-types
 		const isUserpanelPermission = (object: Object) => {
 			return object.hasOwnProperty("key") && object.hasOwnProperty("value");
@@ -174,7 +177,7 @@ export default class Edit {
 						key: permission.key,
 						selected: permission.value,
 						title: Edit.translatePermission(permission.key),
-						icon: true,
+						tooltip: Edit.translatePermission(permission.key, true),
 						folder: false,
 						checkbox: true,
 					});
@@ -187,6 +190,7 @@ export default class Edit {
 						key: index,
 						selected: childs.selected,
 						title: Edit.translatePermission(index),
+						tooltip: Edit.translatePermission(index, true),
 						icon: true,
 						folder: true,
 						checkbox: true,

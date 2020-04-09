@@ -9,4 +9,27 @@ body.usertypes {
 			padding: 0 15px;
 		}
 	}
+	&.add-usertype, &.edit-usertype {
+		.panel-permissions {
+			.ui-fancytree.fancytree-container, .ui-fancytree.fancytree-container:focus {
+				outline: none;
+				border: none;
+				.fancytree-node {
+					.fancytree-icon, .fancytree-title {
+						user-select: none;
+					}
+				}
+				/*
+				.fancytree-plain span.fancytree-selected span.fancytree-title { // change background color of selected fancy tree node
+					background-color: ;
+					color: ;
+				}
+				.fancytree-plain span.fancytree-active span.fancytree-title { // change background color of active fancy tree node
+					background-color: ;
+					color: ;
+				}
+				*/
+			}
+		}
+	}
 }
