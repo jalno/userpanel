@@ -1,7 +1,7 @@
 <?php
 namespace packages\userpanel\controllers;
 
-use packages\base\{Options, Response, http, InputValidationException, db, View\Error};
+use packages\base\{Options, Response, http, InputValidationException, db, View\Error, Session, json};
 use packages\userpanel;
 use packages\userpanel\{Controller, View, Log, User, date, Authentication, Country, logs, views, Exceptions\UserIsNotActiveException};
 
@@ -21,11 +21,28 @@ class Login extends Controller {
 	 * @return void
 	 */
 	public static function doLogin(User $user): void {
+		$prevUser = null;
+		if (Authentication::check()) {
+			$prevUser = Authentication::getUser();
+		}
 		Authentication::setUser($user);
 		$handler = new Authentication\SessionHandler();
 		$handler->setSession();
 		$handler->unlock();
 		Authentication::setHandler($handler);
+		if ($prevUser) {
+			Session::start();
+			$prevUsers = Session::get("previous_users");
+			if ($prevUsers) {
+				$prevUsers = json\decode($prevUsers);
+			} else {
+				$prevUsers = [];
+			}
+			if (!in_array($prevUser->id, $prevUsers)) {
+				$prevUsers[] = $prevUser->id;
+				Session::set("previous_users", json\encode($prevUsers));
+			}
+		}
 
 		$log = new Log();
 		$log->user = $user->id;
@@ -187,8 +204,25 @@ class Login extends Controller {
 	public function logout(): Response {
 		Authentication::check();
 		Authentication::forget();
-		http::removeCookie('remember');
 		$this->response->setStatus(true);
+		Session::start();
+		$prevUsers = Session::get("previous_users");
+		if ($prevUsers) {
+			$prevUsers = json\decode($prevUsers);
+			$lastUserId = array_pop($prevUsers);
+			if (empty($prevUsers)) {
+				Session::unsetval("previous_users");
+			} else {
+				Session::set("previous_users", json\encode($prevUsers));
+			}
+			$user = User::byId($lastUserId);
+			if ($user) {
+				Login::doLogin($user);
+				$this->response->Go(userpanel\url());
+				return $this->response;
+			}
+		}
+		http::removeCookie('remember');
 		$this->response->Go(userpanel\url('login'));
 		return $this->response;
 	}
