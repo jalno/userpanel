@@ -545,6 +545,25 @@
 		"log.userEdit": "کاربر <span class=\"tooltips\" title=\"#{user_id}\">{user_name}</span> را ویرایش کرد",
 		"log.editedYou": "کاربر <span class=\"tooltips\" title=\"#{user_id}\">{user_name}</span> شما را ویرایش کرد",
 		"log.userDelete": "کاربر <span class=\"tooltips\" title=\"#{user_id}\">{user_name}</span> را حذف کرد",
-		"log.profileEdit": "پروفایل خود را به روز کرد"
+		"log.profileEdit": "پروفایل خود را به روز کرد",
+		"packages.userpanel.user.csv.id": "شناسه",
+		"packages.userpanel.user.csv.name": "نام",
+		"packages.userpanel.user.csv.lastname": "نام خانوادگی",
+		"packages.userpanel.user.csv.email": "ایمیل",
+		"packages.userpanel.user.csv.cellphone": "شماره همراه",
+		"packages.userpanel.user.csv.type": "سطح کاربری",
+		"packages.userpanel.user.csv.phone": "تلفن",
+		"packages.userpanel.user.csv.city": "شهر",
+		"packages.userpanel.user.csv.country": "کشور",
+		"packages.userpanel.user.csv.zip": "کد پستی",
+		"packages.userpanel.user.csv.address": "آدرس",
+		"packages.userpanel.user.csv.web": "وب سایت",
+		"packages.userpanel.user.csv.lastonline": "اخرین بازدید",
+		"packages.userpanel.user.csv.credit": "موجودی کاربری",
+		"packages.userpanel.user.csv.registered_at": "تاریخ ثبت نام",
+		"packages.userpanel.user.csv.status": "وضعیت",
+		"packages.userpanel.user.csv.status.active": "فعال",
+		"packages.userpanel.user.csv.status.deactive": "غیر فعال",
+		"packages.userpanel.user.csv.status.suspend": "معلق"
 	}
 }

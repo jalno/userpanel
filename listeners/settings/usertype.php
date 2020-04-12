@@ -13,6 +13,8 @@ class usertype{
 			'users_delete',
 			'users_settings',
 			"users_edit_credit",
+			"users_login",
+			"users_export",
 
 			'logs_search',
 			'logs_view',

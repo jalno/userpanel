@@ -1,13 +1,15 @@
+// tslint:disable-next-line: no-reference
 /// <reference path="../definitions/jquery.growl.d.ts" />
+
 import "@jalno/translator";
-import * as $ from "jquery";
-import * as moment from "jalali-moment";
-import "jquery.growl";
+import {AvatarPreview} from "bootstrap-avatar-preview/AvatarPreview";
 import "bootstrap-inputmsg";
-import { webuilder, AjaxRequest, Router} from "webuilder";
+import * as moment from "jalali-moment";
+import * as $ from "jquery";
+import "jquery.growl";
+import { AjaxRequest, Router, webuilder} from "webuilder";
+import "./jquery.formAjax";
 import {Main} from "./Main";
-import  "./jquery.formAjax";
-import {AvatarPreview} from 'bootstrap-avatar-preview/AvatarPreview';
 import Activate from "./Users/Activate";
 import Suspend from "./Users/Suspend";
 
@@ -17,190 +19,194 @@ export enum Status {
 	SUSPEND,
 }
 
-class UserForm{
-	protected form:JQuery;
-	constructor(form:JQuery){
+class UserForm {
+	protected form: JQuery;
+	constructor(form: JQuery) {
 		this.form = form;
 	}
-	public FromAjax(form){
+	public FromAjax(form) {
 		$(form).formAjax({
 			data: new FormData(form),
 			contentType: false,
 			processData: false,
 			success: this.successForm,
-			error: function(error:webuilder.AjaxError) {
-				let $params = {
+			error: (error: webuilder.AjaxError) => {
+				const params = {
 					title: t("error.fatal.title"),
-					message:''
-				}
-				if(error.input){
-					let $input = $(`[name="${error.input}"]`, $(form));
-					if (error.error == 'data_duplicate') {
-						$params.message = t(`user.${error.input}.data_duplicate`);
-					} else if (error.error == 'data_validation') {
-						$params.message = t("data_validation");
+					message: "",
+				};
+				if (error.input) {
+					const $input = $(`[name="${error.input}"]`, $(form));
+					if (error.error === "data_duplicate") {
+						params.message = t(`user.${error.input}.data_duplicate`);
+					} else if (error.error === "data_validation") {
+						params.message = t("data_validation");
 					}
-					if($input.length){
-						$input.inputMsg($params);
-					}else{
-						$.growl.error($params);
+					if ($input.length) {
+						$input.inputMsg(params);
+					} else {
+						$.growl.error(params);
 					}
-				}else{
-					$.growl.error($params);
+				} else {
+					$.growl.error(params);
 				}
-			}
+			},
 		});
 	}
-	protected runPrivacyVisibilty():void{
-		$('.changevisibity', this.form).on('click', function(e){
-			e.preventDefault();
-			let $button = $(this).parents('.input-group-btn').find('button');
-			let field:string = $(this).data('field');
-			let visibility:string = $(this).data('visibility');
-			$button.html($(this).html()+' <span class="caret"></span>');
-			$(`input[name=visibility_${field}]`).val(visibility == 'public' ? '1' : '');
-		});
-	}
-	public successForm(){
+	public successForm() {
 		$.growl.notice({title: t("userpanel.success"), message: t("userpanel.users.save")});
 	}
-	protected init():void{
+	protected runPrivacyVisibilty(): void {
+		$(".changevisibity", this.form).on("click", function(e) {
+			e.preventDefault();
+			const $button = $(this).parents(".input-group-btn").find("button");
+			const field: string = $(this).data("field");
+			const visibility: string = $(this).data("visibility") as string;
+			$button.html($(this).html() + ' <span class="caret"></span>');
+			$(`input[name=visibility_${field}]`).val(visibility === "public" ? "1" : "");
+		});
+	}
+	protected init(): void {
 		Main.SetDefaultValidation();
 		this.runPrivacyVisibilty();
 	}
 }
-class UserAdd extends UserForm{
-	private runValidator():void{
+// tslint:disable-next-line: max-classes-per-file
+class UserAdd extends UserForm {
+	public init() {
+		super.init();
+		this.runValidator();
+	}
+	private runValidator(): void {
 		this.form.validate({
-            rules: {
-                name: {
-                    required: true
-                },
+			rules: {
+				name: {
+					required: true,
+				},
 				email: {
-                    required: true,
-					email:true
-                },
+					required: true,
+					email: true,
+				},
 				password: {
-					required: true
-                },
+					required: true,
+				},
 				password2: {
 					required: true,
-					equalTo: 'input[name=password]'
-                },
-				phone:{
-      				digits: true
+					equalTo: "input[name=password]",
 				},
-				cellphone:{
-					required: true,
-      				digits: true,
-					rangelength:[10,12]
-				},
-				credit:{
-					required: true,
-      				digits: true
-				}
-            },
-            submitHandler: (form) => {
-				this.FromAjax(form);
-			}
-        });
-	}
-	public init(){
-		super.init();
-		this.runValidator();
-	}
-}
-class UserEdit extends UserForm{
-	private runValidator():void{
-		this.form.validate({
-            rules: {
-                name: {
-                    required: true
-                },
-				email: {
-                    required: true,
-					email:true
-                },
-                password2: {
-					equalTo: 'input[name=password]'
-                },
-				phone:{
-      				digits: true
-				},
-				cellphone:{
-      				digits: true,
-					rangelength:[10,12]
-				},
-				credit:{
-      				integer: true
-				}
-            },
-            submitHandler: (form) => {
-				this.FromAjax(form);
-			}
-        });
-	}
-	public init(){
-		super.init();
-		this.runValidator();
-	}
-}
-class ProfileEdit extends UserForm{
-	private runValidator():void{
-		this.form.validate({
-            rules: {
-                name: {
-                    required: true
-                },
-                lastname: {
-                    required: true
-                },
-                password2: {
-					equalTo: 'input[name=password]'
-                },
-				phone:{
-      				digits: true,
-					required: true
-				},
-				city:{
-      				required: true
-				},
-				zip:{
+				phone: {
 					digits: true,
-      				required: true
 				},
-				address:{
-      				required: true
-				}
-            },
-            submitHandler: (form) => {
+				cellphone: {
+					required: true,
+					digits: true,
+					rangelength: [10, 12],
+				},
+				credit: {
+					required: true,
+						digits: true,
+				},
+			},
+			submitHandler: (form) => {
 				this.FromAjax(form);
-			}
-        });
+			},
+		});
 	}
-
-	public successForm(){
+}
+// tslint:disable-next-line: max-classes-per-file
+class UserEdit extends UserForm {
+	public init() {
+		super.init();
+		this.runValidator();
+	}
+	private runValidator(): void {
+		this.form.validate({
+			rules: {
+				name: {
+					required: true,
+				},
+				email: {
+					required: true,
+					email: true,
+				},
+				password2: {
+					equalTo: "input[name=password]",
+				},
+				phone: {
+					digits: true,
+				},
+				cellphone: {
+					digits: true,
+					rangelength: [10, 12],
+				},
+				credit: {
+					integer: true,
+				},
+			},
+			submitHandler: (form) => {
+				this.FromAjax(form);
+			},
+		});
+	}
+}
+// tslint:disable-next-line: max-classes-per-file
+class ProfileEdit extends UserForm {
+	public init() {
+		super.init();
+		this.runValidator();
+	}
+	public successForm() {
 		$.growl.notice({title: t("userpanel.success"), message: t("userpanel.users.update") });
 	}
-	public init(){
-		super.init();
-		this.runValidator();
+	private runValidator(): void {
+		this.form.validate({
+			rules: {
+				name: {
+					required: true,
+				},
+				lastname: {
+					required: true,
+				},
+				password2: {
+					equalTo: "input[name=password]",
+				},
+				phone: {
+					digits: true,
+					required: true,
+				},
+				city: {
+					required: true,
+				},
+				zip: {
+					digits: true,
+					required: true,
+				},
+				address: {
+					required: true,
+				},
+			},
+			submitHandler: (form) => {
+				this.FromAjax(form);
+			},
+		});
 	}
 }
-class runAvatarPreview {
-	protected form:JQuery;
-	constructor(form:JQuery){
+// tslint:disable-next-line: max-classes-per-file
+class RunAvatarPreview {
+	protected form: JQuery;
+	constructor(form: JQuery) {
 		this.form = form;
 	}
-	private runAvatarPreview():void{
-		new AvatarPreview($('.user-image', this.form));
-	}
-	public init(){
+	public init() {
 		this.runAvatarPreview();
 	}
+	private runAvatarPreview(): void {
+		const avatarPreview = new AvatarPreview($(".user-image", this.form));
+	}
 }
+// tslint:disable-next-line: max-classes-per-file
 class UserView {
-	protected runAvatarPreview: runAvatarPreview;
+	protected runAvatarPreview: RunAvatarPreview;
 	private userActivityData = {
 		ajax: 1,
 		user: undefined,
@@ -212,10 +218,17 @@ class UserView {
 	};
 	private preventLoadUserActivity = false;
 	public constructor(protected form: JQuery) {
-		this.runAvatarPreview = new runAvatarPreview(this.form);
+		this.runAvatarPreview = new RunAvatarPreview(this.form);
 	}
-	private formSubmitListener(){
-		this.form.on('submit', function(e){
+	public init() {
+		this.avatarListener();
+		this.formSubmitListener();
+		this.runAvatarPreview.init();
+		this.initActivityCalendar();
+		this.setUserActivityEvents();
+	}
+	private formSubmitListener() {
+		this.form.on("submit", function(e) {
 			e.preventDefault();
 			$(this).formAjax({
 				data: new FormData(this),
@@ -227,34 +240,34 @@ class UserView {
 						message: t("userpanel.formajax.success"),
 					});
 				},
-				error: function(error:webuilder.AjaxError){
-					if(error.error == 'data_duplicate' || error.error == 'data_validation'){
-						let $input = $('[name='+error.input+']');
-						let $params = {
+				error: (error: webuilder.AjaxError) => {
+					if (error.error === "data_duplicate" || error.error === "data_validation") {
+						const $input = $(`[name="${error.input}"]`);
+						const params = {
 							title: t("error.fatal.title"),
 							message: t(error.error),
 						};
-						if($input.length){
-							$input.inputMsg($params);
-						}else{
-							$.growl.error($params);
+						if ($input.length) {
+							$input.inputMsg(params);
+						} else {
+							$.growl.error(params);
 						}
-					}else{
+					} else {
 						$.growl.error({
 							title: t("error.fatal.title"),
 							message: t("userpanel.formajax.error"),
 						});
 					}
-				}
+				},
 			});
 		});
 	}
-	private avatarListener():void{
-		$('.user-image', this.form).on('bootstrap.avatar.preview.change', () => {
+	private avatarListener(): void {
+		$(".user-image", this.form).on("bootstrap.avatar.preview.change", () => {
 			this.form.submit();
 		});
-		$('.user-image', this.form).on('bootstrap.avatar.preview.remove', () =>{
-			if($('input[name=avatar_remove]', this.form).length){
+		$(".user-image", this.form).on("bootstrap.avatar.preview.remove", () => {
+			if ($("input[name=avatar_remove]", this.form).length) {
 				this.form.submit();
 			}
 		});
@@ -273,13 +286,6 @@ class UserView {
 			that.getUserActivities();
 		});
 	}
-	public init(){
-		this.avatarListener();
-		this.formSubmitListener();
-		this.runAvatarPreview.init();
-		this.initActivityCalendar();
-		this.setUserActivityEvents();
-	}
 	private getUserActivities() {
 		const spinner = `<li class="text-center mt-30"><i class="fa fa-3x fa-spinner fa-spin"></i></li>`;
 		const $panel = $(".panel-activity .panel-scroll .mCSB_container");
@@ -295,7 +301,7 @@ class UserView {
 		this.userActivityData.user = $(".panel-activity").data("user");
 		this.userActivityData.activity = (this.userActivityData.timeFrom && this.userActivityData.timeUntil) ? "true" : "false";
 		AjaxRequest({
-			url: 'userpanel/logs',
+			url: "userpanel/logs",
 			data: this.userActivityData,
 			success: (response) =>  {
 				this.preventLoadUserActivity = this.userActivityData.page >= Math.ceil(response.total_items / response.items_per_page);
@@ -332,13 +338,13 @@ class UserView {
 		const panelHeight = $panel.height();
 		const that = this;
 		$panel.mCustomScrollbar({
-			axis:"y",
-			theme:"minimal-dark",
-			mouseWheel:{
-				enable:true
+			axis: "y",
+			theme: "minimal-dark",
+			mouseWheel: {
+				enable: true,
 			},
 			callbacks: {
-				whileScrolling: function() {
+				whileScrolling: () => {
 					if (that.preventLoadUserActivity) {
 						return;
 					}
@@ -350,56 +356,57 @@ class UserView {
 						that.preventLoadUserActivity = true;
 						that.getUserActivities();
 					}
-				}
-			}
+				},
+			},
 		});
-		$panel.scroll(function() {
-			
+		$panel.scroll(() => {
+
 		});
 	}
 }
+// tslint:disable-next-line: max-classes-per-file
 export class Users {
+	public static initIfNeeded(): void {
+		Activate.initIfNeeded();
+		Suspend.initIfNeeded();
+		const $body = $("body");
+		if ($body.hasClass("users_add")) {
+			const handler = new UserAdd($("#add_form"));
+			handler.init();
+		} else if ($body.hasClass("users_edit")) {
+			const handler = new UserEdit($("#edit_form"));
+			handler.init();
+		} else if ($body.hasClass("profile_edit")) {
+			const handler = new ProfileEdit($("#edit_form"));
+			handler.init();
+			const avatarHandler = new RunAvatarPreview($("#edit_form"));
+			avatarHandler.init();
+		} else if ($body.hasClass("users_view")) {
+			const handler = new UserView($(".user_image"));
+			handler.init();
+		} else if ($body.hasClass("profile_view")) {
+			const handler = new UserView($(".profile_image"));
+			handler.init();
+		}
+	}
 	public static getStatusClass(status: Status) {
 		switch (status) {
 			case Status.DEACTIVE:
-				return 'label user-status-container label-inverse';
+				return "label user-status-container label-inverse";
 			case Status.ACTIVE:
-				return 'label user-status-container label-success';
+				return "label user-status-container label-success";
 			case Status.SUSPEND:
-				return 'label user-status-container label-warning';
+				return "label user-status-container label-warning";
 		}
 	}
 	public static getStatusText(status: Status) {
 		switch (status) {
 			case Status.DEACTIVE:
-				return t('user.status.deactive');
+				return t("user.status.deactive");
 			case Status.ACTIVE:
-				return t('user.status.active');
+				return t("user.status.active");
 			case Status.SUSPEND:
-				return t('user.status.suspend');
-		}
-	}
-	public static initIfNeeded():void{
-		Activate.initIfNeeded();
-		Suspend.initIfNeeded();
-		let $body = $('body');
-		if($body.hasClass('users_add')){
-			let handler = new UserAdd($('#add_form'));
-			handler.init();
-		}else if($body.hasClass('users_edit')){
-			let handler = new UserEdit($('#edit_form'));
-			handler.init();
-		}else if($body.hasClass('profile_edit')){
-			let handler = new ProfileEdit($('#edit_form'));
-			handler.init();
-			let avatarHandler = new runAvatarPreview($('#edit_form'));
-			avatarHandler.init();
-		}else if($body.hasClass('users_view')){
-			let handler = new UserView($('.user_image'));
-			handler.init();
-		}else if($body.hasClass('profile_view')){
-			let handler = new UserView($('.profile_image'));
-			handler.init();
+				return t("user.status.suspend");
 		}
 	}
 }

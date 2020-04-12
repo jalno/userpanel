@@ -5,9 +5,11 @@ use \packages\userpanel\authorization;
 class view extends \packages\userpanel\view{
 	use settingsTrait;
 	protected $canEdit;
+	protected $canLogin;
 	function __construct(){
 		$this->canEdit = authorization::is_accessed('users_edit');
 		$this->canViewInvisibles = authorization::is_accessed('users_view_invisibles');
+		$this->canLogin = authorization::is_accessed('users_login');
 	}
 	public function setUserData($data){
 		$this->setData($data, 'user');

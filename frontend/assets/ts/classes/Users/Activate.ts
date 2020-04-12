@@ -1,8 +1,8 @@
 import "bootstrap";
 import * as $ from "jquery";
 import "webuilder/formAjax";
+import { Status, Users } from "../Users";
 import Suspend from "./Suspend";
-import { Users, Status } from "../Users";
 
 export default class Activate {
 	public static initIfNeeded() {
@@ -35,7 +35,7 @@ export default class Activate {
 			<h4 class="modal-title">${t("userpanel.user.activate")}</h4>
 		</div>
 		<div class="modal-body">
-			<form id="user-activate-form" method="POST">${t('userpanel.user.activate.confirm')}</form>
+			<form id="user-activate-form" method="POST">${t("userpanel.user.activate.confirm")}</form>
 		</div>
 		<div class="modal-footer">
 			<button type="submit" form="user-activate-form" class="btn btn-success">${t("userpanel.submit")}</button>

@@ -1,8 +1,8 @@
 import "bootstrap";
 import * as $ from "jquery";
 import "webuilder/formAjax";
+import { Status, Users } from "../Users";
 import Activate from "./Activate";
-import { Users, Status } from "../Users";
 
 export default class Suspend {
 	public static initIfNeeded() {
@@ -16,7 +16,7 @@ export default class Suspend {
 			<div class="btn-icons">
 				<i class="fa fa-user-times"></i>
 			</div>
-		${t('userpanel.user.suspend')}
+		${t("userpanel.user.suspend")}
 		</button>`).appendTo($container);
 		Suspend.$btn.data("user", user);
 		Suspend.init();
@@ -36,7 +36,7 @@ export default class Suspend {
 			<h4 class="modal-title">${t("userpanel.user.suspend")}</h4>
 		</div>
 		<div class="modal-body">
-			<form id="user-suspend-form" method="POST">${t('userpanel.user.suspend.confirm')}</form>
+			<form id="user-suspend-form" method="POST">${t("userpanel.user.suspend.confirm")}</form>
 		</div>
 		<div class="modal-footer">
 			<button type="submit" form="user-suspend-form" class="btn btn-warning">${t("userpanel.submit")}</button>
