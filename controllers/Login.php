@@ -31,17 +31,7 @@ class Login extends Controller {
 		$handler->unlock();
 		Authentication::setHandler($handler);
 		if ($prevUser) {
-			Session::start();
-			$prevUsers = Session::get("previous_users");
-			if ($prevUsers) {
-				$prevUsers = json\decode($prevUsers);
-			} else {
-				$prevUsers = [];
-			}
-			if (!in_array($prevUser->id, $prevUsers)) {
-				$prevUsers[] = $prevUser->id;
-				Session::set("previous_users", json\encode($prevUsers));
-			}
+			$handler->addPreviousUser($prevUser);
 		}
 
 		$log = new Log();
@@ -205,22 +195,13 @@ class Login extends Controller {
 		Authentication::check();
 		Authentication::forget();
 		$this->response->setStatus(true);
-		Session::start();
-		$prevUsers = Session::get("previous_users");
-		if ($prevUsers) {
-			$prevUsers = json\decode($prevUsers);
-			$lastUserId = array_pop($prevUsers);
-			if (empty($prevUsers)) {
-				Session::unsetval("previous_users");
-			} else {
-				Session::set("previous_users", json\encode($prevUsers));
-			}
-			$user = User::byId($lastUserId);
-			if ($user) {
-				Login::doLogin($user);
-				$this->response->Go(userpanel\url());
-				return $this->response;
-			}
+		$handler = new Authentication\SessionHandler();
+		Authentication::setHandler($handler);
+		$user = $handler->popPreviousUser();
+		if ($user) {
+			Login::doLogin($user);
+			$this->response->Go(userpanel\url());
+			return $this->response;
 		}
 		http::removeCookie('remember');
 		$this->response->Go(userpanel\url('login'));
