@@ -1,7 +1,7 @@
 <?php
 namespace packages\userpanel\controllers;
 
-use packages\base\{Options, Response, http, InputValidationException, db, View\Error};
+use packages\base\{Options, Response, http, InputValidationException, db, View\Error, Session, json};
 use packages\userpanel;
 use packages\userpanel\{Controller, View, Log, User, date, Authentication, Country, logs, views, Exceptions\UserIsNotActiveException};
 
@@ -21,11 +21,27 @@ class Login extends Controller {
 	 * @return void
 	 */
 	public static function doLogin(User $user): void {
+		$prevUser = null;
+		if (Authentication::check()) {
+			$prevUser = Authentication::getUser();
+		}
 		Authentication::setUser($user);
 		$handler = new Authentication\SessionHandler();
 		$handler->setSession();
 		$handler->unlock();
 		Authentication::setHandler($handler);
+		if ($prevUser) {
+			$prevUsers = $handler->getPreviousUsers();
+			$key = array_search($user->id, $prevUsers);
+			if ($key === false) {
+				$handler->addPreviousUser($prevUser);
+			} else {
+				$len = count($prevUsers);
+				for ($i = $key; $i < $len; $i++) {
+					$handler->popPreviousUser();
+				}
+			}
+		}
 
 		$log = new Log();
 		$log->user = $user->id;
@@ -185,10 +201,20 @@ class Login extends Controller {
 	 * @return Response
 	 */
 	public function logout(): Response {
+		$handler = Authentication::getHandler();
 		Authentication::check();
 		Authentication::forget();
-		http::removeCookie('remember');
 		$this->response->setStatus(true);
+		if (!$handler) {
+			$handler = new Authentication\SessionHandler();
+		}
+		$user = $handler->popPreviousUser();
+		if ($user) {
+			Login::doLogin($user);
+			$this->response->Go(userpanel\url());
+			return $this->response;
+		}
+		http::removeCookie('remember');
 		$this->response->Go(userpanel\url('login'));
 		return $this->response;
 	}

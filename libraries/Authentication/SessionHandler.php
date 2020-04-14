@@ -1,13 +1,14 @@
 <?php
 namespace packages\userpanel\Authentication;
 
-use packages\base\{Session, Exception};
+use packages\base\{Session, Exception, json};
 use packages\userpanel\{Authentication, User};
 
 class SessionHandler implements IHandler {
 
 	const PARAM_USER_ID = "userid";
 	const PARAM_LOCK = "lock";
+	const PARAM_PREVIOUS_USERS = "previoususers";
 	
 	/**
 	 * Check authentication of user.
@@ -90,6 +91,35 @@ class SessionHandler implements IHandler {
 		}
 		return Session::get(self::PARAM_USER_ID);
 	}
+	
+	public function addPreviousUser(user $prevUser) {
+		Session::start();
+		$prevUsers = $this->getPreviousUsers();
+		if (!in_array($prevUser->id, $prevUsers)) {
+			$prevUsers[] = $prevUser->id;
+			Session::set(self::PARAM_PREVIOUS_USERS, json\encode($prevUsers));
+		}
+	}
+	public function getPreviousUsers(): array {
+		Session::start();
+		$prevUsers = Session::get(self::PARAM_PREVIOUS_USERS);
+
+		return $prevUsers ? json\decode($prevUsers) : array();
+	}
+	public function popPreviousUser(): ?User {
+		Session::start();
+		$prevUsers = $this->getPreviousUsers();
+		if ($prevUsers) {
+			$lastUserId = array_pop($prevUsers);
+			if (empty($prevUsers)) {
+				Session::unsetval(self::PARAM_PREVIOUS_USERS);
+			} else {
+				Session::set(self::PARAM_PREVIOUS_USERS, json\encode($prevUsers));
+			}
+			return User::byId($lastUserId);;
+		}
+		return null;
+	}
 
 	/**
 	 * Ensure that session system is running and there is `PARAM_USER_ID` key saved on it.
@@ -106,4 +136,6 @@ class SessionHandler implements IHandler {
 		$userid = Session::get(self::PARAM_USER_ID);
 		return $userid >= 0;
 	}
+
+
 }
