@@ -31,7 +31,16 @@ class Login extends Controller {
 		$handler->unlock();
 		Authentication::setHandler($handler);
 		if ($prevUser) {
-			$handler->addPreviousUser($prevUser);
+			$prevUsers = $handler->getPreviousUsers();
+			$key = array_search($user->id, $prevUsers);
+			if ($key === false) {
+				$handler->addPreviousUser($prevUser);
+			} else {
+				$len = count($prevUsers);
+				for ($i = $key; $i < $len; $i++) {
+					$handler->popPreviousUser();
+				}
+			}
 		}
 
 		$log = new Log();

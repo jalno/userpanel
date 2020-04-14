@@ -94,13 +94,13 @@ class SessionHandler implements IHandler {
 	
 	public function addPreviousUser(user $prevUser) {
 		Session::start();
-		$prevUsers = $this->getPreviousUser();
+		$prevUsers = $this->getPreviousUsers();
 		if (!in_array($prevUser->id, $prevUsers)) {
 			$prevUsers[] = $prevUser->id;
 			Session::set(self::PARAM_PREVIOUS_USERS, json\encode($prevUsers));
 		}
 	}
-	public function getPreviousUser(): array {
+	public function getPreviousUsers(): array {
 		Session::start();
 		$prevUsers = Session::get(self::PARAM_PREVIOUS_USERS);
 
@@ -108,7 +108,7 @@ class SessionHandler implements IHandler {
 	}
 	public function popPreviousUser(): ?User {
 		Session::start();
-		$prevUsers = $this->getPreviousUser();
+		$prevUsers = $this->getPreviousUsers();
 		if ($prevUsers) {
 			$lastUserId = array_pop($prevUsers);
 			if (empty($prevUsers)) {
