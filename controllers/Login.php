@@ -201,11 +201,13 @@ class Login extends Controller {
 	 * @return Response
 	 */
 	public function logout(): Response {
+		$handler = Authentication::getHandler();
 		Authentication::check();
 		Authentication::forget();
 		$this->response->setStatus(true);
-		$handler = new Authentication\SessionHandler();
-		Authentication::setHandler($handler);
+		if (!$handler) {
+			$handler = new Authentication\SessionHandler();
+		}
 		$user = $handler->popPreviousUser();
 		if ($user) {
 			Login::doLogin($user);
