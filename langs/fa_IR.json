@@ -549,6 +549,9 @@
 		"packages.userpanel.user.csv.status": "وضعیت",
 		"packages.userpanel.user.csv.status.active": "فعال",
 		"packages.userpanel.user.csv.status.deactive": "غیر فعال",
-		"packages.userpanel.user.csv.status.suspend": "معلق"
+		"packages.userpanel.user.csv.status.suspend": "معلق",
+		"logs.login": "به سامانه وارد شد",
+		"logs.user_edit":"کاربر {user.name} را ویرایش کرد",
+		"logs.user_delete":"کاربر {user.name} را حذف کرد"
 	}
 }

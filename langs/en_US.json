@@ -547,6 +547,9 @@
 		"packages.userpanel.user.csv.status": "Status",
 		"packages.userpanel.user.csv.status.active": "Active",
 		"packages.userpanel.user.csv.status.deactive": "Deactive",
-		"packages.userpanel.user.csv.status.suspend": "Suspend"
+		"packages.userpanel.user.csv.status.suspend": "Suspend",
+		"logs.login": "Logged to system.",
+		"logs.user_edit": "Modified user {user.name}.",
+		"logs.user_delete": "Deleted user {user.name}."
 	}
 }
