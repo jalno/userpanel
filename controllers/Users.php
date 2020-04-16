@@ -1,6 +1,6 @@
 <?php
 namespace packages\userpanel\controllers;
-use \packages\base\{http, translator, db, db\duplicateRecord, db\InputDataType, db\parenthesis, views\FormError, image, IO\file, packages, NotFound, inputValidation, response};
+use \packages\base\{http, translator, db, db\duplicateRecord, db\InputDataType, db\parenthesis, views\FormError, image, IO\file, packages, NotFound, inputValidation, response, Validator\CellphoneValidator, InputValidationException};
 use \packages\userpanel;
 use \packages\userpanel\{logs, user, user\socialnetwork, usertype, authorization, authentication, controller, controllers\Login, date, view, country, log, events\settings as settingsEvent, Events};
 
@@ -195,7 +195,13 @@ class Users extends Controller {
 					'type' => 'email',
 				),
 				'cellphone' => array(
-					'type' => 'cellphone',
+					'type' => function($data, $rule) {
+						if (!preg_match("/^(\+)?\d+$/", $data)) {
+							throw new InputValidationException("cellphone");
+						}
+						$validator = new CellphoneValidator;
+						return $validator->validate("cellphone", $rule, $data);
+					},
 				),
 				'password' => array(),
 				'type' => array(
@@ -440,7 +446,13 @@ class Users extends Controller {
 					'optional' => true,
 				),
 				'cellphone' => array(
-					'type' => 'cellphone',
+					'type' => function($data, $rule) {
+						if (!preg_match("/^(\+)?\d+$/", $data)) {
+							throw new InputValidationException("cellphone");
+						}
+						$validator = new CellphoneValidator;
+						return $validator->validate("cellphone", $rule, $data);
+					},
 					'optional' => true
 				),
 				'password' => array(

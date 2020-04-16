@@ -1,7 +1,7 @@
 <?php
 namespace packages\userpanel\controllers;
 
-use packages\base\{Options, Response, http, InputValidationException, db, View\Error, Session, json};
+use packages\base\{Options, Response, http, InputValidationException, db, View\Error, Session, json, Validator\CellphoneValidator};
 use packages\userpanel;
 use packages\userpanel\{Controller, View, Log, User, date, Authentication, Country, logs, views, Exceptions\UserIsNotActiveException};
 
@@ -320,7 +320,13 @@ class Login extends Controller {
 				'type' => 'number'
 			),
 			'cellphone' => array(
-				'type' => 'cellphone'
+				'type' => function($data, $rule) {
+					if (!preg_match("/^(\+)?\d+$/", $data)) {
+						throw new InputValidationException("cellphone");
+					}
+					$validator = new CellphoneValidator;
+					return $validator->validate("cellphone", $rule, $data);
+				},
 			)
 		);
 		try {
