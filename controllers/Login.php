@@ -3,7 +3,7 @@ namespace packages\userpanel\controllers;
 
 use packages\base\{Options, Response, http, InputValidationException, db, View\Error, Session, json};
 use packages\userpanel;
-use packages\userpanel\{Controller, View, Log, User, date, Authentication, Country, logs, views, Exceptions\UserIsNotActiveException};
+use packages\userpanel\{Controller, View, Log, User, date, Authentication, Country, logs, views, Exceptions\UserIsNotActiveException, Events};
 
 class Login extends Controller {
 
@@ -108,6 +108,7 @@ class Login extends Controller {
 			$log->save();
 			throw new InputValidationException('password');
 		}
+		(new Events\BeforeLogin)->trigger();
 		if ($user->status == User::active) {
 			self::doLogin($user);
 			if (isset($inputs['remember']) and $inputs['remember']) {
@@ -242,6 +243,7 @@ class Login extends Controller {
 		$user->status = $reqOptions['status'] ?? User::active;
 		$user->password_hash($inputs['password']);
 		unset($inputs['password']);
+		(new Events\BeforeRegister)->trigger();
 		$user->save();
 		if ($user->status == User::active) {
 			Authentication::setUser($user);

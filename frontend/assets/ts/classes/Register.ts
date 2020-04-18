@@ -75,7 +75,7 @@ export class Register {
 					success: (data: webuilder.AjaxResponse) => {
 						window.location.href = data.redirect;
 					},
-					error: (response: webuilder.AjaxError) => {
+					error: (response) => {
 						if (response.error === "user_status_is_deactive_in_register" || response.error === "user_status_is_suspend_in_register") {
 							Register.$errorHandler.removeClass("alert-danger").addClass("alert-success").html(t(`error.${response.error}`)).show();
 						} else if (response.error === "data_duplicate" || response.error === "data_validation") {
@@ -84,10 +84,22 @@ export class Register {
 								title: t("error.fatal.title"),
 								message: "",
 							};
-							if (response.error === "data_duplicate") {
+							const code = response.hasOwnProperty("error") ? response.error : response.code;
+							if (code === "data_duplicate") {
 								params.message = t(`user.${response.input}.data_duplicate`);
-							} else if (response.error === "data_validation") {
+							} else if (code === "data_validation") {
 								params.message = t("data_validation");
+							} else {
+								let message;
+								if (response.hasOwnProperty("message") && response.message) {
+									message = response.message;
+								} else {
+									message = t(`error.${code}`);
+								}
+								if (!message) {
+									message = t("userpanel.formajax.error");
+								}
+								Register.$errorHandler.html(`<i class="fa fa-times-circle"></i> ${message}`).show();
 							}
 							if ($input.length) {
 								$input.inputMsg(params);
