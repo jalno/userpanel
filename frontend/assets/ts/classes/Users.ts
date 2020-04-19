@@ -138,7 +138,7 @@ class UserEdit extends UserForm {
 					rangelength: [10, 13],
 				},
 				credit: {
-					integer: true,
+					number: true,
 				},
 			},
 			submitHandler: (form) => {
