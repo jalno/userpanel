@@ -68,7 +68,7 @@ if ($this->canExport) {
 						<td><?php echo $row->type->title; ?></td>
 						<td><?php echo $row->email; ?><br><?php echo $row->cellphone; ?></td>
 						<td class="hidden-xs">
-							<?php echo $row->country->name . ($row->city ? " - " . $row->city : ""); ?>
+							<?php echo ($row->country ? $row->country->name : "") . ($row->city ? " - " . $row->city : ""); ?>
 						</td>
 						<td class="hidden-xs"><span class="<?php echo $statusClass; ?>"><?php echo t($statusTxt); ?></span></td>
 						<?php
