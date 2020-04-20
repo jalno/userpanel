@@ -274,7 +274,8 @@ class UserView {
 	}
 	private initActivityCalendar() {
 		const that = this;
-		$(".calender .calendar-square").on("click", function(e) {
+		const $panel = $(".panel-activity");
+		$(".calender .calendar-square", $panel).on("click", function(e) {
 			e.preventDefault();
 			const $this = $(this);
 			if ($this.hasClass("calendar-square-empty") || $this.hasClass("color0")) {
@@ -283,6 +284,7 @@ class UserView {
 			that.userActivityData.page = 1;
 			that.userActivityData.timeFrom = $(this).data("from");
 			that.userActivityData.timeUntil = $(this).data("until");
+			$panel.trigger("change_period", [$(this).data("from"), $(this).data("until")]);
 			that.getUserActivities();
 		});
 	}
