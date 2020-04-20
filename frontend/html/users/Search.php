@@ -61,16 +61,21 @@ if ($this->canExport) {
 							"user.status.active" => User::active,
 							"user.status.suspend" => User::suspend
 						));
+						$country = "";
+						if ($row->country) {
+							$country = $row->country->name;
+						}
+						if ($row->city) {
+							$country .= ($country ? " - " : "") . $row->city;
+						}
 					?>
 					<tr>
 						<td class="center"><?php echo $row->id; ?></td>
 						<td><?php echo $row->getFullName(); ?></td>
 						<td><?php echo $row->type->title; ?></td>
 						<td><?php echo $row->email; ?><br><?php echo $row->cellphone; ?></td>
-						<td class="hidden-xs">
-							<?php echo $row->country->name . ($row->city ? " - " . $row->city : ""); ?>
-						</td>
-						<td class="hidden-xs"><span class="<?php echo $statusClass; ?>"><?php echo t($statusTxt); ?></span></td>
+						<td class="center"><?php echo $country ? $country : "-"; ?></td>
+						<td><span class="<?php echo $statusClass; ?>"><?php echo t($statusTxt); ?></span></td>
 						<?php
 						if($hasButtons){
 							echo("<td class=\"center\">".$this->genButtons()."</td>");
