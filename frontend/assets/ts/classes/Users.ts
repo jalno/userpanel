@@ -99,8 +99,7 @@ class UserAdd extends UserForm {
 				},
 				cellphone: {
 					required: true,
-					digits: true,
-					rangelength: [10, 12],
+					rangelength: [10, 13],
 				},
 				credit: {
 					required: true,
@@ -136,11 +135,10 @@ class UserEdit extends UserForm {
 					digits: true,
 				},
 				cellphone: {
-					digits: true,
-					rangelength: [10, 12],
+					rangelength: [10, 13],
 				},
 				credit: {
-					integer: true,
+					number: true,
 				},
 			},
 			submitHandler: (form) => {

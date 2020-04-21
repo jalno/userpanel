@@ -52,8 +52,7 @@ export class Register {
 				},
 				cellphone: {
 					required: true,
-					digits: true,
-					rangelength: [10, 12],
+					rangelength: [10, 13],
 				},
 				email: {
 					required: true,
