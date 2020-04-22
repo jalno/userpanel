@@ -50,7 +50,7 @@ if ($this->canExport) {
 						$this->setButtonParam("view", "link", userpanel\url("users/view/" . $row->id));
 						$this->setButtonParam("edit", "link", userpanel\url("users/edit/" . $row->id));
 						$this->setButtonParam("delete", "link", userpanel\url("users/delete/" . $row->id));
-						$this->setButtonActive("delete", $me != $row->id);
+						$this->setButtonActive("delete", ($this->canDelete and $row->id != $me));
 						$statusClass = Utility::switchcase($row->status, array(
 							"label label-inverse" => User::deactive,
 							"label label-success" => User::active,
