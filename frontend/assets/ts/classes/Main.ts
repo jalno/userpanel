@@ -37,7 +37,7 @@ export class Main {
 		}
 	}
 	public static importSelect2Translator() {
-		if (Translator.getActiveShortLang() !== "en") {
+		if ($.fn.hasOwnProperty("select2") && Translator.getActiveShortLang() !== "en") {
 			require(`select2/dist/js/i18n/${Translator.getActiveShortLang()}.js`);
 		}
 	}
