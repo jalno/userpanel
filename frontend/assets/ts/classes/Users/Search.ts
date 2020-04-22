@@ -1,8 +1,6 @@
 import "@jalno/translator";
-import "bootstrap";
 import * as $ from "jquery";
 import "select2";
-import "webuilder/formAjax";
 
 export default class Search {
 	public static initIfNeeded() {
@@ -24,8 +22,8 @@ export default class Search {
 			theme: "bootstrap",
 			dropdownParent: Search.$modal,
 			placeholder: t("userpanel.choose"),
+			dir: Translator.isRTL() ? "rtl" : "ltr",
 			language: Translator.getActiveShortLang(),
-			dir: $("body").hasClass("rtl") ? "rtl" : "ltr",
 		});
 	}
 	private static runSubmitFormListener() {
