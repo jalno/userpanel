@@ -11,15 +11,13 @@ class Users extends Controller {
 	
 	public function search() {
 		Authorization::haveOrFail("users_list");
-		$types = Authorization::childrenTypes();
-		$view = view::byName(views\users\Search::class);
+		$view = View::byName(views\users\Search::class);
 		$this->response->setView($view);
+		$types = Authorization::childrenTypes();
 		$view->setCountries((new Country)->get());
 		if ($types) {
 			$view->setUserTypes((new Usertype)->where("id", $types, "in")->get());
 		}
-		$this->response->setView($view);
-
 		$inputs = $this->checkinputs(array(
 			"id" => array(
 				"type" => "number",
@@ -42,9 +40,17 @@ class Users extends Controller {
 				"optional" => true,
 			),
 			"type" => array(
-				"type" => "number",
+				"type" => function ($data, $rule, $input) use ($types) {
+					if (!is_string($data)) {
+						throw new InputValidationException($input);
+					}
+					$selectedTypes = explode(",", $data);
+					if (array_diff($selectedTypes, $types)) {
+						throw new InputValidationException($input);
+					}
+					return $selectedTypes;
+				},
 				"optional" => true,
-				"values" => $types,
 			),
 			"online" => array(
 				"type" => "bool",
@@ -88,11 +94,15 @@ class Users extends Controller {
 		if ($inputs["online"]) {
 			$model->where("lastonline", Date::time() - User::onlineTimeout, ">=");
 		}
-		foreach(["id", "name", "lastname", "type", "email", "cellphone", "status", "city", "country"] as $item) {
+		if (isset($inputs['type'])) {
+			$view->setDataForm($inputs['type'], 'type-select');
+			$model->where('type', $inputs['type'], 'IN');
+		}
+		foreach(["id", "name", "lastname", "email", "cellphone", "status", "city", "country"] as $item) {
 			if (!isset($inputs[$item])) {
 				continue;
 			}
-			$comparison = !in_array($item, array("type", "status")) ? $inputs["comparison"] : "equals";
+			$comparison = ($item == "status" ? "equals" : $inputs["comparison"]);
 			$model->where($item, $inputs[$item], $comparison);
 		}
 		if (isset($inputs["word"])) {

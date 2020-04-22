@@ -13,6 +13,7 @@ import Online from "./Online";
 export class Main {
 	public static init() {
 		Main.runInit();
+		Main.importSelect2Translator();
 		Main.runSearchInput();
 		Main.runSelect2();
 		Main.runElementsPosition();
@@ -33,6 +34,11 @@ export class Main {
 	public static importValidationTranslator() {
 		if (Translator.getActiveShortLang() !== "en") {
 			require(`jquery-validation/dist/localization/messages_${Translator.getActiveShortLang()}.js`);
+		}
+	}
+	public static importSelect2Translator() {
+		if (Translator.getActiveShortLang() !== "en") {
+			require(`select2/dist/js/i18n/${Translator.getActiveShortLang()}.js`);
 		}
 	}
 	public static SetDefaultValidation(): void {
