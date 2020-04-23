@@ -48,8 +48,13 @@ class Search extends ParentView {
 		));
 	}
 
+	protected function getSelectedTypes(): array {
+		$selected = $this->getDataForm("type-select");
+		return ($selected and is_array($selected)) ? $selected : [];
+	}
+
 	protected function getTypesForSelect(): array {
-		$options = [array("title" => "", "value" => "")];
+		$options = [];
 		foreach($this->getUserTypes() as $type){
 			$options[] = array(
 				"title" => $type->title,

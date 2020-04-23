@@ -3,11 +3,10 @@ use packages\userpanel;
 use packages\userpanel\{user, Authentication};
 use themes\clipone\utility;
 
-
 $this->the_header();
 
 if ($this->canExport) {
-	?>
+?>
 	<div class="row">
 		<div class="col-md-3 col-md-offset-9 form-group">
 			<a class="btn btn-info btn-block" href="<?php echo userpanel\url("users", array_merge($this->getFormData(), array("download" => "csv"))); ?>">
@@ -122,10 +121,16 @@ if ($this->canExport) {
 					"name" => "cellphone"
 				),
 				array(
+					"name" => "type",
+					"type" => "hidden",
+				),
+				array(
+					"name" => "type-select",
 					"type" => "select",
 					"label" => t("user.type"),
-					"name" => "type",
-					"options" => $this->getTypesForSelect()
+					"multiple" => true,
+					"value" => $this->getSelectedTypes(),
+					"options" => $this->getTypesForSelect(),
 				),
 				array(
 					"type" => "checkbox",

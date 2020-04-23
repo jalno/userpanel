@@ -12,6 +12,7 @@ import "./jquery.formAjax";
 import {Main} from "./Main";
 import Activate from "./Users/Activate";
 import Suspend from "./Users/Suspend";
+import Search from "./Users/Search";
 
 export enum Status {
 	DEACTIVE,
@@ -369,6 +370,7 @@ export class Users {
 	public static initIfNeeded(): void {
 		Activate.initIfNeeded();
 		Suspend.initIfNeeded();
+		Search.initIfNeeded();
 		const $body = $("body");
 		if ($body.hasClass("users_add")) {
 			const handler = new UserAdd($("#add_form"));
