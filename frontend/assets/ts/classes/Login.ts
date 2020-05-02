@@ -46,11 +46,21 @@ export class Login {
 					success: (data: webuilder.AjaxResponse) => {
 						window.location.href = data.redirect;
 					},
-					error: (response: webuilder.AjaxError) => {
-						if (response.error === "user_status_is_deactive_in_login" || response.error === "user_status_is_suspend_in_login") {
-							$errorHandler.html(t(`error.${response.error}`)).show();
-						} else if (response.error === "data_validation") {
+					error: (response) => {
+						const code = response.hasOwnProperty("error") ? response.error : response.code;
+						if (code === "data_validation") {
 							$errorHandler.html(`<i class="fa fa-remove-sign"></i> ${t("userpanel.login.incorrect")}.`).show();
+						} else {
+							let message;
+							if (response.hasOwnProperty("message") && response.message) {
+								message = response.message;
+							} else {
+								message = t(`error.${code}`);
+							}
+							if (!message) {
+								message = t("userpanel.formajax.error");
+							}
+							$errorHandler.html(message).show();
 						}
 					},
 				});

@@ -4,7 +4,7 @@ namespace packages\userpanel\controllers;
 use packages\base\{Cache, db, view\Error, Exception, views\FormError, http, InputValidationException, NotFound, Options};
 use packages\notifications\events\Channels;
 use packages\userpanel;
-use packages\userpanel\{Authentication, Controller, Date, events, Log, resetpwd\Token, User, View, views};
+use packages\userpanel\{Authentication, Controller, Date, Events, Log, resetpwd\Token, User, View, views};
 
 class resetpwd  extends Controller {
 
@@ -55,6 +55,7 @@ class resetpwd  extends Controller {
 			),
 		);
 		$view->setDataForm($this->inputsvalue($inputsRules));
+		(new Events\BeforeResetPassword)->trigger();
 		try {
 			$this->haveChance();
 		} catch (losingChance $error) {
