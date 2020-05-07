@@ -82,6 +82,10 @@ $isRTL = Translator::getLang()->isRTL();
 					'name' => 'title'
 				],
 				[
+					'label' => t('log.ip'),
+					'name' => 'ip'
+				],
+				[
 					'label' => t('log.timeFrom'),
 					'name' => 'timeFrom',
 					'placeholder' => date::format("Q", date::time()),
