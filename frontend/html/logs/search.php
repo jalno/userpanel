@@ -5,65 +5,72 @@ use packages\base\{Translator};
 use packages\userpanel;
 use packages\userpanel\{Date};
 $isRTL = Translator::getLang()->isRTL();
+$logs = $this->getLogs();
 ?>
-<div class="row">
-	<div class="col-xs-12">
-		<div class="panel panel-default">
-			<div class="panel-heading">
-				<i class="fa fa-user-secret"></i> <?php echo t('users.logs'); ?>
-				<div class="panel-tools">
-					<a class="btn btn-xs btn-link tooltips" title="<?php echo t('log.search'); ?>" data-toggle="modal" href="#logs-search"><i class="fa fa-search"></i></a>
-					<a class="btn btn-xs btn-link panel-collapse collapses" href="#"></a>
-				</div>
-			</div>
-			<div class="panel-body">
-				<div class="table-responsive">
-					<table class="table table-hover">
-						<?php
-						$hasButtons = $this->hasButtons();
-						?>
-						<thead>
-							<tr>
-								<th class="center">#</th>
-								<th><?php echo t('log.title'); ?></th>
-								<?php if($this->multiuser){ ?>
-									<th><?php echo t('log.user'); ?></th>
-								<?php } ?>
-								<th><?php echo t('log.time'); ?></th>
-								<?php if($hasButtons){ ?><th></th><?php } ?>
-							</tr>
-						</thead>
-						<tbody>
-							<?php
-							foreach($this->getLogs() as $log){
-								$this->setButtonParam('view', 'link', userpanel\url("logs/view/".$log->id));
-								$this->setButtonParam('delete', 'link', userpanel\url("logs/delete/".$log->id));
-							?>
-							<tr>
-								<td class="center"><?php echo $log->id; ?></td>
-								<td><?php echo $log->title; ?></td>
-								<?php if($this->multiuser){ ?>
-									<td><a href="<?php echo userpanel\url("users", ['id' => $log->user->id]); ?>" class="tootips" title="#<?php echo $log->user->id; ?>"><?php echo $log->user->getFullName(); ?></a></td>
-								<?php } ?>
-								<td class="<?php echo ($isRTL) ? "ltr" : "rtl" ?>"><?php echo Date::format("Q QTS", $log->time); ?></td>
-								<?php
-								if($hasButtons){
-									echo("<td class=\"center\">".$this->genButtons()."</td>");
-								}
-								?>
-							</tr>
-							<?php
-							}
-							?>
-						</tbody>
-					</table>
-				</div>
-				<?php $this->paginator(); ?>
-			</div>
+<div class="panel panel-default">
+	<div class="panel-heading">
+		<i class="fa fa-user-secret"></i> <?php echo t('users.logs'); ?>
+		<div class="panel-tools">
+			<a class="btn btn-xs btn-link tooltips" title="<?php echo t('log.search'); ?>" data-toggle="modal" href="#logs-search"><i class="fa fa-search"></i></a>
+			<a class="btn btn-xs btn-link panel-collapse collapses" href="#"></a>
 		</div>
 	</div>
+	<div class="panel-body">
+	<?php if ($logs) { ?>
+		<div class="table-responsive">
+			<table class="table table-hover">
+			<?php $hasButtons = $this->hasButtons(); ?>
+				<thead>
+					<tr>
+						<th class="center">#</th>
+						<th><?php echo t('log.title'); ?></th>
+					<?php if($this->multiuser){ ?>
+						<th><?php echo t('log.user'); ?></th>
+					<?php } ?>
+						<th><?php echo t('log.time'); ?></th>
+						<?php if ($hasButtons) { ?><th></th><?php } ?>
+					</tr>
+				</thead>
+				<tbody>
+				<?php
+				foreach($logs as $log){
+					$this->setButtonParam('view', 'link', userpanel\url("logs/view/".$log->id));
+					$this->setButtonParam('delete', 'link', userpanel\url("logs/delete/".$log->id));
+				?>
+					<tr>
+						<td class="center"><?php echo $log->id; ?></td>
+						<td><?php echo $log->title; ?></td>
+						<?php if ($this->multiuser) { ?>
+							<td><a href="<?php echo userpanel\url("users", ['id' => $log->user->id]); ?>" class="tootips" title="#<?php echo $log->user->id; ?>"><?php echo $log->user->getFullName(); ?></a></td>
+						<?php } ?>
+						<td class="<?php echo ($isRTL) ? "ltr" : "rtl" ?>"><?php echo Date::format("Q QTS", $log->time); ?></td>
+						<?php
+						if($hasButtons){
+							echo("<td class=\"center\">" . $this->genButtons() . "</td>");
+						}
+						?>
+					</tr>
+					<?php
+					}
+					?>
+				</tbody>
+			</table>
+		</div>
+	<?php
+		$this->paginator();
+	} else {
+	?>
+		<div class="alert alert-info">
+			<h4 class="alert-heading">
+				<i class="fa fa-info-circle"></i>
+			<?php echo t("error.notice.title"); ?>
+			</h4>
+		<?php echo t("userpanel.logs.empty"); ?>
+		</div>
+	<?php } ?>
 	</div>
-	<div class="modal fade" id="logs-search" tabindex="-1" data-show="true" role="dialog">
+</div>
+<div class="modal fade" id="logs-search" tabindex="-1" data-show="true" role="dialog">
 	<div class="modal-header">
 		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 		<h4 class="modal-title"><?php echo t('search'); ?></h4>
@@ -80,6 +87,11 @@ $isRTL = Translator::getLang()->isRTL();
 				[
 					'label' => t('log.title'),
 					'name' => 'title'
+				],
+				[
+					'label' => t('log.ip'),
+					'name' => 'ip',
+					'ltr' => true,
 				],
 				[
 					'label' => t('log.timeFrom'),

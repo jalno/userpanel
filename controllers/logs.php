@@ -56,6 +56,10 @@ class Logs extends Controller {
 				'type' => 'string',
 				'optional' => true,
 			),
+			'ip' => array(
+				'type' => 'string',
+				'optional' => true,
+			),
 			'timeFrom' => array(
 				'type' => 'date',
 				'optional' => true,
@@ -100,6 +104,9 @@ class Logs extends Controller {
 		}
 		if (isset($inputs['title'])) {
 			$model->where("userpanel_logs.title", $inputs['title'], $inputs['comparison']);
+		}
+		if (isset($inputs['ip'])) {
+			$model->where("userpanel_logs.ip", $inputs['ip'], $inputs['comparison']);
 		}
 		if ($children) {
 			$model->where("userpanel_users.type", $children, 'IN');
