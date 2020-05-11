@@ -165,6 +165,11 @@ use themes\clipone\utility;
 						<td></td>
 					</tr>
 					<tr>
+						<td><?php echo t("userpanel.profile.last_ip"); ?></td>
+						<td class="ltr"><?php echo $this->getLastIP(); ?></td>
+						<td></td>
+					</tr>
+					<tr>
 						<td><?php echo t("user.status"); ?></td>
 						<td>
 						<?php

@@ -79,6 +79,7 @@
 		"userpanel.profile.register_date": "Registration Date",
 		"userpanel.profile.last_activity": "Last Activity",
 		"userpanel.profile.last_login": "Last Login",
+		"userpanel.profile.last_ip": "IP",
 
 		"log.search": "Search",
 		"log.id": "ID",

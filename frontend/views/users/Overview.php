@@ -42,6 +42,12 @@ class Overview extends usersView{
 		$log->orderBy("time", "DESC");
 		$this->lastlogin = $log->getValue('userpanel_logs.time');
 	}
+	private function getLastIP(){
+		$log = new log();
+		$log->where("user", $this->user->id);
+		$log->orderBy("time", "DESC");
+		return $log->getValue('ip');
+	}
 	private function loadSocialnetworks(){
 		$networks = $this->getUserData('socialnetworks');
 		if ($networks) {

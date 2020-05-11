@@ -208,6 +208,7 @@
 		"userpanel.profile.register_date": "تاریخ ثبت نام",
 		"userpanel.profile.last_activity": "آخرین فعالیت",
 		"userpanel.profile.last_login": "آخرین ورود",
+		"userpanel.profile.last_ip": "آی پی",
 		"userpanel.lock": "خروج موقت",
 		"userpanel.logout": "خروج",
 
