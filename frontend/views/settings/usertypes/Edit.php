@@ -20,12 +20,13 @@ class Edit extends UsertypeEdit {
 		$this->dynamicData()->setData("permissions", $this->buildPermissionsArray());
 	}
 	public function export(): array {
-		$export = array(
+		$permissions = $this->buildPermissionsArray(true);
+		return array(
 			"data" => array(
-				"permissions" => $this->buildPermissionsArray(true),
+				"count" => count($permissions),
+				"permissions" => $permissions,
 			)
 		);
-		return $export;
 	}
 	protected function buildPermissionsArray(bool $withTranslate = false): array {
 		$disabledPermissions = Options::get("packages.userpanel.disabledpermisions");

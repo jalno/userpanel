@@ -82,8 +82,11 @@ export default class Add {
 			return selectedPermissions;
 		};
 		$("form.add-usertypes", Add.$form).on("submit", () => {
+			const selectedPermissions = getSelectedPermissions();
+			console.info("all permissions:", permissions.length, permissions);
+			console.info("selected permissions:", selectedPermissions.length, selectedPermissions);
 			let html = "";
-			for (const permission of getSelectedPermissions()) {
+			for (const permission of selectedPermissions) {
 				html += `<input type="hidden" name=permissions[] value="${permission}">`;
 			}
 			$(html).appendTo(Add.$permissions);
@@ -91,68 +94,69 @@ export default class Add {
 		});
 	}
 	private static getGroupPermissions(allPermissions: IUserpanelPermission[]) {
-		const getGroupPermissions = (inputPermissions: IUserpanelPermission[], finder: number = 0) => {
-			const hasBrothers = (otherPermissions: IUserpanelPermission[], ofinder: number) => {
-				for (const pr of otherPermissions) {
-					const prIndex = pr.key.indexOf("_", ofinder);
-					const prName = pr.key.substr(0, prIndex) as string;
-					if (prName.length) {
-						const brotherPermissions: IUserpanelPermission[] = [];
-						for (const brotherPr of otherPermissions) {
-							const brotherPrName = brotherPr.key.substr(0, prIndex) as string;
-							if (brotherPrName === prName) {
-								brotherPermissions.push(brotherPr);
-							}
-						}
-						if (brotherPermissions.length > 1) {
-							return true;
+		const findBrothers = (needle: string, haystack: IUserpanelPermission[], finder: number = 0): IUserpanelPermission[] => {
+			const brothers: IUserpanelPermission[] = [];
+			for (const x of haystack) {
+				const groupName = x.key.substr(0, finder) as string;
+				if (groupName === needle) {
+					brothers.push(x);
+				}
+			}
+			return brothers;
+		};
+		const hasBrothers = (oPermissions: IUserpanelPermission[], ofinder: number) => {
+			for (const op of oPermissions) {
+				const index_ = op.key.indexOf("_", ofinder);
+				const opName = op.key.substr(0, index_) as string;
+				if (index_ !== -1 && opName.length) {
+					const brotherPermissions: IUserpanelPermission[] = [];
+					for (const brotherPr of oPermissions) {
+						const brotherPrName = brotherPr.key.substr(0, index_) as string;
+						if (brotherPrName === opName) {
+							brotherPermissions.push(brotherPr);
 						}
 					}
-				}
-				return false;
-			};
-			const groupPermissions = new Object();
-			for (const permission of inputPermissions) {
-				const firstIndex = permission.key.indexOf("_", finder);
-				const groupName = permission.key.substr(0, firstIndex) as string;
-				if (groupName.length) {
-					if (groupPermissions[groupName] === undefined) {
-						const brotherPermissions: IUserpanelPermission[] = [];
-						for (const permission1 of inputPermissions) {
-							const groupName1 = permission1.key.substr(0, firstIndex) as string;
-							if (groupName1 === groupName) {
-								brotherPermissions.push(permission1);
-							}
-						}
-						if (brotherPermissions.length > 1) {
-							if (hasBrothers(brotherPermissions, firstIndex + 1)) {
-								const childs = getGroupPermissions(brotherPermissions, (firstIndex + 1));
-								groupPermissions[groupName] = childs;
-								for (const notBrotherPermission of brotherPermissions) {
-									let needAdd = true;
-									for (const child in childs) {
-										if (childs[child] !== undefined) {
-											if (notBrotherPermission.key.substr(0, child.length) === child) {
-												needAdd = false;
-											}
-										}
-									}
-									if (needAdd) {
-										groupPermissions[groupName][notBrotherPermission.key] = notBrotherPermission;
-									}
-								}
-							} else {
-								groupPermissions[groupName] = brotherPermissions;
-							}
-						} else {
-							groupPermissions[permission.key] = brotherPermissions;
-						}
+					if (brotherPermissions.length > 1) {
+						return true;
 					}
 				}
 			}
-			return groupPermissions;
+			return false;
 		};
-		return getGroupPermissions(allPermissions as IUserpanelPermission[]);
+		const grouping = (iPermissions: IUserpanelPermission[], finder: number = 0) => {
+			const grouped = new Object();
+			for (const p of iPermissions) {
+				const index_ = p.key.indexOf("_", finder);
+				const groupName = p.key.substr(0, index_) as string;
+				if (groupName.length && grouped[groupName] === undefined) {
+					const brothers = findBrothers(groupName, iPermissions, index_);
+					if (brothers.length > 1) {
+						if (hasBrothers(brothers, (index_ + 1))) {
+							const childs = grouping(brothers, (index_ + 1));
+							grouped[groupName] = childs;
+							for (const nonBrother of brothers) {
+								let xKey: string = nonBrother.key;
+								const afterGroupName = nonBrother.key.substr(groupName.length + 1) as string;
+								const nextKey = afterGroupName.indexOf("_");
+								const nextPartafterGroup = afterGroupName.substr(0, nextKey) as string;
+								if (nextPartafterGroup.length) {
+									xKey = groupName + "_" + nextPartafterGroup;
+								}
+								if (grouped[groupName][xKey] === undefined && grouped[groupName][nonBrother.key] === undefined) {
+									grouped[groupName][xKey] = nonBrother;
+								}
+							}
+						} else {
+							grouped[groupName] = brothers;
+						}
+					} else {
+						grouped[p.key] = brothers;
+					}
+				}
+			}
+			return grouped;
+		};
+		return grouping(allPermissions);
 	}
 	private static translatePermission(permission: string, isTooltip: boolean = false): string {
 		const key = "usertype.permissions." + permission + (isTooltip ? ".tooltip" : "");
