@@ -31,6 +31,13 @@ export class Login {
 		const $form = $(".form-login");
 		const $errorHandler = $(".errorHandler", $form);
 		$errorHandler.data("orghtml", $errorHandler.html());
+		function getUrlParam(name) {
+			const results = new RegExp('[\\?&]' + name + '=([^&#]*)').exec(window.location.href);
+			return (results && results[1]) || undefined;
+		}
+		if(getUrlParam('error_message') !== undefined){
+			$errorHandler.html(decodeURIComponent(getUrlParam('error_message'))).show();
+		}
 		$form.validate({
 			rules: {
 				username: {

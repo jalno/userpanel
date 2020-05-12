@@ -1,4 +1,4 @@
-import { AjaxRequest, Options } from "webuilder";
+import { AjaxRequest, Options, Router } from "webuilder";
 
 export default class Online {
 	public static run() {
@@ -14,6 +14,11 @@ export default class Online {
 				success: (response) => {
 					$(window).trigger("packages.userpanel.online.response", [response]);
 				},
+				error: (error) => {
+					if (typeof(error.redirect) != "undefined") {
+						window.location.href = Router.url(error.redirect, {error_message : error.message} as any);
+					}
+				}
 			});
 			if (period !== Options.get("packages.userpanel.online.period")) {
 				clearInterval(Online.interval);
