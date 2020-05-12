@@ -77,7 +77,7 @@ class Lock extends Controller {
 		$session->unlock();
 		$this->response->setStatus(true);
 		$loginto = Session::get('loginto');
-		Session::unsetval('loginto');
+		Session::unset('loginto');
 		$this->response->Go($loginto ? $loginto : userpanel\url());
 		return $this->response;
 	}

@@ -31,17 +31,18 @@ class SessionHandler implements IHandler {
 	 * @return void
 	 */
 	public function forget(): void {
-		Session::start();
-		if (Session::status()) {
-			Session::unsetval(self::PARAM_USER_ID);
-			Session::unsetval(self::PARAM_LOCK);
+		if (!$this->getSession()) {
+			return;
 		}
+		Session::unset(self::PARAM_USER_ID);
+		Session::unset(self::PARAM_LOCK);
 	}
 
 	/**
 	 * Save user details (currently just user's ID) in session storage.
 	 * 
 	 * @throws Exception if no user authenticated yet.
+	 * @throws Session\StartSessionException if cannot start the session
 	 * @return void
 	 */
 	public function setSession(): void {
@@ -49,9 +50,7 @@ class SessionHandler implements IHandler {
 		if (!$user) {
 			throw new Exception("no user authenticated yet");
 		}
-		if (!Session::status()) {
-			Session::start();
-		}
+		Session::start();
 		Session::set(self::PARAM_USER_ID, $user->id);
 	}
 
@@ -77,7 +76,7 @@ class SessionHandler implements IHandler {
 		if (!$this->getSession()) {
 			return;
 		}
-		Session::unsetval(self::PARAM_LOCK);
+		Session::unset(self::PARAM_LOCK);
 	}
 
 	/**
@@ -92,49 +91,52 @@ class SessionHandler implements IHandler {
 		return Session::get(self::PARAM_USER_ID);
 	}
 	
-	public function addPreviousUser(user $prevUser) {
-		Session::start();
-		$prevUsers = $this->getPreviousUsers();
-		if (!in_array($prevUser->id, $prevUsers)) {
-			$prevUsers[] = $prevUser->id;
-			Session::set(self::PARAM_PREVIOUS_USERS, json\encode($prevUsers));
+	public function addPreviousUser(User $prevUser): void {
+		if (!$this->getSession()) {
+			return;
 		}
+		$prevUsers = $this->getPreviousUsers();
+		$prevUsers[] = $prevUser->id;
+		Session::set(self::PARAM_PREVIOUS_USERS, $prevUsers);
 	}
 	public function getPreviousUsers(): array {
 		Session::start();
-		$prevUsers = Session::get(self::PARAM_PREVIOUS_USERS);
-
-		return $prevUsers ? json\decode($prevUsers) : array();
+		$prevUsers = Session::get(self::PARAM_PREVIOUS_USERS) ?? [];
+		if (is_string($prevUsers)) { // for backward campatibility: previous users was saved in json format 
+			$prevUsers = json\decode($prevUsers);
+		}
+		return $prevUsers;
 	}
 	public function popPreviousUser(): ?User {
 		Session::start();
 		$prevUsers = $this->getPreviousUsers();
-		if ($prevUsers) {
-			$lastUserId = array_pop($prevUsers);
-			if (empty($prevUsers)) {
-				Session::unsetval(self::PARAM_PREVIOUS_USERS);
-			} else {
-				Session::set(self::PARAM_PREVIOUS_USERS, json\encode($prevUsers));
-			}
-			return User::byId($lastUserId);;
+		if (!$prevUsers) {
+			return null;
 		}
-		return null;
+		$lastUserId = array_pop($prevUsers);
+		if (empty($prevUsers)) {
+			Session::unset(self::PARAM_PREVIOUS_USERS);
+		} else {
+			Session::set(self::PARAM_PREVIOUS_USERS, $prevUsers);
+		}
+		return (new User)->byId($lastUserId);
+	}
+	
+	public function clearPreviousUsers(): void {
+		Session::start();
+		Session::unset(self::PARAM_PREVIOUS_USERS);
 	}
 
 	/**
 	 * Ensure that session system is running and there is `PARAM_USER_ID` key saved on it.
 	 * 
+	 * @throws Session\StartSessionException if cannot start session
 	 * @return bool true is good!
 	 */
 	protected function getSession(): bool {
-		if (!Session::status()) {
-			Session::start();
-		}
-		if (!Session::status()) {
-			return false;
-		}
+		Session::start();
 		$userid = Session::get(self::PARAM_USER_ID);
-		return $userid >= 0;
+		return $userid > 0;
 	}
 
 
