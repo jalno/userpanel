@@ -1,7 +1,9 @@
 <?php
 namespace packages\userpanel;
-use packages\base\db\dbObject;
-class usertype extends dbObject{
+
+use packages\base\db;
+
+class usertype extends db\dbObject{
 	const admin = 1;
 	const support = 2;
 	const guest = 3;
@@ -15,14 +17,25 @@ class usertype extends dbObject{
 		'children' => array("hasMany", "packages\\userpanel\\usertype\priority", "parent"),
 		'options' => array('hasMany', 'packages\\userpanel\\usertype_option', 'usertype')
     );
-    public function hasPermission($permission){
-    	foreach($this->permissions as $p){
-    		if($p->name == $permission){
-    			return true;
-    		}
+
+    /**
+     * @var string[]
+     */
+    private $plainPermissions;
+
+    /**
+     * Load and cache permissions of this usertype for once and check it for every query.
+     * 
+     * @param string $permission permission name.
+     * @return bool
+     */
+    public function hasPermission(string $permission): bool {
+    	if ($this->plainPermissions === null) {
+    		$this->plainPermissions = array_column(db::where("type", $this->id)->get("userpanel_usertypes_permissions", null, ['name']), 'name');
     	}
-    	return false;
+    	return in_array($permission, $this->plainPermissions);
     }
+
 	public function option($name){
 		foreach($this->options as $option){
 			if($option->name == $name){
