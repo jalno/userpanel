@@ -1,7 +1,7 @@
 <?php
 namespace packages\userpanel;
 
-use packages\base\{Response, Session, http};
+use packages\base\{Response, http};
 use packages\userpanel\{events\AuthenticationHandlersEvent, Authentication\IHandler};
 
 class Authentication {

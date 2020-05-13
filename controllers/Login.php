@@ -30,7 +30,7 @@ class Login extends Controller {
 		$handler->setSession();
 		$handler->unlock();
 		Authentication::setHandler($handler);
-		if ($prevUser) {
+		if ($prevUser and $prevUser->id != $user->id) {
 			$prevUsers = $handler->getPreviousUsers();
 			$key = array_search($user->id, $prevUsers);
 			if ($key === false) {
