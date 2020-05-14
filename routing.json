@@ -198,30 +198,18 @@
 		"method": "post"
 	},
 	{
-		"paths": [
-			"userpanel/"
-		],
-		"exceptions":[
-			"\\packages\\userpanel\\AuthorizationException"
-		],
-		"handler": "controllers/dashboard@forbidden"
+		"paths": ["userpanel/"],
+		"exceptions":["packages/base/NotFound"],
+		"handler": "controllers/Dashboard@notfound"
 	},
 	{
-		"paths": [
-			"userpanel/"
-		],
-		"exceptions":[
-			"\\packages\\base\\NotFound"
-		],
-		"handler": "controllers/dashboard@notfound"
+		"paths": ["userpanel/"],
+		"exceptions":["AuthorizationException"],
+		"handler": "controllers/Dashboard@forbidden"
 	},
 	{
-		"paths": [
-			"userpanel/"
-		],
-		"exceptions":[
-			"\\packages\\userpanel\\authentication\\exception"
-		],
-		"handler": "controllers/dashboard@goToLogin"
+		"paths": ["userpanel/"],
+		"exceptions":["AuthenticationException"],
+		"handler": "controllers/Dashboard@authError"
 	}
 ]
