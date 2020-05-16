@@ -109,15 +109,12 @@ export default class Add {
 				const index_ = op.key.indexOf("_", ofinder);
 				const opName = op.key.substr(0, index_) as string;
 				if (index_ !== -1 && opName.length) {
-					const brotherPermissions: IUserpanelPermission[] = [];
+					let count = 0;
 					for (const brotherPr of oPermissions) {
 						const brotherPrName = brotherPr.key.substr(0, index_) as string;
-						if (brotherPrName === opName) {
-							brotherPermissions.push(brotherPr);
+						if (brotherPrName === opName && ++count > 1) {
+							return true;
 						}
-					}
-					if (brotherPermissions.length > 1) {
-						return true;
 					}
 				}
 			}
@@ -132,15 +129,14 @@ export default class Add {
 					const brothers = findBrothers(groupName, iPermissions, index_);
 					if (brothers.length > 1) {
 						if (hasBrothers(brothers, (index_ + 1))) {
-							const childs = grouping(brothers, (index_ + 1));
-							grouped[groupName] = childs;
+							grouped[groupName] = grouping(brothers, (index_ + 1));
 							for (const nonBrother of brothers) {
 								let xKey: string = nonBrother.key;
 								const afterGroupName = nonBrother.key.substr(groupName.length + 1) as string;
 								const nextKey = afterGroupName.indexOf("_");
-								const nextPartafterGroup = afterGroupName.substr(0, nextKey) as string;
-								if (nextPartafterGroup.length) {
-									xKey = groupName + "_" + nextPartafterGroup;
+								const nextPartAfterGroup = afterGroupName.substr(0, nextKey);
+								if (nextKey !== -1 && nextPartAfterGroup.length) {
+									xKey = nextPartAfterGroup;
 								}
 								if (grouped[groupName][xKey] === undefined && grouped[groupName][nonBrother.key] === undefined) {
 									grouped[groupName][xKey] = nonBrother;
