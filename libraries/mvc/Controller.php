@@ -15,6 +15,7 @@ class Controller extends BaseController {
 	protected $items_per_page = 25;
 
 	public function __construct() {
+		parent::__construct();
 		if (isset($this->authentication) and $this->authentication) {
 			$this->checkAuth();
 		}
