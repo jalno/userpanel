@@ -32,7 +32,7 @@ class usertype{
 
 			'resetpwd_newpwd',
 
-			'settings',
+			'settings_general-settings',
 		);
 		foreach($permissions as $permission){
 			permissions::add('userpanel_'.$permission);

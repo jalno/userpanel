@@ -1,20 +1,20 @@
 <?php
 require_once("header.php");
 
-use packages\base\{translator, options, db};
+use packages\base;
 use packages\userpanel;
-use packages\userpanel\user;
-use themes\clipone\utility;
+use packages\userpanel\User;
+use themes\clipone\Utility;
 $usertype = $this->getUserType();
 
 ?>
-<form class="edit-usertype" action="<?php echo(userpanel\url("settings/usertypes/edit/".$usertype->id)); ?>" method="post">
+<form class="edit-usertype" action="<?php echo(userpanel\url("settings/usertypes/edit/".$usertype->id)); ?>" method="POST">
 	<div class="row">
 		<div class="col-md-6">
 			<?php
 			$this->createField(array(
 				'name' => 'title',
-				'label' => translator::trans('usertype.title')
+				'label' => t('usertype.title')
 			));
 			?>
 		</div>
@@ -24,50 +24,20 @@ $usertype = $this->getUserType();
 		<div class="col-md-6">
 			<div class="panel panel-default">
 				<div class="panel-heading">
-					<i class="fa fa-check-square-o"></i> <?php echo translator::trans('usertype.permissions'); ?>
+					<i class="fa fa-check-square-o"></i> <?php echo t('usertype.permissions'); ?>
 					<div class="panel-tools">
 						<a class="btn btn-xs btn-link panel-collapse collapses" href="#"></a>
 					</div>
 				</div>
-				<div class="panel-body  panel-scroll" style="height:300px;">
-					<table class="table table-condensed table-hover">
-						<thead>
-							<tr>
-								<th><?php echo translator::trans('permission.title'); ?></th>
-							</tr>
-						</thead>
-						<tbody>
-							<?php
-							$value = options::get("packages.userpanel.disabledpermisions");
-							if (!$value) {
-								$value = array();
-							}
-							foreach($this->getPermissions() as $permission){
-								if (!in_array($permission, $value)) {
-							?>
-							<tr>
-								<td>
-									<div class="checkbox checkbox-success">
-										<label>
-											<input type="checkbox" name="permissions[]" value="<?php echo $permission;?>"<?php echo ($usertype->hasPermission($permission) ? ' checked' : ''); ?>>
-											<?php echo $this->translatePermission($permission); ?>
-										</label>
-									</div>
-								</td>
-							</tr>
-							<?php
-								}
-							}
-							?>
-						</tbody>
-					</table>
+				<div class="panel-body panel-permissions">
+
 				</div>
 			</div>
 		</div>
 		<div class="col-md-6">
 			<div class="panel panel-default">
 				<div class="panel-heading">
-					<i class="fa fa-group"></i> <?php echo translator::trans('usertype.periorities'); ?>
+					<i class="fa fa-group"></i> <?php echo t('usertype.periorities'); ?>
 					<div class="panel-tools">
 						<a class="btn btn-xs btn-link panel-collapse collapses" href="#"></a>
 					</div>
@@ -76,24 +46,24 @@ $usertype = $this->getUserType();
 					<table class="table table-condensed table-hover">
 						<thead>
 							<tr>
-								<th class="hidden-xs"><?php echo translator::trans('usertype.child'); ?></th>
+								<th class="hidden-xs"><?php echo t('usertype.child'); ?></th>
 							</tr>
 						</thead>
 						<tbody>
 							<?php
-							foreach($this->getChildrenTypes() as $priority){
+							foreach ($this->getChildrenTypes() as $priority) {
 							?>
 								<tr>
 									<td>
 										<div class="checkbox checkbox-primary">
 											<label>
-												<input type="checkbox" class="flat-grey" name="priorities[]" value="<?php echo $priority->id;?>"<?php echo ($this->hasPriority($priority) ? ' checked' : ''); ?>>
+												<input type="checkbox" class="flat-grey" name="priorities[]" value="<?php echo $priority->id; ?>"<?php echo ($this->hasPriority($priority) ? " checked " : ""); ?>>
 												<?php echo $priority->title; ?>
 											</label>
 										</div>
 									</td>
 								</tr>
-								<?php
+							<?php
 							}
 							?>
 						</tbody>
@@ -106,7 +76,7 @@ $usertype = $this->getUserType();
 			<div class="col-md-offset-4 col-md-4">
 				<button class="btn btn-teal btn-block" type="submit">
 					<i class="fa fa-check-square-o"></i>
-				<?php echo translator::trans('usertype.edit'); ?>
+				<?php echo t('usertype.edit'); ?>
 				</button>
 			</div>
 		</div>
