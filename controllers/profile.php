@@ -100,6 +100,10 @@ class profile extends controller{
 				'optional' => true,
 				'type' => 'image'
 			),
+			'avatar_remove' => [
+				'optional' => true,
+				'type' => 'bool',
+			],
 			'socialnets' => array(
 				'optional' => true,
 				'type' => function ($data, $rules, $input) {
@@ -141,61 +145,26 @@ class profile extends controller{
 					return $data;
 				},
 			),
-			'visibility_email' => array(
-				'optional' => true,
-				'type' => 'bool',
-				'empty' => true
-			),
-			'visibility_cellphone' => array(
-				'optional' => true,
-				'type' => 'bool',
-				'empty' => true
-			),
-			'visibility_phone' => array(
-				'optional' => true,
-				'type' => 'bool',
-				'empty' => true
-			),
-			'visibility_socialnetworks_'.socialnetwork::twitter => array(
-				'optional' => true,
-				'type' => 'bool',
-				'empty' => true
-			),
-			'visibility_socialnetworks_'.socialnetwork::twitter => array(
-				'optional' => true,
-				'type' => 'bool',
-				'empty' => true
-			),
-			'visibility_socialnetworks_'.socialnetwork::facebook => array(
-				'optional' => true,
-				'type' => 'bool',
-				'empty' => true
-			),
-			'visibility_socialnetworks_'.socialnetwork::skype => array(
-				'optional' => true,
-				'type' => 'bool',
-				'empty' => true
-			),
-			'visibility_socialnetworks_'.socialnetwork::gplus => array(
-				'optional' => true,
-				'type' => 'bool',
-				'empty' => true
-			),
-			'visibility_socialnetworks_'.socialnetwork::instagram => array(
-				'optional' => true,
-				'type' => 'bool',
-				'empty' => true
-			),
-			'visibility_socialnetworks_'.socialnetwork::telegram => array(
-				'optional' => true,
-				'type' => 'bool',
-				'empty' => true
-			),
-			'avatar_remove' => [
-				'type' => 'bool',
-				'optional' => true
-			]
 		);
+		if (Authorization::is_accessed('profile_edit_privacy')) {
+			foreach ([
+				'email',
+				'cellphone',
+				'phone',
+				'socialnetworks_' . SocialNetwork::telegram,
+				'socialnetworks_' . SocialNetwork::twitter,
+				'socialnetworks_' . SocialNetwork::instagram,
+				'socialnetworks_' . SocialNetwork::facebook,
+				'socialnetworks_' . SocialNetwork::skype,
+				'socialnetworks_' . SocialNetwork::gplus
+			] as $visibility) {
+				$inputs['visibility_' . $visibility] = array(
+					'optional' => true,
+					'type' => 'bool',
+					'empty' => true,
+				);
+			}
+		}
 		$formdata = $this->checkinputs($inputs);
 
 		$logsfeilds = [
@@ -230,31 +199,29 @@ class profile extends controller{
 		$user->save($formdata);
 		unset($formdata['avatar']);
 		if (isset($formdata['socialnets'])) {
-			foreach ($formdata['socialnets'] as $network => $username) {
-				if ($username) {
-					$edited = false;
-					foreach($user->socialnetworks as $socialnet){
-						if($socialnet->network == $network){
-							$edited = true;
-							$socialnet->username = $username;
-							$socialnet->save();
-							break;
-						}
+			$findSocialNetwork = function ($network) use (&$user) {
+				foreach ($user->socialnetworks as $socialnet) {
+					if ($socialnet->network == $network) {
+						return $socialnet;
 					}
-					if (!$edited) {
+				}
+				return null;
+			};
+			foreach ($formdata['socialnets'] as $network => $username) {
+				$socialnet = $findSocialNetwork($network);
+				if ($username) {
+					if ($socialnet) {
+						$socialnet->username = $username;
+						$socialnet->save();
+					} else {
 						$socialnet = new SocialNetwork();
 						$socialnet->user = $user->id;
 						$socialnet->network = $network;
 						$socialnet->username = $username;
 						$socialnet->save();
 					}
-				} else {
-					foreach ($user->socialnetworks as $socialnet) {
-						if ($socialnet->network == $network) {
-							$socialnet->delete();
-							break;
-						}
-					}
+				} else if ($socialnet) {
+					$socialnet->delete();
 				}
 			}
 		}
