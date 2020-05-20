@@ -89,8 +89,14 @@
 		}
 	},
 	{
-		"path": ["userpanel","profile", "edit"],
-		"controller": "controllers/profile@edit"
+		"path": "userpanel/profile/edit",
+		"controller": "controllers/profile@edit",
+		"method": "get"
+	},
+	{
+		"path": "userpanel/profile/edit",
+		"controller": "controllers/profile@update",
+		"method": "post"
 	},
 	{
 		"path": ["userpanel","search"],
