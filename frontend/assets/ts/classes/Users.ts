@@ -11,8 +11,8 @@ import { AjaxRequest, Router, webuilder} from "webuilder";
 import "./jquery.formAjax";
 import {Main} from "./Main";
 import Activate from "./Users/Activate";
-import Suspend from "./Users/Suspend";
 import Search from "./Users/Search";
+import Suspend from "./Users/Suspend";
 
 export enum Status {
 	DEACTIVE,
@@ -178,7 +178,7 @@ class ProfileEdit extends UserForm {
 				},
 				zip: {
 					digits: true,
-					required: true,
+					required: false,
 				},
 				address: {
 					required: true,
