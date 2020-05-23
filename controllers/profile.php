@@ -166,6 +166,9 @@ class profile extends controller{
 			}
 		}
 		$formdata = $this->checkinputs($inputs);
+		if (array_key_exists('avatar', $formdata) and !$formdata['avatar']) {
+			unset($formdata['avatar']);
+		}
 
 		$logsfeilds = [
 			'name', 
