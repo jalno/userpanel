@@ -15,9 +15,7 @@ export default class Online {
 					$(window).trigger("packages.userpanel.online.response", [response]);
 				},
 				error: (error) => {
-					if (typeof(error.redirect) != "undefined") {
-						window.location.href = Router.url(error.redirect, {error_message : error.message} as any);
-					}
+					$(window).trigger("packages.userpanel.online.error", [error]);
 				}
 			});
 			if (period !== Options.get("packages.userpanel.online.period")) {
