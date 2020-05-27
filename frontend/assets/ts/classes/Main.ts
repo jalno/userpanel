@@ -74,6 +74,10 @@ export class Main {
 			Main.importValidationTranslator();
 		}
 	}
+	public static getUrlParameter (name: string) {
+		const results = new RegExp('[\\?&]' + name + '=([^&#]*)').exec(window.location.href);
+		return (results && results.length > 0) ? decodeURIComponent(results[1]) : undefined;
+	}
 	private static isIE8 = false;
 	private static isIE9 = false;
 	private static $windowWidth;
