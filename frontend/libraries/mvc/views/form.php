@@ -215,7 +215,13 @@ trait formTrait {
 			//$code .= "</div>";
 		}
 		if($options['type'] == 'textarea'){
-			$code .= Safe::htmlentities($options['value']) . "</textarea>";
+			$code .= Safe::htmlentities($options['value'], array(
+					"&" => "&amp;",
+					'"' => "&quot;",
+					"'" => "&apos;",
+					"<" => "&lt;",
+					">" => "&gt;",
+				)) . "</textarea>";
 		}
 
 		if($options['type'] != 'hidden'){
