@@ -101,6 +101,7 @@ export class Main {
 		Main.$pageArea = Main.$windowHeight - $("body > .navbar").outerHeight() - $("body > .footer").outerHeight();
 		$(".sidebar-search input").removeAttr("style").removeClass("open");
 		Main.runContainerHeight();
+		Main.fixTableDropdownPosition();
 	}
 	private static runContainerHeight(): void {
 		const mainContainer = $(".main-content > .container");
@@ -309,6 +310,31 @@ export class Main {
 		});
 		$collapse.on("hidden.bs.collapse", () => {
 			$("body").removeClass("modal-open");
+		});
+	}
+	private static fixTableDropdownPosition(): void {
+		if (Main.$windowWidth > 768) {
+			return;
+		}
+		const $items = $(".table-responsive [data-toggle=dropdown]").parent();
+		$items.on("shown.bs.dropdown", function() {
+			const $dropdown = $(".dropdown-menu", this);
+			$(this).data("dropdown", $dropdown);
+			$("body").append($dropdown.css({
+				position: "absolute",
+				left: $dropdown.offset().left,
+				top: $dropdown.offset().top,
+				display: "block",
+			}).detach());
+		});
+		$items.on("hidden.bs.dropdown", function() {
+			const $dropdown = $(this).data("dropdown");
+			$(this).append($dropdown.css({
+				position: "",
+				left: "",
+				top: "",
+				display: "",
+			}).detach());
 		});
 	}
 }
