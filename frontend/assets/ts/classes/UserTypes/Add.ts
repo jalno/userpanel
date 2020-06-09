@@ -136,7 +136,7 @@ export default class Add {
 								const nextKey = afterGroupName.indexOf("_");
 								const nextPartAfterGroup = afterGroupName.substr(0, nextKey);
 								if (nextKey !== -1 && nextPartAfterGroup.length) {
-									xKey = nextPartAfterGroup;
+									xKey = groupName + "_" + nextPartAfterGroup;
 								}
 								if (grouped[groupName][xKey] === undefined && grouped[groupName][nonBrother.key] === undefined) {
 									grouped[groupName][xKey] = nonBrother;
