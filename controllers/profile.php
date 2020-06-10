@@ -111,6 +111,7 @@ class profile extends controller{
 					if (!is_array($data)) throw new InputValidationException($input);
 
 					foreach ($data as $network => $url) {
+						$regex = "";
 						switch ($network) {
 							case (SocialNetwork::telegram):
 								$regex = '/^(https?:\\/\\/(t(elegram)?\\.me|telegram\\.org)\\/)?(?<username>[a-z0-9\\_]{5,32})\\/?$/i';
@@ -192,7 +193,10 @@ class profile extends controller{
 			$formdata['avatar']->resize(200, 200)->saveToFile($tmpfile);
 			$formdata['avatar'] = 'storage/public_avatar/' . $tmpfile->md5() . '.' . $formdata['avatar']->getExtension();
 			$avatar = new file\Local(Packages::package('userpanel')->getFilePath($formdata['avatar']));
-			$avatar->getDirectory()->make(true);
+			$directory = $avatar->getDirectory();
+			if (!$directory->exists()) {
+				$directory->make(true);
+			}
 			$tmpfile->copyTo($avatar);
 		}
 		if (isset($formdata['password']) and $formdata['password']) {
