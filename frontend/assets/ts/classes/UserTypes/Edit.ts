@@ -8,12 +8,11 @@ export interface IUserpanelPermission {
 	title?: string;
 	value: boolean;
 }
-export interface IGroupPermissions {
-	[key: string]: IUserpanelPermission[];
+export interface IFancyTreeItemType {
+	children: IFancyTreeItemType[];
+	key: string;
+	[key: string]: string | number | boolean | IFancyTreeItemType[];
 }
-export type FancyTreeItemType = Array<{
-	[key: string]: string | number | boolean,
-}>;
 
 export default class Edit {
 	public static initIfNeeded(): void {
@@ -22,16 +21,15 @@ export default class Edit {
 		}
 	}
 	public static init(): void {
-		const fancyTreeItems = Edit.buildFancyTreeItems(Edit.getGroupPermissions(permissions as IUserpanelPermission[]));
-		Edit.runFancyTree(fancyTreeItems.items);
+		Edit.runFancyTree(Edit.buildFancyTreeItems(permissions as IUserpanelPermission[]));
 		Edit.setFancyTreeEvents();
 		Edit.submitFormListener();
 	}
 
-	protected static $form = $("body.usertypes.edit-usertype");
+	protected static $form = $("body.usertypes.edit-usertype form.edit-usertype");
 	protected static $permissions = $(".panel-permissions", Edit.$form);
 
-	protected static runFancyTree(items: FancyTreeItemType[]) {
+	protected static runFancyTree(items: IFancyTreeItemType[]) {
 		Edit.$permissions.fancytree({
 			source: items,
 			debugLevel: 0, // disabled
@@ -82,7 +80,7 @@ export default class Edit {
 			}
 			return selectedPermissions;
 		};
-		$("form.edit-usertype", Edit.$form).on("submit", () => {
+		Edit.$form.on("submit", () => {
 			const selectedPermissions = getSelectedPermissions();
 			console.info("all permissions:", permissions.length, permissions);
 			console.info("selected permissions:", selectedPermissions.length, selectedPermissions);
@@ -94,113 +92,82 @@ export default class Edit {
 
 		});
 	}
-	private static getGroupPermissions(allPermissions: IUserpanelPermission[]) {
-		const findBrothers = (needle: string, haystack: IUserpanelPermission[], finder: number = 0): IUserpanelPermission[] => {
-			const brothers: IUserpanelPermission[] = [];
-			for (const x of haystack) {
-				const groupName = x.key.substr(0, finder) as string;
-				if (groupName === needle) {
-					brothers.push(x);
-				}
-			}
-			return brothers;
+	private static buildFancyTreeItems(allPermissions: IUserpanelPermission[]) {
+		allPermissions.sort();
+		const tree: IFancyTreeItemType = {
+			key: undefined,
+			children: [],
 		};
-		const hasBrothers = (oPermissions: IUserpanelPermission[], ofinder: number) => {
-			for (const op of oPermissions) {
-				const index_ = op.key.indexOf("_", ofinder);
-				const opName = op.key.substr(0, index_) as string;
-				if (index_ !== -1 && opName.length) {
-					let count = 0;
-					for (const brotherPr of oPermissions) {
-						const brotherPrName = brotherPr.key.substr(0, index_) as string;
-						if (brotherPrName === opName && ++count > 1) {
-							return true;
-						}
-					}
-				}
-			}
-			return false;
-		};
-		const grouping = (iPermissions: IUserpanelPermission[], finder: number = 0) => {
-			const grouped = new Object();
-			for (const p of iPermissions) {
-				const index_ = p.key.indexOf("_", finder);
-				const groupName = p.key.substr(0, index_) as string;
-				if (groupName.length && grouped[groupName] === undefined) {
-					const brothers = findBrothers(groupName, iPermissions, index_);
-					if (brothers.length > 1) {
-						if (hasBrothers(brothers, (index_ + 1))) {
-							grouped[groupName] = grouping(brothers, (index_ + 1));
-							for (const nonBrother of brothers) {
-								let xKey: string = nonBrother.key;
-								const afterGroupName = nonBrother.key.substr(groupName.length + 1) as string;
-								const nextKey = afterGroupName.indexOf("_");
-								const nextPartAfterGroup = afterGroupName.substr(0, nextKey);
-								if (nextKey !== -1 && nextPartAfterGroup.length) {
-									xKey = groupName + "_" + nextPartAfterGroup;
-								}
-								if (grouped[groupName][xKey] === undefined && grouped[groupName][nonBrother.key] === undefined) {
-									grouped[groupName][xKey] = nonBrother;
-								}
-							}
-						} else {
-							grouped[groupName] = brothers;
-						}
+		const insertNode = (parent: IFancyTreeItemType, permission: IUserpanelPermission) => {
+			let common: string[] = [];
+			const selfParts = permission.key.substr(parent.key ? parent.key.length + 1 : 0).split("_");
+			for (const child of parent.children) {
+				const childCommon = [];
+				const parts = child.key.substr(parent.key ? parent.key.length + 1 : 0).split("_");
+				for (let x = 0, l = Math.min(selfParts.length, parts.length); x < l; x++) {
+					if (parts[x] === selfParts[x]) {
+						childCommon.push(parts[x]);
 					} else {
-						grouped[p.key] = brothers;
+						break;
 					}
 				}
+				if (childCommon.length > common.length) {
+					common = childCommon;
+				}
 			}
-			return grouped;
+			if (!common.length) {
+				parent.children.push({
+					key: permission.key,
+					selected: permission.value,
+					children: [],
+					title: Edit.translatePermission(permission.key),
+					tooltip: Edit.translatePermission(permission.key, true),
+					icon: "/packages/userpanel/frontend/assets/images/key_1.png",
+					folder: false,
+					checkbox: true,
+				});
+				return;
+			}
+			const key = (parent.key ? parent.key + "_" : "") + common.join("_");
+			let newNode: IFancyTreeItemType = {
+				key: key,
+				title: Edit.translatePermission(key),
+				tooltip: Edit.translatePermission(key, true),
+				children: [],
+				folder: true,
+				checkbox: true,
+			};
+			let replaced = false;
+			for (let x = 0, l = parent.children.length; x < l; x++) {
+				const child = parent.children[x];
+				if (child.key === newNode.key) {
+					if (child.folder === true) {
+						newNode = child;
+						replaced = true;
+					} else {
+						newNode.children.push(child);
+						parent.children.splice(x, 1);
+					}
+					break;
+				} else if (child.key.substr(0, newNode.key.length + 1) === newNode.key + "_") {
+					newNode.children.push(child);
+					parent.children.splice(x, 1);
+					break;
+				}
+			}
+			if (!replaced) {
+				parent.children.unshift(newNode);
+			}
+			insertNode(newNode, permission);
 		};
-		return grouping(allPermissions);
+		for (const permission of allPermissions) {
+			insertNode(tree, permission);
+		}
+		return tree.children;
 	}
 	private static translatePermission(permission: string, isTooltip: boolean = false): string {
 		const key = "usertype.permissions." + permission + (isTooltip ? ".tooltip" : "");
 		const translate = t(key);
 		return (translate !== key ? translate : (isTooltip ? "" : key));
-	}
-	private static buildFancyTreeItems(groupPermissions: object) {
-		// tslint:disable-next-line: ban-types
-		const isUserpanelPermission = (object: Object) => {
-			return object.hasOwnProperty("key") && object.hasOwnProperty("value");
-		};
-		const items: FancyTreeItemType[] = [];
-		let selected: boolean = true;
-		for (const index in groupPermissions) {
-			if (groupPermissions[index] !== undefined) {
-				if (isUserpanelPermission(groupPermissions[index])) {
-					const permission = groupPermissions[index] as IUserpanelPermission;
-					items.push({
-						key: permission.key,
-						selected: permission.value,
-						title: Edit.translatePermission(permission.key),
-						tooltip: Edit.translatePermission(permission.key, true),
-						icon: "/packages/userpanel/frontend/assets/images/key_1.png",
-						folder: false,
-						checkbox: true,
-					});
-					if (!permission.key) {
-						selected = false;
-					}
-				} else {
-					const childs = Edit.buildFancyTreeItems(groupPermissions[index]);
-					items.push({
-						key: index,
-						selected: childs.selected,
-						title: Edit.translatePermission(index),
-						tooltip: Edit.translatePermission(index, true),
-						icon: true,
-						folder: true,
-						checkbox: true,
-						children: childs.items,
-					});
-				}
-			}
-		}
-		return {
-			items,
-			selected,
-		};
 	}
 }
