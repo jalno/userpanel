@@ -55,6 +55,8 @@
 		"usertype.permissions.userpanel_users_delete" : "Delete user",
 		"usertype.permissions.userpanel_users_delete.tooltip" : "Delete All user's information from system",
 		"usertype.permissions.userpanel_users_settings": "Modify user settings",
+		"usertype.permissions.userpanel_users_export": "Export users list",
+		"usertype.permissions.userpanel_users_login": "Login as another user",
 		
 		"usertype.permissions.userpanel_profile": "Users Profiles",
 		"usertype.permissions.userpanel_profile_view":"View Profile",

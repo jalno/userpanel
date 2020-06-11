@@ -58,6 +58,9 @@
 		"usertype.permissions.userpanel_users_edit_privacy" : "ویرایش حریم خصوصی کاربر",
 		"usertype.permissions.userpanel_users_delete" : "حذف کاربر",
 		"usertype.permissions.userpanel_users_delete.tooltip" : "حذف تمامی اطلاعات کاربر در سیستم",
+		"usertype.permissions.userpanel_users_login": "ورود به عنوان کاربر دیگر",
+		"usertype.permissions.userpanel_users_login.tooltip": "با استفاده از این دسترسی کاربر می تواند در صفحه مشاهده کاربر، با استفاده از کاربر دیگری به سیستم وارد شود",
+		"usertype.permissions.userpanel_users_export": "گرفتن خروجی از لیست کاربران",
 
 		"usertype.permissions.userpanel_profile": "پروفایل کاربران",
 		"usertype.permissions.userpanel_profile_view":"مشاهده پروفایل",
