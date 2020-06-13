@@ -170,7 +170,9 @@ class profile extends controller{
 		if (array_key_exists('avatar', $formdata) and !$formdata['avatar']) {
 			unset($formdata['avatar']);
 		}
-
+		if (isset($formdata['zip']) and !$formdata['zip']) {
+			$formdata['zip'] = null;
+		}
 		$logsfeilds = [
 			'name', 
 			'lastname',
