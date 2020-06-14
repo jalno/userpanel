@@ -64,7 +64,7 @@ class ActivityCalendarBox extends Box {
 	protected function buildCalendar(): string {
 		$now = Date::time();
 		$firstDayOfWeek = Date::getFirstDayOfWeek();
-		$lastyear = date::mktime(null, null, null, Date::format('n') + 1, Date::format('j'), Date::format('Y') - 1);
+		$lastyear = date::mktime(null, null, null, Date::format('n', $now) + 1, Date::format('j', $now), Date::format('Y', $now) - 1);
 		$months = "";
 		$dates = "";
 		$activity = new Log\Activity($this->user->id);
@@ -85,7 +85,7 @@ class ActivityCalendarBox extends Box {
 				$dates .= '<div class="column">';
 			}
 			if ($first) {
-				for ($x = 0;$x <= $day; $x++) {
+				for ($x = 0; $x < Date::getWeekDay($day); $x++) {
 					$dates .= '<div class="calendar-square calendar-square-empty"></div>';
 				}
 			}
@@ -115,11 +115,12 @@ class ActivityCalendarBox extends Box {
 		}
 		$dates .= '</div>';
 		$this->totalActivities = array_sum($activities);
+		$day = intval(Date::format("w", $now));
 		return '<div class="calender">
 			<div class="days">
-				<div class="day">' . t("userpanel.profile.activity_calendar.sunday") . '</div>
-				<div class="day">' . t("userpanel.profile.activity_calendar.tuesday") . '</div>
-				<div class="day">' . t("userpanel.profile.activity_calendar.thursday") . '</div>
+				<div class="day">' . Date::format("l", $now + (($firstDayOfWeek - $day + 1) * 86400)) . '</div>
+				<div class="day">' . Date::format("l", $now + (($firstDayOfWeek - $day + 3) * 86400)) . '</div>
+				<div class="day">' . Date::format("l", $now + (($firstDayOfWeek - $day + 5) * 86400)) . '</div>
 		 	</div>
 			<div class="months">' . $months . '</div>
 			<div class="dates">' . $dates . '</div>

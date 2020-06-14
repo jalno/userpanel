@@ -34,6 +34,11 @@ class date extends baseDate {
 		return parent::getFirstDayOfWeek();
 	}
 
+	public static function getWeekDay(int $day): ?int {
+		self::init();
+		return parent::getWeekDay($day);
+	}
+
 	public static function setDefaultcalendar() {
 		$calendar = "";
 		$user = Authentication::getUser();
