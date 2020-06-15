@@ -1,14 +1,27 @@
 <?php
 namespace themes\clipone\views;
-use \packages\base\translator;
-use \packages\userpanel\views\lock as lockView;
-use \themes\clipone\viewTrait;
-use \themes\clipone\views\formTrait;
-class lock extends lockView{
-	use viewTrait, formTrait;
+
+use packages\base\frontend\Theme;
+use packages\userpanel\views\Lock as ParentView;
+use themes\clipone\{ViewTrait, views\FormTrait};
+
+class Lock extends ParentView {
+	use ViewTrait, FormTrait;
+	/**
+	 * @var \packages\userpanel\User
+	 */
 	protected $user;
-	function __beforeLoad(){
-		$this->setTitle(translator::trans('unlock'));
+
+	public function __beforeLoad(){
+		$this->setTitle(t('unlock'));
 		$this->user = $this->getUser();
+	}
+
+	protected function getSelfAvatarURL(){
+		$user = $this->getUser();
+		if($user->avatar){
+			return Packages::package('userpanel')->url($user->avatar);
+		}
+		return Theme::url('assets/images/defaultavatar.jpg');
 	}
 }
