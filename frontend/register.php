@@ -11,6 +11,11 @@ $this->the_header('login');
 	<h3><?php echo translator::trans('register.title'); ?></h3>
 	<p><?php echo translator::trans('register.enterdata'); ?></p>
 	<form class="form-register" action="<?php echo userpanel\url('register'); ?>" method="post">
+		<?php
+		if ($errorcode = $this->getErrorsHTML()) {
+			echo $errorcode;
+		}
+		?>
 		<div class="errorHandler alert alert-danger no-display">
 			<i class="fa fa-remove-sign"></i> <?php echo translator::trans('register.error.recheck'); ?>
 		</div>
