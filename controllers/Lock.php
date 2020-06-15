@@ -18,13 +18,14 @@ class Lock extends Controller {
 	 */
 	public function lockdown() {
 		$session = new Authentication\SessionHandler();
-		if (!$session->getSession()) {
+		$me = $session->getUserID();
+		if ($me === null) {
 			$this->response->setStatus(true);
 			$this->response->Go(userpanel\url('login'));
 			return $this->response;
 		}
 		$session->lock();
-		$user = (new User)->byID($session->getUserID());
+		$user = (new User)->byID($me);
 		$view = View::byName(views\Lock::class);
 		$view->setUser($user);
 		if (http::is_safe_referer()) {
@@ -42,12 +43,13 @@ class Lock extends Controller {
 	 */
 	public function unlock() {
 		$session = new Authentication\SessionHandler();
-		if (!$session->getSession()) {
+		$me = $session->getUserID();
+		if ($me === null) {
 			$this->response->setStatus(true);
 			$this->response->Go(userpanel\url('login'));
 			return $this->response;
 		}
-		$user = (new User)->byID($session->getUserID());
+		$user = (new User)->byID($me);
 		$view = View::byName(views\Lock::class);
 		$view->setUser($user);
 		$this->response->setView($view);
