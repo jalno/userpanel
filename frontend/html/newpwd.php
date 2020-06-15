@@ -4,6 +4,16 @@ use \packages\userpanel;
 $this->the_header('login');
 ?>
 <div class="box-change-passwd">
+	<div class="errors">
+		<?php
+		$errorcode = $this->getErrorsHTML();
+		if($errorcode){
+		?>
+		<div class="row">
+			<div class="col-xs-12"><?php echo $errorcode; ?></div>
+		</div>
+		<?php } ?>
+	</div>
 	<form action="<?php echo userpanel\url('resetpwd/newpwd', array('ajax'=>1)); ?>" class="form-changepwd" method="POST">
 		<h3><?php echo t("userpanel.newpwd.title"); ?></h3>
 		<p><?php echo translator::trans('resetpwd.set.newpwd.description', ['user_name' => $this->user->getFullName()]); ?></p>
