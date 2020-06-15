@@ -31,11 +31,6 @@ export class Login {
 		const $form = $(".form-login");
 		const $errorHandler = $(".errorHandler", $form);
 		$errorHandler.data("orghtml", $errorHandler.html());
-		
-		const errorMessage = Main.getUrlParameter("error_message");
-		if(errorMessage){
-			$errorHandler.html(errorMessage).show();
-		}
 		$form.validate({
 			rules: {
 				username: {

@@ -14,6 +14,9 @@ $isRTL = (bool) base\translator::getLang()->isRTL();
 			'name' => 'backTo',
 			'type' => 'hidden'
 		]);
+		if ($errorcode = $this->getErrorsHTML()) {
+			echo $errorcode;
+		}
 		?>
 		<div class="errorHandler alert alert-danger no-display">
 			<i class="fa fa-remove-sign"></i> <?php echo t("userpanel.login.incorrect"); ?>.
