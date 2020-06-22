@@ -1,7 +1,7 @@
 <?php
 namespace packages\userpanel;
 
-use packages\base\{Response, http};
+use packages\base\Response;
 use packages\userpanel\{events\AuthenticationHandlersEvent, Authentication\IHandler};
 
 class Authentication {
@@ -110,29 +110,14 @@ class Authentication {
 		self::$handler = null;
 	}
 	
-	public static function FailResponse(){
-		$response = new Response(false);
-		if(url() == http::$request['uri']){
-			$response->go(url('login'));
-		}else{
-			$indexurl = parse_url(url('', [], true));
-			if(!isset($indexurl['port'])){
-				switch($indexurl['scheme']){
-					case('http'):$indexurl['port'] = 80;break;
-					case('https'):$indexurl['port'] = 443;break;
-				}
-			}
-			if($indexurl['scheme'] == http::$request['scheme'] and $indexurl['host'] == http::$request['hostname'] and $indexurl['port'] == http::$server['port']){
-				$response->go(url('login', ['backTo' => http::$request['uri'] . (http::$request['get'] ? "?" . http_build_query(http::$request['get']): "")]));
-			}else{
-				$response->go(url('login', ['backTo' => http::getURL()]));
-			}
-			
-		}
-		if ($response->is_ajax() or $response->is_api()) {
-			$response->setHttpCode(401);
-		}
-		return($response);
+	/**
+	 * Response for redirecting non-authenticated user to login form. 
+	 * 
+	 * @deprecated
+	 * @return Response
+	 */
+	public static function FailResponse(): Response {
+		return (new controllers\Dashboard)->authError();
 	}
 	
 }
