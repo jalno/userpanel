@@ -80,7 +80,7 @@
 		"error.fatal.title":"خطا",
 		"error.warning.title" : "هشدار",
 		"error.notice.title" : "توجه",
-		"error.success.title" : "موفق",
+		"error.success.title" : "موفقیت آمیز",
 		"usertype.title": "عنوان",
 		"usertype.permissions": "دسترسی ها",
 		"usertype.priority": "اولویت ها",
