@@ -5,6 +5,7 @@
 	},
 	"rtl": false,
 	"phrases":{
+		"error.success.title": "Success",
 		"user.view.byFullName": "{fullname}",
 		"search.user.description": "{type_name}<br>Email: {email}<br>Mobile phone number: {cellphone}<br>Last activity: {lastonline}",
 		"profile": "Profile",
