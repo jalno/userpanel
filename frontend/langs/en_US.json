@@ -158,6 +158,7 @@
 	   	"error.fatal.title": "Error",
 		"error.warning.title": "Warning",
 		"error.notice.title": "Attention",
+		"error.success.title": "Success",
 		"usertype.title": "Title",
 		"usertype.permissions": "Permissions",
 		"usertype.priority": "Priorities",
