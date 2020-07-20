@@ -5,7 +5,7 @@
 	},
 	"rtl": true,
 	"phrases":{
-		"error.success.title" : "موفق",
+		"error.success.title" : "موفقیت آمیز",
 		"user.view.byFullName": "مشاهده پروفایل {fullname}",
 		"search.user.description": "{type_name}<br>ایمیل: {email}<br>تلفن همراه: {cellphone}<br>آخرین فعالیت در {lastonline}",
 		"profile": "پروفایل",
