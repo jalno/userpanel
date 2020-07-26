@@ -36,17 +36,17 @@ class Overview extends usersView{
 		$this->addBox(new ActivityCalendarBox($this->user));
 		$this->canEdit = Authorization::is_accessed('profile_edit');
 	}
+	protected function getLastIP(){
+		$log = new log();
+		$log->where("user", $this->user->id);
+		$log->orderBy("time", "DESC");
+		return $log->getValue('ip');
+	}
 	private function loadLastLogin(){
 		$log = new log();
 		$log->where("user", $this->user->id);
 		$log->orderBy("time", "DESC");
 		$this->lastlogin = $log->getValue('userpanel_logs.time');
-	}
-	private function getLastIP(){
-		$log = new log();
-		$log->where("user", $this->user->id);
-		$log->orderBy("time", "DESC");
-		return $log->getValue('ip');
 	}
 	private function loadSocialnetworks(){
 		$networks = $this->getUserData('socialnetworks');
