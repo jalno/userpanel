@@ -75,6 +75,7 @@ trait TabbableTrait {
 		$tab = $this->getActiveTab();
 		if ($tab) {
 			$view = $tab->getView();
+			$view->isActiveTab(true);
 			(new View\events\BeforeLoad($view))->trigger();
 			$view->dynamicData()->trigger();
 			if (method_exists($view, "__beforeLoad")) {
@@ -89,7 +90,11 @@ trait TabbableTrait {
 	}
 
 	public function __call($name, $arguments) {
-		return $this->___call($name, $arguments);
+		$tab = $this->getActiveTab();
+		if ($tab) {
+			$view = $tab->getView();
+			return $view->$name(...$arguments);
+		}
 	}
 
 	public function __get($name) {
