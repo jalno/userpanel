@@ -20,12 +20,14 @@ class Overview extends usersView{
 	use viewTrait, BoxyTrait, TabTrait;
 	protected $networks = array();
 	protected $lastlogin = 0;
+	protected $lastIP;
 	protected $logs = array();
 	protected $canEdit = false;
-	function __beforeLoad(){
+
+	public function __beforeLoad(){
 		$this->user = $this->getData('user');
 		$this->setTitle(t("user.profile.overview"));
-		$this->loadLastLogin();
+		$this->loadLastLog();
 		$this->loadSocialnetworks();
 		$this->setNavigation();
 		$this->addBodyClass('users');
@@ -36,18 +38,19 @@ class Overview extends usersView{
 		$this->addBox(new ActivityCalendarBox($this->user));
 		$this->canEdit = Authorization::is_accessed('profile_edit');
 	}
-	protected function getLastIP(){
-		$log = new log();
-		$log->where("user", $this->user->id);
-		$log->orderBy("time", "DESC");
-		return $log->getValue('ip');
+
+	private function loadLastLog(): void {
+		$log = (new Log)
+			->where("user", $this->user->id)
+			->orderBy("time", "DESC")
+			->getOne();
+		if (!$log) {
+			return;
+		}
+		$this->lastlogin = $log->time;
+		$this->lastIP = $log->ip;
 	}
-	private function loadLastLogin(){
-		$log = new log();
-		$log->where("user", $this->user->id);
-		$log->orderBy("time", "DESC");
-		$this->lastlogin = $log->getValue('userpanel_logs.time');
-	}
+
 	private function loadSocialnetworks(){
 		$networks = $this->getUserData('socialnetworks');
 		if ($networks) {
@@ -69,6 +72,7 @@ class Overview extends usersView{
 			}
 		}
 	}
+
 	private function setNavigation(){
 		$item = new menuItem("users");
 		$item->setTitle(translator::trans('users'));

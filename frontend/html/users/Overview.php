@@ -165,12 +165,11 @@ use themes\clipone\utility;
 						<td></td>
 					</tr>
 				<?php
-				$lastIP = $this->getLastIP();
-				if ($lastIP) {
+				if ($this->lastIP) {
 				?>
 					<tr>
 						<td><?php echo t("userpanel.profile.last_ip"); ?></td>
-						<td class="ltr"><?php echo $lastIP; ?></td>
+						<td class="ltr"><?php echo $this->lastIP; ?></td>
 						<td></td>
 					</tr>
 				<?php } ?>
