@@ -25,7 +25,7 @@ trait TabTrait {
 	 * @return void
 	 */
 	public function output() {
-		if ($this->isTab) {
+		if ($this->activeTab) {
 			$this->outputTab();
 		} else {
 			parent::output();
@@ -38,25 +38,7 @@ trait TabTrait {
 	 * @return void
 	 */
 	public function outputTab() {
-		if ($this->source) {
-			if ($this->file) {
-				if (is_string($this->file)) {
-					$this->file = $this->source->getFile($this->file);
-				}
-			} else {
-				$this->file = $this->source->getHTMLFile(get_class($this));
-				if (!$this->file) {
-					$reflection = new \ReflectionClass(get_class($this));
-					$thisFile = $reflection->getFileName();
-					$sourceHome = $this->source->getHome()->getRealPath();
-					$file = substr($thisFile, strlen($sourceHome) + 1);
-					$file = $this->source->getFile("html" . substr($file, strpos($file, "/")));
-					if ($file->exists()) {
-						$this->file = $file;
-					}
-				}
-			}
-		}
+		$this->loadHTMLFile();
 		if (!$this->file) {
 			return;
 		}
