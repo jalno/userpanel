@@ -225,6 +225,24 @@ trait formTrait {
 		}
 
 		if($options['type'] != 'hidden'){
+			if(isset($options['input-group']) and $options['input-group']){
+				if(isset($options['input-group']['right'])){
+					if(is_string($options['input-group']['right'])){
+						$options['input-group']['right'] = array(
+							array(
+								'type' => 'addon',
+								'text' => $options['input-group']['right']
+							)
+						);
+					}
+					if(is_array($options['input-group']['right'])){
+						foreach($options['input-group']['right'] as $item){
+							$code .= $this->buildInputGroupItem($item);
+						}
+					}
+				}
+				$code .= '</div>';
+			}
 			if($error){
 				$text = null;
 				if(isset($options['error']) and is_array($options['error'])){
@@ -251,24 +269,6 @@ trait formTrait {
 			}
 			if($this->horizontal_form and $this->input_col and $options['type'] != 'hidden' and (!isset($options['input-group']) or !$options['input-group'])){
 				$code .= "</div>";
-			}
-			if(isset($options['input-group']) and $options['input-group']){
-				if(isset($options['input-group']['right'])){
-					if(is_string($options['input-group']['right'])){
-						$options['input-group']['right'] = array(
-							array(
-								'type' => 'addon',
-								'text' => $options['input-group']['right']
-							)
-						);
-					}
-					if(is_array($options['input-group']['right'])){
-						foreach($options['input-group']['right'] as $item){
-							$code .= $this->buildInputGroupItem($item);
-						}
-					}
-				}
-				$code .= '</div>';
 			}
 			if(isset($options['icon']) and $options['icon']){
 				$code .= "<i class=\"{$options['icon']}\"></i>";
