@@ -54,7 +54,7 @@ class dashboard extends dashboardView{
 			} else {
 				$shortcut->text = translator::trans("shortcut.users.loggined.iszero");
 			}
-			$shortcut->setLink(translator::trans("shortcut.users.link"), userpanel\url("users"));
+			$shortcut->setLink(translator::trans("shortcut.users.link"), userpanel\url("users", ["lastonline_from" => Date::format("Y/m/d H:i", $today)]));
 			self::addShortcut($shortcut);
 			self::addBox($this->createOnlineUsers());
 		}

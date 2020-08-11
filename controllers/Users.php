@@ -84,7 +84,25 @@ class Users extends Controller {
 				"values" => array("csv"),
 				"optional" => true,
 			),
+			"lastonline_from" => array(
+				"type" => "date",
+				"unix" => true,
+				"optional" => true,
+			),
+			"lastonline_to" => array(
+				"type" => "date",
+				"unix" => true,
+				"optional" => true,
+			),
 		));
+		if (isset($inputs["lastonline_from"], $inputs["lastonline_to"])) {
+			if ($inputs["lastonline_from"] >= $inputs["lastonline_to"]) {
+				throw new InputValidationException("lastonline_from");
+			}
+		}
+		if ($inputs["online"]) {
+			unset($inputs["lastonline_from"], $inputs["lastonline_to"]);
+		}
 		$model = new User();
 		if ($types) {
 			$model->where("type", $types, 'in');
@@ -97,6 +115,12 @@ class Users extends Controller {
 		if (isset($inputs['type'])) {
 			$view->setDataForm($inputs['type'], 'type-select');
 			$model->where('type', $inputs['type'], 'IN');
+		}
+		if (isset($inputs["lastonline_from"])) {
+			$model->where("lastonline", $inputs["lastonline_from"], ">=");
+		}
+		if (isset($inputs["lastonline_to"])) {
+			$model->where("lastonline", $inputs["lastonline_to"], "<");
 		}
 		foreach(["id", "name", "lastname", "email", "cellphone", "status", "city", "country"] as $item) {
 			if (!isset($inputs[$item])) {
