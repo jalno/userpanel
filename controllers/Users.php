@@ -18,7 +18,7 @@ class Users extends Controller {
 		if ($types) {
 			$view->setUserTypes((new Usertype)->where("id", $types, "in")->get());
 		}
-		$inputs = $this->checkinputs(array(
+		$rules = array(
 			"id" => array(
 				"type" => "number",
 				"optional" => true,
@@ -94,7 +94,9 @@ class Users extends Controller {
 				"unix" => true,
 				"optional" => true,
 			),
-		));
+		);
+		$view->setDataForm(array_filter($this->inputsValue($rules)));
+		$inputs = $this->checkInputs($rules);
 		if (isset($inputs["lastonline_from"], $inputs["lastonline_to"])) {
 			if ($inputs["lastonline_from"] >= $inputs["lastonline_to"]) {
 				throw new InputValidationException("lastonline_from");
