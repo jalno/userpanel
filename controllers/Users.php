@@ -126,7 +126,7 @@ class Users extends Controller {
 			if (!isset($inputs[$item])) {
 				continue;
 			}
-			$comparison = ($item == "status" ? "equals" : $inputs["comparison"]);
+			$comparison = (in_array($item, ["id", "status", "country"]) ? "equals" : $inputs["comparison"]);
 			$model->where($item, $inputs[$item], $comparison);
 		}
 		if (isset($inputs["word"])) {
