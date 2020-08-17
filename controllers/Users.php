@@ -18,7 +18,7 @@ class Users extends Controller {
 		if ($types) {
 			$view->setUserTypes((new Usertype)->where("id", $types, "in")->get());
 		}
-		$rules = array(
+		$inputs = $this->checkInputs(array(
 			"id" => array(
 				"type" => "number",
 				"optional" => true,
@@ -67,8 +67,8 @@ class Users extends Controller {
 				"type" => "string",
 			),
 			"country" => array(
-				"optional" => true,
 				"type" => Country::class,
+				"optional" => true,
 			),
 			"word" => array(
 				"type" => "string",
@@ -94,9 +94,7 @@ class Users extends Controller {
 				"unix" => true,
 				"optional" => true,
 			),
-		);
-		$view->setDataForm(array_filter($this->inputsValue($rules)));
-		$inputs = $this->checkInputs($rules);
+		));
 		if (isset($inputs["lastonline_from"], $inputs["lastonline_to"])) {
 			if ($inputs["lastonline_from"] >= $inputs["lastonline_to"]) {
 				throw new InputValidationException("lastonline_from");
@@ -128,7 +126,13 @@ class Users extends Controller {
 			if (!isset($inputs[$item])) {
 				continue;
 			}
-			$comparison = (in_array($item, ["id", "status", "country"]) ? "equals" : $inputs["comparison"]);
+			$comparison = $inputs["comparison"];
+			if (in_array($item, ["id", "status", "country"])) {
+				$comparison = "equals";
+				if ($item == "country") {
+					$inputs[$item] = $inputs[$item]->id;
+				}
+			}
 			$model->where($item, $inputs[$item], $comparison);
 		}
 		if (isset($inputs["word"])) {
