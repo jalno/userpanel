@@ -18,7 +18,7 @@ class Users extends Controller {
 		if ($types) {
 			$view->setUserTypes((new Usertype)->where("id", $types, "in")->get());
 		}
-		$inputs = $this->checkinputs(array(
+		$inputs = $this->checkInputs(array(
 			"id" => array(
 				"type" => "number",
 				"optional" => true,
@@ -67,8 +67,8 @@ class Users extends Controller {
 				"type" => "string",
 			),
 			"country" => array(
-				"optional" => true,
 				"type" => Country::class,
+				"optional" => true,
 			),
 			"word" => array(
 				"type" => "string",
@@ -126,7 +126,13 @@ class Users extends Controller {
 			if (!isset($inputs[$item])) {
 				continue;
 			}
-			$comparison = ($item == "status" ? "equals" : $inputs["comparison"]);
+			$comparison = $inputs["comparison"];
+			if (in_array($item, ["id", "status", "country"])) {
+				$comparison = "equals";
+				if ($item == "country") {
+					$inputs[$item] = $inputs[$item]->id;
+				}
+			}
 			$model->where($item, $inputs[$item], $comparison);
 		}
 		if (isset($inputs["word"])) {

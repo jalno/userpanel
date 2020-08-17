@@ -102,7 +102,10 @@ if ($this->canExport) {
 			$feilds = array(
 				array(
 					"label" => t("user.id"),
-					"name" => "id"
+					"name" => "id",
+					"type" => "number",
+					"ltr" => true,
+					"min" => 1,
 				),
 				array(
 					"label" => t("user.name"),
