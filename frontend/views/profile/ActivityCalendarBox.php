@@ -62,7 +62,7 @@ class ActivityCalendarBox extends Box {
 	}
 
 	protected function buildCalendar(): string {
-		$now = Date::time();
+		$now = date::mktime(23, 59, 59) + 1;
 		$firstDayOfWeek = Date::getFirstDayOfWeek();
 		$lastyear = date::mktime(null, null, null, Date::format('n', $now) + 1, Date::format('j', $now), Date::format('Y', $now) - 1);
 		$months = "";
@@ -73,7 +73,7 @@ class ActivityCalendarBox extends Box {
 		foreach ($activity->dayByDay() as $item) {
 			$activities[Date::format("Y/n/j", strtotime($item['date']))] = $item['activities'];
 		}
-		for ($first = true, $i = 0, $w = 0; $lastyear <= $now; $first = false, $lastyear += 86400) {
+		for ($first = true, $i = 0, $w = 0; $lastyear < $now; $first = false, $lastyear += 86400) {
 			$date = intval(Date::format('j', $lastyear));
 			$month = intval(Date::format('n', $lastyear));
 			$year = intval(Date::format('Y', $lastyear));
@@ -115,6 +115,7 @@ class ActivityCalendarBox extends Box {
 		}
 		$dates .= '</div>';
 		$this->totalActivities = array_sum($activities);
+		$now -= 1;
 		$day = intval(Date::format("w", $now));
 		return '<div class="calender">
 			<div class="days">
