@@ -9,7 +9,7 @@ class Log extends dbObject {
 	protected $dbTable = "userpanel_logs";
 	protected $primaryKey = "id";
 	protected $dbFields = [
-        'user' => ['type' => 'int', 'required' => true],
+        'user' => ['type' => 'int'],
         'ip' => ['type' => 'text', 'required' => true],
         'time' => ['type' => 'int', 'required' => true],
         'title' => ['type' => 'text', 'required' => true],
