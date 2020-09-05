@@ -2,20 +2,51 @@
 namespace packages\userpanel\controllers;
 
 use packages\base;
-use packages\base\{db, db\DuplicateRecord, InputValidation, db\Parenthesis, Response};
+use packages\base\{db, db\DuplicateRecord, InputValidation, NotFound, db\Parenthesis, Response};
 use packages\userpanel;
 use packages\userpanel\{Authentication, AuthorizationException, Authorization, Controller, Date, Log, User, View, Views};
 
 class Logs extends Controller {
+
+	/**
+	 * get log from database by check permissions ans types
+	 *
+	 * @param int $logID that is id of given log
+	 * @return Log
+	 */
+	protected static function getLog(int $logID): Log {
+		$me = Authentication::getUser();
+		$types = Authorization::childrenTypes();
+		$canSearchSystemLogs = Authorization::is_accessed("logs_search_system_logs");
+		$log = new Log();
+		$log->join(User::class, "user", ($canSearchSystemLogs ? "LEFT" : "INNER"), "userpanel_users.id");
+		if (!$canSearchSystemLogs) {
+			if ($types) {
+				$log->where("userpanel_users.type", $types, "IN");
+			} else {
+				$log->where("userpanel_users.id", $me->id);
+			}
+		}
+		$log->where("userpanel_logs.id", $logID);
+		$log = $log->getOne("userpanel_logs.*");
+		if (!$log) {
+			throw new NotFound();
+		}
+		return $log;
+	}
+
+	/**
+	 * @var bool $authentication that indicates user should be authenticate before do anything!
+	 */
 	protected $authentication = true;
 	
 	/**
 	 * Works with one of logs_search, users_view or profile_view permissions.
-	 * 
-	 * @todo Add IP search field.
+	 *
 	 * @return Response
 	 */
-	public function search() {
+	public function search(): Response {
+		$this->response->setStatus(false);
 		$logs_permission = Authorization::is_accessed('logs_search');
 		$users_permission = false;
 		$profile_permission = false;
@@ -28,15 +59,15 @@ class Logs extends Controller {
 		if (!$logs_permission and !$users_permission and !$profile_permission) {
 			throw new AuthorizationException("userpanel_logs_search");
 		}
+		$canSearchSystemLogs = Authorization::is_accessed('logs_search_system_logs');
 
 		$view = View::byName(views\logs\search::class);
 		$this->response->setView($view);
-		$this->response->setStatus(false);
 
 		$me = Authentication::getUser();
 		$children = ($logs_permission or $users_permission) ? Authorization::childrenTypes() : [];
 
-		$inputs = $this->checkinputs(array(
+		$rules = array(
 			'id' => array(
 				'type' => 'number',
 				'optional' => true,
@@ -52,6 +83,7 @@ class Logs extends Controller {
 					}
 				}
 			),
+
 			'title' => array(
 				'type' => 'string',
 				'optional' => true,
@@ -78,15 +110,23 @@ class Logs extends Controller {
 				'type' => 'string',
 				'values' => ['equals', 'startswith', 'contains'],
 				'default' => 'contains',
-				'optional' => true
-			)
-		));
+				'optional' => true,
+			),
+		);
+		if ($canSearchSystemLogs) {
+			$rules['system_logs'] = array(
+				'type' => 'bool',
+				'optional' => true,
+				'default' => false,
+			);
+		}
+		$inputs = $this->checkInputs($rules);
 		$activities = null;
 		if (isset($inputs['activity']) and $inputs['activity']) {
 			$activities = Log\Activity::getActivityTypes();
 		}
 		$model = new Log();
-		$model->with("user");
+		$model->join(User::class, "user", ($canSearchSystemLogs ? "LEFT" : "INNER"), "userpanel_users.id");
 		if (isset($inputs['activity']) and $inputs['activity'] and $activities) {
 			$model->where("userpanel_logs.type", $activities, "IN");
 		}
@@ -99,7 +139,9 @@ class Logs extends Controller {
 		if (isset($inputs['timeUntil'])) {
 			$model->where("userpanel_logs.time", $inputs['timeUntil'], "<");
 		}
-		if (isset($inputs['user'])) {
+		if (isset($inputs['system_logs']) and $inputs['system_logs']) {
+			$model->where("userpanel_logs.user", null, "IS");
+		} elseif (isset($inputs['user'])) {
 			$model->where("userpanel_logs.user", $inputs['user']->id);
 		}
 		if (isset($inputs['title'])) {
@@ -108,88 +150,92 @@ class Logs extends Controller {
 		if (isset($inputs['ip'])) {
 			$model->where("userpanel_logs.ip", $inputs['ip'], $inputs['comparison']);
 		}
-		if ($children) {
-			$model->where("userpanel_users.type", $children, 'IN');
-		} else {
-			$model->where("userpanel_logs.user", $me->id);
+		if (!$canSearchSystemLogs) {
+			if ($children) {
+				$model->where("userpanel_users.type", $children, 'IN');
+			} else {
+				$model->where("userpanel_logs.user", $me->id);
+			}
 		}
 		$model->orderBy('userpanel_logs.time', 'DESC');
 		$model->pageLimit = $this->items_per_page;
-		$logs = $model->paginate($this->page);
+		$logs = $model->paginate($this->page, array(
+			"userpanel_logs.id",
+			"userpanel_logs.user",
+			"userpanel_logs.ip",
+			"userpanel_logs.time",
+			"userpanel_logs.title",
+			"userpanel_logs.type",
+			"userpanel_users.id as userID",
+			"userpanel_users.type as userType",
+			"userpanel_users.name as userName",
+			"userpanel_users.lastname as userLastname",
+		));
+		foreach ($logs as &$log) {
+			if ($log->data["userID"]) {
+				$log->user = new User(array(
+					"id" => $log->data["userID"],
+					"type" => $log->data["userType"],
+					"name" => $log->data["userName"],
+					"lastname" => $log->data["userLastname"],
+				));
+			}
+		}
 		$view->setDataList($logs);
 		$view->setPaginate($this->page, $model->totalCount, $this->items_per_page);
 		$this->response->setStatus(true);
 		return $this->response;
 	}
-	public function view(array $data):response{
-		authorization::haveOrFail('logs_view');
-		$types = authorization::childrenTypes();
-		$user = authentication::getUser();
-		$log = new log();
-		db::join("userpanel_users", "userpanel_users.id=userpanel_logs.user", "INNER");
-		if($types){
-			$log->where("userpanel_users.type", $types, 'in');
-		}else{
-			$log->where("userpanel_users.id", $user->id);
-		}
-		$log->where("userpanel_logs.id", $data['log']);
-		if(!$log = $log->getOne("userpanel_logs.*")){
-			throw new NotFound();
-		}
+	/**
+	 * view log based on user permission and types
+	 *
+	 * @throws NotFound if can not find any log with given id or the user should not access this log
+	 * @return Response
+	 */
+	public function view(array $data): Response {
+		$this->response->setStatus(false);
+		Authorization::haveOrFail('logs_view');
+		$log = self::getLog($data['log']);
 		$view = view::byName(views\logs\view::class);
-		$view->setUser($user);
-
+		$this->response->setView($view);
+		$view->setUser(Authentication::getUser());
+		$view->setLog($log);
 		$log->getHandler()->buildFrontend($view);
-		$view->setLog($log);
 		$this->response->setStatus(true);
-		$this->response->setView($view);
 		return $this->response;
 	}
-	public function delete(array $data):response{
-		authorization::haveOrFail('logs_delete');
-		$types = authorization::childrenTypes();
-		$log = new log();
-		db::join("userpanel_users", "userpanel_users.id=userpanel_logs.user", "INNER");
-		if($types){
-			$log->where("userpanel_users.type", $types, 'in');
-		}else{
-			$log->where("userpanel_users.id", authentication::getID());
-		}
-		$log->where("userpanel_logs.id", $data['log']);
-		if(!$log = $log->getOne("userpanel_logs.*")){
-			throw new NotFound();
-		}
+	/**
+	 * delete log view
+	 *
+	 * @throws NotFound if can not find any log with given id or the user should not access this log
+	 * @return Response
+	 */
+	public function delete(array $data): Response {
+		$this->response->setStatus(false);
+		Authorization::haveOrFail('logs_delete');
+		$log = self::getLog($data['log']);
 		$view = view::byName(views\logs\delete::class);
+		$this->response->setView($view);
 		$view->setLog($log);
 		$this->response->setStatus(true);
-		$this->response->setView($view);
 		return $this->response;
 	}
-	public function terminate(array $data):response{
-		authorization::haveOrFail('logs_delete');
-		$types = authorization::childrenTypes();
-		$log = new log();
-		db::join("userpanel_users", "userpanel_users.id=userpanel_logs.user", "INNER");
-		if($types){
-			$log->where("userpanel_users.type", $types, 'in');
-		}else{
-			$log->where("userpanel_users.id", authentication::getID());
-		}
-		$log->where("userpanel_logs.id", $data['log']);
-		if(!$log = $log->getOne("userpanel_logs.*")){
-			throw new NotFound();
-		}
+	/**
+	 * remove's log from databse
+	 *
+	 * @throws NotFound if can not find any log with given id or the user should not access this log
+	 * @return Response
+	 */
+	public function terminate(array $data): Response {
+		$this->response->setStatus(false);
+		Authorization::haveOrFail('logs_delete');
+		$log = self::getLog($data['log']);
 		$view = view::byName(views\logs\delete::class);
-		$view->setLog($log);
-		try{
-			$this->response->setStatus(false);
-			$log->delete();
-			$this->response->setStatus(true);
-			$this->response->Go(userpanel\url("logs/search"));
-		}catch(inputValidation $error){
-			$view->setFormError(FormError::fromException($error));
-		}
 		$this->response->setView($view);
+		$view->setLog($log);
+		$log->delete();
+		$this->response->setStatus(true);
+		$this->response->Go(userpanel\url("logs/search"));
 		return $this->response;
 	}
 }

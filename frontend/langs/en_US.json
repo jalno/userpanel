@@ -213,6 +213,7 @@
 		"userpanel.user.logs.userEdit.old.data": "Old value",
 		"userpanel.user.logs.userEdit.new.data": "New value",
 		"userpanel.user.logs.userDelete": "User information",
+		"userpanel.logs.user.system_log": "System",
 		"userpanel.log.delete.warning": "Please be careful about deleting logs; This action cannot be reverted.",
 		"search": "Search results",
 		"log.user.name": "Name",

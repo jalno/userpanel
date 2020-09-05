@@ -71,6 +71,7 @@
 
 		"usertype.permissions.userpanel_logs": "فعالیت کاربران",
 		"usertype.permissions.userpanel_logs_search":"جستجوی فعالیت کاربران",
+		"usertype.permissions.userpanel_logs_search_system_logs":"جستجوی فعالیت های سیستمی",
 		"usertype.permissions.userpanel_logs_view":"مشاهده فعالیت کاربران",
 		"usertype.permissions.userpanel_logs_delete":"حذف فعالیت کاربران",
 		

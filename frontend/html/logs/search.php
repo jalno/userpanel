@@ -41,7 +41,11 @@ $logs = $this->getLogs();
 						<td class="center"><?php echo $log->id; ?></td>
 						<td><?php echo $log->title; ?></td>
 						<?php if ($this->multiuser) { ?>
-							<td><a href="<?php echo userpanel\url("users", ['id' => $log->user->id]); ?>" class="tootips" title="#<?php echo $log->user->id; ?>"><?php echo $log->user->getFullName(); ?></a></td>
+							<?php if ($log->user) { ?>
+							<td><a href="<?php echo userpanel\url("users", ['id' => $log->user->id]); ?>" class="tooltips" title="#<?php echo $log->user->id; ?>"><?php echo $log->user->getFullName(); ?></a></td>
+							<?php } else { ?>
+								<td><span class="label label-warning"><?php echo t("userpanel.logs.user.system_log"); ?></span></td>
+							<?php } ?>
 						<?php } ?>
 						<td class="<?php echo ($isRTL) ? "ltr" : "rtl" ?>"><?php echo Date::format("Q QTS", $log->time); ?></td>
 						<?php
@@ -112,16 +116,27 @@ $logs = $this->getLogs();
 					'options' => $this->getComparisonsForSelect()
 				]
 			];
-			if($this->multiuser){
+			if ($this->multiuser) {
 				$userSearch = [
 					[
 						'name' => 'user',
-						'type' => 'hidden'
+						'type' => 'hidden',
 					],
 					[
 						'name' => 'user_name',
-						'label' => t("log.user")
-					]
+						'label' => t("log.user"),
+						"input-group" => array(
+							"right" => array(
+								array(
+									"type" => "checkbox",
+									"label" => t("userpanel.logs.user.system_log") . ' <i class="fa fa-server" aria-hidden="true"></i>',
+									"name" => "system_logs",
+									"value" => true,
+									"class" => "system-logs",
+								),
+							),
+						),
+					],
 				];
 				array_splice($feilds, 2, 0, $userSearch);
 			}
