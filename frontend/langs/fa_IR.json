@@ -161,6 +161,7 @@
 		"log.timeFrom": "از تاریخ",
 		"log.timeUntil": "تا تاریخ",
 		"logs.delete": "حذف فعالیت",
+		"logs.delete.title": "حذف فعالیت #{log}",
 		"userpanel.log.delete.warning": "در حذف فعالیت ها دقت کنید ، این عملیات غیر قابل بازگشت است.",
 		"log.information": "مشخصات فعالیت",
 		"shortcut.users.loggined": "کاربر امروز از پنل پشتیبانی استفاده کردند",
