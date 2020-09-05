@@ -198,7 +198,6 @@ class Logs extends Controller {
 		$log = self::getLog($data['log']);
 		$view = view::byName(views\logs\view::class);
 		$this->response->setView($view);
-		$view->setUser(Authentication::getUser());
 		$view->setLog($log);
 		$log->getHandler()->buildFrontend($view);
 		$this->response->setStatus(true);

@@ -4,13 +4,11 @@ use packages\userpanel;
 use packages\userpanel\views;
 use themes\clipone\{Navigation, Breadcrumb, ViewTrait};
 
-class View extends Views\Logs\View{
+class View extends Views\Logs\View {
 	use ViewTrait;
-	protected $user;
 	protected $log;
 	protected $handler;
-	public function __beforeLoad(){
-		$this->user = $this->getUser();
+	public function __beforeLoad(): void {
 		$this->log = $this->getLog();
 		$this->handler = $this->log->getHandler();
 		$this->setTitle(t('logs.view.title', ['log' => $this->log->id]));
@@ -18,7 +16,7 @@ class View extends Views\Logs\View{
 		$this->addBodyClass('logs_view');
 		$this->setNavigation();
 	}
-	private function setNavigation(){
+	private function setNavigation(): void {
 		if (Navigation::getByName("logs") != null) {
 			Breadcrumb::addItem(Navigation::getByName("logs"));
 			$item = new Navigation\MenuItem("log");
