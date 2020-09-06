@@ -1,8 +1,10 @@
 <?php
 namespace packages\userpanel\controllers;
-use \packages\base\{http, translator, db, db\duplicateRecord, db\InputDataType, db\parenthesis, views\FormError, image, IO\file, packages, NotFound, inputValidation, response, Validator\CellphoneValidator, InputValidationException};
-use \packages\userpanel;
-use \packages\userpanel\{logs, user, user\socialnetwork, usertype, authorization, authentication, controller, controllers\Login, date, view, country, log, events\settings as settingsEvent, Events};
+
+use packages\base\{Validator\CellphoneValidator, db, IO\File, views\FormError, http, Image, InputValidation, InputValidationException, NotFound, Packages, Response, Translator};
+use packages\base\db\{DuplicateRecord, InputDataType, Parenthesis};
+use packages\userpanel;
+use packages\userpanel\{Authentication, Authorization, Controller, Country, Date, Events, Log, controllers\Login, logs, events\settings as SettingsEvent, user\SocialNetwork, User, Usertype, View};
 
 use themes\clipone\views;
 
@@ -216,221 +218,206 @@ class Users extends Controller {
 		$this->response->setStatus(true);
 		return $this->response;
 	}
-	public function add($data){
-		authorization::haveOrFail('users_add');
-		$view = view::byName("\\packages\\userpanel\\views\\users\\add");
-		$types = authorization::childrenTypes();
-		$view->setCountries(country::get());
-		$view->setTypes($types ? usertype::where("id", $types, 'in')->get() : array());
-		if(http::is_post()){
-			$inputs = array(
-				'name' => array(
-					'type' => 'string'
-				),
-				'lastname' => array(
-					'type' => 'string',
-					'optional' => true,
-				),
-				'email' => array(
-					'type' => 'email',
-				),
-				'cellphone' => array(
-					'type' => function($data, $rule) {
-						if (!preg_match("/^(\+)?\d+$/", $data)) {
-							throw new InputValidationException("cellphone");
-						}
-						$validator = new CellphoneValidator;
-						return $validator->validate("cellphone", $rule, $data);
-					},
-				),
-				'password' => array(),
-				'type' => array(
-					'type' => 'number'
-				),
-				'zip' => array(
-					'optional' => true,
-					'type' => 'number',
-				),
-				'city' => array(
-					'optional' => true,
-					'type' => 'string',
-				),
-				'country' => array(
-					'optional' => true,
-					'type' => 'number',
-				),
-				'address' => array(
-					'optional' => true,
-					'type' => 'string',
-				),
-				'phone' => array(
-					'optional' => true,
-					'type' => 'string',
-				),
-				'status' => array(
-					'type' => 'number',
-					'values' => array(user::active, user::deactive,user::suspend),
-				),
-				'socialnets' => array(
-					'optional' => true
-				),
-				'visibility_email' => array(
-					'optional' => true,
-					'type' => 'bool',
-				),
-				'visibility_cellphone' => array(
-					'optional' => true,
-					'type' => 'bool',
-				),
-				'visibility_phone' => array(
-					'optional' => true,
-					'type' => 'bool',
-				),
-				'visibility_socialnetworks_'.socialnetwork::twitter => array(
-					'optional' => true,
-					'type' => 'bool',
-				),
-				'visibility_socialnetworks_'.socialnetwork::twitter => array(
-					'optional' => true,
-					'type' => 'bool',
-				),
-				'visibility_socialnetworks_'.socialnetwork::facebook => array(
-					'optional' => true,
-					'type' => 'bool',
-				),
-				'visibility_socialnetworks_'.socialnetwork::skype => array(
-					'optional' => true,
-					'type' => 'bool',
-				),
-				'visibility_socialnetworks_'.socialnetwork::gplus => array(
-					'optional' => true,
-					'type' => 'bool',
-				),
-				'visibility_socialnetworks_'.socialnetwork::instagram => array(
-					'optional' => true,
-					'type' => 'bool',
-				),
-				'visibility_socialnetworks_'.socialnetwork::telegram => array(
-					'optional' => true,
-					'type' => 'bool',
-				)
-			);
-			if (authorization::is_accessed("users_edit_credit")) {
-				$inputs["credit"] = array(
-					"optional" => true,
-					"type" => "number",
-					"zero" => true,
-					"min" => 0,
-				);
-			}
-			$this->response->setStatus(false);
-			try{
-				$formdata = $this->checkinputs($inputs);
-				if(!usertype::byId($formdata['type'])){
-					throw new inputValidation("type");
-				}
-				if(isset($formdata['country'])){
-					if(!country::byId($formdata['country'])){
-						throw new inputValidation("country");
-					}
-				}
+	/**
+	 * Add new user from userpanel view
+	 * needs userpanel_users_add permission
+	 *
+	 * @return Response
+	 */
+	public function add(): Response {
+		Authorization::haveOrFail('users_add');
+		$view = View::byName(views\users\Add::class);
+		$this->response->setView($view);
+		$view->setCountries(Country::get());
+		$types = Authorization::childrenTypes();
+		$view->setTypes($types ? (new Usertype)->where('id', $types, 'IN')->get() : []);
+		$view->setDataForm(105, 'country');
+		$this->response->setStatus(true);
+		return $this->response;
+	}
+	/**
+	 * Add new user to database
+	 * needs userpanel_users_add permission
+	 *
+	 * @throws InputValidationException on wrong input
+	 * @throws DuplicateRecord if user email or cellphone is exists in databse
+	 * @return Response
+	 */
+	public function store(): Response {
+		Authorization::haveOrFail('users_add');
+		$view = View::byName(views\users\Add::class);
+		$this->response->setView($view);
+		$view->setDataForm(105, 'country');
+		$view->setCountries(Country::get());
+		$types = Authorization::childrenTypes();
+		$view->setTypes($types ? (new Usertype)->where('id', $types, 'IN')->get() : []);
 
-				if(isset($formdata['socialnets'])){
-					foreach($formdata['socialnets'] as $network => $url){
-						switch($network){
-							case(socialnetwork::telegram):
+		$rules = array(
+			'name' => array(
+				'type' => 'string',
+			),
+			'lastname' => array(
+				'type' => 'string',
+				'optional' => true,
+			),
+			'email' => array(
+				'type' => 'email',
+			),
+			'cellphone' => array(
+				'type' => function($data, $rule, $input) {
+					if (!preg_match("/^(\+)?\d+$/", $data)) {
+						throw new InputValidationException($input);
+					}
+					return (new CellphoneValidator)->validate($input, $rule, $data);
+				},
+			),
+			'password' => array(),
+			'type' => array(
+				'type' => 'number',
+			),
+			'zip' => array(
+				'type' => 'number',
+				'optional' => true,
+			),
+			'city' => array(
+				'type' => 'string',
+				'optional' => true,
+			),
+			'country' => array(
+				'type' => Country::class,
+				'optional' => true,
+			),
+			'address' => array(
+				'type' => 'string',
+				'optional' => true,
+			),
+			'phone' => array(
+				'type' => 'string',
+				'optional' => true,
+			),
+			'status' => array(
+				'type' => 'number',
+				'values' => array(User::active, User::deactive, User::suspend),
+			),
+			'socialnets' => array(
+				'type' => function ($data, $rules, $input) {
+					if (!$data) return [];
+					if (!is_array($data)) throw new InputValidationException($input);
+
+					foreach ($data as $network => $url) {
+						$regex = "";
+						switch ($network) {
+							case (SocialNetwork::telegram):
 								$regex = '/^(https?:\\/\\/(t(elegram)?\\.me|telegram\\.org)\\/)?(?<username>[a-z0-9\\_]{5,32})\\/?$/i';
 								break;
-							case(socialnetwork::instagram):
+							case (SocialNetwork::instagram):
 								$regex = '/^(https?:\/\/(www\.)?instagram\.com\/)?(?<username>[A-Za-z0-9_](?:(?:[A-Za-z0-9_]|(?:\.(?!\.))){0,28}(?:[A-Za-z0-9_]))?)$/i';
 								break;
-							case(socialnetwork::skype):
+							case (SocialNetwork::skype):
 								$regex = '/^(?:(?:callto|skype):)?(?<username>(?:[a-z][a-z0-9\\.,\\-_]{5,31}))(?:\\?(?:add|call|chat|sendfile|userinfo))?$/i';
 								$site = "skype:";
 								break;
-							case(socialnetwork::twitter):
+							case (SocialNetwork::twitter):
 								$regex = '/^(?:https?:\/\/(?:.*\.)?twitter\.com\/)?(?<username>[A-z 0-9 _]+)\/?$/i';
 								break;
-							case(socialnetwork::facebook):
+							case (SocialNetwork::facebook):
 								$regex = '/^(?:https?:\/\/(?:www\.)?(?:facebook|fb)\.com\/)?(?<username>[A-z 0-9 _ - \.]+)\/?$/i';
 								break;
-							case(socialnetwork::gplus):
+							case (SocialNetwork::gplus):
 								$regex = '/^(?:https?:\/\/plus\.google\.com\/)?(?<username>(?:\+[a-z0-9\_]+|\d{21}))\/?$/i';
 								break;
 							default:
-								throw new inputValidation("socialnets[{$network}]");
+								throw new InputValidationException($input . "[{$network}]");
 						}
-						if($url){
-							if(preg_match($regex, $url, $matches)){
-								$formdata['socialnets'][$network] = $matches['username'];
-							}else{
-								throw new inputValidation("socialnets[{$network}]");
+						if ($url) {
+							if (preg_match($regex, $url, $matches)) {
+								$data[$network] = $matches['username'];
+							} else {
+								throw new InputValidationException($input . "[{$network}]");
 							}
 						}
 					}
-				}
-
-				$user = new user($formdata);
-				$user->password_hash($formdata['password']);
-				unset($formdata['password']);
-				$user->save();
-				if(isset($formdata['socialnets'])){
-					foreach($formdata['socialnets'] as $network => $username){
-						if($username){
-							$socialnet = new socialnetwork();
-							$socialnet->user = $user->id;
-							$socialnet->network = $network;
-							$socialnet->username = $username;
-							$socialnet->save();
-						}
-					}
-				}
-				if(authorization::is_accessed('profile_edit_privacy')){
-					$visibilities = array();
-					foreach(array(
-						'email',
-						'cellphone',
-						'phone',
-						'socialnetworks_'.socialnetwork::telegram,
-						'socialnetworks_'.socialnetwork::instagram,
-						'socialnetworks_'.socialnetwork::skype,
-						'socialnetworks_'.socialnetwork::twitter,
-						'socialnetworks_'.socialnetwork::facebook,
-						'socialnetworks_'.socialnetwork::gplus,
-					) as $field){
-						if(array_key_exists('visibility_'.$field, $formdata)){
-							if($formdata['visibility_'.$field]){
-								$visibilities[] = $field;
-							}
-						}
-					}
-					$user->setOption("visibilities", $visibilities);
-				}
-
-				$log = new log();
-				$log->title = t("log.userAdd", ['user_name' => $user->getFullName(), 'user_id' => $user->id]);
-				$log->type = logs\register::class;
-				$log->user = authentication::getID();
-				$log->parameters = [
-					'user' => $user,
-					'inputs' => $formdata
-				];
-				$log->save();
-				$this->response->setStatus(true);
-				$this->response->go(userpanel\url('users/edit/'.$user->id));
-			}catch(inputValidation $error){
-				$view->setFormError(FormError::fromException($error));
-			}catch(InputDataType $error){
-				$view->setFormError(FormError::fromException($error));
-			}catch(duplicateRecord $error){
-				$view->setFormError(FormError::fromException($error));
+					return $data;
+				},
+				'optional' => true,
+			),
+		);
+		if (Authorization::is_accessed('profile_edit_privacy')) {
+			foreach ([
+				'email',
+				'cellphone',
+				'phone',
+				'socialnetworks_' . SocialNetwork::telegram,
+				'socialnetworks_' . SocialNetwork::twitter,
+				'socialnetworks_' . SocialNetwork::instagram,
+				'socialnetworks_' . SocialNetwork::facebook,
+				'socialnetworks_' . SocialNetwork::skype,
+				'socialnetworks_' . SocialNetwork::gplus
+			] as $visibility) {
+				$inputs['visibility_' . $visibility] = array(
+					'optional' => true,
+					'type' => 'bool',
+					'empty' => true,
+				);
 			}
-			$view->setDataForm($this->inputsvalue($inputs));
-		}else{
-			$this->response->setStatus(true);
-			$view->setDataForm(105,'country');
 		}
-		$this->response->setView($view);
+		if (Authorization::is_accessed("users_edit_credit")) {
+			$rules["credit"] = array(
+				"optional" => true,
+				"type" => "number",
+				"zero" => true,
+				"min" => 0,
+			);
+		}
+		$view->setDataForm($this->inputsValue($rules));
+		$inputs = $this->checkInputs($rules);
+
+		$user = new User($inputs);
+		$user->password_hash($inputs['password']);
+		unset($inputs['password']);
+		$user->save();
+		if (isset($inputs['socialnets']) and $inputs['socialnets']) {
+			foreach ($inputs['socialnets'] as $network => $username) {
+				if ($username) {
+					$socialnet = new SocialNetwork();
+					$socialnet->user = $user->id;
+					$socialnet->network = $network;
+					$socialnet->username = $username;
+					$socialnet->save();
+				}
+			}
+		}
+		if (Authorization::is_accessed('profile_edit_privacy')) {
+			$visibilities = array();
+			foreach(array(
+				'email',
+				'cellphone',
+				'phone',
+				'socialnetworks_' . SocialNetwork::telegram,
+				'socialnetworks_' . SocialNetwork::instagram,
+				'socialnetworks_' . SocialNetwork::skype,
+				'socialnetworks_' . SocialNetwork::twitter,
+				'socialnetworks_' . SocialNetwork::facebook,
+				'socialnetworks_' . SocialNetwork::gplus,
+			) as $field) {
+				if (array_key_exists('visibility_' . $field, $inputs) and $inputs['visibility_' . $field]) {
+					$visibilities[] = $field;
+				}
+			}
+			$user->setOption('visibilities', $visibilities);
+		}
+
+		$log = new Log();
+		$log->title = t('log.userAdd', ['user_name' => $user->getFullName(), 'user_id' => $user->id]);
+		$log->type = logs\Register::class;
+		$log->user = Authentication::getID();
+		$log->parameters = [
+			'user' => $user,
+			'inputs' => $inputs,
+		];
+		$log->save();
+		$this->response->setStatus(true);
+		$this->response->go(userpanel\url("users/edit/{$user->id}"));
 		return $this->response;
 	}
 	public function view($data){

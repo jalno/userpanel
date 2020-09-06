@@ -16,7 +16,13 @@
 	},
 	{
 		"path": "userpanel/users/add",
-		"controller": "controllers/Users@add"
+		"controller": "controllers/Users@add",
+		"method": "get"
+	},
+	{
+		"path": "userpanel/users/add",
+		"controller": "controllers/Users@store",
+		"method": "post"
 	},
 	{
 		"path": "userpanel/users/edit/:user",
