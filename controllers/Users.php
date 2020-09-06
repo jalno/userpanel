@@ -319,6 +319,8 @@ class Users extends Controller {
 				$inputs["credit"] = array(
 					"optional" => true,
 					"type" => "number",
+					"zero" => true,
+					"min" => 0,
 				);
 			}
 			$this->response->setStatus(false);
