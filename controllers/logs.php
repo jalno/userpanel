@@ -9,7 +9,7 @@ use packages\userpanel\{Authentication, AuthorizationException, Authorization, C
 class Logs extends Controller {
 
 	/**
-	 * get log from database by check permissions ans types
+	 * get log from database by check permissions and types
 	 *
 	 * @param int $logID that is id of given log
 	 * @return Log
