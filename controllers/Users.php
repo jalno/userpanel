@@ -1,7 +1,7 @@
 <?php
 namespace packages\userpanel\controllers;
 
-use packages\base\{Validator\CellphoneValidator, db, IO\File, views\FormError, http, Image, InputValidation, InputValidationException, NotFound, Options, Packages, Response, Translator};
+use packages\base\{Validator\CellphoneValidator, db, IO\File, views\FormError, http, Image, InputValidation, InputValidationException, NotFound, Packages, Response, Translator};
 use packages\base\db\{DuplicateRecord, InputDataType, Parenthesis};
 use packages\userpanel;
 use packages\userpanel\{Authentication, Authorization, Controller, Country, Date, Events, Log, controllers\Login, logs, events\settings as SettingsEvent, user\SocialNetwork, User, Usertype, View};
@@ -231,11 +231,6 @@ class Users extends Controller {
 		$view->setCountries(Country::get());
 		$types = Authorization::childrenTypes();
 		$view->setTypes($types ? (new Usertype)->where('id', $types, 'IN')->get() : []);
-		$view->setDataForm(105, 'country');
-		$registerOptions = Options::get('packages.userpanel.register');
-		if (isset($registerOptions['type'])) {
-			$view->setDataForm($registerOptions['type'], 'type');
-		}
 		$this->response->setStatus(true);
 		return $this->response;
 	}
@@ -254,11 +249,6 @@ class Users extends Controller {
 		$view->setCountries(Country::get());
 		$types = Authorization::childrenTypes();
 		$view->setTypes($types ? (new Usertype)->where('id', $types, 'IN')->get() : []);
-		$view->setDataForm(105, 'country');
-		$registerOptions = Options::get('packages.userpanel.register');
-		if (isset($registerOptions['type'])) {
-			$view->setDataForm($registerOptions['type'], 'type');
-		}
 
 		$rules = array(
 			'name' => array(
