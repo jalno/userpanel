@@ -15,18 +15,20 @@ class Logs extends Controller {
 	 * @return Log
 	 */
 	protected static function getLog(int $logID): Log {
-		$me = Authentication::getUser();
 		$types = Authorization::childrenTypes();
 		$canSearchSystemLogs = Authorization::is_accessed("logs_search_system_logs");
 		$log = new Log();
 		$log->join(User::class, "user", ($canSearchSystemLogs ? "LEFT" : "INNER"), "userpanel_users.id");
-		if (!$canSearchSystemLogs) {
-			if ($types) {
-				$log->where("userpanel_users.type", $types, "IN");
-			} else {
-				$log->where("userpanel_users.id", $me->id);
-			}
+		$parenthesis = new Parenthesis();
+		if ($types) {
+			$parenthesis->where("userpanel_users.type", $types, "IN");
+		} else {
+			$parenthesis->where("userpanel_logs.user", Authentication::getID());
 		}
+		if ($canSearchSystemLogs) {
+			$parenthesis->orWhere("userpanel_logs.user", null, "IS");
+		}
+		$log->where($parenthesis);
 		$log->where("userpanel_logs.id", $logID);
 		$log = $log->getOne("userpanel_logs.*");
 		if (!$log) {
@@ -75,7 +77,7 @@ class Logs extends Controller {
 			'user' => array(
 				'type' => User::class,
 				'optional' => true,
-				'query' => function ($query) use ($children, $me) {
+				'query' => function ($query) use (&$children, &$me) {
 					if ($children) {
 						$query->where("type", $children, "IN");
 					} else {
@@ -126,7 +128,7 @@ class Logs extends Controller {
 			$activities = Log\Activity::getActivityTypes();
 		}
 		$model = new Log();
-		$model->join(User::class, "user", ($canSearchSystemLogs ? "LEFT" : "INNER"), "userpanel_users.id");
+		$model->join(User::class, "user", ($canSearchSystemLogs ? "LEFT" : "INNER"), "id");
 		if (isset($inputs['activity']) and $inputs['activity'] and $activities) {
 			$model->where("userpanel_logs.type", $activities, "IN");
 		}
@@ -150,13 +152,16 @@ class Logs extends Controller {
 		if (isset($inputs['ip'])) {
 			$model->where("userpanel_logs.ip", $inputs['ip'], $inputs['comparison']);
 		}
-		if (!$canSearchSystemLogs) {
-			if ($children) {
-				$model->where("userpanel_users.type", $children, 'IN');
-			} else {
-				$model->where("userpanel_logs.user", $me->id);
-			}
+		$parenthesis = new Parenthesis();
+		if ($children) {
+			$parenthesis->where("userpanel_users.type", $children, "IN");
+		} else {
+			$parenthesis->where("userpanel_logs.user", $me->id);
 		}
+		if ($canSearchSystemLogs) {
+			$parenthesis->orWhere("userpanel_logs.user", null, "IS");
+		}
+		$model->where($parenthesis);
 		$model->orderBy('userpanel_logs.time', 'DESC');
 		$model->pageLimit = $this->items_per_page;
 		$logs = $model->paginate($this->page, array(
