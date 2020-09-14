@@ -2,6 +2,7 @@
 namespace themes\clipone\views\users;
 
 use packages\base\{Options};
+use function packages\userpanel\url;
 use packages\userpanel\{views\users\add as usersAddView, User};
 use themes\clipone\{breadcrumb, navigation, navigation\menuItem, viewTrait, views\formTrait};
 
@@ -15,6 +16,12 @@ class add extends usersAddView{
 		$this->initFormData();
 	}
 	private function setNavigation() {
+		$item = new menuItem("users");
+		$item->setTitle(t('users'));
+		$item->setURL(url('users'));
+		$item->setIcon('clip-users');
+		breadcrumb::addItem($item);
+	
 		$item = new menuItem("add");
 		$item->setTitle(t('user.add'));
 		$item->setIcon('clip-user-plus');
