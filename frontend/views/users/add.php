@@ -1,45 +1,29 @@
 <?php
 namespace themes\clipone\views\users;
-use \packages\base\http;
-use \packages\userpanel\views\users\add as usersAddView;
-use \packages\userpanel;
-use \packages\userpanel\usertype;
-use \themes\clipone\breadcrumb;
-use \themes\clipone\navigation;
-use \themes\clipone\navigation\menuItem;
-use \themes\clipone\viewTrait;
-use \themes\clipone\views\formTrait;
-use \packages\base\translator;
-use \packages\base\frontend\theme;
+
+use packages\base\{Options};
+use function packages\userpanel\url;
+use packages\userpanel\{views\users\add as usersAddView, User};
+use themes\clipone\{breadcrumb, navigation, navigation\menuItem, viewTrait, views\formTrait};
+
 class add extends usersAddView{
-	use viewTrait,formTrait;
-	protected $usertypes = array();
-	function __beforeLoad(){
-		$this->setTitle(array(
-			translator::trans('users'),
-			translator::trans('user.add')
-		));
-		$this->setDefaultValues();
+	use viewTrait, formTrait;
+	public function __beforeLoad() {
+		$this->setTitle(t('user.add'));
 		$this->addBodyClass('users');
 		$this->addBodyClass('users_add');
 		$this->setNavigation();
+		$this->initFormData();
 	}
-	private function setDefaultValues(){
-		if(!http::is_post()){
-			$this->setDataForm(0, 'credit');
-			$this->setDataForm(1, 'status');
-		}
-	}
-	private function setNavigation(){
+	private function setNavigation() {
 		$item = new menuItem("users");
-		$item->setTitle(translator::trans('users'));
-		$item->setURL(userpanel\url('users'));
+		$item->setTitle(t('users'));
+		$item->setURL(url('users'));
 		$item->setIcon('clip-users');
 		breadcrumb::addItem($item);
-
+	
 		$item = new menuItem("add");
-		$item->setTitle(translator::trans('user.add'));
-		$item->setURL(userpanel\url('users/add/'));
+		$item->setTitle(t('user.add'));
 		$item->setIcon('clip-user-plus');
 		breadcrumb::addItem($item);
 
@@ -73,7 +57,7 @@ class add extends usersAddView{
 		$button = array(
 			'type' => 'button',
 			'icon' => $privacy ? 'fa fa-eye' : 'fa fa-eye-slash',
-			'text' => translator::trans('user.edit.privacy.'.($privacy ? 'public' : 'private')),
+			'text' => t('user.edit.privacy.'.($privacy ? 'public' : 'private')),
 			'class' => array('btn','btn-default'),
 			'dropdown' => array()
 		);
@@ -86,7 +70,7 @@ class add extends usersAddView{
 				'field' => $field,
 				'visibility' => 'public'
 			),
-			'title' => translator::trans('user.edit.privacy.public')
+			'title' => t('user.edit.privacy.public')
 		);
 		$button['dropdown'][] = array(
 			'icon' => 'fa fa-eye-slash',
@@ -96,10 +80,27 @@ class add extends usersAddView{
 				'field' => $field,
 				'visibility' => 'private'
 			),
-			'title' => translator::trans('user.edit.privacy.private')
+			'title' => t('user.edit.privacy.private')
 		);
 		return array(
 			'left' => array($button)
 		);
+	}
+	private function initFormData() {
+		if (!$this->getDataForm("country")) {
+			$this->setDataForm(105, "country");
+		}
+		if (!$this->getDataForm("type")) {
+			$options = Options::get('packages.userpanel.register');
+			if (isset($options['type'])) {
+				$this->setDataForm($options['type'], 'type');
+			}
+		}
+		if (!$this->getDataForm("credit")) {
+			$this->setDataForm(0, "credit");
+		}
+		if (!$this->getDataForm("status")) {
+			$this->setDataForm(User::active, "status");
+		}
 	}
 }
