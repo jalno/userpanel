@@ -231,7 +231,6 @@ class Users extends Controller {
 		$view->setCountries(Country::get());
 		$types = Authorization::childrenTypes();
 		$view->setTypes($types ? (new Usertype)->where('id', $types, 'IN')->get() : []);
-		$view->setDataForm(105, 'country');
 		$this->response->setStatus(true);
 		return $this->response;
 	}
@@ -247,7 +246,6 @@ class Users extends Controller {
 		Authorization::haveOrFail('users_add');
 		$view = View::byName(views\users\Add::class);
 		$this->response->setView($view);
-		$view->setDataForm(105, 'country');
 		$view->setCountries(Country::get());
 		$types = Authorization::childrenTypes();
 		$view->setTypes($types ? (new Usertype)->where('id', $types, 'IN')->get() : []);
