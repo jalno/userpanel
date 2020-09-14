@@ -7,7 +7,7 @@ use packages\userpanel\{Date};
 $isRTL = Translator::getLang()->isRTL();
 $logs = $this->getLogs();
 ?>
-<div class="panel panel-default">
+<div class="panel panel-default panel-logs">
 	<div class="panel-heading">
 		<i class="fa fa-user-secret"></i> <?php echo t('users.logs'); ?>
 		<div class="panel-tools">
@@ -18,7 +18,7 @@ $logs = $this->getLogs();
 	<div class="panel-body">
 	<?php if ($logs) { ?>
 		<div class="table-responsive">
-			<table class="table table-hover">
+			<table class="table table-hover table-logs">
 			<?php $hasButtons = $this->hasButtons(); ?>
 				<thead>
 					<tr>
@@ -32,31 +32,29 @@ $logs = $this->getLogs();
 					</tr>
 				</thead>
 				<tbody>
-				<?php
-				foreach($logs as $log){
-					$this->setButtonParam('view', 'link', userpanel\url("logs/view/".$log->id));
-					$this->setButtonParam('delete', 'link', userpanel\url("logs/delete/".$log->id));
-				?>
+				<?php foreach ($logs as $log) { ?>
 					<tr>
 						<td class="center"><?php echo $log->id; ?></td>
 						<td><?php echo $log->title; ?></td>
-						<?php if ($this->multiuser) { ?>
-							<?php if ($log->user) { ?>
-							<td><a href="<?php echo userpanel\url("users", ['id' => $log->user->id]); ?>" class="tooltips" title="#<?php echo $log->user->id; ?>"><?php echo $log->user->getFullName(); ?></a></td>
-							<?php } else { ?>
-								<td><span class="label label-warning"><?php echo t("userpanel.logs.user.system_log"); ?></span></td>
-							<?php } ?>
+					<?php if ($this->multiuser) { ?>
+						<td<?php echo !$log->user ? ' class="text-center"' : ""; ?>>
+						<?php if ($log->user) { ?>
+							<a href="<?php echo userpanel\url("users", ['id' => $log->user->id]); ?>" class="tooltips" title="#<?php echo $log->user->id; ?>"><?php echo $log->user->getFullName(); ?></a>
+						<?php } else { ?>
+							<span class="label label-warning"><?php echo t("userpanel.logs.user.system_log"); ?></span></td>
 						<?php } ?>
-						<td class="<?php echo ($isRTL) ? "ltr" : "rtl" ?>"><?php echo Date::format("Q QTS", $log->time); ?></td>
-						<?php
-						if($hasButtons){
-							echo("<td class=\"center\">" . $this->genButtons() . "</td>");
-						}
-						?>
-					</tr>
+						</td>
+					<?php } ?>
+						<td class="<?php echo ($isRTL) ? "ltr" : "rtl" ?>"><?php echo Date::format("Q QTS", $log->time); ?>
 					<?php
+					if ($hasButtons) {
+						$this->setButtonParam('view', 'link', userpanel\url("logs/view/".$log->id));
+						$this->setButtonParam('delete', 'link', userpanel\url("logs/delete/".$log->id));
+						echo("<td class=\"center\">" . $this->genButtons() . "</td>");
 					}
 					?>
+					</tr>
+				<?php } ?>
 				</tbody>
 			</table>
 		</div>
@@ -125,19 +123,21 @@ $logs = $this->getLogs();
 					[
 						'name' => 'user_name',
 						'label' => t("log.user"),
-						"input-group" => array(
-							"right" => array(
-								array(
-									"type" => "checkbox",
-									"label" => t("userpanel.logs.user.system_log") . ' <i class="fa fa-server" aria-hidden="true"></i>',
-									"name" => "system_logs",
-									"value" => true,
-									"class" => "system-logs",
-								),
-							),
-						),
 					],
 				];
+				if ($this->hasAccessToSystemLogs) {
+					$userSearch[1]["input-group"] = array(
+						"right" => array(
+							array(
+								"type" => "checkbox",
+								"label" => t("userpanel.logs.user.system_log") . ' <i class="fa fa-server" aria-hidden="true"></i>',
+								"name" => "system_logs",
+								"value" => true,
+								"class" => "system-logs",
+							),
+						),
+					);
+				}
 				array_splice($feilds, 2, 0, $userSearch);
 			}
 			foreach($feilds as $input){
