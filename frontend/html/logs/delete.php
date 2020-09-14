@@ -1,33 +1,51 @@
 <?php
+use packages\userpanel;
+use packages\userpanel\{Authorization, Date};
+use packages\base\translator;
+
+$canSearchUsers = Authorization::is_accessed('users_list');
 $this->the_header();
-use \packages\userpanel;
-use \packages\userpanel\date;
-use \packages\base\translator;
 ?>
 <div class="row">
 	<div class="col-sm-4">
 		<div class="panel panel-default">
 			<div class="panel-heading">
-				<i class="fa  fa-info-circle"></i> <?php echo translator::trans("log.information"); ?>
+				<i class="fa  fa-info-circle"></i> <?php echo t("log.information"); ?>
 				<div class="panel-tools">
 					<a class="btn btn-xs btn-link panel-collapse collapses" href="#"></a>
 				</div>
 			</div>
 			<div class="panel-body form-horizontal">
 				<div class="form-group">
-					<label class="col-xs-3 control-label"><?php echo translator::trans("log.user"); ?>: </label>
-					<div class="col-xs-9 text"><a href="<?php echo userpanel\url('users', ["id" => $this->log->user->id]); ?>"><?php echo $this->log->user->getFullName(); ?></a></div>
+					<label class="col-xs-3 control-label"><?php echo t("log.user"); ?>: </label>
+					<div class="col-xs-9 text">
+						<?php
+						if ($this->log->user) {
+							if ($canSearchUsers) {
+						?>
+							<a target="_blank" href="<?php echo userpanel\url('users', ['id' => $this->log->user->id]); ?>"><?php echo $this->log->user->getFullName(); ?></a>
+						<?php
+							} else {
+								echo $this->log->user->getFullName();
+							}
+						} else {
+						?>
+							<span class="label label-warning"><?php echo t("userpanel.logs.user.system_log"); ?></span>
+						<?php
+						}
+						?>
+					</div>
 				</div>
 				<div class="form-group">
-					<label class="col-xs-3 control-label"><?php echo translator::trans("log.ip"); ?>: </label>
+					<label class="col-xs-3 control-label"><?php echo t("log.ip"); ?>: </label>
 					<div class="col-xs-9 text ltr"><?php echo $this->log->ip; ?></a></div>
 				</div>
 				<div class="form-group">
-					<label class="col-xs-3 control-label"><?php echo translator::trans("log.title"); ?>: </label>
+					<label class="col-xs-3 control-label"><?php echo t("log.title"); ?>: </label>
 					<div class="col-xs-9 text"><?php echo $this->log->title; ?></a></div>
 				</div>
 				<div class="form-group">
-					<label class="col-xs-3 control-label"><?php echo translator::trans("log.time"); ?>: </label>
+					<label class="col-xs-3 control-label"><?php echo t("log.time"); ?>: </label>
 					<div class="col-xs-9 text ltr"><?php echo date::format('Q QTS', $this->log->time); ?></div>
 				</div>
 			</div>
@@ -36,7 +54,7 @@ use \packages\base\translator;
 	<div class="col-sm-8">
 		<div class="panel panel-danger">
 			<div class="panel-heading">
-				<i class="fa fa-trash"></i> <?php echo translator::trans('logs.delete'); ?>
+				<i class="fa fa-trash"></i> <?php echo t('logs.delete'); ?>
 				<div class="panel-tools">
 					<a class="btn btn-xs btn-link panel-collapse collapses" href="#"></a>
 				</div>
@@ -48,10 +66,10 @@ use \packages\base\translator;
 							<div class="alert alert-block alert-warning fade in">
 								<h4 class="alert-heading">
 									<i class="fa fa-exclamation-triangle"></i>
-									<?php echo translator::trans('attention'); ?>!
+									<?php echo t('attention'); ?>!
 								</h4>
 								<p>
-									<?php echo translator::trans("userpanel.log.delete.warning"); ?>
+									<?php echo t("userpanel.log.delete.warning"); ?>
 								</p>
 							</div>
 						</div>
@@ -62,13 +80,13 @@ use \packages\base\translator;
 								<div class="btn-group" role="group">
 									<a href="<?php echo userpanel\url('logs/view/'.$this->log->id); ?>" class="btn btn-default">
 										<i class="fa fa-chevron-circle-<?php echo Translator::getLang()->isRTL() ? "right" : "left"; ?>"></i>
-										<?php echo translator::trans("return"); ?>
+										<?php echo t("return"); ?>
 									</a>
 								</div>
 								<div class="btn-group" role="group">
 									<button type="submit" class="btn btn-danger">
 										<i class="fa fa-trash"></i>
-										<?php echo translator::trans("logs.delete"); ?>
+										<?php echo t("logs.delete"); ?>
 									</button>
 								</div>
 							</div>

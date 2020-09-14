@@ -17,6 +17,7 @@ class usertype{
 			"users_export",
 
 			'logs_search',
+			'logs_search_system_logs',
 			'logs_view',
 			'logs_delete',
 

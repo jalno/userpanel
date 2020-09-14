@@ -13,3 +13,8 @@ ALTER TABLE `userpanel_users` ADD `registered_at` INT UNSIGNED NOT NULL AFTER `a
 -- Commit: 1ad942c8499861fa2fdf536d8d8464a5052b53b4
 --
 UPDATE `userpanel_users` SET `status` = 3 WHERE `status` = 0;
+
+--
+--	Commit: 6720e0f95aef2a65b2b98e7db0498d5d8c495b21
+--
+ALTER TABLE `userpanel_logs` CHANGE `user` `user` INT(11) NULL;

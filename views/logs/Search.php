@@ -20,9 +20,13 @@ class Search extends Listview {
 	/** @var bool whether userpanel_logs_delete permission is granted */
 	protected $canDelete;
 
+	/** @var bool whether logs_search_system_logs permission is granted */
+	protected $hasAccessToSystemLogs;
+
 	public function __construct(){
 		$this->canView = Authorization::is_accessed('logs_view');
 		$this->canDelete = Authorization::is_accessed('logs_delete');
+		$this->hasAccessToSystemLogs = Authorization::is_accessed('logs_search_system_logs');
 	}
 
 	/**

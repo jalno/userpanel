@@ -1,5 +1,8 @@
 <?php
-use packages\userpanel\Date;
+use packages\userpanel;
+use packages\userpanel\{Authorization, Date};
+
+$canSearchUsers = Authorization::is_accessed('users_list');
 $this->the_header();
 ?>
 <div class="row">
@@ -35,7 +38,23 @@ $this->the_header();
 			</div>
 			<div class="panel-body form-horizontal">
 				<div class="form-group"><label class="col-xs-4 control-label"><?php echo t("log.user"); ?>: </label>
-					<div class="col-xs-8"><?php echo $this->log->user->getFullName(); ?></div>
+					<div class="col-xs-8">
+					<?php
+					if ($this->log->user) {
+						if ($canSearchUsers) {
+					?>
+						<a target="_blank" href="<?php echo userpanel\url('users', ['id' => $this->log->user->id]); ?>"><?php echo $this->log->user->getFullName(); ?></a>
+					<?php
+						} else {
+							echo $this->log->user->getFullName();
+						}
+					} else {
+					?>
+						<span class="label label-warning"><?php echo t("userpanel.logs.user.system_log"); ?></span>
+					<?php
+					}
+					?>
+					</div>
 				</div>
 				<div class="form-group"><label class="col-xs-4 control-label"><?php echo t("log.title"); ?>: </label>
 					<div class="col-xs-8">

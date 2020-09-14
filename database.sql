@@ -105,7 +105,7 @@ CREATE TABLE `userpanel_resetpwd_token` (
 
 CREATE TABLE `userpanel_logs` (
 	`id` int(11) NOT NULL AUTO_INCREMENT,
-	`user` int(11) NOT NULL,
+	`user` int(11) DEFAULT NULL,
 	`ip` varchar(15) NOT NULL,
 	`time` int(11) NOT NULL,
 	`title` varchar(255) NOT NULL,

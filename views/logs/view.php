@@ -1,17 +1,13 @@
 <?php
 namespace packages\userpanel\views\logs;
-use \packages\userpanel\{authorization, user, log, view as userpanelView};
-class view extends userpanelView{
-	public function setUser(user $user){
-		$this->setData($user, 'user');
-	}
-	protected function getUser():user{
-		return $this->getData("user");
-	}
-	public function setLog(log $log){
+
+use packages\userpanel\{Log, View as UserpanelView};
+
+class View extends UserpanelView {
+	public function setLog(Log $log): void {
 		$this->setData($log, 'log');
 	}
-	protected function getLog():log{
+	protected function getLog(): Log {
 		return $this->getData("log");
 	}
 }

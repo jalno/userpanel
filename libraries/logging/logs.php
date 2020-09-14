@@ -1,26 +1,27 @@
 <?php
 namespace packages\userpanel;
-use \packages\base\db\dbObject;
-use \packages\base\http;
-use \packages\userpanel\{log_param, user, logging\Exception\invalidTypeException};
-class log extends dbObject{
+
+use packages\base\{db\dbObject, http};
+use packages\userpanel\{log_param, user, logging\Exception\invalidTypeException};
+
+class Log extends dbObject {
 	use Paramable;
-	private $handler;
 	protected $dbTable = "userpanel_logs";
 	protected $primaryKey = "id";
 	protected $dbFields = [
-        'user' => ['type' => 'int', 'required' => true],
+        'user' => ['type' => 'int'],
         'ip' => ['type' => 'text', 'required' => true],
         'time' => ['type' => 'int', 'required' => true],
         'title' => ['type' => 'text', 'required' => true],
         'type' => ['type' => 'text', 'required' => true],
-        'parameters' => ['type' => 'text']
+        'parameters' => ['type' => 'text'],
     ];
 	protected $serializeFields = ['parameters'];
     protected $relations = [
 		'params' => ["hasMany", log_param::class, "log"],
-		'user' => ["hasOne", user::class, "user"]
+		'user' => ["hasOne", User::class, "user"]
 	];
+	private $handler;
 	public function preLoad(array $data):array{
 		if(!isset($data['time']) or !$data['time']){
 			$data['time'] = time();

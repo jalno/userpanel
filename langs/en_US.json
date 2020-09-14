@@ -67,6 +67,7 @@
 		
 		"usertype.permissions.userpanel_logs": "User Activities",
 		"usertype.permissions.userpanel_logs_search":"Logs list",
+		"usertype.permissions.userpanel_logs_search_system_logs":"Logs search system logs",
 		"usertype.permissions.userpanel_logs_view":"View log details",
 		"usertype.permissions.userpanel_logs_delete":"Delete log",
 		
