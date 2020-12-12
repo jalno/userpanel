@@ -22,4 +22,4 @@ ALTER TABLE `userpanel_logs` CHANGE `user` `user` INT(11) NULL;
 ---
 ---	Commit: 82fb3bc6e09ecbe8611e60c388331bada1d962c2
 ---
-ALTER TABLE `userpanel_logs` CHANGE `parameters` `parameters` LONGTEXT CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL;
+ALTER TABLE `userpanel_logs` CHANGE `parameters` `parameters` LONGTEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL;
