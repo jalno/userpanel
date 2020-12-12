@@ -110,7 +110,7 @@ CREATE TABLE `userpanel_logs` (
 	`time` int(11) NOT NULL,
 	`title` varchar(255) NOT NULL,
 	`type` varchar(255) NOT NULL,
-	`parameters` text NOT NULL,
+	`parameters` LONGTEXT NOT NULL,
 	PRIMARY KEY (`id`),
 	KEY `user` (`user`),
 	CONSTRAINT `userpanel_logs_ibfk_1` FOREIGN KEY (`user`) REFERENCES `userpanel_users` (`id`) ON DELETE CASCADE
