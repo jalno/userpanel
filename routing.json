@@ -30,7 +30,13 @@
 	},
 	{
 		"path": "userpanel/users/delete/:user",
-		"controller": "controllers/Users@delete"
+		"controller": "controllers/Users@delete",
+		"method": "get"
+	},
+	{
+		"path": "userpanel/users/delete/:user",
+		"controller": "controllers/Users@terminate",
+		"method": "post"
 	},
 	{
 		"path": "userpanel/login",

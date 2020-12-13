@@ -798,34 +798,54 @@ class Users extends Controller {
 		$this->response->setView($view);
 		return $this->response;
 	}
-	public function delete($data){
-		authorization::haveOrFail('users_delete');
-		$types = authorization::childrenTypes();
+	public function delete($data): Response {
+		Authorization::haveOrFail("users_delete");
+		$types = Authorization::childrenTypes();
 		if (!$types) {
-			throw new NotFound();
-		}
-		$user = user::where("id", $data['user'])->where("type", $types, 'in')->getOne();
-		$actionUser = authentication::getUser();
-		if(!$user or $actionUser->id == $user->id){
 			throw new NotFound;
 		}
-		$view = view::byName("\\packages\\userpanel\\views\\users\\delete");
-		if(http::is_post()){
-			$log = new log();
-			$log->title = t("log.userDelete", ['user_name' => $user->getFullName(), 'user_id' => $user->id]);
-			$log->type = logs\userDelete::class;
-			$log->user = $actionUser->id;
-			$log->parameters = ['user' => $user];
-			$log->save();
-
-			$user->delete();
-			$this->response->setStatus(true);
-			$this->response->go(userpanel\url('users'));
-		}else{
-			$this->response->setStatus(true);
-			$view->setDataForm($user->toArray());
-			$this->response->setView($view);
+		$me = Authentication::getUser();
+		$user = (new User)->where("id", $data["user"])->where("type", $types, "IN")->getOne();
+		if (!$user or $me->id == $user->id) {
+			throw new NotFound;
 		}
+		$view = View::byName(views\users\delete::class);
+		$view->setDataForm($user->toArray());
+		$this->response->setView($view);
+		$this->response->setStatus(true);
+		return $this->response;
+	}
+	public function terminate($data): Response {
+		Authorization::haveOrFail('users_delete');
+		$types = Authorization::childrenTypes();
+		if (!$types) {
+			throw new NotFound;
+		}
+		$me = Authentication::getUser();
+		$user = (new User)->where("id", $data["user"])->where("type", $types, "IN")->getOne();
+		if (!$user or $me->id == $user->id) {
+			throw new NotFound;
+		}
+		$view = View::byName(views\users\delete::class);
+		$view->setDataForm($user->toArray());
+		$this->response->setView($view);
+
+		$log = new Log();
+		$log->title = t("log.userDelete", array(
+			"user_name" => $user->getFullName(),
+			"user_id" => $user->id
+		));
+		$log->type = logs\userDelete::class;
+		$log->user = $me->id;
+		$log->parameters = array(
+			"user" => $user,
+		);
+		$log->save();
+
+		$user->delete();
+
+		$this->response->setStatus(true);
+		$this->response->go(userpanel\url("users"));
 		return $this->response;
 	}
 	public function settings($data){
