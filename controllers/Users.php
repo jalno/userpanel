@@ -1,7 +1,7 @@
 <?php
 namespace packages\userpanel\controllers;
 
-use packages\base\{Validator\CellphoneValidator, db, IO\File, views\FormError, http, Image, InputValidation, InputValidationException, NotFound, Packages, Response, Translator};
+use packages\base\{Validator\CellphoneValidator, db, view\Error, IO\File, views\FormError, http, Image, InputValidation, InputValidationException, NotFound, Packages, Response, Translator};
 use packages\base\db\{DuplicateRecord, InputDataType, Parenthesis};
 use packages\userpanel;
 use packages\userpanel\{Authentication, Authorization, Controller, Country, Date, Events, Log, controllers\Login, logs, events\settings as SettingsEvent, user\SocialNetwork, User, Usertype, View};
@@ -810,8 +810,19 @@ class Users extends Controller {
 			throw new NotFound;
 		}
 		$view = View::byName(views\users\delete::class);
-		$view->setDataForm($user->toArray());
+		$view->setUser($user);
 		$this->response->setView($view);
+		$event = new Events\Users\BeforeDelete($user);
+		$event->trigger();
+		if ($event->hasErrors()) {
+			foreach ($event->getErrors() as $error) {
+				$view->addError($error);
+			}
+			$fatalErrors = $event->getErrorsByType(Error::FATAL);
+			if ($fatalErrors) {
+				$view->setHasFatalError(true);
+			}
+		}
 		$this->response->setStatus(true);
 		return $this->response;
 	}
@@ -827,8 +838,15 @@ class Users extends Controller {
 			throw new NotFound;
 		}
 		$view = View::byName(views\users\delete::class);
-		$view->setDataForm($user->toArray());
+		$view->setUser($user);
 		$this->response->setView($view);
+
+		$event = new Events\Users\BeforeDelete($user);
+		$event->trigger();
+		$fatalErrors = $event->getErrorsByType(Error::FATAL);
+		if ($fatalErrors) {
+			throw new NotFound;
+		}
 
 		$log = new Log();
 		$log->title = t("log.userDelete", array(

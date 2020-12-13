@@ -116,8 +116,10 @@
 		"userpanel.cancel": "Cancel",
 
 		"user.delete.warning.title": "Delete User",
-		"user.delete.warning": "Are sure want to delete user {user.name} with ID #{user.id}? This action can't be reverted.",
-		
+		"user.delete.warning": "Are you sure? This action can't be reverted!",
+		"user.delete.message": "You are deleting user: \"{user.full_name}\" with ID #{user.id} !",
+		"user.delete.resolve_fatal_errors": "To delete this user, you need to check and fix \"error\" messages.",
+
 
 		"userpanel.profile.activity_calendar.title": "<strong>{activities}</strong> activities in the last year ",
 		"userpanel.profile.activity_calendar.no_activity": "No Activity",
