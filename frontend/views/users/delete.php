@@ -15,11 +15,7 @@ class Delete extends ParentView {
 	public function __beforeLoad(): void {
 		$this->setTitle(t("user.delete.warning.title"));
 
-		$this->addAssets();
 		$this->setNavigation();
-	}
-	private function addAssets(): void {
-		$this->addJSFile(theme::url('assets/js/users.delete.js'));
 	}
 	private function setNavigation() {
 		$item = new menuItem("users");
