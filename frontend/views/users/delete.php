@@ -1,30 +1,29 @@
 <?php
 namespace themes\clipone\views\users;
-use \packages\userpanel\views\users\delete as usersDeleteView;
-use \packages\userpanel;
-use \packages\userpanel\usertype;
-use \themes\clipone\breadcrumb;
-use \themes\clipone\navigation;
-use \themes\clipone\navigation\menuItem;
-use \themes\clipone\viewTrait;
-use \themes\clipone\views\formTrait;
-use \packages\base\translator;
-use \packages\base\frontend\theme;
-class delete extends usersDeleteView{
-	use viewTrait,formTrait;
+
+use packages\base\{frontend\Theme};
+use packages\userpanel;
+use packages\userpanel\{Usertype};
+use themes\clipone\{Breadcrumb, views\FormTrait, Navigation, Navigation\MenuItem, ViewTrait};
+use packages\userpanel\views\users\Delete as ParentView;
+
+class Delete extends ParentView {
+	use FormTrait, ViewTrait;
+
 	protected $usertypes = array();
-	function __beforeLoad(){
+
+	public function __beforeLoad(): void {
 		$this->setTitle(t("user.delete.warning.title"));
 
 		$this->addAssets();
 		$this->setNavigation();
 	}
-	private function addAssets(){
+	private function addAssets(): void {
 		$this->addJSFile(theme::url('assets/js/users.delete.js'));
 	}
-	private function setNavigation(){
+	private function setNavigation() {
 		$item = new menuItem("users");
-		$item->setTitle(translator::trans('users'));
+		$item->setTitle(t('users'));
 		$item->setURL(userpanel\url('users'));
 		$item->setIcon('clip-users');
 		breadcrumb::addItem($item);
@@ -36,7 +35,7 @@ class delete extends usersDeleteView{
 		breadcrumb::addItem($item);
 
 		$item = new menuItem("edit");
-		$item->setTitle(translator::trans('user.delete'));
+		$item->setTitle(t('user.delete'));
 		$item->setURL(userpanel\url('users/edit/'.$this->getDataForm('id')));
 		$item->setIcon('clip-edit');
 		breadcrumb::addItem($item);
