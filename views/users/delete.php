@@ -5,8 +5,6 @@ use packages\userpanel\{views\Form, User};
 
 class Delete extends Form {
 
-	/** @var bool true is has fatal error for delete the user and prevent user deletion */
-	private $hasFatalError = false;
 
 	public function setUser(User $user): void {
 		$this->setData($user, "user");
