@@ -117,7 +117,7 @@
 
 		"user.delete.warning.title": "Delete User",
 		"user.delete.warning": "Are you sure? This action can't be reverted!",
-		"user.delete.message": "You are deleting user: \"{user.full_name}\" with ID #{user.id} !",
+		"user.delete.message": "You wants to delete user: \"{user.full_name}\" with ID #{user.id} !",
 		"user.delete.resolve_fatal_errors": "To delete this user, you need to check and fix \"error\" messages.",
 
 

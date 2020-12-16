@@ -84,11 +84,6 @@
 			"file":"dashboard.php"
 		},
 		{
-			"name":"\\themes\\clipone\\views\\users\\delete",
-			"parent":"\\packages\\userpanel\\views\\users\\delete",
-			"file":"users.delete.php"
-		},
-		{
 			"name":"\\themes\\clipone\\views\\register",
 			"parent":"\\packages\\userpanel\\views\\register",
 			"file":"register.php"

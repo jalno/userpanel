@@ -3,7 +3,7 @@ use packages\base;
 use packages\base\Translator;
 use packages\userpanel;
 
-require_once("header.php");
+$this->the_header();
 
 $user = $this->getUser();
 ?>
@@ -30,4 +30,4 @@ $user = $this->getUser();
 </form>
 
 <?php
-require_once('footer.php');
+$this->the_footer();
