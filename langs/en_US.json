@@ -569,6 +569,12 @@
 		"packages.userpanel.user.csv.status.suspend": "Suspend",
 		"logs.login": "Logged to system.",
 		"logs.user_edit": "Modified user {user.name}.",
-		"logs.user_delete": "Deleted user {user.name}."
+		"logs.user_delete": "Deleted user {user.name}.",
+
+		"error.packages.userpanel.error.logs.user.delete_user_warn": "Warning about the activities of this user",
+		"error.packages.userpanel.error.logs.user.delete_user_warn.message": "This user has activities; If this user is deleted, all his activities will be deleted!",
+		"packages.userpanel.error.logs.user.delete_user_warn.view_logs": "You can view the activities of this user using the link below.",
+		"packages.userpanel.error.logs.user.delete_user_warn.view_logs.tell_someone": "If you want to view the activities of this user, ask the person who has this access.",
+		"packages.userpanel.error.logs.user.delete_user_warn.view_logs_btn": "View the activities of this user"
 	}
 }
