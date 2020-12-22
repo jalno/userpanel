@@ -862,6 +862,9 @@ class Users extends Controller {
 
 		$user->delete();
 
+		$afterDeleteEvent = new Events\Users\AfterDelete($user);
+		$afterDeleteEvent->trigger();
+
 		$this->response->setStatus(true);
 		$this->response->go(userpanel\url("users"));
 		return $this->response;
