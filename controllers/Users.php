@@ -1,7 +1,7 @@
 <?php
 namespace packages\userpanel\controllers;
 
-use packages\base\{Validator\CellphoneValidator, db, IO\File, views\FormError, http, Image, InputValidation, InputValidationException, NotFound, Packages, Response, Translator};
+use packages\base\{Validator\CellphoneValidator, db, view\Error, IO\File, views\FormError, http, Image, InputValidation, InputValidationException, NotFound, Packages, Response, Translator};
 use packages\base\db\{DuplicateRecord, InputDataType, Parenthesis};
 use packages\userpanel;
 use packages\userpanel\{Authentication, Authorization, Controller, Country, Date, Events, Log, controllers\Login, logs, events\settings as SettingsEvent, user\SocialNetwork, User, Usertype, View};
@@ -798,34 +798,75 @@ class Users extends Controller {
 		$this->response->setView($view);
 		return $this->response;
 	}
-	public function delete($data){
-		authorization::haveOrFail('users_delete');
-		$types = authorization::childrenTypes();
+	public function delete($data): Response {
+		Authorization::haveOrFail("users_delete");
+		$types = Authorization::childrenTypes();
 		if (!$types) {
-			throw new NotFound();
-		}
-		$user = user::where("id", $data['user'])->where("type", $types, 'in')->getOne();
-		$actionUser = authentication::getUser();
-		if(!$user or $actionUser->id == $user->id){
 			throw new NotFound;
 		}
-		$view = view::byName("\\packages\\userpanel\\views\\users\\delete");
-		if(http::is_post()){
-			$log = new log();
-			$log->title = t("log.userDelete", ['user_name' => $user->getFullName(), 'user_id' => $user->id]);
-			$log->type = logs\userDelete::class;
-			$log->user = $actionUser->id;
-			$log->parameters = ['user' => $user];
-			$log->save();
-
-			$user->delete();
-			$this->response->setStatus(true);
-			$this->response->go(userpanel\url('users'));
-		}else{
-			$this->response->setStatus(true);
-			$view->setDataForm($user->toArray());
-			$this->response->setView($view);
+		$me = Authentication::getUser();
+		$user = (new User)->where("id", $data["user"])->where("type", $types, "IN")->getOne();
+		if (!$user or $me->id == $user->id) {
+			throw new NotFound;
 		}
+		$view = View::byName(views\users\delete::class);
+		$view->setUser($user);
+		$this->response->setView($view);
+		$event = new Events\Users\BeforeDelete($user);
+		$event->trigger();
+		if ($event->hasErrors()) {
+			foreach ($event->getErrors() as $error) {
+				$view->addError($error);
+			}
+			$fatalErrors = $event->getErrorsByType(Error::FATAL);
+			if ($fatalErrors) {
+				$view->setHasFatalError(true);
+			}
+		}
+		$this->response->setStatus(true);
+		return $this->response;
+	}
+	public function terminate($data): Response {
+		Authorization::haveOrFail('users_delete');
+		$types = Authorization::childrenTypes();
+		if (!$types) {
+			throw new NotFound;
+		}
+		$me = Authentication::getUser();
+		$user = (new User)->where("id", $data["user"])->where("type", $types, "IN")->getOne();
+		if (!$user or $me->id == $user->id) {
+			throw new NotFound;
+		}
+		$view = View::byName(views\users\delete::class);
+		$view->setUser($user);
+		$this->response->setView($view);
+
+		$event = new Events\Users\BeforeDelete($user);
+		$event->trigger();
+		$fatalErrors = $event->getErrorsByType(Error::FATAL);
+		if ($fatalErrors) {
+			throw new NotFound;
+		}
+
+		$log = new Log();
+		$log->title = t("log.userDelete", array(
+			"user_name" => $user->getFullName(),
+			"user_id" => $user->id
+		));
+		$log->type = logs\userDelete::class;
+		$log->user = $me->id;
+		$log->parameters = array(
+			"user" => $user,
+		);
+		$log->save();
+
+		$user->delete();
+
+		$afterDeleteEvent = new Events\Users\AfterDelete($user);
+		$afterDeleteEvent->trigger();
+
+		$this->response->setStatus(true);
+		$this->response->go(userpanel\url("users"));
 		return $this->response;
 	}
 	public function settings($data){

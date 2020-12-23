@@ -572,6 +572,12 @@
 		"packages.userpanel.user.csv.status.suspend": "معلق",
 		"logs.login": "به سامانه وارد شد",
 		"logs.user_edit":"کاربر {user.name} را ویرایش کرد",
-		"logs.user_delete":"کاربر {user.name} را حذف کرد"
+		"logs.user_delete":"کاربر {user.name} را حذف کرد",
+
+		"error.packages.userpanel.error.logs.user.delete_user_warn": "هشدار در خصوص فعالیت های این کاربر",
+		"error.packages.userpanel.error.logs.user.delete_user_warn.message": "این کاربر دارای فعالیت هایی می باشد؛ در صورت حذف این کاربر، تمامی فعالیت های ایشان نیز حذف خواهند شد!",
+		"packages.userpanel.error.logs.user.delete_user_warn.view_logs": "در صورت نیاز می توانید با استفاده از لینک زیر فعالیت های این کاربر را مشاهده بفرمایید.",
+		"packages.userpanel.error.logs.user.delete_user_warn.view_logs.tell_someone": "در صورتی که قصد مشاهده فعالیت های این کاربر را دارید، از شخصی که این دسترسی را دارا می باشد درخواست نمایید.",
+		"packages.userpanel.error.logs.user.delete_user_warn.view_logs_btn": "مشاهده فعالیت های این کاربر"
 	}
 }

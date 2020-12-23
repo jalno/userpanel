@@ -26,6 +26,10 @@
 			"listener": "listeners/search@find"
 		},
 		{
+			"name":"packages/userpanel/events/Users/BeforeDelete",
+			"listener": "listeners/Users/BeforeDelete@check"
+		},
+		{
 			"name":"packages/userpanel/events/AuthenticationHandlersEvent",
 			"listener": "listeners/AuthenticationHandlers@add"
 		},
