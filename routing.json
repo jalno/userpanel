@@ -26,7 +26,13 @@
 	},
 	{
 		"path": "userpanel/users/edit/:user",
-		"controller": "controllers/Users@edit"
+		"controller": "controllers/Users@edit",
+		"method": "get"
+	},
+	{
+		"path": "userpanel/users/edit/:user",
+		"controller": "controllers/Users@update",
+		"method": "post"
 	},
 	{
 		"path": "userpanel/users/delete/:user",
