@@ -627,7 +627,7 @@ class Users extends Controller {
 				'socialnetworks_' . SocialNetwork::skype,
 				'socialnetworks_' . SocialNetwork::gplus
 			) as $visibility) {
-				$inputs['visibility_' . $visibility] = array(
+				$rules['visibility_' . $visibility] = array(
 					'optional' => true,
 					'type' => 'bool',
 					'empty' => true,
@@ -660,11 +660,12 @@ class Users extends Controller {
 			$formdata['avatar'] = null;
 		} else if (isset($formdata['avatar'])) {
 			$image = $formdata['avatar'];
-			$tmpFile = $image->getFile();
-			$filePath = 'storage/public_avatar/' . $tmpFile->md5() . '.' . $tmpFile->getExtension();
+			$tmpFile = new File\TMP();
+			$image->saveToFile($tmpFile);
+			$filePath = 'storage/public_avatar/' . $tmpFile->md5() . '.' . $image->getExtension();
 			$avatarFile = Packages::package('userpanel')->getFile($filePath);
 			$directory = $avatarFile->getDirectory();
-			if (!$directory) {
+			if (!$directory->exists()) {
 				$directory->make(true);
 			}
 			if (!$tmpFile->copyTo($avatarFile)) {
