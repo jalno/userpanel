@@ -17,7 +17,7 @@ class Edit extends UsertypeEdit {
 		Navigation::active("settings/usertypes");
 		$this->addBodyClass("usertypes");
 		$this->addBodyClass("edit-usertype");
-		$this->dynamicData()->setData("permissions", $this->buildPermissionsArray());
+		$this->dynamicData()->setData("usertypePermissions", $this->buildPermissionsArray());
 	}
 	public function export(): array {
 		$permissions = $this->buildPermissionsArray(true);
