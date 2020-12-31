@@ -4,7 +4,7 @@ namespace packages\userpanel\controllers;
 use packages\base\{Validator\CellphoneValidator, db, view\Error, IO\File, views\FormError, http, Image, InputValidation, InputValidationException, NotFound, Packages, Response, Translator};
 use packages\base\db\{DuplicateRecord, InputDataType, Parenthesis};
 use packages\userpanel;
-use packages\userpanel\{Authentication, Authorization, Controller, Country, Date, Events, Log, controllers\Login, logs, events\settings as SettingsEvent, user\SocialNetwork, User, Usertype, View};
+use packages\userpanel\{Authentication, Authorization, Controller, Country, Date, Events, Log, controllers\Login, logs, events\settings as SettingsEvent, Usertype\Permission, Usertype\Permissions, user\SocialNetwork, User, Usertype, View};
 
 use themes\clipone\views;
 
@@ -20,7 +20,7 @@ class Users extends Controller {
 		if ($types) {
 			$view->setUserTypes((new Usertype)->where("id", $types, "in")->get());
 		}
-		$inputs = $this->checkInputs(array(
+		$rules = array(
 			"id" => array(
 				"type" => "number",
 				"optional" => true,
@@ -52,6 +52,10 @@ class Users extends Controller {
 					}
 					return $selectedTypes;
 				},
+				"optional" => true,
+			),
+			"has_custom_permissions" => array(
+				"type" => "bool",
 				"optional" => true,
 			),
 			"online" => array(
@@ -96,7 +100,9 @@ class Users extends Controller {
 				"unix" => true,
 				"optional" => true,
 			),
-		));
+		);
+		$inputs = $this->checkInputs($rules);
+
 		if (isset($inputs["lastonline_from"], $inputs["lastonline_to"])) {
 			if ($inputs["lastonline_from"] >= $inputs["lastonline_to"]) {
 				throw new InputValidationException("lastonline_from");
@@ -117,6 +123,9 @@ class Users extends Controller {
 		if (isset($inputs['type'])) {
 			$view->setDataForm($inputs['type'], 'type-select');
 			$model->where('type', $inputs['type'], 'IN');
+		}
+		if (isset($inputs["has_custom_permissions"]) and $inputs["has_custom_permissions"]) {
+			$model->where("has_custom_permissions", true);
 		}
 		if (isset($inputs["lastonline_from"])) {
 			$model->where("lastonline", $inputs["lastonline_from"], ">=");
@@ -476,6 +485,7 @@ class Users extends Controller {
 		if (!$user) {
 			throw new NotFound();
 		}
+		$me = Authentication::getUser();
 		$view = View::byName(views\users\View::class);
 		$view->setData($user, 'user');
 
@@ -634,6 +644,27 @@ class Users extends Controller {
 				);
 			}
 		}
+		if (Authorization::is_accessed('users_edit_permissions')) {
+			$allPermissions = Permissions::existentForUser($me);
+			$rules['permissions'] = array(
+				'type' => function ($data, array $rule, string $input) use ($allPermissions) {
+					if (!$data) {
+						return array();
+					}
+					if (!is_array($data)) {
+						throw new InputValidationException($input, 'permissions is not array!');
+					}
+					foreach ($data as $key => $permission) {
+						if (!in_array($permission, $allPermissions)) {
+							throw new InputValidationException("{$input}[$key]", 'permission is not exists!');
+						}
+					}
+					return $data;
+				},
+				'optional' => true,
+				'empty' => true,
+			);
+		}
 		if (Authorization::is_accessed('users_edit_credit')) {
 			$rules['credit'] = array(
 				'type' => 'int',
@@ -652,6 +683,9 @@ class Users extends Controller {
 				$formdata[$item] = $formdata[$item]->id;
 			}
 		}
+
+		$permissions = $formdata['permissions'] ?? null;
+		unset($formdata['permissions']);
 
 		$oldData = $user->original_data;
 		unset($oldData["id"], $oldData["lastonline"], $oldData["remember_token"]);
@@ -712,12 +746,34 @@ class Users extends Controller {
 			"oldData" => array(),
 			"newData" => array()
 		);
+		if ($permissions !== null) {
+			$oldPermissions = $user->getPermissions();
+
+			$existentPermissions = Permissions::existentForUser($me);
+			$shouldBePersistentPermissions = array_diff($oldPermissions, $existentPermissions);
+			if ($shouldBePersistentPermissions) {
+				$permissions = array_merge($permissions, $shouldBePersistentPermissions);
+				$permissions = array_values(array_unique($permissions));
+			}
+			$user->setCustomPermissions($permissions);
+
+			$addedPermissions = array_diff($permissions, $oldPermissions);
+			$removedPermissions = array_diff($oldPermissions, $permissions);
+			if ($addedPermissions or $removedPermissions) {
+				$inputs['permissions'] = [];
+			}
+			if ($addedPermissions) {
+				$inputs['permissions']['addedPermissions'] = array_values($addedPermissions);
+			}
+			if ($removedPermissions) {
+				$inputs['permissions']['removedPermissions'] = array_values($removedPermissions);
+			}
+		}
 		if (Authorization::is_accessed('profile_edit_privacy')) {
 			$visibilities = $user->getOption("visibilities");
 			if (!is_array($visibilities)) {
 				$visibilities = array();
 			}
-			$inputs['oldData']['visibilities'] = $visibilities;
 			foreach (array(
 				"email",
 				"cellphone",
@@ -732,15 +788,24 @@ class Users extends Controller {
 				$item = "visibility_" . $field;
 				if (array_key_exists($item, $formdata)) {
 					if ($formdata[$item]) {
+						if (!in_array($field, $visibilities)) {
+							if (!isset($inputs["newData"]["visibilities"])) {
+								$inputs["newData"]["visibilities"] = array();
+							}
+							$inputs["newData"]["visibilities"][] = $field;
+						}
 						$visibilities[] = $field;
 					} else if (($key = array_search($field, $visibilities)) !== false) {
+						if (!isset($inputs["oldData"]["visibilities"])) {
+							$inputs["oldData"]["visibilities"] = array();
+						}
+						$inputs["oldData"]["visibilities"][] = $field;
 						unset($visibilities[$key]);
 					}
 				}
 			}
 			$visibilities = array_values(array_unique($visibilities));
 			$user->setOption("visibilities", $visibilities);
-			$inputs['newData']['visibilities'] = $visibilities;
 		}
 		foreach ($oldData as $field => $val) {
 			$newVal = $user->original_data[$field];

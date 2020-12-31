@@ -2,6 +2,7 @@
 namespace packages\userpanel;
 
 use packages\base\db;
+use packages\userpanel\Usertype\Permission;
 
 class usertype extends db\dbObject{
 	const admin = 1;
@@ -23,6 +24,23 @@ class usertype extends db\dbObject{
      */
     private $plainPermissions;
 
+	/**
+	 * get permissions of this usertype with or without disabled permissions
+	 *
+	 * @param bool $withoutDisabledPermissions if true, disabled permissions are filtered from result
+	 * @return string[] that is permissions of this type
+	 */
+	public function getPermissions(bool $withoutDisabledPermissions = true): array {
+		$permissions = (new Permission)->where('type', $this->id)->get();
+		if ($withoutDisabledPermissions) {
+			$disabledPermissions = Permission::getDisabledPermissions();
+			return array_values(array_filter($permissions, function($obj) use ($disabledPermissions) {
+				return !in_array($obj->name, $disabledPermissions);
+			}));
+		}
+		return $permissions;
+	}
+
     /**
      * Load and cache permissions of this usertype for once and check it for every query.
      * 
@@ -31,7 +49,7 @@ class usertype extends db\dbObject{
      */
     public function hasPermission(string $permission): bool {
     	if ($this->plainPermissions === null) {
-    		$this->plainPermissions = array_column(db::where("type", $this->id)->get("userpanel_usertypes_permissions", null, ['name']), 'name');
+    		$this->plainPermissions = array_column($this->getPermissions(false), 'name');
     	}
     	return in_array($permission, $this->plainPermissions);
     }

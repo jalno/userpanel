@@ -1,25 +1,12 @@
 <?php
 namespace packages\userpanel\controllers\settings;
-use \packages\base;
-use \packages\base\db;
-use \packages\base\http;
-use \packages\base\NotFound;
-use \packages\base\db\parenthesis;
-use \packages\base\views\FormError;
-use \packages\base\view\error;
-use \packages\base\inputValidation;
-use \packages\base\options;
 
-use \packages\userpanel;
-use \packages\userpanel\user;
-use \packages\userpanel\view;
-use \packages\userpanel\usertype;
-use \packages\userpanel\controller;
-use \packages\userpanel\authorization;
-use \packages\userpanel\authentication;
-use \packages\userpanel\usertype\permissions;
-use \packages\userpanel\usertype\permission;
-use \packages\userpanel\usertype\priority;
+use packages\base;
+use packages\base\{db, http, InputValidation, InputValidationException, NotFound, Options, db\Parenthesis, Response};
+use packages\base\view\{Error, FormError};
+use packages\userpanel;
+use packages\userpanel\{Authentication, Authorization, AuthorizationException, Controller, User, Usertype, View};
+use packages\userpanel\usertype\{Permission, Permissions, Priority};
 
 /**
   * Handler for usertypes
@@ -120,6 +107,18 @@ class usertypes extends controller{
 
 		$this->response->setStatus(true);
 		$this->response->setView($view);
+		return $this->response;
+	}
+	public function view($data): Response {
+		if (!Authorization::is_accessed('users_edit_permissions') and !Authorization::is_accessed('settings_usertypes_edit')) {
+			throw new AuthorizationException('userpanel_usertypes');
+		}
+		$usertype = $this->getUserType($data);
+		$this->response->setData($usertype->toArray(), "usertype");
+		$me = Authentication::getUser();
+		$allPermissions = Permissions::existentForUser($me);
+		$this->response->setData($allPermissions, "all_permissions");
+		$this->response->setStatus(true);
 		return $this->response;
 	}
 	/**

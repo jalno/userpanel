@@ -29,7 +29,7 @@ $usertype = $this->getUserType();
 						<a class="btn btn-xs btn-link panel-collapse collapses" href="#"></a>
 					</div>
 				</div>
-				<div class="panel-body userpanel-permissions-fancytree-container">
+				<div class="panel-body panel-permissions userpanel-permissions-fancytree-container">
 
 				</div>
 			</div>

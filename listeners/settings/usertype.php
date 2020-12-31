@@ -9,6 +9,7 @@ class usertype{
 			'users_view',
 			'users_view_invisibles',
 			'users_edit',
+			'users_edit_permissions',
 			'users_edit_privacy',
 			'users_delete',
 			'users_settings',

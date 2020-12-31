@@ -33,6 +33,7 @@ class user extends dbObject{
 		'lastonline' => array('type' => 'int'),
 		'remember_token' => array('type' => 'text'),
 		'registered_at' => array('type' => 'int', 'required' => true),
+		'has_custom_permissions' => array('type' => 'int'),
         'status' => array('type' => 'int', 'required' => true)
     );
     protected $relations = array(
@@ -40,7 +41,10 @@ class user extends dbObject{
 		'socialnetworks' => array("hasMany", "packages\\userpanel\\user\\socialnetwork", "user"),
 		'options' => array("hasMany", "packages\\userpanel\\user\\option", "user"),
 		'country' => array("hasOne", "packages\\userpanel\\country", "country"),
-    );
+	);
+
+	private $customPermissions = null;
+
 	public function getFullName(){
 		return($this->name.($this->lastname ? ' '.$this->lastname : ''));
 	}
@@ -50,7 +54,50 @@ class user extends dbObject{
 	public function password_hash($password){
 		$this->password = password::hash($password);
 	}
-	public function can($permission){
+	public function setCustomPermissions(array $permissions): void {
+		$typePermissions = array_column($this->type->permissions, "name");
+		/* if given permissions is not diffrent than type permissions, no need to use custom permissions! */
+		if (empty(array_diff($typePermissions, $permissions)) and empty(array_diff($permissions, $typePermissions))) {
+			$this->has_custom_permissions = false;
+			$this->save();
+			$this->customPermissions = array();
+			db::where("user_id", $this->id)->delete("userpanel_users_permissions");
+			return;
+		}
+		$customPermissions = $this->has_custom_permissions ? $this->getCustomPermissions(false) : array();
+
+		$removedPermissions = array_diff($customPermissions, $permissions);
+		if ($removedPermissions) {
+			$removedPermissions = array_values($removedPermissions);
+			db::where("user_id", $this->id)->where("permission", $removedPermissions, "IN")->delete("userpanel_users_permissions");
+		}
+
+		$newPermissions = array_diff($permissions, $customPermissions);
+		if ($newPermissions) {
+			$userID = $this->id;
+			db::insertMulti("userpanel_users_permissions", array_map(function ($permission) use ($userID) {
+				return array(
+					"user_id" => $userID,
+					"permission" => $permission,
+				);
+			}, array_values($newPermissions)));
+		}
+		$this->has_custom_permissions = true;
+		$this->save();
+		$this->customPermissions = $permissions;
+	}
+	public function getCustomPermissions(bool $useCache = true): array {
+		if ($this->customPermissions === null or !$useCache) {
+			$this->customPermissions = array_column(db::where("user_id", $this->id)->get("userpanel_users_permissions", null, "permission"),
+				"permission"
+			);
+		}
+		return $this->customPermissions;
+	}
+	public function can(string $permission): bool {
+		if ($this->has_custom_permissions) {
+			return in_array($permission, $this->getCustomPermissions());
+		}
 		return $this->type->hasPermission($permission);
 	}
 	public function childrenTypes(){
@@ -178,10 +225,12 @@ class user extends dbObject{
         return $this->getImage($width, $height, "avatar");
     }
 	public function getPermissions(): array {
-		$type = $this->type->id;
-		$permission = new usertype\permission();
-		$permission->where("type", $type);
-		return array_column($permission->arrayBuilder()->get(null, "name"), "name");
+		if ($this->has_custom_permissions) {
+			return $this->getCustomPermissions();
+		}
+		$typeID = $this->type->id;
+		$permissions = (new usertype\Permission)->where("type", $typeID)->arrayBuilder()->get(null, "name");
+		return array_column($permissions, "name");
 	}
 	public function preLoad(array $data): array {
 		if (!isset($data["lastonline"])) {

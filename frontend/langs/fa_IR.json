@@ -5,6 +5,7 @@
 	},
 	"rtl": true,
 	"phrases":{
+		"yes": "بله",
 		"list":"لیست",
 		"active": "فعال",
 		"suspend": "معلق",
@@ -184,6 +185,7 @@
 		"log.user.type" : "سطح کاربری",
 		"log.user.status" : "وضعیت",
 		
+		"userpanel.users.search.has_custom_permissions": "دسترسی خاص",
 		"userpanel.search": "جستجو",
 		"userpanel.cancel": "انصراف",
 		"userpanel.add": "افزودن",
@@ -191,6 +193,12 @@
 		"userpanel.create": "ایجاد",
 		"userpanel.delete": "حذف",
 		"userpanel.choose": "انتخاب کنید...",
+
+		"userpanel.users.edit.usertype.custom_permissions.warn_text": "دسترسی های این کاربر شخصی سازی شده است!",
+		"userpanel.users.edit.usertype.custom_permissions.warn_modal.title": "هشدار در خصوص دسترسی های این کاربر",
+		"userpanel.users.edit.usertype.custom_permissions.warn_modal.help_text": "دسترسی های کاربر '{user_fullname}' شخصی سازی شده اند؛ در صورت تغییر سطح کاربری، دسترسی های سطح کاربری انتخاب شده برای ایشان منظور خواهد شد.",
+		"userpanel.users.edit.usertype.custom_permissions.warn_modal.confirm": "متوجه ام!",
+		"userpanel.users.edit.usertype.custom_permissions.warn_modal.please_wait": "لطفا شکیبا باشید!",
 
 		"userpanel.login.signin_btn": "ورود",
 		"userpanel.login.heading": "به حساب کاربری خود وارد شوید",
@@ -224,6 +232,7 @@
 		"userpanel.profile.activity_calendar.tuesday": "سه شنبه",
 		"userpanel.profile.activity_calendar.thursday": "پنج شنبه",
 		"userpanel.profile.socialnetworks": "شبکه های اجتماعی",
+		"userpanel.profile.user_permissions": "دسترسی های کاربر",
 
 		"userpanel.success": "موفق",
 		"userpanel.formajax.success": "درخواست شما با موفقیت انجام شد",
@@ -242,6 +251,8 @@
 		"error.user_status_is_suspend_in_register": "<h4> <i class=\"fa fa-check-square\"></i> از ثبت نام شما متشکریم.</h4> بعد از تایید حساب کاربری میتوانید وارد شوید",
 		"error.user_status_is_deactive_in_login": "<h4> <i class=\"fa fa-user-times\"></i> حساب کاربری شما غیرفعال است</h4> برای بررسی و حل این موضوع لطفا با مدیریت سایت تماس بگیرید",
 		"error.user_status_is_suspend_in_login": "<h4> <i class=\"fa fa-ban\"></i> حساب کاربری شما مسدود است.</h4> برای بررسی و حل این موضوع لطفا با مدیریت سایت تماس بگیرید",
+		"error.packages.userpanel.usertypes.edit.has_custom_permissions_users": "دسترسی های تعدادی از کاربرانی که متعلق به این سطح دسترسی می باشند، شخصی سازی شده است؛ در نظر داشته باشید که تغییرات اعمال شده بر روی دسترسی های این سطح دسترسی بر روی کاربران مذکور اعمال نخواهد شد!",
+		"error.packages.userpanel.usertypes.edit.has_custom_permissions_users.view_users": "مشاهده کاربران با دسترسی های شخصی سازی شده",
 		"userpanel.user.activate": "فعال سازی کاربر",
 		"userpanel.user.suspend": "مسدود سازی کاربر",
 		"userpanel.user.login": "ورود به عنوان کاربر",

@@ -88,6 +88,11 @@
 		"controller": "controllers/settings\\usertypes@listTypes"
 	},
 	{
+		"path": "userpanel/settings/usertypes/view/:type",
+		"controller": "controllers/settings/Usertypes@view",
+		"method": "get"
+	},
+	{
 		"path": ["userpanel", "settings", "usertypes", "add"],
 		"controller": "controllers/settings\\usertypes@add"
 	},
