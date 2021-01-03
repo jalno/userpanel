@@ -59,7 +59,7 @@ CREATE TABLE `userpanel_users` (
 	`credit` int(11) NOT NULL DEFAULT '0',
 	`avatar` varchar(255) DEFAULT NULL,
 	`registered_at` int(10) unsigned NOT NULL,
-	`custom_permissions` tinyint(3) unsigned NOT NULL DEFAULT '0',
+	`has_custom_permissions` tinyint(3) unsigned NOT NULL DEFAULT '0',
 	`status` tinyint(4) NOT NULL,
 	PRIMARY KEY (`id`),
 	UNIQUE KEY `email` (`email`),

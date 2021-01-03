@@ -27,7 +27,7 @@ ALTER TABLE `userpanel_logs` CHANGE `parameters` `parameters` LONGTEXT CHARACTER
 --
 --	Commit: 6b5c7dd039f240ba0e910bbee1cb0760618001fe
 --
-ALTER TABLE `userpanel_users` ADD `custom_permissions` TINYINT UNSIGNED NOT NULL DEFAULT '0' AFTER `registered_at`;
+ALTER TABLE `userpanel_users` ADD `has_custom_permissions` TINYINT UNSIGNED NOT NULL DEFAULT '0' AFTER `registered_at`;
 CREATE TABLE `userpanel_users_permissions` (
 	`user_id` int(11) NOT NULL,
 	`permission` varchar(255) NOT NULL,
