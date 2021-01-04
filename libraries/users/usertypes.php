@@ -2,7 +2,7 @@
 namespace packages\userpanel;
 
 use packages\base\db;
-use packages\userpanel\Usertype\Permission;
+use packages\userpanel\Usertype\{Permission, Permissions};
 
 class usertype extends db\dbObject{
 	const admin = 1;
@@ -33,7 +33,7 @@ class usertype extends db\dbObject{
 	public function getPermissions(bool $withoutDisabledPermissions = true): array {
 		$permissions = (new Permission)->where('type', $this->id)->get();
 		if ($withoutDisabledPermissions) {
-			$disabledPermissions = Permission::getDisabledPermissions();
+			$disabledPermissions = Permissions::getDisabledPermissions();
 			return array_values(array_filter($permissions, function($obj) use ($disabledPermissions) {
 				return !in_array($obj->name, $disabledPermissions);
 			}));
