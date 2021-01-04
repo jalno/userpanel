@@ -246,36 +246,38 @@ use packages\userpanel\{user, user\socialnetwork};
 		?>
 		</div>
 		<div class="col-md-6">
+		<?php if ($this->canEditPermissions) { ?>
 			<h3><?php echo t("userpanel.profile.socialnetworks"); ?></h3>
 			<hr>
-			<?php
-			$fields = array_merge(($this->canEditPermissions ? $socialnetworksFirstPart : []), array(
-				array(
-					'name' => 'socialnets['.socialnetwork::twitter.']',
-					'placeholder' => "Twitter",
-					'icon' => 'clip-twitter',
-					'ltr' => true,
-					'input-group' => $this->getFieldPrivacyGroupBtn('socialnetworks_'.socialnetwork::twitter)
-				),
-				array(
-					'name' => 'socialnets['.socialnetwork::facebook.']',
-					'placeholder' => "Facebook",
-					'icon' => 'clip-facebook',
-					'ltr' => true,
-					'input-group' => $this->getFieldPrivacyGroupBtn('socialnetworks_'.socialnetwork::facebook)
-				),
-				array(
-					'name' => 'socialnets['.socialnetwork::gplus.']',
-					'placeholder' => " Google+",
-					'icon' => 'fa fa-google-plus',
-					'ltr' => true,
-					'input-group' => $this->getFieldPrivacyGroupBtn('socialnetworks_'.socialnetwork::gplus)
-				),
-			));
-			foreach ($fields as $field) {
-				$this->createField($field);
-			}
-			?>
+		<?php
+		}
+		$fields = array_merge(($this->canEditPermissions ? $socialnetworksFirstPart : []), array(
+			array(
+				'name' => 'socialnets['.socialnetwork::twitter.']',
+				'placeholder' => "Twitter",
+				'icon' => 'clip-twitter',
+				'ltr' => true,
+				'input-group' => $this->getFieldPrivacyGroupBtn('socialnetworks_'.socialnetwork::twitter)
+			),
+			array(
+				'name' => 'socialnets['.socialnetwork::facebook.']',
+				'placeholder' => "Facebook",
+				'icon' => 'clip-facebook',
+				'ltr' => true,
+				'input-group' => $this->getFieldPrivacyGroupBtn('socialnetworks_'.socialnetwork::facebook)
+			),
+			array(
+				'name' => 'socialnets['.socialnetwork::gplus.']',
+				'placeholder' => " Google+",
+				'icon' => 'fa fa-google-plus',
+				'ltr' => true,
+				'input-group' => $this->getFieldPrivacyGroupBtn('socialnetworks_'.socialnetwork::gplus)
+			),
+		));
+		foreach ($fields as $field) {
+			$this->createField($field);
+		}
+		?>
 		</div>
 	</div>
 	<div class="row" style="margin-top: 20px;margin-bottom: 20px;">
