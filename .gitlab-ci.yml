@@ -11,7 +11,8 @@ static analyse:
   image: php:7.4-cli-alpine3.12
   stage: test
   variables:
-    GIT_ROOT_PATH: $CI_BUILDS_DIR/$CI_PROJECT_PATH
+    GIT_ROOT_PATH: $CI_BUILDS_DIR/$CI_CONCURRENT_ID/$CI_PROJECT_NAME
+    GIT_CLONE_PATH: $CI_BUILDS_DIR/$CI_CONCURRENT_ID/$CI_PROJECT_NAME/packages/userpanel
   before_script:
     - apk update && apk add git libzip-dev zip
     - docker-php-ext-install zip
@@ -23,6 +24,5 @@ static analyse:
     - rm -fr base && git clone --depth 1 ${REPO_SERVER_HOST}/jalno/base.git base
     - cd ${GIT_ROOT_PATH} && cp -Rf base/* . && cd packages
     - rm -fr PhpParser && git clone --depth 1 ${REPO_SERVER_HOST}/yeganemehr/PhpParser.git
-    - rm -fr userpanel && git clone --depth 1 ${REPO_SERVER_HOST}/jalno/userpanel.git
   script:
-    - $GIT_ROOT_PATH/vendor/bin/phpstan analyse --memory-limit 4G -c $GIT_ROOT_PATH/packages/userpanel/phpstan.neon $GIT_ROOT_PATH/packages/userpanel
+    - $GIT_ROOT_PATH/vendor/bin/phpstan analyse --memory-limit 4G -c $GIT_CLONE_PATH/phpstan.neon $GIT_CLONE_PATH
