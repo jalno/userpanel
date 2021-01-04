@@ -59,6 +59,7 @@ CREATE TABLE `userpanel_users` (
 	`credit` int(11) NOT NULL DEFAULT '0',
 	`avatar` varchar(255) DEFAULT NULL,
 	`registered_at` int(10) unsigned NOT NULL,
+	`has_custom_permissions` tinyint(3) unsigned NOT NULL DEFAULT '0',
 	`status` tinyint(4) NOT NULL,
 	PRIMARY KEY (`id`),
 	UNIQUE KEY `email` (`email`),
@@ -68,7 +69,14 @@ CREATE TABLE `userpanel_users` (
 	KEY `country` (`country`),
 	CONSTRAINT `userpanel_users_ibfk_1` FOREIGN KEY (`type`) REFERENCES `userpanel_usertypes` (`id`),
 	CONSTRAINT `userpanel_users_ibfk_2` FOREIGN KEY (`country`) REFERENCES `userpanel_countries` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE `userpanel_users_permissions` (
+	`user_id` int(11) NOT NULL,
+	`permission` varchar(255) NOT NULL,
+	PRIMARY KEY (`user_id`,`permission`),
+	CONSTRAINT `userpanel_users_permissions_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `userpanel_users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 CREATE TABLE `userpanel_users_options` (
 	`id` int(11) NOT NULL AUTO_INCREMENT,

@@ -1,41 +1,44 @@
 <?php
 namespace packages\userpanel\views\users;
-use \packages\userpanel\user\socialnetwork;
-use \packages\userpanel\views\form;
-use \packages\userpanel\authorization;
-class edit extends form{
-	use settingsTrait;
+
+use packages\userpanel\{Authorization, views\Form, user\SocialNetwork};
+
+class Edit extends Form {
+	use SettingsTrait;
+
+	/** @var bool */
 	protected $canEditPrivacy;
+
+	/** @var bool */
 	protected $canChangeCredit;
-	function __construct(){
-		$this->canEditPrivacy = authorization::is_accessed('profile_edit_privacy');
-		$this->canChangeCredit = authorization::is_accessed("users_edit_credit");
+
+	/** @var bool that indicates viewer user can change permissions of the user */
+	protected $canEditPermissions;
+
+	public function __construct() {
+		$this->canEditPrivacy = Authorization::is_accessed("profile_edit_privacy");
+		$this->canChangeCredit = Authorization::is_accessed("users_edit_credit");
+		$this->canEditPermissions = Authorization::is_accessed("users_edit_permissions");
 	}
-	public function setCountries($countries){
+	public function setCountries($countries): void {
 		$this->setData($countries, 'countries');
 	}
-	public function getCountries(){
+	public function getCountries(): array {
 		return $this->getData('countries');
 	}
-	public function setTypes($types){
+	public function setTypes($types): void {
 		$this->setData($types, 'types');
 	}
-	public function getTypes(){
+	public function getTypes(): array {
 		return $this->getData('types');
 	}
-	public function setUserData($data){
-		$this->setData($data, 'user');
-	}
-	public function getUserData($key){
-		return($this->data['user']->$key);
-	}
-	public function setForm(){
+	public function setForm(): void {
 		$user = $this->getData('user');
 		$this->setDataForm($user->toArray());
-		foreach($user->socialnetworks as $socialnet){
-			$this->setDataForm($socialnet->username, 'socialnets['.$socialnet->network.']');
+		foreach ($user->socialnetworks as $socialnet) {
+			$this->setDataForm($socialnet->username, "socialnets[{$socialnet->network}]");
 		}
-		foreach(array(
+		foreach (array(
 			'email',
 			'cellphone',
 			'phone',

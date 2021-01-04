@@ -137,6 +137,15 @@ if ($this->canExport) {
 				),
 				array(
 					"type" => "checkbox",
+					"label" => t("userpanel.users.search.has_custom_permissions"),
+					"name" => "has_custom_permissions",
+					"options" => [array(
+						"value" => 1,
+						"label" => t("yes")
+					)]
+				),
+				array(
+					"type" => "checkbox",
 					"label" => t("user.online"),
 					"name" => "online",
 					"options" => [array(

@@ -1,0 +1,39 @@
+
+.userpanel-permissions-fancytree-container {
+	.ui-fancytree.fancytree-container, .ui-fancytree.fancytree-container:focus {
+		font-family: koodak;
+		font-size: 1.2em;
+		outline: none;
+		border: none;
+		.fancytree-node {
+			&.fancytree-focused {
+				.fancytree-title {
+					outline: 0;
+				}
+			}
+			&.fancytree-folder {
+				.fancytree-icon {
+					color: #f2b119;
+				}
+			}
+			.fancytree-icon {
+				color: #15365b;
+			}
+			.fancytree-expander.fa-minus-square-o {
+				color: #ababab;
+			}
+			.fancytree-checkbox {
+				&.fa-square-o {
+					color: #ababab;
+				}
+				&.fa-check-square {
+					color: #15c945;
+				}
+			}
+			.fancytree-expander, .fancytree-checkbox, .fancytree-icon, .fancytree-title {
+				user-select: none;
+				background-image: none;
+			}
+		}
+	}
+}

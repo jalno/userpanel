@@ -1,10 +1,11 @@
 <?php
 namespace themes\clipone\views\settings\usertypes;
 
-use packages\base\Options;
+use packages\base\{view\Error, Options};
 use packages\userpanel\Usertype;
 use themes\clipone\{views\FormTrait, Navigation, ViewTrait};
 use packages\userpanel\views\settings\usertypes\Edit as UsertypeEdit;
+use function packages\userpanel\url;
 
 class Edit extends UsertypeEdit {
 	use ViewTrait, FormTrait;
@@ -17,7 +18,8 @@ class Edit extends UsertypeEdit {
 		Navigation::active("settings/usertypes");
 		$this->addBodyClass("usertypes");
 		$this->addBodyClass("edit-usertype");
-		$this->dynamicData()->setData("permissions", $this->buildPermissionsArray());
+		$this->dynamicData()->setData("usertypePermissions", $this->buildPermissionsArray());
+		$this->addWarnings();
 	}
 	public function export(): array {
 		$permissions = $this->buildPermissionsArray(true);
@@ -57,5 +59,24 @@ class Edit extends UsertypeEdit {
 			}
 		}
 		return false;
+	}
+	protected function addWarnings(): void {
+		$hasCustomizedPermissionsUser = $this->hasCustomizedPermissionsUser();
+		if ($hasCustomizedPermissionsUser) {
+			$type = $this->getUserType();
+			$error = new Error("packages.userpanel.usertypes.edit.has_custom_permissions_users");
+			$error->setType(Error::WARNING);
+			$error->setData(array(
+				array(
+					"txt" => '<i class="fa fa-search"></i> ' . t("error.packages.userpanel.usertypes.edit.has_custom_permissions_users.view_users"),
+					"type" => "btn-warning",
+					"link" => url("users", array(
+						"type" => $type->id,
+						"has_custom_permissions" => true,
+					)),
+				),
+			), "btns");
+			$this->addError($error);
+		}
 	}
 }

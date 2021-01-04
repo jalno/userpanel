@@ -1,9 +1,16 @@
 <?php
-use packages\base\translator;
+use packages\base\{Json, translator};
 use packages\userpanel;
 use packages\userpanel\{user, user\socialnetwork};
 ?>
-<form action="<?php echo userpanel\url('users/edit/'.$this->getDataForm('id')); ?>" method="POST" role="form" id="edit_form">
+<form action="<?php echo userpanel\url('users/edit/'.$this->user->id); ?>" method="POST" role="form" id="edit_form" data-can-edit-permissions="<?php echo Json\encode($this->canEditPermissions); ?>" data-user="<?php echo htmlentities(json\encode(array(
+	"id" => $this->user->id,
+	"name" => $this->user->name,
+	"lastname" => $this->user->lastname,
+	"type" => $this->user->type->id,
+	"has_custom_permissions" => $this->user->has_custom_permissions,
+	"status" => $this->user->status,
+))); ?>">
 	<?php
 	if($this->canEditPrivacy){
 		foreach(array(
@@ -185,78 +192,99 @@ use packages\userpanel\{user, user\socialnetwork};
 		</div>
 	</div>
 
+	<?php
+		$socialnetworksFirstPart = array(
+			array(
+				'name' => 'socialnets['.socialnetwork::telegram.']',
+				'placeholder' => 'Telegram',
+				'icon' => 'fa fa-telegram',
+				'ltr' => true,
+				'input-group' => $this->getFieldPrivacyGroupBtn('socialnetworks_'.socialnetwork::telegram),
+			),
+			array(
+				'name' => 'socialnets['.socialnetwork::instagram.']',
+				'placeholder' => 'Instagram',
+				'icon' => 'fa fa-instagram',
+				'ltr' => true,
+				'input-group' => $this->getFieldPrivacyGroupBtn('socialnetworks_'.socialnetwork::instagram),
+			),
+			array(
+				'name' => 'socialnets['.socialnetwork::skype.']',
+				'placeholder' => 'Skype',
+				'icon' => 'fa fa-skype',
+				'ltr' => true,
+				'input-group' => $this->getFieldPrivacyGroupBtn('socialnetworks_'.socialnetwork::skype),
+			),
+		);
+		if (!$this->canEditPermissions) {
+	?>
+	<h3><?php echo t("userpanel.profile.socialnetworks"); ?></h3>
+		<hr>
+	<?php } ?>
+
 	<div class="row">
-		<div class="col-md-12">
+		<div class="col-md-6">
+		<?php
+		if ($this->canEditPermissions) {
+		?>
+			<div class="change-permissions-container">
+				<h3>
+					<?php echo t("userpanel.profile.user_permissions"); ?>
+					<?php if ($this->user->has_custom_permissions) { ?>
+						<i class="fa fa-exclamation-circle warning-custom-permissions tooltips" title="<?php echo t("userpanel.users.edit.usertype.custom_permissions.warn_text"); ?>"></i>
+					<?php } ?>
+					</h3>
+				<hr>
+				<div class="userpanel-permissions-fancytree-container"></div>
+			</div>
+		<?php
+		} else {
+			foreach ($socialnetworksFirstPart as $field) {
+				$this->createField($field);
+			}
+		}
+		?>
+		</div>
+		<div class="col-md-6">
+		<?php if ($this->canEditPermissions) { ?>
 			<h3><?php echo t("userpanel.profile.socialnetworks"); ?></h3>
 			<hr>
-		</div>
-	</div>
-	<div class="row">
-		<div class="col-md-6">
-			<?php
-			$fields = array(
-				array(
-					'name' => 'socialnets['.socialnetwork::telegram.']',
-					'placeholder' => "Telegram",
-					'icon' => 'fa fa-telegram',
-					'ltr' => true,
-					'input-group' => $this->getFieldPrivacyGroupBtn('socialnetworks_'.socialnetwork::telegram)
-				),
-				array(
-					'name' => 'socialnets['.socialnetwork::instagram.']',
-					'placeholder' => "Instagram",
-					'icon' => 'fa fa-instagram',
-					'ltr' => true,
-					'input-group' => $this->getFieldPrivacyGroupBtn('socialnetworks_'.socialnetwork::instagram)
-				),
-				array(
-					'name' => 'socialnets['.socialnetwork::skype.']',
-					'placeholder' => "Skype",
-					'icon' => 'fa fa-skype',
-					'ltr' => true,
-					'input-group' => $this->getFieldPrivacyGroupBtn('socialnetworks_'.socialnetwork::skype)
-				)
-			);
-			foreach($fields as $field){
-				$this->createField($field);
-			}
-			?>
-		</div>
-		<div class="col-md-6">
-			<?php
-			$fields = array(
-				array(
-					'name' => 'socialnets['.socialnetwork::twitter.']',
-					'placeholder' => "Twitter",
-					'icon' => 'clip-twitter',
-					'ltr' => true,
-					'input-group' => $this->getFieldPrivacyGroupBtn('socialnetworks_'.socialnetwork::twitter)
-				),
-				array(
-					'name' => 'socialnets['.socialnetwork::facebook.']',
-					'placeholder' => "Facebook",
-					'icon' => 'clip-facebook',
-					'ltr' => true,
-					'input-group' => $this->getFieldPrivacyGroupBtn('socialnetworks_'.socialnetwork::facebook)
-				),
-				array(
-					'name' => 'socialnets['.socialnetwork::gplus.']',
-					'placeholder' => "Google+",
-					'icon' => 'fa fa-google-plus',
-					'ltr' => true,
-					'input-group' => $this->getFieldPrivacyGroupBtn('socialnetworks_'.socialnetwork::gplus)
-				)
-
-			);
-			foreach($fields as $field){
-				$this->createField($field);
-			}
-			?>
+		<?php
+		}
+		$fields = array_merge(($this->canEditPermissions ? $socialnetworksFirstPart : []), array(
+			array(
+				'name' => 'socialnets['.socialnetwork::twitter.']',
+				'placeholder' => "Twitter",
+				'icon' => 'clip-twitter',
+				'ltr' => true,
+				'input-group' => $this->getFieldPrivacyGroupBtn('socialnetworks_'.socialnetwork::twitter)
+			),
+			array(
+				'name' => 'socialnets['.socialnetwork::facebook.']',
+				'placeholder' => "Facebook",
+				'icon' => 'clip-facebook',
+				'ltr' => true,
+				'input-group' => $this->getFieldPrivacyGroupBtn('socialnetworks_'.socialnetwork::facebook)
+			),
+			array(
+				'name' => 'socialnets['.socialnetwork::gplus.']',
+				'placeholder' => " Google+",
+				'icon' => 'fa fa-google-plus',
+				'ltr' => true,
+				'input-group' => $this->getFieldPrivacyGroupBtn('socialnetworks_'.socialnetwork::gplus)
+			),
+		));
+		foreach ($fields as $field) {
+			$this->createField($field);
+		}
+		?>
 		</div>
 	</div>
 	<div class="row" style="margin-top: 20px;margin-bottom: 20px;">
 		<div class="col-md-offset-4 col-md-4">
-			<button class="btn btn-teal btn-block" type="submit"><i class="fa fa-check-square-o"></i> <?php echo translator::trans("user.profile.save"); ?></button>
+			<button class="btn btn-teal btn-block" type="submit">
+				<i class="fa fa-check-square-o"></i> <?php echo t("user.profile.save"); ?>
+			</button>
 		</div>
 	</div>
 </form>

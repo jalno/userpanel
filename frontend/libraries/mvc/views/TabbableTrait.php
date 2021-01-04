@@ -80,6 +80,10 @@ trait TabbableTrait {
 			$view->dynamicData()->trigger();
 			if (method_exists($view, "__beforeLoad")) {
 				$view->__beforeLoad();
+				$dynamicData = $this->dynamicData();
+				foreach ($view->dynamicData()->getData() as $key => $value) {
+					$dynamicData->setData($key, $value);
+				}
 			}
 			(new View\events\AfterLoad($view))->trigger();
 			

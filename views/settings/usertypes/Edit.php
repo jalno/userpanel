@@ -2,7 +2,7 @@
 namespace packages\userpanel\views\settings\usertypes;
 
 use packages\userpanel\views\Form;
-use packages\userpanel\Usertype;
+use packages\userpanel\{User, Usertype};
 
 class Edit extends Form {
 	public function setUserType(Usertype $usertype) {
@@ -22,5 +22,9 @@ class Edit extends Form {
 	}
 	public function getPermissions() {
 		return $this->getData('permissions');
+	}
+	public function hasCustomizedPermissionsUser(): bool {
+		$type = $this->getUserType();
+		return (new User)->where("type", $type->id)->where("has_custom_permissions", true)->has();
 	}
 }

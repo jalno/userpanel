@@ -1,8 +1,10 @@
 <?php
 namespace packages\userpanel\usertype;
-use packages\base\db;
-use packages\base\db\dbObject;
-class permission extends dbObject{
+
+use packages\base\{db, db\dbObject};
+
+class Permission extends dbObject {
+
 	protected $dbTable = "userpanel_usertypes_permissions";
 	protected $primaryKey = "";
 	protected $dbFields = array(

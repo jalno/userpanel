@@ -11,8 +11,23 @@ import { AjaxRequest, Router, webuilder} from "webuilder";
 import "./jquery.formAjax";
 import {Main} from "./Main";
 import Activate from "./Users/Activate";
+import Edit from "./Users/Edit";
 import Search from "./Users/Search";
 import Suspend from "./Users/Suspend";
+
+export interface IUser {
+	id: number;
+	name: string;
+	lastname?: string;
+	type: number | IUserType;
+	has_custom_permissions: boolean;
+	status: Status;
+}
+
+export interface IUserType {
+	id: number;
+	title: string;
+}
 
 export enum Status {
 	DEACTIVE,
@@ -105,41 +120,6 @@ class UserAdd extends UserForm {
 				credit: {
 					required: true,
 						digits: true,
-				},
-			},
-			submitHandler: (form) => {
-				this.FromAjax(form);
-			},
-		});
-	}
-}
-// tslint:disable-next-line: max-classes-per-file
-class UserEdit extends UserForm {
-	public init() {
-		super.init();
-		this.runValidator();
-	}
-	private runValidator(): void {
-		this.form.validate({
-			rules: {
-				name: {
-					required: true,
-				},
-				email: {
-					required: true,
-					email: true,
-				},
-				password2: {
-					equalTo: "input[name=password]",
-				},
-				phone: {
-					digits: true,
-				},
-				cellphone: {
-					rangelength: [10, 13],
-				},
-				credit: {
-					number: true,
 				},
 			},
 			submitHandler: (form) => {
@@ -371,12 +351,10 @@ export class Users {
 		Activate.initIfNeeded();
 		Suspend.initIfNeeded();
 		Search.initIfNeeded();
+		Edit.initIfNeeded();
 		const $body = $("body");
 		if ($body.hasClass("users_add")) {
 			const handler = new UserAdd($("#add_form"));
-			handler.init();
-		} else if ($body.hasClass("users_edit")) {
-			const handler = new UserEdit($("#edit_form"));
 			handler.init();
 		} else if ($body.hasClass("profile_edit")) {
 			const handler = new ProfileEdit($("#edit_form"));

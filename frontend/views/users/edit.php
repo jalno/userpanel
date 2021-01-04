@@ -1,18 +1,21 @@
 <?php
 namespace themes\clipone\views\users;
+
 use packages\base\{translator, packages, frontend\theme, options};
 use packages\userpanel;
-use packages\userpanel\{views\users\edit as usersEditView, usertype};
+use packages\userpanel\{Authentication, views\users\Edit as UsersEditView, usertype, Usertype\Permission, Usertype\Permissions};
 use themes\clipone\{breadcrumb, navigation, navigation\menuItem, viewTrait, views\formTrait, views\TabTrait};
-class edit extends usersEditView{
-	use viewTrait,formTrait, TabTrait;
+
+class Edit extends UsersEditView {
+	use ViewTrait, FormTrait, TabTrait;
+
 	protected $usertypes = array();
 	private $user;
-	function __beforeLoad(){
-		$this->user = $this->getData("user");
-		$this->setTitle(t("profile.edit"));
 
-		
+	public function __beforeLoad(): void {
+		$this->user = $this->getData("user");
+		$this->dynamicData()->setData("userPermissions", $this->buildPermissionsArray());
+		$this->setTitle(t("profile.edit"));
 		$this->addBodyClass('users');
 		$this->addBodyClass('users_edit');
 		$this->setNavigation();
@@ -38,7 +41,7 @@ class edit extends usersEditView{
 
 		navigation::active("users/list");
 	}
-	protected function getCountriesForSelect(){
+	protected function getCountriesForSelect(): array {
 		$options = array();
 		foreach($this->getCountries() as $country){
 			$options[] = array(
@@ -48,7 +51,7 @@ class edit extends usersEditView{
 		}
 		return $options;
 	}
-	protected function getTypesForSelect(){
+	protected function getTypesForSelect(): array {
 		$options = array();
 		foreach($this->getTypes() as $type){
 			$options[] = array(
@@ -59,12 +62,26 @@ class edit extends usersEditView{
 		return $options;
 	}
 
-	protected function getAvatarURL(){
-		if($this->getUserData('avatar')){
-			return packages::package('userpanel')->url($this->getUserData('avatar'));
-		}else{
-			return theme::url('assets/images/defaultavatar.jpg');
+	protected function getAvatarURL(): string {
+		if ($this->user->avatar) {
+			return Packages::package('userpanel')->url($this->user->avatar);
+		} else {
+			return Theme::url('assets/images/defaultavatar.jpg');
 		}
+	}
+	protected function buildPermissionsArray(bool $withTranslate = false): array {
+		$existentPermissions = Permissions::existentForUser(Authentication::getUser());
+		$userPermissions = $this->user->getPermissions();
+		return array_map(function (string $permission) use ($userPermissions, $withTranslate) {
+			$item = array(
+				"key" => $permission,
+				"value" => in_array($permission, $userPermissions),
+			);
+			if ($withTranslate) {
+				$item["title"] = t("usertype.permissions.{$permission}");
+			}
+			return $item;
+		}, $existentPermissions);
 	}
 	protected function getFieldPrivacyGroupBtn($field){
 		if(!$this->canEditPrivacy){

@@ -5,6 +5,7 @@
 	},
 	"rtl": false,
 	"phrases":{
+		"yes": "Yes",
 		"list": "List",
 		"back": "Back",
 		"dashboard": "Dashboard",
@@ -106,7 +107,7 @@
 
 		"searchbox.placeholder": "Search...",
 
-
+		"userpanel.users.search.has_custom_permissions": "Custom Permission",
 		"user.edit.privacy.public" : "Public",
 		"user.edit.privacy.private" : "Private",
 		"userpanel.lock": "Lock Screen",
@@ -120,6 +121,11 @@
 		"user.delete.message": "You wants to delete user: \"{user.full_name}\" with ID #{user.id} !",
 		"user.delete.resolve_fatal_errors": "To delete this user, you need to check and fix \"error\" messages.",
 
+		"userpanel.users.edit.usertype.custom_permissions.warn_text": "This user's permissions is personalized!",
+		"userpanel.users.edit.usertype.custom_permissions.warn_modal.title": "Warn about this user's permissions",
+		"userpanel.users.edit.usertype.custom_permissions.warn_modal.help_text": "Permissions of '{user_fullname}' are personalized; In case of change of user level, the accesses of the selected user level will be considered for them.",
+		"userpanel.users.edit.usertype.custom_permissions.warn_modal.confirm": "Confirm",
+		"userpanel.users.edit.usertype.custom_permissions.warn_modal.please_wait": "Please wait!",
 
 		"userpanel.profile.activity_calendar.title": "<strong>{activities}</strong> activities in the last year ",
 		"userpanel.profile.activity_calendar.no_activity": "No Activity",
@@ -128,6 +134,7 @@
 		"userpanel.profile.activity_calendar.tuesday": "Tuesday",
 		"userpanel.profile.activity_calendar.thursday": "Thursday",
 		"userpanel.profile.socialnetworks": "Social Network Profiles",
+		"userpanel.profile.user_permissions": "User Permissions",
 
 
 		"notfound":"Not Found",
@@ -253,6 +260,8 @@
 		"error.user_status_is_suspend_in_register": "<h4> <i class=\"fa fa-check-square\"></i> You are registered successfully.</h4> You can login after we accept your registration",
 		"error.user_status_is_deactive_in_login": "<h4> <i class=\"fa fa-user-times\"></i> Your account is deactive</h4> For more information please contact us",
 		"error.user_status_is_suspend_in_login": "<h4> <i class=\"fa fa-ban\"></i> Your account is suspended.</h4> For more information please contact us",
+		"error.packages.userpanel.usertypes.edit.has_custom_permissions_users": "The permissions of a number of users belonging to this access level have been customized; Please note that changes made to this usertype will not apply to these users!",
+		"error.packages.userpanel.usertypes.edit.has_custom_permissions_users.view_users": "View users with personalized permissions",
 		"userpanel.user.activate": "Activation user",
 		"userpanel.user.suspend": "Susoend user",
 		"userpanel.user.activate.confirm": "Want to active this user? <br> You can revert this change any time.",
