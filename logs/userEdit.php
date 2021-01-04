@@ -11,10 +11,12 @@ class userEdit extends logs{
 	public function getIcon():string{
 		return "fa fa-edit";
 	}
-	public function buildFrontend(view $view){
+	public function buildFrontend(view $view) {
+		$view->addBodyClass("users-edit-logs");
 		$parameters = $this->log->parameters;
 		$oldData = $parameters["oldData"];
 		$newData = $parameters["newData"];
+		$isLtr = false;
 		if ($oldData) {
 			$panel = new Panel("userpanel.user.logs.userEdit.oldData");
 			$panel->icon = "fa fa-trash";
@@ -45,7 +47,7 @@ class userEdit extends logs{
 						$isLtr = "";
 				} else if ($field == "has_custom_permissions") {
 					$title = t("packages.userpanel.logs.userEdit.has_custom_permissions");
-					$value = $val === true ? t("packages.userpanel.logs.userEdit.yes") : t("packages.userpanel.logs.userEdit.no");
+					$value = $val == true ? t("packages.userpanel.logs.userEdit.yes") : t("packages.userpanel.logs.userEdit.no");
 				} else {
 					$title = t("log.user.{$field}");
 					$value = $val;
@@ -111,7 +113,7 @@ class userEdit extends logs{
 					$isLtr = "";
 				} else if ($field == "has_custom_permissions") {
 					$title = t("packages.userpanel.logs.userEdit.has_custom_permissions");
-					$value = $val === true ? t("packages.userpanel.logs.userEdit.yes") : t("packages.userpanel.logs.userEdit.no");
+					$value = $val == true ? t("packages.userpanel.logs.userEdit.yes") : t("packages.userpanel.logs.userEdit.no");
 				} else {
 					$title = t("log.user.{$field}");
 					$value = $val;
@@ -149,28 +151,24 @@ class userEdit extends logs{
 				$panel->icon = "fa fa-plus-circle";
 				$panel->size = 6;
 				$panel->title = t("packages.userpanel.logs.userEdit.permissions.added_permissions");
-				$html = "";
+				$html = '<ul class="list-group">';
 				foreach ($parameters["permissions"]['addedPermissions'] as $permission) {
-					$html .= '<div class="form-group">';
-						$html .= '<label class="col-sm-4 col-xs-12 control-label">' . t("packages.userpanel.logs.userEdit.permissions.permission") . ': </label>';
-						$html .= '<div class="col-sm-8 col-xs-12"><i class="fa fa-check" style="color: green;"></i> ' . t("usertype.permissions.{$permission}") . '</div>';
-					$html .= "</div>";
+					$html .= '<li class="list-group-item"><i class="fa fa-plus text-success"></i> ' . t("usertype.permissions.{$permission}") . '</li>';
 				}
+				$html .= "</ul>";
 				$panel->setHTML($html);
 				$this->addPanel($panel);
 			}
 			if (isset($parameters["permissions"]['removedPermissions']) and $parameters["permissions"]['removedPermissions']) {
 				$panel = new Panel("userpanel.user.logs.permission.added_permissions");
-				$panel->icon = "fa fa-ban";
+				$panel->icon = "fa fa-minus-circle";
 				$panel->size = 6;
 				$panel->title = t("packages.userpanel.logs.userEdit.permissions.removed_permissions");
-				$html = "";
+				$html = '<ul class="list-group">';
 				foreach ($parameters["permissions"]['removedPermissions'] as $permission) {
-					$html .= '<div class="form-group">';
-						$html .= '<label class="col-sm-4 col-xs-12 control-label">' . t("packages.userpanel.logs.userEdit.permissions.permission") . ': </label>';
-						$html .= '<div class="col-sm-8 col-xs-12"> <i class="fa fa-times" style="color: red;"></i> ' . t("usertype.permissions.{$permission}") . '</div>';
-					$html .= "</div>";
+					$html .= '<li class="list-group-item"><i class="fa fa-minus text-danger"></i> ' . t("usertype.permissions.{$permission}") . '</li>';
 				}
+				$html .= "</ul>";
 				$panel->setHTML($html);
 				$this->addPanel($panel);
 			}

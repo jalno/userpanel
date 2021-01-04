@@ -1,33 +1,53 @@
-body.users-logs {
-	.input-group {
-		.system-logs {
-			vertical-align: middle;
+body {
+	&.users-logs {
+		.input-group {
+			.system-logs {
+				vertical-align: middle;
+			}
 		}
-	}
-	.input-group[class*="col-"] {
-		padding-right: 15px;
-		padding-left: 15px;
-	}
-	&.rtl {
-		.panel.panel-logs {
-			.panel-heading {
+		.input-group[class*="col-"] {
+			padding-right: 15px;
+			padding-left: 15px;
+		}
+		&.rtl {
+			.panel.panel-logs {
+				.panel-heading {
+					font-family: yekan;
+				}
+				.panel-body {
+					.table.table-logs {
+						thead {
+							tr {
+								th {
+									font-family: koodak;
+								}
+							}
+						}
+						font-family: yekan;
+					}
+				}
+			}
+			#logs-search {
 				font-family: yekan;
 			}
-			.panel-body {
-				.table.table-logs {
-					thead {
-						tr {
-							th {
-								font-family: koodak;
+		}
+	}
+	&.users-edit-logs {
+		.main-content {
+			.container {
+				.panel {
+					.panel-body {
+						.list-group {
+							.list-group-item {
+								border: none;
+								.fa {
+									vertical-align: middle;
+								}
 							}
 						}
 					}
-					font-family: yekan;
 				}
 			}
-		}
-		#logs-search {
-			font-family: yekan;
 		}
 	}
 }
