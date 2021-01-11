@@ -194,6 +194,7 @@ use themes\clipone\utility;
 					</tr>
 				</tbody>
 			</table>
+		<?php echo $this->buildAddintionalInformations(); ?>
 		</div>
 	</div>
 	<div class="col-sm-7 col-md-8">

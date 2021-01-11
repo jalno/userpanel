@@ -266,6 +266,8 @@
 		"userpanel.new_data": "مقدار جدید",
 		"packages.userpanel.logs.all": "تمامی فعالیت ها",
 		"userpanel.users.export.csv": "دریافت خروجی CSV",
-		"userpanel.logs.empty": "فعالیتی پیدا نشد"
+		"userpanel.logs.empty": "فعالیتی پیدا نشد",
+		"userpanel.profile.general_info": "اطلاعات کلی",
+		"userpanel.profile.additional_informations": "اطلاعات بیشتر"
 	}
 }
