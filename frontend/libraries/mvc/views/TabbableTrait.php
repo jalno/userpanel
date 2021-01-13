@@ -128,7 +128,7 @@ trait TabbableTrait {
 		if ($tab) {
 			$view = $tab->getView();
 			if (method_exists($view, "export")) {
-				return call_user_func_array([$view, "export"], $arguments);
+				return call_user_func_array([$view, "export"], func_get_args());
 
 			}
 		}
