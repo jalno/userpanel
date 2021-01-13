@@ -9,7 +9,18 @@ use packages\userpanel\{Authentication, Authorization, Controller, Country, Date
 use themes\clipone\views;
 
 class Users extends Controller {
+
 	protected $authentication = true;
+
+	public static function checkUserAccessibility(): User {
+		$types = Authorization::childrenTypes();
+		if (!$types) {
+			throw new NotFound();
+		}
+		$user = new User();
+		$user->where("userpanel_users.type", $types, "IN");
+		return $user;
+	}
 	
 	public function search() {
 		Authorization::haveOrFail("users_list");
@@ -429,8 +440,8 @@ class Users extends Controller {
 	}
 	public function view($data){
 		authorization::haveOrFail('users_view');
-		$user = user::with('type')->with('socialnetworks')->byId($data['user']);
-		if(!$user){
+		$user = self::checkUserAccessibility()->with('type')->with('socialnetworks')->byId($data['user']);
+		if (!$user) {
 			throw new NotFound;
 		}
 		$settingsEvent = new settingsEvent();
