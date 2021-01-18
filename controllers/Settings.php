@@ -3,7 +3,7 @@ namespace packages\userpanel\controllers;
 
 use packages\userpanel;
 use themes\clipone\views;
-use packages\base\{Date, Options, View};
+use packages\base\{Date, Options, View, NotFound};
 use packages\userpanel\{events\General\Settings as Event, events\General\Settings\Controller,
 						events\General\Settings\Log, Authorization, Authentication, UserType, User, Logs};
 

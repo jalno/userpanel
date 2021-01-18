@@ -1,13 +1,19 @@
 <?php
 namespace packages\userpanel\logging\Exception;
 use packages\userpanel\logging\Exception;
-class invalidTypeException extends Exception{
+class invalidTypeException extends Exception {
+	/**
+	 * @var string
+	 */
 	private $type;
-	public function __constructor(string $type, string $message = ''){
+
+	public function __construct(string $type, string $message = ''){
+		parent::__construct($message);
 		$this->type = $type;
-		parent::__constructor($message);
 	}
-	public function getType():string{
+
+	public function getType(): string {
 		return $this->type;
 	}
-};
+
+}

@@ -1,61 +1,92 @@
 <?php
 namespace packages\userpanel\events\settings;
-use \packages\base\event;
-use \packages\userpanel\user;
-class tuning{
+
+use packages\userpanel\User;
+
+class Tuning {
+	/**
+	 * @var string
+	 */
 	private $name;
-	private $package;
+	
+	/**
+	 * @var array<string,array<string,mixed>>
+	 */
 	private $inputs = [];
+
+	/**
+	 * @var mixed[]
+	 */
 	private $fields = [];
+	
+	/**
+	 * @var string|null
+	 */
 	private $controller;
+	
+	/**
+	 * @var array<string,mixed>
+	 */
 	private $data = [];
-	function __construct($name){
+
+	public function __construct(string $name) {
 		$this->setName($name);
 	}
-	public function setName(string $name){
+
+	public function setName(string $name): void {
 		$this->name = $name;
 	}
-	public function getName():string{
+
+	public function getName(): string {
 		return $this->name;
 	}
-	public function addInput(array $input){
+
+	public function addInput(array $input): void {
 		if(!isset($input['name'])){
-			throw new inputNameException($input);
+			throw new InputNameException($input);
 		}
 		$this->inputs[$input['name']] = $input;
 	}
-	public function getInputs():array{
+
+	public function getInputs(): array {
 		return $this->inputs;
 	}
-	public function addField(array $field){
+
+	public function addField(array $field): void {
 		$this->fields[] = $field;
 	}
-	public function getFields():array{
+
+	public function getFields(): array {
 		return $this->fields;
 	}
-	public function setController(string $controller){
-		if(!class_exists($controller) or !((new $controller) instanceof Controller)){
-			throw new controllerException($controller);
+
+	public function setController(string $controller): void {
+		if (!class_exists($controller) or !((new $controller) instanceof Controller)) {
+			throw new ControllerException($controller);
 		}
 		$this->controller = $controller;
 	}
-	public function store(array $inputs, user $user) {
+
+	public function store(array $inputs, User $user) {
 		return $this->callController($inputs, $user, "store");
 	}
+
 	public function callController(array $inputs, user $user, string $method) {
 		if (!$this->controller) {
 			return null;
 		}
 		if (!method_exists($this->controller, $method)) {
-			throw new controllerException($controller);
+			throw new ControllerException($this->controller . '@' . $method);
 		}
 		return (new $this->controller)->$method($inputs, $user);
 	}
-	public function setDataForm(string $name, $value){
+
+	public function setDataForm(string $name, $value): void {
 		$this->data[$name] = $value;
 	}
-	public function getDataForm(string $name = ''){
-		if($name and isset($this->data[$name])){
+
+	public function getDataForm(string $name = '') {
+		if ($name and isset($this->data[$name])) {
 			return $this->data[$name];
 		}
 		return $this->data;

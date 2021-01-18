@@ -1,7 +1,7 @@
 <?php
 namespace themes\clipone\views;
 
-use packages\base\frontend\Theme;
+use packages\base\{Packages, frontend\Theme};
 use packages\userpanel\views\Lock as ParentView;
 use themes\clipone\{ViewTrait, views\FormTrait};
 

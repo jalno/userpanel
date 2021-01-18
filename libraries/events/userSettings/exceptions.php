@@ -1,20 +1,37 @@
 <?php
 namespace packages\userpanel\events\settings;
-class controllerException extends \Exception {
+
+use packages\base\Exception;
+
+class ControllerException extends Exception {
+
+	/**
+	 * @var string
+	 */
 	private $controller;
-	public function __construct($controller){
+
+	public function __construct(string $controller){
 		$this->controller = $controller;
 	}
-	public function getController(){
+
+	public function getController(): string {
 		return $this->controller;
 	}
 }
-class inputNameException extends \Exception {
+
+class InputNameException extends Exception {
+
+	/**
+	 * @var string
+	 */
 	private $input;
-	public function __construct($input){
+
+	public function __construct(string $input) {
 		$this->input = $input;
 	}
-	public function getController(){
+
+	public function getInput(): string {
 		return $this->input;
 	}
+
 }

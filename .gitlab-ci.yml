@@ -24,5 +24,7 @@ static analyse:
     - rm -fr base && git clone --depth 1 ${REPO_SERVER_HOST}/jalno/base.git base
     - cd ${GIT_ROOT_PATH} && cp -Rf base/* . && cd packages
     - rm -fr PhpParser && git clone --depth 1 ${REPO_SERVER_HOST}/yeganemehr/PhpParser.git
+    - rm -fr notifications && git clone --depth 1 ${REPO_SERVER_HOST}/yeganemehr/notifications.git
+    - rm -fr notice && git clone --depth 1 ${REPO_SERVER_HOST}/abedi/notice.git
   script:
     - $GIT_ROOT_PATH/vendor/bin/phpstan analyse --memory-limit 4G -c $GIT_CLONE_PATH/phpstan.neon $GIT_CLONE_PATH

@@ -1,7 +1,7 @@
 <?php
 namespace themes\clipone;
 
-use packages\base\{IO\File, View};
+use packages\base\{IO\File, View, Exception};
 
 class Tab {
 
@@ -16,7 +16,7 @@ class Tab {
 	protected $title;
 
 	/**
-	 * @var string
+	 * @var string|null
 	 */
 	protected $link;
 
