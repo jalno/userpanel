@@ -13,11 +13,11 @@ use themes\clipone\navigation;
 use themes\clipone\navigation\menuItem;
 use themes\clipone\breadcrumb;
 use themes\clipone\utility;
-use themes\clipone\{viewTrait, views\BoxyTrait, views\TabTrait, events, views\Profile\ActivityCalendarBox};
+use themes\clipone\{viewTrait, views\BoxyTrait, views\TabTrait, events, views\Profile\ActivityCalendarBox, views\UserAdditionalinformationTrait};
 
 
 class Overview extends usersView{
-	use viewTrait, BoxyTrait, TabTrait;
+	use viewTrait, BoxyTrait, TabTrait, UserAdditionalinformationTrait;
 	protected $networks = array();
 	protected $lastlogin = 0;
 	protected $lastIP;

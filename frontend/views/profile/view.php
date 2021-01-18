@@ -13,11 +13,11 @@ use \packages\userpanel\log_user;
 use \packages\userpanel\user\socialnetwork;
 use \packages\userpanel\views\profile\view as profileView;
 
-use themes\clipone\{viewTrait, views\BoxyTrait, views\TabTrait, events, Breadcrumb, Navigation};
+use themes\clipone\{viewTrait, views\BoxyTrait, views\TabTrait, events, Breadcrumb, Navigation, views\UserAdditionalInformationTrait};
 
 
 class view extends profileView{
-	use viewTrait, BoxyTrait, TabTrait;
+	use viewTrait, BoxyTrait, TabTrait, UserAdditionalInformationTrait;
 	
 	protected $networks = array();
 	protected $lastlogin = 0;
