@@ -416,8 +416,8 @@ INSERT INTO `userpanel_usertypes_priorities` (`parent`, `child`) VALUES
 (1, 2);
 
 
-INSERT INTO `userpanel_users` (`id`, `name`, `lastname`, `email`, `cellphone`, `password`, `type`, `phone`, `city`, `country`, `zip`, `address`, `web`, `lastonline`, `credit`, `status`) VALUES
-(1, 'مدیر کل', '', 'admin@jeyserver.com', '989387654321', '$2y$10$V4hoveZhY5Eq6N8bVEKu0OegWYLH/Fj2OekT1TYiYQ5HkB6p7HopO', 1, '03134420301', 'اصفهان', 105, 2147483647, 'خ رابط دوم ساختمان شمشاد واحد ۴', NULL, 1490191883, 307333, 1);
+INSERT INTO `userpanel_users` (`id`, `name`, `lastname`, `email`, `cellphone`, `password`, `type`, `phone`, `city`, `country`, `zip`, `address`, `web`, `lastonline`, `remember_token`, `credit`, `avatar`, `registered_at`, `status`) VALUES
+(1, 'مدیرکل', '', 'admin@jeyserver.com', '989387654321', '$2y$10$V4hoveZhY5Eq6N8bVEKu0OegWYLH/Fj2OekT1TYiYQ5HkB6p7HopO', 1, '03134420301', 'اصفهان', 105, 2147483647, 'خ رابط دوم ساختمان شمشاد واحد ۴', 'https://jeyserver.com', 1470755431, NULL, 307333, NULL, 1470755431, 1);
 
 INSERT INTO `userpanel_users_options` (`id`, `user`, `name`, `value`) VALUES
 (1, 1, 'visibilities', '["email","cellphone","phone","socialnetworks_5","socialnetworks_4","socialnetworks_6","socialnetworks_2","socialnetworks_1","socialnetworks_3"]');
