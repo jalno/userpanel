@@ -37,7 +37,7 @@ $isRTL = (bool) base\translator::getLang()->isRTL();
 			<div class="form-group floating-label-group">
 				<span class="input-icon input-icon-right">
 					<input type="password" name="password" class="form-control" required />
-					<span class="floating-label">کلمه عبور</span>
+					<span class="floating-label"><?php echo t("userpanel.login.password"); ?></span>
 					<i class="fa fa-lock"></i>
 					<a class="forgot" href="<?php echo userpanel\url('resetpwd'); ?>"><?php echo t("userpanel.login.forgot_password"); ?></a>
 				</span>

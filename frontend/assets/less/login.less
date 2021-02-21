@@ -78,7 +78,7 @@ body.login {
 						position: absolute;
 						pointer-events: none;
 						top: 9px;
-						left: 12px;
+						left: 20px;
 						transition: all 0.1s ease;
 						z-index: 10;
 					}
@@ -187,11 +187,16 @@ body.rtl.login {
 	.lang-select {
 		float: left;
 	}
-	.form-login{
+	.form-login {
 		fieldset {
-			input[name="username"] {
-				direction: ltr;
-				text-align: right;
+			.floating-label-group {
+				.floating-label {
+					right: 12px;
+				}
+				input:focus ~ .floating-label,
+				input:not(:focus):valid ~ .floating-label {
+					right: 0px;
+				}
 			}
 		}
 	}
