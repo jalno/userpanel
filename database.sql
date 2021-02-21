@@ -52,7 +52,7 @@ CREATE TABLE `userpanel_users` (
 	`phone` varchar(14) DEFAULT NULL,
 	`city` varchar(100) DEFAULT NULL,
 	`country` int(11) DEFAULT NULL,
-	`zip` int(11) DEFAULT NULL,
+	`zip` VARCHAR(11) DEFAULT NULL,
 	`address` varchar(255) DEFAULT NULL,
 	`web` varchar(255) DEFAULT NULL,
 	`lastonline` int(11) NOT NULL DEFAULT '0',
