@@ -288,6 +288,10 @@ UPDATE `userpanel_countries` SET `dialing_code` = '967' WHERE `userpanel_countri
 UPDATE `userpanel_countries` SET `dialing_code` = '260' WHERE `userpanel_countries`.`id` = 248;
 UPDATE `userpanel_countries` SET `dialing_code` = '263' WHERE `userpanel_countries`.`id` = 249;
 
-
 ALTER TABLE `userpanel_users` CHANGE `cellphone` `cellphone` VARCHAR(14) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL;
 ALTER TABLE `userpanel_users` CHANGE `phone` `phone` VARCHAR(14) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL;
+
+--
+--	Commit:	6e49175c4e45141d2132a23b3df698c95e6bd9a2
+--
+ALTER TABLE `userpanel_users` CHANGE `zip` `zip` VARCHAR(11) NULL DEFAULT NULL;
