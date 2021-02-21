@@ -1,10 +1,10 @@
 <?php
 namespace themes\clipone\views\users;
 
-use packages\base\View as BaseView;
+use packages\base\views\Form;
 use themes\clipone\{ViewTrait, views\TabbableTrait};
 
 
-class View extends BaseView {
+class View extends Form {
 	use ViewTrait, TabbableTrait;
 }

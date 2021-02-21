@@ -2,30 +2,43 @@
 namespace themes\clipone\views;
 
 use packages\base\Options;
-use packages\userpanel\views\register as registerView;
+use packages\userpanel\{Country, views\register as registerView};
 use themes\clipone\{viewTrait, views\formTrait};
 
-class register extends registerView{
-	use viewTrait, formTrait;
-	protected $countries = array();
+class register extends RegisterView {
+	use ViewTrait, FormTrait;
+
 	public function __beforeLoad(){
 		$this->setTitle(t("register"));
 		$this->addBodyClass('register');
-		$this->setCounties();
+		$this->initFormData();
+		$this->dynamicDataBuilder();
 	}
 	protected function getTOSUrl(): ?string {
 		return Options::get("packages.userpanel.tos_url");
 	}
-	private function setCounties(){
-		$countries = $this->getData('countries');
-		foreach($countries as $country){
-			$this->countries[] = array(
+	protected function getCountriesForSelect(): array {
+		return array_map(function($country) {
+			return array(
 				'title' => $country->name,
 				'value' => $country->id
 			);
-		}
-		if(!$this->getDataForm('country')){
-			$this->setDataForm(105, 'country');
+		}, $this->getCountries());
+	}
+	private function dynamicDataBuilder() {
+		$dd = $this->dynamicData();
+
+		$dd->setData("countries", array_map(function($country) {
+			return $country->toArray();
+		}, $this->getCountries()));
+
+		$country = Country::getDefaultCountry();
+		$dd->setData("defaultCountry", $country->toArray());
+	}
+	private function initFormData(): void {
+		if (!$this->getDataForm('country')) {
+			$country = Country::getDefaultCountry();
+			$this->setDataForm($country->id, 'country');
 		}
 	}
 }

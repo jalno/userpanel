@@ -282,12 +282,7 @@ class Users extends Controller {
 				'type' => 'email',
 			),
 			'cellphone' => array(
-				'type' => function($data, $rule, $input) {
-					if (!preg_match("/^(\+)?\d+$/", $data)) {
-						throw new InputValidationException($input);
-					}
-					return (new CellphoneValidator)->validate($input, $rule, $data);
-				},
+				'type' => 'cellphone',
 			),
 			'password' => array(),
 			'type' => array(
@@ -310,7 +305,7 @@ class Users extends Controller {
 				'optional' => true,
 			),
 			'phone' => array(
-				'type' => 'string',
+				'type' => 'phone',
 				'optional' => true,
 			),
 			'status' => array(
@@ -528,13 +523,13 @@ class Users extends Controller {
 				'type' => 'email',
 				'optional' => true,
 			),
+			'phone' => array(
+				'type' => 'phone',
+				'optional' => true,
+				'empty' => true,
+			),
 			'cellphone' => array(
-				'type' => function($data, $rule, $input) {
-					if (!preg_match("/^(\+)?\d+$/", $data)) {
-						throw new InputValidationException($input);
-					}
-					return (new CellphoneValidator)->validate($input, $rule, $data);
-				},
+				'type' => 'cellphone',
 				'optional' => true
 			),
 			'password' => array(
@@ -566,11 +561,6 @@ class Users extends Controller {
 				'empty' => true,
 			),
 			'address' => array(
-				'type' => 'string',
-				'optional' => true,
-				'empty' => true,
-			),
-			'phone' => array(
 				'type' => 'string',
 				'optional' => true,
 				'empty' => true,

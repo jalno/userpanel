@@ -8,11 +8,16 @@ import "jquery.growl";
 import { webuilder } from "webuilder";
 import "./jquery.formAjax";
 import {Main} from "./Main";
+import Country, { ICountry } from "./Country";
+
+declare const countries: ICountry[];
+declare const defaultCountry: ICountry;
 
 export class Register {
 	public static init(): void {
 		Main.SetDefaultValidation();
 		Register.runRegisterValidator();
+		Register.runSelect2();
 	}
 
 	public static initIfNeeded(): void {
@@ -20,8 +25,20 @@ export class Register {
 			Register.init();
 		}
 	}
+
 	private static $form = $(".form-register");
 	private static $errorHandler = $(".errorHandler", Register.$form);
+
+	private static runSelect2(): void {
+		const data = countries.map((country) => {
+			return {
+				id: country.dialing_code,
+				text: country.name + '-' + country.code,
+				selected: country.id === defaultCountry.id,
+			};
+		});
+		Country.runCountryDialingCodeSelect2($(`select[name="phone[code]"], select[name="cellphone[code]"]`), data);
+	}
 	private static runRegisterValidator(): void {
 		Main.importValidationTranslator();
 		Register.$form.validate({
