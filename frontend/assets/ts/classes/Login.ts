@@ -5,10 +5,10 @@ import { webuilder } from "webuilder";
 import "./jquery.formAjax";
 import "select2";
 import {Main} from "./Main";
-import Country, { ICountry } from "./Country";
+import Country, { ICountryCode } from "./Country";
 
-declare const countries: ICountry[];
-declare const defaultCountry: ICountry;
+declare const countriesCode: ICountryCode[];
+declare const defaultCountryCode: string;
 
 export class Login {
 	public static init(): void {
@@ -38,11 +38,11 @@ export class Login {
 		});
 	}
 	private static runSelect2(): void {
-		Country.runCountryDialingCodeSelect2($(`select[name="credential[code]"]`), countries.map((country) => {
+		Country.runCountryDialingCodeSelect2($(`select[name="credential[code]"]`), countriesCode.map((country) => {
 			return {
-				id: country.dialing_code,
-				text: country.name + '-' + country.code,
-				selected: country.id === defaultCountry.id,
+				id: country.code,
+				text: country.dialingCode + '-' + country.name,
+				selected: country.code === defaultCountryCode,
 			};
 		}));
 	}

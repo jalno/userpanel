@@ -23,7 +23,6 @@ $isRTL = (bool) base\translator::getLang()->isRTL();
 		</div>
 		<fieldset>
 			<div class="input-group floating-label-group credential-container">
-				<input type="hidden" name="cellphone[number]">
 				<span class="input-icon input-icon-right">
 					<input type="text" name="credential" class="form-control" required>
 					<span class="floating-label"><?php echo t("userpanel.login.email_or_phone"); ?></span>

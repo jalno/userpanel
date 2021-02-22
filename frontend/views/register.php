@@ -3,7 +3,7 @@ namespace themes\clipone\views;
 
 use packages\base\Options;
 use packages\userpanel\{Country, views\register as registerView};
-use themes\clipone\{viewTrait, views\formTrait};
+use themes\clipone\{viewTrait, views\formTrait, views\CountryCodeToReigonCodeTrait};
 
 class register extends RegisterView {
 	use ViewTrait, FormTrait;
@@ -28,12 +28,8 @@ class register extends RegisterView {
 	private function dynamicDataBuilder() {
 		$dd = $this->dynamicData();
 
-		$dd->setData("countries", array_map(function($country) {
-			return $country->toArray();
-		}, $this->getCountries()));
-
-		$country = Country::getDefaultCountry();
-		$dd->setData("defaultCountry", $country->toArray());
+		$dd->setData("countriesCode", $this->generateCountiesArray());
+		$dd->setData("defaultCountryCode", $this->getDefaultCountryCode());
 	}
 	private function initFormData(): void {
 		if (!$this->getDataForm('country')) {

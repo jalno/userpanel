@@ -525,12 +525,14 @@ class Users extends Controller {
 			),
 			'phone' => array(
 				'type' => 'phone',
+				'combined-output' => false,
 				'optional' => true,
 				'empty' => true,
 			),
 			'cellphone' => array(
 				'type' => 'cellphone',
-				'optional' => true
+				'combined-output' => false,
+				'optional' => true,
 			),
 			'password' => array(
 				'type' => 'string',
@@ -712,6 +714,12 @@ class Users extends Controller {
 			$user->password_hash($formdata['password']);
 		}
 
+		foreach (array('phone', 'cellphone') as $key) {
+			if (isset($formdata[$key])) {
+				$user->setOption("userpanel.users.{$key}_country_code", $formdata[$key]['code']);
+				$formdata[$key] = $formdata[$key]['dialingCode'] . '.' . $formdata[$key]['number'];
+			}
+		}
 		unset($formdata['password']);
 		$user->save($formdata);
 		unset($formdata['avatar']);

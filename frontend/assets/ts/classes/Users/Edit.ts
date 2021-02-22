@@ -2,14 +2,14 @@ import "@jalno/translator";
 import * as $ from "jquery";
 import "jquery.fancytree";
 import "jquery.fancytree/dist/modules/jquery.fancytree.glyph"
-import Country, { ICountry } from "../Country";
+import Country, { ICountryCode } from "../Country";
 import { IUser } from "../Users";
 import Permissions, { IFancyTreeItemType, IUserpanelPermission } from "../Permissions";
 import UserTypes, { IUsertype } from "../UserTypes";
 
 declare const userPermissions: IUserpanelPermission[]; // permissions that put on page by dynamic data
-declare const countries: ICountry[];
-declare const defaultCountry: ICountry;
+declare const countriesCode: ICountryCode[];
+declare const defaultCountryCode: string;
 
 export default class Edit {
 
@@ -41,24 +41,25 @@ export default class Edit {
 	}
 	protected static runSelect2() {
 		for (const field of ["phone", "cellphone"]) {
+			const countryCodeOption = Edit.user.options['userpanel.users.' + field + '_country_code'] as string;
 			const item = Edit.user[field] as string;
 			let dialingCode: string = "";
 			if (item) {
-				const parts = item.split('.');
-				dialingCode = parts[0];
+				dialingCode = item.split('.')[0];
 			}
-			const isSelected = (country: ICountry): boolean => {
-				if (dialingCode) {
-					return country.dialing_code === dialingCode;
-				} else if (country.id === defaultCountry.id) {
-					return true;
+			const isSelected = (country: ICountryCode): boolean => {
+				if (countryCodeOption) {
+					return country.code === countryCodeOption;
 				}
-				return false;
+				if (dialingCode) {
+					return country.dialingCode === dialingCode;
+				}
+				return country.code === defaultCountryCode;
 			}
-			const data = countries.map((country) => {
+			const data = countriesCode.map((country) => {
 				return {
-					id: country.dialing_code,
-					text: country.name + '-' + country.code,
+					id: country.code,
+					text: country.dialingCode + '-' + country.name,
 					selected: isSelected(country),
 				};
 			});

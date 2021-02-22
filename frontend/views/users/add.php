@@ -3,11 +3,11 @@ namespace themes\clipone\views\users;
 
 use packages\base\{Options};
 use packages\userpanel\{Country, views\users\Add as UsersAddView, User};
-use themes\clipone\{Breadcrumb, Navigation, navigation\MenuItem, ViewTrait, views\FormTrait};
+use themes\clipone\{Breadcrumb, Navigation, navigation\MenuItem, ViewTrait, views\FormTrait, views\CountryCodeToReigonCodeTrait};
 use function packages\userpanel\url;
 
 class Add extends UsersAddView {
-	use ViewTrait, FormTrait;
+	use CountryCodeToReigonCodeTrait, ViewTrait, FormTrait;
 
 	public function __beforeLoad() {
 		$this->setTitle(t('user.add'));
@@ -84,13 +84,8 @@ class Add extends UsersAddView {
 	}
 	private function dynamicDataBuilder() {
 		$dd = $this->dynamicData();
-
-		$dd->setData("countries", array_map(function($country) {
-			return $country->toArray();
-		}, $this->getCountries()));
-
-		$country = Country::getDefaultCountry();
-		$dd->setData("defaultCountry", $country->toArray());
+		$dd->setData("countriesCode", $this->generateCountiesArray());
+		$dd->setData("defaultCountryCode", $this->getDefaultCountryCode());
 	}
 	private function setNavigation(): void {
 		$item = new MenuItem("users");

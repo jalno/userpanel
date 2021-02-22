@@ -25,6 +25,9 @@ export interface IUser {
 	type: number | IUserType;
 	has_custom_permissions: boolean;
 	status: Status;
+	options: {
+		[key: string]: string | number;
+	}[]
 }
 
 export interface IUserType {

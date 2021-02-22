@@ -74,7 +74,7 @@ class Login extends Controller {
 	public function login_helper(): User {
 		$inputs = $this->checkinputs(array(
 			'credential' => array(
-				'type' => ['email', 'cellphone']
+				'type' => ['email', 'cellphone'],
 			),
 			'password' => array(
 				'type' => 'string',
@@ -232,7 +232,11 @@ class Login extends Controller {
 		$user = new User();
 		foreach (['name', 'lastname', 'email', 'city', 'address', 'zip', 'phone', 'cellphone'] as $key) {
 			if (isset($inputs[$key])) {
-				$user->$key = $inputs[$key];
+				if ($key == 'cellphone' or $key == 'phone') {
+					$user->$key = $inputs[$key]['dialingCode'] . '.' . $inputs[$key]['code'];
+				} else {
+					$user->$key = $inputs[$key];
+				}
 			}
 		}
 		if (isset($inputs['country'])) {
@@ -245,6 +249,13 @@ class Login extends Controller {
 		unset($inputs['password']);
 		(new Events\BeforeRegister)->trigger();
 		$user->save();
+		if ($user->save()) {
+			foreach (array('phone', 'cellphone') as $key) {
+				if (isset($inputs[$key])) {
+					$user->setOption("userpanel.users.{$key}_country_code", $inputs[$key]['code']);
+				}
+			}
+		}
 		if ($user->status == User::active) {
 			Authentication::setUser($user);
 			$handler = new Authentication\SessionHandler();
@@ -319,10 +330,12 @@ class Login extends Controller {
 				'type' => 'number'
 			),
 			'phone' => array(
-				'type' => 'phone'
+				'type' => 'phone',
+				'combined-output' => false,
 			),
 			'cellphone' => array(
 				'type' => 'cellphone',
+				'combined-output' => false,
 			)
 		);
 		try {

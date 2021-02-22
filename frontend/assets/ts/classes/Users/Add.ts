@@ -2,10 +2,10 @@ import "@jalno/translator";
 import * as $ from "jquery";
 import "bootstrap-inputmsg";
 import "select2";
-import Country, { ICountry } from "../Country";
+import Country, { ICountryCode } from "../Country";
 
-declare const countries: ICountry[];
-declare const defaultCountry: ICountry;
+declare const countriesCode: ICountryCode[];
+declare const defaultCountryCode: string;
 
 export default class Add {
 
@@ -22,16 +22,16 @@ export default class Add {
 		Add.runSelect2();
 	}
 	protected static runSelect2() {
-		const data = countries.map((country) => {
-			return {
-				id: country.dialing_code,
-				text: country.name + '-' + country.code,
-				selected: country.id === defaultCountry.id,
-			};
-		});
-		$(`select[name="phone[code]"], select[name="cellphone[code]"]`).each((_index, elem) => {
-			Country.runCountryDialingCodeSelect2($(elem), data);
-		});
+		Country.runCountryDialingCodeSelect2(
+			$(`select[name="phone[code]"], select[name="cellphone[code]"]`),
+			countriesCode.map((country) => {
+				return {
+					id: country.code,
+					text: country.dialingCode + '-' + country.name,
+					selected: country.code === defaultCountryCode,
+				};
+			}),
+		);
 	}
 	protected static runValidator(): void {
 		Add.$form.validate({

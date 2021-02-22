@@ -8,10 +8,10 @@ import "jquery.growl";
 import { webuilder } from "webuilder";
 import "./jquery.formAjax";
 import {Main} from "./Main";
-import Country, { ICountry } from "./Country";
+import Country, { ICountryCode } from "./Country";
 
-declare const countries: ICountry[];
-declare const defaultCountry: ICountry;
+declare const countries: ICountryCode[];
+declare const defaultCountryCode: string;
 
 export class Register {
 	public static init(): void {
@@ -32,9 +32,9 @@ export class Register {
 	private static runSelect2(): void {
 		const data = countries.map((country) => {
 			return {
-				id: country.dialing_code,
-				text: country.name + '-' + country.code,
-				selected: country.id === defaultCountry.id,
+				id: country.code,
+				text: country.dialingCode + '-' + country.name,
+				selected: country.code === defaultCountryCode,
 			};
 		});
 		Country.runCountryDialingCodeSelect2($(`select[name="phone[code]"], select[name="cellphone[code]"]`), data);

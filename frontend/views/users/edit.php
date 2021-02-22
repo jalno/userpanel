@@ -4,10 +4,11 @@ namespace themes\clipone\views\users;
 use packages\base\{translator, packages, frontend\theme, options};
 use packages\userpanel;
 use packages\userpanel\{Authentication, Country, views\users\Edit as UsersEditView, usertype, Usertype\Permission, Usertype\Permissions};
-use themes\clipone\{breadcrumb, navigation, navigation\menuItem, viewTrait, views\formTrait, views\TabTrait};
+use themes\clipone\{breadcrumb, navigation, navigation\menuItem, viewTrait};
+use themes\clipone\views\{CountryCodeToReigonCodeTrait, FormTrait, TabTrait};
 
 class Edit extends UsersEditView {
-	use ViewTrait, FormTrait, TabTrait;
+	use CountryCodeToReigonCodeTrait, ViewTrait, FormTrait, TabTrait;
 
 	protected $usertypes = array();
 	private $user;
@@ -40,12 +41,8 @@ class Edit extends UsersEditView {
 		$dd = $this->dynamicData();
 		$dd->setData("userPermissions", $this->buildPermissionsArray());
 
-		$dd->setData("countries", array_map(function($country) {
-			return $country->toArray();
-		}, $this->getCountries()));
-
-		$country = Country::getDefaultCountry();
-		$dd->setData("defaultCountry", $country->toArray());
+		$dd->setData("countriesCode", $this->generateCountiesArray());
+		$dd->setData("defaultCountryCode", $this->getDefaultCountryCode());
 	}
 	protected function getAvatarURL(): string {
 		if ($this->user->avatar) {

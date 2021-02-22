@@ -2,8 +2,8 @@
 use packages\base\{Json, translator};
 use packages\userpanel;
 use packages\userpanel\{user, user\socialnetwork};
-?>
-<form action="<?php echo userpanel\url('users/edit/'.$this->user->id); ?>" method="POST" role="form" id="edit_form" data-can-edit-permissions="<?php echo Json\encode($this->canEditPermissions); ?>" data-user="<?php echo htmlentities(json\encode(array(
+
+$user = array(
 	"id" => $this->user->id,
 	"name" => $this->user->name,
 	"lastname" => $this->user->lastname,
@@ -12,7 +12,13 @@ use packages\userpanel\{user, user\socialnetwork};
 	"phone" => $this->user->phone,
 	"has_custom_permissions" => $this->user->has_custom_permissions,
 	"status" => $this->user->status,
-))); ?>">
+	"options" => array(),
+);
+foreach ($this->user->options as $option) {
+	$user["options"][$option->name] = $option->value;
+}
+?>
+<form action="<?php echo userpanel\url('users/edit/'.$this->user->id); ?>" method="POST" role="form" id="edit_form" data-can-edit-permissions="<?php echo Json\encode($this->canEditPermissions); ?>" data-user="<?php echo htmlentities(json\encode($user)); ?>">
 	<?php
 	if($this->canEditPrivacy){
 		foreach(array(

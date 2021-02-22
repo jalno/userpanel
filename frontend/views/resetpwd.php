@@ -2,15 +2,16 @@
 namespace themes\clipone\views;
 
 use packages\userpanel\views\resetpwd as ResetPWDView;
-use themes\clipone\{views\FormTrait, ViewTrait};
+use themes\clipone\{views\FormTrait, ViewTrait, views\CountryCodeToReigonCodeTrait};
 
 class resetpwd extends ResetPWDView {
-	use ViewTrait, FormTrait;
+	use CountryCodeToReigonCodeTrait, ViewTrait, FormTrait;
 
 	function __beforeLoad() {
 		$this->setTitle(t("userpanel.resetpwd"));
 		$this->addBodyClass('login');
 		$this->addBodyClass('resetpwd');
+		$this->dynamicDataBuilder();
 	}
 	public function hasBlocked(): bool {
 		foreach ($this->getErrors() as $error) {
@@ -30,5 +31,10 @@ class resetpwd extends ResetPWDView {
 			);
 		}
 		return $channelOptions;
+	}
+	private function dynamicDataBuilder() {
+		$dd = $this->dynamicData();
+		$dd->setData("countriesCode", $this->generateCountiesArray());
+		$dd->setData("defaultCountryCode", $this->getDefaultCountryCode());
 	}
 }
