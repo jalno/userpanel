@@ -15,7 +15,7 @@ class Add extends UsersAddView {
 		$this->addBodyClass('users_add');
 		$this->setNavigation();
 		$this->initFormData();
-		$this->dynamicDataBuilder();
+		$this->prepairDynamicData();
 	}
 	protected function getCountriesForSelect(): array {
 		return array_map(function($country) {
@@ -82,11 +82,6 @@ class Add extends UsersAddView {
 			),
 		) : null;
 	}
-	private function dynamicDataBuilder() {
-		$dd = $this->dynamicData();
-		$dd->setData("countriesCode", $this->generateCountiesArray());
-		$dd->setData("defaultCountryCode", $this->getDefaultCountryCode());
-	}
 	private function setNavigation(): void {
 		$item = new MenuItem("users");
 		$item->setTitle(t('users'));
@@ -118,5 +113,10 @@ class Add extends UsersAddView {
 		if (!$this->getDataForm("status")) {
 			$this->setDataForm(User::active, "status");
 		}
+	}
+	private function prepairDynamicData() {
+		$dd = $this->dynamicData();
+		$dd->setData("countriesCode", $this->generateCountiesArray());
+		$dd->setData("defaultCountryCode", $this->getDefaultCountryCode());
 	}
 }

@@ -14,9 +14,6 @@ $user = array(
 	"status" => $this->user->status,
 	"options" => array(),
 );
-foreach ($this->user->options as $option) {
-	$user["options"][$option->name] = $option->value;
-}
 ?>
 <form action="<?php echo userpanel\url('users/edit/'.$this->user->id); ?>" method="POST" role="form" id="edit_form" data-can-edit-permissions="<?php echo Json\encode($this->canEditPermissions); ?>" data-user="<?php echo htmlentities(json\encode($user)); ?>">
 	<?php

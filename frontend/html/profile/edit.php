@@ -1,10 +1,18 @@
 <?php
-use \packages\base\frontend\theme;
-use \packages\base\translator;
-use \packages\userpanel;
-use \packages\userpanel\user\socialnetwork;
+use packages\base\{json, frontend\theme};
+use packages\base\translator;
+use packages\userpanel;
+use packages\userpanel\user\socialnetwork;
+
+$user = array(
+	"id" => $this->user->id,
+	"name" => $this->user->name,
+	"lastname" => $this->user->lastname,
+	"cellphone" => $this->user->cellphone,
+	"phone" => $this->user->phone,
+);
 ?>
-<form action="<?php echo userpanel\url('profile/edit'); ?>" method="POST" role="form" id="edit_form">
+<form action="<?php echo userpanel\url('profile/edit'); ?>" method="POST" role="form" id="edit_form" data-user="<?php echo htmlentities(json\encode($user)); ?>">
 	<?php
 	if($this->canEditPrivacy){
 		foreach(array(
@@ -28,7 +36,7 @@ use \packages\userpanel\user\socialnetwork;
 	?>
 	<div class="row">
 		<div class="col-md-12">
-			<h3>اطلاعات پایه</h3>
+			<h3> <?php echo t("userpanel.profile.general_info"); ?> </h3>
 			<hr>
 		</div>
 	</div>
@@ -53,17 +61,17 @@ use \packages\userpanel\user\socialnetwork;
 					'error' => array(
 						'data_duplicate' => 'user.email.data_duplicate'
 					),
-					'input-group' => $this->getFieldPrivacyGroupBtn('email')
+					'input-group' => $this->getInputGroupArrayFor('email')
 				),
 				array(
-					'name' => 'cellphone',
+					'name' => 'cellphone[number]',
 					'label' => translator::trans("user.cellphone"),
 					'readonly' => true,
 					'ltr' => true,
 					'error' => array(
 						'data_duplicate' => 'user.cellphone.data_duplicate'
 					),
-					'input-group' => $this->getFieldPrivacyGroupBtn('cellphone')
+					'input-group' => $this->getInputGroupArrayFor('cellphone')
 				),
 				array(
 					'type' => 'password',
@@ -121,10 +129,10 @@ use \packages\userpanel\user\socialnetwork;
 					'label' => translator::trans("user.address")
 				),
 				array(
-					'name' => 'phone',
+					'name' => 'phone[number]',
 					'label' => translator::trans("user.phone"),
 					'ltr' => true,
-					'input-group' => $this->getFieldPrivacyGroupBtn('phone')
+					'input-group' => $this->getInputGroupArrayFor('phone')
 				)
 			);
 			foreach($fields as $field){
@@ -132,7 +140,7 @@ use \packages\userpanel\user\socialnetwork;
 			}
 			?>
 			<div class="form-group">
-				<label>چهرک</label>
+				<label><?php echo t("user.avatar"); ?></label>
 				<div class="user-image avatarPreview" style="width: 162px;">
 					<img src="<?php echo $this->getAvatarURL(); ?>" class="preview img-responsive">
 					<input name="avatar" type="file">
@@ -146,7 +154,7 @@ use \packages\userpanel\user\socialnetwork;
 	</div>
 	<div class="row">
 		<div class="col-md-12">
-			<h3>شبکه های اجتماعی</h3>
+			<h3><?php echo t("userpanel.profile.socialnetworks"); ?></h3>
 			<hr>
 		</div>
 	</div>
@@ -159,21 +167,21 @@ use \packages\userpanel\user\socialnetwork;
 					'placeholder' => "Telegram",
 					'icon' => 'fa fa-telegram',
 					'ltr' => true,
-					'input-group' => $this->getFieldPrivacyGroupBtn('socialnetworks_'.socialnetwork::telegram)
+					'input-group' => $this->getInputGroupArrayFor('socialnetworks_'.socialnetwork::telegram)
 				),
 				array(
 					'name' => 'socialnets['.socialnetwork::instagram.']',
 					'placeholder' => "Instagram",
 					'icon' => 'fa fa-instagram',
 					'ltr' => true,
-					'input-group' => $this->getFieldPrivacyGroupBtn('socialnetworks_'.socialnetwork::instagram)
+					'input-group' => $this->getInputGroupArrayFor('socialnetworks_'.socialnetwork::instagram)
 				),
 				array(
 					'name' => 'socialnets['.socialnetwork::skype.']',
 					'placeholder' => "Skype",
 					'icon' => 'fa fa-skype',
 					'ltr' => true,
-					'input-group' => $this->getFieldPrivacyGroupBtn('socialnetworks_'.socialnetwork::skype)
+					'input-group' => $this->getInputGroupArrayFor('socialnetworks_'.socialnetwork::skype)
 				)
 			);
 			foreach($fields as $field){
@@ -189,21 +197,21 @@ use \packages\userpanel\user\socialnetwork;
 					'placeholder' => "Twitter",
 					'icon' => 'clip-twitter',
 					'ltr' => true,
-					'input-group' => $this->getFieldPrivacyGroupBtn('socialnetworks_'.socialnetwork::twitter)
+					'input-group' => $this->getInputGroupArrayFor('socialnetworks_'.socialnetwork::twitter)
 				),
 				array(
 					'name' => 'socialnets['.socialnetwork::facebook.']',
 					'placeholder' => "Facebook",
 					'icon' => 'clip-facebook',
 					'ltr' => true,
-					'input-group' => $this->getFieldPrivacyGroupBtn('socialnetworks_'.socialnetwork::facebook)
+					'input-group' => $this->getInputGroupArrayFor('socialnetworks_'.socialnetwork::facebook)
 				),
 				array(
 					'name' => 'socialnets['.socialnetwork::gplus.']',
 					'placeholder' => "Google+",
 					'icon' => 'fa fa-google-plus',
 					'ltr' => true,
-					'input-group' => $this->getFieldPrivacyGroupBtn('socialnetworks_'.socialnetwork::gplus)
+					'input-group' => $this->getInputGroupArrayFor('socialnetworks_'.socialnetwork::gplus)
 				)
 
 			);

@@ -1,7 +1,7 @@
 <?php
 namespace themes\clipone\views;
 
-use packages\base\{Validator\Geo\CountryCodeToRegionCodeMap, Options};
+use packages\base\{Validator\CellphoneValidator, Validator\Geo\CountryCodeToRegionCodeMap, Options};
 
 trait CountryCodeToReigonCodeTrait {
 	public function generateCountiesArray(): array {
@@ -21,7 +21,6 @@ trait CountryCodeToReigonCodeTrait {
 		return $countries;
 	}
 	public function getDefaultCountryCode(): string {
-		$countryCode = strval(Options::get("packages.base.validators.default_cellphone_country_code"));
-		return $countryCode ?: "IR";
+		return CellphoneValidator::getDefaultCountryCode();
 	}
 }

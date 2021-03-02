@@ -113,7 +113,7 @@ use themes\clipone\utility;
 					?>
 					<tr>
 						<td><?php echo t("user.phone"); ?>:</td>
-						<td><?php echo $this->getUserData('phone'); ?></td>
+						<td><span dir='ltr'><?php echo '+' . $this->user->getPhoneWithDialingCode() ?></span></td>
 						<td></td>
 					</tr>
 					<?php
@@ -122,7 +122,7 @@ use themes\clipone\utility;
 					?>
 					<tr>
 						<td><?php echo t("user.cellphone"); ?>:</td>
-						<td><?php echo $this->getUserData('cellphone'); ?></td>
+						<td><span dir='ltr'><?php echo '+' . $this->user->getCellphoneWithDialingCode(); ?></span></td>
 						<td><a href="<?php echo userpanel\url('sms/send/', array('user' => $this->getUserData('id'))); ?>" ><i class="clip-mobile-3 edit-user-info"></i></a></td>
 					</tr>
 					<?php } ?>

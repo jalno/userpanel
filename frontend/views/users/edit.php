@@ -19,7 +19,7 @@ class Edit extends UsersEditView {
 		$this->addBodyClass('users');
 		$this->addBodyClass('users_edit');
 		$this->setNavigation();
-		$this->dynamicDataBuilder();
+		$this->prepairDynamicData();
 	}
 	protected function getCountriesForSelect(): array {
 		return array_map(function($country) {
@@ -36,13 +36,6 @@ class Edit extends UsersEditView {
 				'value' => $type->id
 			);
 		}, $this->getTypes());
-	}
-	protected function dynamicDataBuilder(): void {
-		$dd = $this->dynamicData();
-		$dd->setData("userPermissions", $this->buildPermissionsArray());
-
-		$dd->setData("countriesCode", $this->generateCountiesArray());
-		$dd->setData("defaultCountryCode", $this->getDefaultCountryCode());
 	}
 	protected function getAvatarURL(): string {
 		if ($this->user->avatar) {
@@ -78,7 +71,6 @@ class Edit extends UsersEditView {
 			$inputGroup['first'][] = array(
 				'type' => 'select',
 				'name' => "{$field}[code]",
-				'value' => 98,
 				'options' => array(),
 			);
 		}
@@ -142,5 +134,12 @@ class Edit extends UsersEditView {
 		breadcrumb::addItem($item);
 
 		navigation::active("users/list");
+	}
+	protected function prepairDynamicData(): void {
+		$dd = $this->dynamicData();
+		$dd->setData("userPermissions", $this->buildPermissionsArray());
+
+		$dd->setData("countriesCode", $this->generateCountiesArray());
+		$dd->setData("defaultCountryCode", $this->getDefaultCountryCode());
 	}
 }

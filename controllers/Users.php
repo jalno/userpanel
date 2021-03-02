@@ -49,7 +49,44 @@ class Users extends Controller {
 				"optional" => true,
 			),
 			"cellphone" => array(
-				"type" => "string",
+				"type" => function ($data, array $rule, string $input) {
+					$result = array(
+						"code" => "",
+						"number" => "",
+					);
+					if (empty($data)) {
+						return $result;
+					}
+					if (is_string($data)) {
+						if (strpos($data, ".") !== false) {
+							$exploded = explode(".", $data);
+							if (isset($exploded[0])) {
+								$result["code"] = $exploded[0];
+							}
+							if (isset($exploded[1])) {
+								$result["number"] = $exploded[1];
+							}
+						} else if (is_numeric($data)) {
+							$result["number"] = $data;
+						}
+					} else if (is_array($data)) {
+						if (isset($data["code"])) {
+							$result["code"] = $data["code"];
+						}
+						if (isset($data["number"])) {
+							$result["number"] = $data["number"];
+						}
+					} else {
+						throw new InputValidationException($input, "datatype");
+					}
+					$result = array_map("trim", $result);
+					$result["code"] = strtoupper($result["code"]);
+					$result["number"] = ltrim($result["number"], "0");
+					if (strlen($result["code"]) > 2) {
+						throw new InputValidationException($input, "bad_code");
+					}
+					return $result;
+				},
 				"optional" => true,
 			),
 			"type" => array(
@@ -148,6 +185,7 @@ class Users extends Controller {
 			if (!isset($inputs[$item])) {
 				continue;
 			}
+			$value = $inputs[$item];
 			$comparison = $inputs["comparison"];
 			if (in_array($item, ["id", "status", "country"])) {
 				$comparison = "equals";
@@ -155,11 +193,37 @@ class Users extends Controller {
 					$inputs[$item] = $inputs[$item]->id;
 				}
 			}
-			$model->where($item, $inputs[$item], $comparison);
+			if ($item == "cellphone") {
+				$cellphoneCode = null;
+				$cellphoneNumber = null;
+				if (isset($inputs["cellphone"]["code"]) and $inputs["cellphone"]["code"]) {
+					$cellphoneCode = $inputs["cellphone"]["code"];
+				}
+				if (isset($inputs["cellphone"]["number"]) and $inputs["cellphone"]["number"]) {
+					$cellphoneNumber = $inputs["cellphone"]["number"];
+				}
+				if (!$cellphoneCode and !$cellphoneNumber) {
+					continue;
+				}
+				$comparison = "LIKE";
+				$value = $cellphoneCode ? $cellphoneCode . "\." : "%\.";
+				if ($cellphoneNumber) {
+					if ($inputs["comparison"] == "contains") {
+						$value .= "%";
+					}
+					$value .= $cellphoneNumber;
+					if (in_array($inputs["comparison"], array("startswith", "contains"))) {
+						$value .= "%";
+					}
+				} else {
+					$value .= "%";
+				}
+			}
+			$model->where($item, $value, $comparison);
 		}
 		if (isset($inputs["word"])) {
 			$parenthesis = new db\Parenthesis();
-			foreach (["name", "lastname", "email", "cellphone"] as $item) {
+			foreach (["name", "lastname", "email", "cellphone_"] as $item) {
 				if (isset($inputs[$item])) {
 					continue;
 				}
@@ -525,13 +589,11 @@ class Users extends Controller {
 			),
 			'phone' => array(
 				'type' => 'phone',
-				'combined-output' => false,
 				'optional' => true,
 				'empty' => true,
 			),
 			'cellphone' => array(
 				'type' => 'cellphone',
-				'combined-output' => false,
 				'optional' => true,
 			),
 			'password' => array(
@@ -714,12 +776,6 @@ class Users extends Controller {
 			$user->password_hash($formdata['password']);
 		}
 
-		foreach (array('phone', 'cellphone') as $key) {
-			if (isset($formdata[$key])) {
-				$user->setOption("userpanel.users.{$key}_country_code", $formdata[$key]['code']);
-				$formdata[$key] = $formdata[$key]['dialingCode'] . '.' . $formdata[$key]['number'];
-			}
-		}
 		unset($formdata['password']);
 		$user->save($formdata);
 		unset($formdata['avatar']);

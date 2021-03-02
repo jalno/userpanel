@@ -1,6 +1,10 @@
 import "@jalno/translator";
 import * as $ from "jquery";
 import "select2";
+import Country, { ICountryCode } from "../Country";
+
+declare const countriesCode: ICountryCode[];
+declare const defaultCountryCode: string;
 
 export default class Search {
 	public static initIfNeeded() {
@@ -25,6 +29,25 @@ export default class Search {
 			dir: Translator.isRTL() ? "rtl" : "ltr",
 			language: Translator.getActiveShortLang(),
 		});
+		const countries = countriesCode.map((country) => {
+			return {
+				id: country.code,
+				text: country.dialingCode + '-' + country.name,
+				selected: false,
+			};
+		});
+		countries.unshift({
+			id: '',
+			text: '',
+			selected: true,
+		});
+		Country.runCountryDialingCodeSelect2(
+			$(`select[name="cellphone[code]"]`),
+			countries,
+			{
+				dropdownParent: Search.$modal,
+			}
+		);
 	}
 	private static runSubmitFormListener() {
 		$("form", Search.$modal).on("submit", function() {

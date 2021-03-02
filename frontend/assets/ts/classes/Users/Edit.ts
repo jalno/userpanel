@@ -41,26 +41,19 @@ export default class Edit {
 	}
 	protected static runSelect2() {
 		for (const field of ["phone", "cellphone"]) {
-			const countryCodeOption = Edit.user.options['userpanel.users.' + field + '_country_code'] as string;
 			const item = Edit.user[field] as string;
-			let dialingCode: string = "";
-			if (item) {
-				dialingCode = item.split('.')[0];
-			}
-			const isSelected = (country: ICountryCode): boolean => {
-				if (countryCodeOption) {
-					return country.code === countryCodeOption;
+			let selectedCountryCode = defaultCountryCode;
+			if (item.indexOf('.') > -1) {
+				const splited = item.split('.');
+				if (splited[0]) {
+					selectedCountryCode = splited[0];
 				}
-				if (dialingCode) {
-					return country.dialingCode === dialingCode;
-				}
-				return country.code === defaultCountryCode;
 			}
 			const data = countriesCode.map((country) => {
 				return {
 					id: country.code,
 					text: country.dialingCode + '-' + country.name,
-					selected: isSelected(country),
+					selected: country.code === selectedCountryCode,
 				};
 			});
 			Country.runCountryDialingCodeSelect2($(`select[name="${field}[code]"]`), data);

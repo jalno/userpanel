@@ -15,6 +15,7 @@ import Edit from "./Users/Edit";
 import Add from "./Users/Add";
 import Search from "./Users/Search";
 import Suspend from "./Users/Suspend";
+import Profile from "./Users/Profile";
 
 export interface IUser {
 	id: number;
@@ -25,7 +26,7 @@ export interface IUser {
 	type: number | IUserType;
 	has_custom_permissions: boolean;
 	status: Status;
-	options: {
+	options?: {
 		[key: string]: string | number;
 	}[]
 }
@@ -315,6 +316,7 @@ export class Users {
 	public static initIfNeeded(): void {
 		Activate.initIfNeeded();
 		Suspend.initIfNeeded();
+		Profile.initIfNeeded();
 		Search.initIfNeeded();
 		Edit.initIfNeeded();
 		Add.initIfNeeded();
