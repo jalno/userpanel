@@ -10,7 +10,7 @@ import "./jquery.formAjax";
 import {Main} from "./Main";
 import Country, { ICountryCode } from "./Country";
 
-declare const countries: ICountryCode[];
+declare const countriesCode: ICountryCode[];
 declare const defaultCountryCode: string;
 
 export class Register {
@@ -30,7 +30,7 @@ export class Register {
 	private static $errorHandler = $(".errorHandler", Register.$form);
 
 	private static runSelect2(): void {
-		const data = countries.map((country) => {
+		const data = countriesCode.map((country) => {
 			return {
 				id: country.code,
 				text: country.dialingCode + '-' + country.name,
@@ -95,12 +95,17 @@ export class Register {
 						if (response.hasOwnProperty("error") || response.hasOwnProperty("code")) {
 							const code = response.hasOwnProperty("error") ? response.error : response.code;
 							if (code === "data_duplicate" || code === "data_validation") {
-								const $input = $(`[name="${response.input}"]`);
+								let inputName = response.input;
+								if (inputName === "cellphone") {
+									inputName = "cellphone[number]";
+								} else if (inputName === "phone") {
+									inputName = "phone[number]";
+								}
+								const $input = $(`[name="${inputName}"]`, form);
 								const params = {
 									title: t("error.fatal.title"),
 									message: "",
 								};
-								const code = response.hasOwnProperty("error") ? response.error : response.code;
 								if (code === "data_duplicate") {
 									params.message = t(`user.${response.input}.data_duplicate`);
 								} else if (code === "data_validation") {
