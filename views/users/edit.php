@@ -35,11 +35,12 @@ class Edit extends Form {
 	public function setForm(): void {
 		$user = $this->getData('user');
 		$userArray = $user->toArray();
-		$country = Country::getDefaultCountry();
+		$country = $user->country ? $user->country : Country::getDefaultCountry();
 		foreach (array("phone", "cellphone") as $field) {
 			$item = explode(".", $userArray[$field]);
-			$userArray["{$field}[code]"] = $item[0] ?? $country->id;
-			$userArray["{$field}[number]"] = $item[1] ?? null;
+			$count = count($item);
+			$userArray["{$field}[code]"] = $count > 1 ? $item[0] : $country->id;
+			$userArray["{$field}[number]"] = $count > 1 ? $item[1] : $item[0];
 			unset($userArray[$field]);
 		}
 		$this->setDataForm($userArray);
