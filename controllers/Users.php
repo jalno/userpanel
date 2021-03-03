@@ -181,11 +181,10 @@ class Users extends Controller {
 		if (isset($inputs["lastonline_to"])) {
 			$model->where("lastonline", $inputs["lastonline_to"], "<");
 		}
-		foreach(["id", "name", "lastname", "email", "cellphone", "status", "city", "country"] as $item) {
+		foreach(["id", "name", "lastname", "email", "status", "city", "country"] as $item) {
 			if (!isset($inputs[$item])) {
 				continue;
 			}
-			$value = $inputs[$item];
 			$comparison = $inputs["comparison"];
 			if (in_array($item, ["id", "status", "country"])) {
 				$comparison = "equals";
@@ -193,33 +192,31 @@ class Users extends Controller {
 					$inputs[$item] = $inputs[$item]->id;
 				}
 			}
-			if ($item == "cellphone") {
-				$cellphoneCode = null;
-				$cellphoneNumber = null;
-				if (isset($inputs["cellphone"]["code"]) and $inputs["cellphone"]["code"]) {
-					$cellphoneCode = $inputs["cellphone"]["code"];
-				}
-				if (isset($inputs["cellphone"]["number"]) and $inputs["cellphone"]["number"]) {
-					$cellphoneNumber = $inputs["cellphone"]["number"];
-				}
-				if (!$cellphoneCode and !$cellphoneNumber) {
-					continue;
-				}
-				$comparison = "LIKE";
-				$value = $cellphoneCode ? $cellphoneCode . "\." : "%\.";
-				if ($cellphoneNumber) {
-					if ($inputs["comparison"] == "contains") {
-						$value .= "%";
-					}
-					$value .= $cellphoneNumber;
-					if (in_array($inputs["comparison"], array("startswith", "contains"))) {
-						$value .= "%";
-					}
-				} else {
-					$value .= "%";
+			$model->where($item, $inputs[$item], $comparison);
+		}
+		if (isset($inputs["cellphone"])) {
+			$cellphone = "";
+			foreach (["code", "number"] as $item) {
+				if (isset($inputs["cellphone"][$item]) and empty($inputs["cellphone"][$item])) {
+					unset($inputs["cellphone"][$item]);
 				}
 			}
-			$model->where($item, $value, $comparison);
+
+			$comparison = $inputs["comparison"];
+			if (isset($inputs["cellphone"]["code"])) {
+				$cellphone = $inputs["cellphone"]["code"];
+				$comparison = "startswith";
+			}
+			if (isset($inputs["cellphone"]["number"])) {
+				if (empty($cellphone)) {
+					$cellphone = $inputs["cellphone"]["number"];
+					$comparison = "contains";
+				} else {
+					$cellphone .= "." .  $inputs["cellphone"]["number"];
+					$comparison = $inputs["comparison"];
+				}
+			}
+			$model->where("cellphone", $cellphone, $comparison);
 		}
 		if (isset($inputs["word"])) {
 			$parenthesis = new db\Parenthesis();
