@@ -41,7 +41,10 @@ export default class Edit {
 	}
 	protected static runSelect2() {
 		for (const field of ["phone", "cellphone"]) {
-			const item = Edit.user[field] as string;
+			let item = Edit.user[field];
+			if (typeof item === "undefined" || item === null) {
+				item = "";
+			}
 			let selectedCountryCode = defaultCountryCode;
 			if (item.indexOf('.') > -1) {
 				const splited = item.split('.');
