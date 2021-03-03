@@ -1,14 +1,32 @@
 <?php
 namespace packages\userpanel;
-use packages\base\db;
-use packages\base\db\dbObject;
-use packages\base\utility\password;
-use packages\base\IO;
-use packages\base\packages;
-use packages\userpanel\user\option;
+
+use packages\base\{db, db\dbObject, IO, Packages, utility\Password};
+use packages\base\Validator\{CellphoneValidator, Geo\CountryCodeToRegionCodeMap};
+use packages\userpanel\{user\Option};
 
 class user extends dbObject{
 	use imageTrait;
+
+	private static function getTelephoneWithDialingCode(string $field): string {
+		$code = null;
+		$number = null;
+		$dialingCode = null;
+		if (strpos($field, ".") !== false) {
+			$exploded = explode(".", $field);
+			$code = $exploded[0];
+			$number = $exploded[1];
+		} else {
+			$number = $field;
+		}
+		if (!$code) {
+			$code = CellphoneValidator::getDefaultCountryCode();
+		}
+		$r2c = CountryCodeToRegionCodeMap::regionCodeToCountryCode();
+		$dialingCode = isset($r2c[$code]) ? $r2c[$code] : "";
+		return $dialingCode . "." . $number;
+	}
+
 	const active = 1;
 	const deactive = 3;
 	const suspend = 2;
@@ -240,5 +258,11 @@ class user extends dbObject{
 			$data["registered_at"] = date::time();
 		}
 		return $data;
+	}
+	public function getCellphoneWithDialingCode(): string {
+		return self::getTelephoneWithDialingCode($this->cellphone);
+	}
+	public function getPhoneWithDialingCode(): string {
+		return self::getTelephoneWithDialingCode($this->phone);
 	}
 }

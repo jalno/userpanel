@@ -1,8 +1,12 @@
 <?php
 namespace packages\userpanel\views\profile;
-use \packages\userpanel\user\socialnetwork;
-use \packages\userpanel\views\form;
-use \packages\userpanel\authorization;
+
+use packages\base\{Validator\CellphoneValidator};
+use packages\userpanel\user\socialnetwork;
+use packages\userpanel\views\form;
+use packages\userpanel\authorization;
+
+
 class edit extends form{
 	use settingsTrait;
 	protected $canEditPrivacy;
@@ -23,7 +27,19 @@ class edit extends form{
 	}
 	public function setForm(){
 		$user = $this->getData('user');
-		$this->setDataForm($user->toArray());
+		$userArray = $user->toArray();
+		$defaultCountryCode = CellphoneValidator::getDefaultCountryCode();
+		foreach (array("phone", "cellphone") as $field) {
+			if (strpos($userArray[$field], ".")) {
+				$item = explode(".", $userArray[$field]);
+				$userArray["{$field}[code]"] = $item[0] ?: $defaultCountryCode;
+				$userArray["{$field}[number]"] = $item[1];
+			} else {
+				$userArray["{$field}[code]"] = $defaultCountryCode;
+				$userArray["{$field}[number]"] = $userArray[$field];
+			}
+		}
+		$this->setDataForm($userArray);
 		foreach($user->socialnetworks as $socialnet){
 			$this->setDataForm($socialnet->username, 'socialnets['.$socialnet->network.']');
 		}

@@ -12,16 +12,23 @@ import "./jquery.formAjax";
 import {Main} from "./Main";
 import Activate from "./Users/Activate";
 import Edit from "./Users/Edit";
+import Add from "./Users/Add";
 import Search from "./Users/Search";
 import Suspend from "./Users/Suspend";
+import Profile from "./Users/Profile";
 
 export interface IUser {
 	id: number;
 	name: string;
 	lastname?: string;
+	cellphone: string;
+	phone?: string;
 	type: number | IUserType;
 	has_custom_permissions: boolean;
 	status: Status;
+	options?: {
+		[key: string]: string | number;
+	}[]
 }
 
 export interface IUserType {
@@ -85,47 +92,6 @@ class UserForm {
 	protected init(): void {
 		Main.SetDefaultValidation();
 		this.runPrivacyVisibilty();
-	}
-}
-// tslint:disable-next-line: max-classes-per-file
-class UserAdd extends UserForm {
-	public init() {
-		super.init();
-		this.runValidator();
-	}
-	private runValidator(): void {
-		this.form.validate({
-			rules: {
-				name: {
-					required: true,
-				},
-				email: {
-					required: true,
-					email: true,
-				},
-				password: {
-					required: true,
-				},
-				password2: {
-					required: true,
-					equalTo: "input[name=password]",
-				},
-				phone: {
-					digits: true,
-				},
-				cellphone: {
-					required: true,
-					rangelength: [10, 13],
-				},
-				credit: {
-					required: true,
-						digits: true,
-				},
-			},
-			submitHandler: (form) => {
-				this.FromAjax(form);
-			},
-		});
 	}
 }
 // tslint:disable-next-line: max-classes-per-file
@@ -350,13 +316,12 @@ export class Users {
 	public static initIfNeeded(): void {
 		Activate.initIfNeeded();
 		Suspend.initIfNeeded();
+		Profile.initIfNeeded();
 		Search.initIfNeeded();
 		Edit.initIfNeeded();
+		Add.initIfNeeded();
 		const $body = $("body");
-		if ($body.hasClass("users_add")) {
-			const handler = new UserAdd($("#add_form"));
-			handler.init();
-		} else if ($body.hasClass("profile_edit")) {
+		if ($body.hasClass("profile_edit")) {
 			const handler = new ProfileEdit($("#edit_form"));
 			handler.init();
 			const avatarHandler = new RunAvatarPreview($("#edit_form"));

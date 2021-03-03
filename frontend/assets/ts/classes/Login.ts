@@ -3,18 +3,49 @@ import * as $ from "jquery";
 import "jquery-validation";
 import { webuilder } from "webuilder";
 import "./jquery.formAjax";
+import "select2";
 import {Main} from "./Main";
+import Country, { ICountryCode } from "./Country";
+
+declare const countriesCode: ICountryCode[];
+declare const defaultCountryCode: string;
 
 export class Login {
 	public static init(): void {
 		Main.SetDefaultValidation();
 		Login.runLoginButtons();
 		Login.runLoginValidator();
+		Login.runSelect2();
+		Login.loginCredentialChangeListener();
 	}
 	public static initIfNeeded(): void {
 		if ($("body").hasClass("login")) {
 			Login.init();
 		}
+	}
+	private static loginCredentialChangeListener() {
+		const isNumeric = (value: string): boolean => {
+			return /^-?\d+$/.test(value);
+		}
+		const $form = $(".form-login");
+		const $dialingCodeContainer = $(".credential-container .input-group-btn", $form);
+		$("input[name=credential]", $form).on("change keyup input", function(e) {
+			const value = $(this).val();
+			if (isNumeric(value)) {
+				$dialingCodeContainer.removeClass("hidden");
+			} else {
+				$dialingCodeContainer.addClass("hidden");
+			}
+		});
+	}
+	private static runSelect2(): void {
+		Country.runCountryDialingCodeSelect2($(`select[name="credential[code]"]`), countriesCode.map((country) => {
+			return {
+				id: country.code,
+				text: country.dialingCode + '-' + country.name,
+				selected: country.code === defaultCountryCode,
+			};
+		}));
 	}
 	private static runLoginButtons(): void {
 		$(".forgot").on("click", () => {
@@ -41,8 +72,21 @@ export class Login {
 				},
 			},
 			submitHandler: (form) => {
+				const isNumeric = (value: string): boolean => {
+					return /^-?\d+$/.test(value);
+				}
 				$errorHandler.hide();
+				const $password = $("input[name=password]");
+				const $credential = $(`input[name=credential]`);
+				const $countryCode = $(`select[name="credential[code]"]`);
 				$(form).formAjax({
+					data: {
+						credential: isNumeric($credential.val()) ? {
+							number: $credential.val(),
+							code: $countryCode.val(),
+						} : $credential.val(),
+						password: $password.val(),
+					},
 					success: (data: webuilder.AjaxResponse) => {
 						window.location.href = data.redirect;
 					},

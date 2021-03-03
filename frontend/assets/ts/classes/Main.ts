@@ -51,7 +51,7 @@ export class Main {
 						error.insertAfter($(element).closest(".form-group").children("div").children().last());
 					} else if (element.attr("name") == "card_expiry_mm" || element.attr("name") == "card_expiry_yyyy") {
 						error.appendTo($(element).closest(".form-group").children("div"));
-					} else if (element.parent().hasClass("input-group")) {
+					} else if (element.parent().hasClass("input-group") || element.attr("name") == "credential") {
 						error.insertAfter($(element).parent());
 					} else {
 						error.insertAfter(element);

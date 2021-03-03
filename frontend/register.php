@@ -45,7 +45,7 @@ $this->the_header('login');
 						'type' => 'select',
 						'name' => 'country',
 						'placeholder' => translator::trans('register.user.country'),
-						'options' => $this->countries
+						'options' => $this->getCountriesForSelect(),
 					));
 					?>
 				</div>
@@ -76,25 +76,33 @@ $this->the_header('login');
 					?>
 				</div>
 			</div>
-			<div class="row">
-				<div class="col-md-6">
-					<?php
-					$this->createField(array(
-						'name' => 'phone',
-						'placeholder' => translator::trans('register.user.phone')
-					));
-					?>
-				</div>
-				<div class="col-md-6">
-					<?php
-					$this->createField(array(
-						'name' => 'cellphone',
-						'placeholder' => translator::trans('register.user.cellphone')
-					));
-					?>
-				</div>
-			</div>
 			<?php
+			$this->createField(array(
+				'name' => 'phone[number]',
+				'placeholder' => translator::trans('register.user.phone'),
+				'input-group' => array(
+					'first' => array(
+						array(
+							'type' => 'select',
+							'name' => 'phone[code]',
+							'options' => array(),
+						),
+					),
+				),
+			));
+			$this->createField(array(
+				'name' => 'cellphone[number]',
+				'placeholder' => translator::trans('register.user.cellphone'),
+				'input-group' => array(
+					'first' => array(
+						array(
+							'type' => 'select',
+							'name' => 'cellphone[code]',
+							'options' => array(),
+						),
+					),
+				),
+			));
 			$this->createField(array(
 				'name' => 'email',
 				'type' => 'email',

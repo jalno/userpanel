@@ -49,7 +49,44 @@ class Users extends Controller {
 				"optional" => true,
 			),
 			"cellphone" => array(
-				"type" => "string",
+				"type" => function ($data, array $rule, string $input) {
+					$result = array(
+						"code" => "",
+						"number" => "",
+					);
+					if (empty($data)) {
+						return $result;
+					}
+					if (is_string($data)) {
+						if (strpos($data, ".") !== false) {
+							$exploded = explode(".", $data);
+							if (isset($exploded[0])) {
+								$result["code"] = $exploded[0];
+							}
+							if (isset($exploded[1])) {
+								$result["number"] = $exploded[1];
+							}
+						} else if (is_numeric($data)) {
+							$result["number"] = $data;
+						}
+					} else if (is_array($data)) {
+						if (isset($data["code"])) {
+							$result["code"] = $data["code"];
+						}
+						if (isset($data["number"])) {
+							$result["number"] = $data["number"];
+						}
+					} else {
+						throw new InputValidationException($input, "datatype");
+					}
+					$result = array_map("trim", $result);
+					$result["code"] = strtoupper($result["code"]);
+					$result["number"] = ltrim($result["number"], "0");
+					if (strlen($result["code"]) > 2) {
+						throw new InputValidationException($input, "bad_code");
+					}
+					return $result;
+				},
 				"optional" => true,
 			),
 			"type" => array(
@@ -144,7 +181,7 @@ class Users extends Controller {
 		if (isset($inputs["lastonline_to"])) {
 			$model->where("lastonline", $inputs["lastonline_to"], "<");
 		}
-		foreach(["id", "name", "lastname", "email", "cellphone", "status", "city", "country"] as $item) {
+		foreach(["id", "name", "lastname", "email", "status", "city", "country"] as $item) {
 			if (!isset($inputs[$item])) {
 				continue;
 			}
@@ -157,9 +194,33 @@ class Users extends Controller {
 			}
 			$model->where($item, $inputs[$item], $comparison);
 		}
+		if (isset($inputs["cellphone"])) {
+			$cellphone = "";
+			foreach (["code", "number"] as $item) {
+				if (isset($inputs["cellphone"][$item]) and empty($inputs["cellphone"][$item])) {
+					unset($inputs["cellphone"][$item]);
+				}
+			}
+
+			$comparison = $inputs["comparison"];
+			if (isset($inputs["cellphone"]["code"])) {
+				$cellphone = $inputs["cellphone"]["code"];
+				$comparison = "startswith";
+			}
+			if (isset($inputs["cellphone"]["number"])) {
+				if (empty($cellphone)) {
+					$cellphone = $inputs["cellphone"]["number"];
+					$comparison = "contains";
+				} else {
+					$cellphone .= "." .  $inputs["cellphone"]["number"];
+					$comparison = $inputs["comparison"];
+				}
+			}
+			$model->where("cellphone", $cellphone, $comparison);
+		}
 		if (isset($inputs["word"])) {
 			$parenthesis = new db\Parenthesis();
-			foreach (["name", "lastname", "email", "cellphone"] as $item) {
+			foreach (["name", "lastname", "email", "cellphone_"] as $item) {
 				if (isset($inputs[$item])) {
 					continue;
 				}
@@ -282,12 +343,7 @@ class Users extends Controller {
 				'type' => 'email',
 			),
 			'cellphone' => array(
-				'type' => function($data, $rule, $input) {
-					if (!preg_match("/^(\+)?\d+$/", $data)) {
-						throw new InputValidationException($input);
-					}
-					return (new CellphoneValidator)->validate($input, $rule, $data);
-				},
+				'type' => 'cellphone',
 			),
 			'password' => array(),
 			'type' => array(
@@ -310,7 +366,7 @@ class Users extends Controller {
 				'optional' => true,
 			),
 			'phone' => array(
-				'type' => 'string',
+				'type' => 'phone',
 				'optional' => true,
 			),
 			'status' => array(
@@ -528,14 +584,14 @@ class Users extends Controller {
 				'type' => 'email',
 				'optional' => true,
 			),
+			'phone' => array(
+				'type' => 'phone',
+				'optional' => true,
+				'empty' => true,
+			),
 			'cellphone' => array(
-				'type' => function($data, $rule, $input) {
-					if (!preg_match("/^(\+)?\d+$/", $data)) {
-						throw new InputValidationException($input);
-					}
-					return (new CellphoneValidator)->validate($input, $rule, $data);
-				},
-				'optional' => true
+				'type' => 'cellphone',
+				'optional' => true,
 			),
 			'password' => array(
 				'type' => 'string',
@@ -566,11 +622,6 @@ class Users extends Controller {
 				'empty' => true,
 			),
 			'address' => array(
-				'type' => 'string',
-				'optional' => true,
-				'empty' => true,
-			),
-			'phone' => array(
 				'type' => 'string',
 				'optional' => true,
 				'empty' => true,

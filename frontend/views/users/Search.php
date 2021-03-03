@@ -4,9 +4,10 @@ namespace themes\clipone\views\users;
 use packages\userpanel;
 use packages\base\Http;
 use packages\userpanel\{User, Authorization, views\users\Search as ParentView};
-use themes\clipone\{viewTrait, views\ListTrait, views\FormTrait, Navigation};
+use themes\clipone\{viewTrait, views\ListTrait, views\FormTrait, Navigation, views\CountryCodeToReigonCodeTrait};
 
 class Search extends ParentView {
+	use CountryCodeToReigonCodeTrait;
 
 	public static function onSourceLoad() {
 		parent::onSourceLoad();
@@ -27,7 +28,10 @@ class Search extends ParentView {
 	public function __beforeLoad() {
 		$this->setTitle(t("users"));
 		$this->setButtons();
+		$this->addBodyClass("userpanel");
+		$this->addBodyClass("users-search");
 		Navigation::active("users");
+		$this->prepareDynamicData();
 	}
 
 	protected function setButtons(): void {
@@ -115,5 +119,11 @@ class Search extends ParentView {
 
 	protected function getFormData(): array {
 		return Http::$request["get"] ?? array();
+	}
+
+	private function prepareDynamicData(): void {
+		$dd = $this->dynamicData();
+		$dd->setData("countriesCode", $this->generateCountiesArray());
+		$dd->setData("defaultCountryCode", $this->getDefaultCountryCode());
 	}
 }

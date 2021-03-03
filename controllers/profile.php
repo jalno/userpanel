@@ -93,7 +93,7 @@ class profile extends controller{
 			),
 			'phone' => array(
 				'optional' => true,
-				'type' => 'string',
+				'type' => 'phone',
 				'empty' => true
 			),
 			'avatar' => array(

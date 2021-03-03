@@ -72,8 +72,7 @@ use themes\clipone\utility;
 					?>
 					<tr>
 						<td><?php echo t("user.phone"); ?>:</td>
-						<td><?php echo $this->getUserData('phone'); ?></td>
-
+						<td><?php echo $this->user->getPhoneWithDialingCode(); ?></td>
 					</tr>
 					<?php
 					}
@@ -81,7 +80,7 @@ use themes\clipone\utility;
 					?>
 					<tr>
 						<td><?php echo t("user.cellphone"); ?>:</td>
-						<td><?php echo $this->getUserData('cellphone'); ?></td>
+						<td><?php echo $this->user->getCellphoneWithDialingCode(); ?></td>
 					</tr>
 					<?php } ?>
 				</tbody>

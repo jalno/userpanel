@@ -12,7 +12,6 @@ class Login extends Controller {
 	 */
 	protected $authentication = false;
 
-
 	/**
 	 * Save givin user in Authentication class and set handler to session.
 	 * It's also save a log of successfull login database.
@@ -52,12 +51,12 @@ class Login extends Controller {
 
 	/**
 	 * Get remember token from the cookies and find the active user.
-	 * 
+	 *
 	 * @return User|null
 	 */
 	public static function checkRememberToken(): ?User {
 		$token = http::$request['cookies']['remember'] ?? null;
-		if (!$token or is_string($token)) {
+		if (!$token or !is_string($token)) {
 			return null;
 		}
 		return (new User)
@@ -69,13 +68,13 @@ class Login extends Controller {
 	/**
 	 * validate the inputs, find the user and verify the password.
 	 * Finally call the doLogin() for setup the session.
-	 * 
+	 *
 	 * @return User
 	 */
 	public function login_helper(): User {
 		$inputs = $this->checkinputs(array(
-			'username' => array(
-				'type' => ['email', 'cellphone']
+			'credential' => array(
+				'type' => ['email', 'cellphone'],
 			),
 			'password' => array(
 				'type' => 'string',
@@ -85,16 +84,16 @@ class Login extends Controller {
 			'remember' => array(
 				'type' => 'bool',
 				'optional' => true,
-			)
+			),
 		));
 		$p = new db\parenthesis();
-		$p->where("email", $inputs['username']);
-		$p->orwhere("cellphone", $inputs['username']);
+		$p->where("email", $inputs['credential']);
+		$p->orwhere("cellphone", $inputs['credential']);
 		$user = (new User())
 					->where($p)
 					->getOne();
 		if (!$user) {
-			throw new InputValidationException('username');
+			throw new InputValidationException('credential');
 		}
 		if (!$user->password_verify($inputs['password'])) {
 			$log = new Log();
@@ -148,6 +147,7 @@ class Login extends Controller {
 		}
 		$view = View::byName(views\Login::class);
 		$view->setDataForm($backTo, 'backTo');
+		$view->setCountries((new Country)->get());
 		$this->response->setView($view);
 		$this->response->setStatus(true);
 		return $this->response;
@@ -245,6 +245,7 @@ class Login extends Controller {
 		unset($inputs['password']);
 		(new Events\BeforeRegister)->trigger();
 		$user->save();
+
 		if ($user->status == User::active) {
 			Authentication::setUser($user);
 			$handler = new Authentication\SessionHandler();
@@ -275,7 +276,7 @@ class Login extends Controller {
 	 */
 	public function signup(): Response {
 		$view = View::byName(views\Register::class);
-		$view->setData(Country::get(), 'countries');
+		$view->setCountries(Country::get());
 		$this->response->setStatus(true);
 		$this->response->setView($view);
 		return $this->response;
@@ -319,16 +320,10 @@ class Login extends Controller {
 				'type' => 'number'
 			),
 			'phone' => array(
-				'type' => 'number'
+				'type' => 'phone',
 			),
 			'cellphone' => array(
-				'type' => function($data, $rule) {
-					if (!preg_match("/^(\+)?\d+$/", $data)) {
-						throw new InputValidationException("cellphone");
-					}
-					$validator = new CellphoneValidator;
-					return $validator->validate("cellphone", $rule, $data);
-				},
+				'type' => 'cellphone',
 			)
 		);
 		try {

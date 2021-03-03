@@ -17,7 +17,7 @@
     "flag-icon-css": "^3.4.5",
     "font-awesome": "^4.7.0",
     "jalali-moment": "^3.3.1",
-    "jquery": "^3.2.1",
+    "jquery": "^3.4.1",
     "jquery-autosize": "^1.18.18",
     "jquery-bootstrap-checkbox": "=1.1.1",
     "jquery-mousewheel": "^3.1.13",
@@ -29,6 +29,7 @@
     "jschr-bootstrap-modal": "^2.2.5",
     "malihu-custom-scrollbar-plugin": "^3.1.5",
     "select2": "^4.0.3",
+    "select2-bootstrap-theme": "0.1.0-beta.10",
     "webuilder": "^1.0.6"
   },
   "devDependencies": {

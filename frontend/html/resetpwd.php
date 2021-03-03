@@ -36,11 +36,21 @@ $this->the_header('login');
 			]); ?>
 			<?php $this->createField([
 				'name' => 'username',
-				'icon' => 'fa fa-phone',
 				'right' => true,
 				'placeholder' => translator::trans('resetpwd.username'),
-				'ltr' => !$isRTL
+				'ltr' => !$isRTL,
+				'input-group' => array(
+					'first' => array(
+						array(
+							'type' => 'select',
+							'name' => 'username[code]',
+							'class' => 'hidden',
+							'options' => array(),
+						),
+					),
+				),
 			]); ?>
+
 			<div class="form-actions">
 				<a class="btn btn-light-grey pull-<?php echo (!$isRTL) ? "left" : "right"; ?>" href="<?php echo userpanel\url(); ?>">
 					<i class="fa fa-arrow-circle-<?php echo (!$isRTL) ? "left" : "right"; ?>"></i> <?php echo translator::trans('resetpwd.return'); ?>

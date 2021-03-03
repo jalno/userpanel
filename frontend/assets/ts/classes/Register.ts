@@ -8,11 +8,16 @@ import "jquery.growl";
 import { webuilder } from "webuilder";
 import "./jquery.formAjax";
 import {Main} from "./Main";
+import Country, { ICountryCode } from "./Country";
+
+declare const countriesCode: ICountryCode[];
+declare const defaultCountryCode: string;
 
 export class Register {
 	public static init(): void {
 		Main.SetDefaultValidation();
 		Register.runRegisterValidator();
+		Register.runSelect2();
 	}
 
 	public static initIfNeeded(): void {
@@ -20,8 +25,20 @@ export class Register {
 			Register.init();
 		}
 	}
+
 	private static $form = $(".form-register");
 	private static $errorHandler = $(".errorHandler", Register.$form);
+
+	private static runSelect2(): void {
+		const data = countriesCode.map((country) => {
+			return {
+				id: country.code,
+				text: country.dialingCode + '-' + country.name,
+				selected: country.code === defaultCountryCode,
+			};
+		});
+		Country.runCountryDialingCodeSelect2($(`select[name="phone[code]"], select[name="cellphone[code]"]`), data);
+	}
 	private static runRegisterValidator(): void {
 		Main.importValidationTranslator();
 		Register.$form.validate({
@@ -78,12 +95,17 @@ export class Register {
 						if (response.hasOwnProperty("error") || response.hasOwnProperty("code")) {
 							const code = response.hasOwnProperty("error") ? response.error : response.code;
 							if (code === "data_duplicate" || code === "data_validation") {
-								const $input = $(`[name="${response.input}"]`);
+								let inputName = response.input;
+								if (inputName === "cellphone") {
+									inputName = "cellphone[number]";
+								} else if (inputName === "phone") {
+									inputName = "phone[number]";
+								}
+								const $input = $(`[name="${inputName}"]`, form);
 								const params = {
 									title: t("error.fatal.title"),
 									message: "",
 								};
-								const code = response.hasOwnProperty("error") ? response.error : response.code;
 								if (code === "data_duplicate") {
 									params.message = t(`user.${response.input}.data_duplicate`);
 								} else if (code === "data_validation") {

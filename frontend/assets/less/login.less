@@ -54,11 +54,52 @@ body.login {
 			}
 		}
 	}
-	.form{
+	.form {
 		fieldset {
 			border: none;
 			margin: 0;
 			padding: 10px 0 0;
+		}
+		&-login {
+			fieldset {
+				.credential-container {
+					width: 100%;
+					.input-group-btn.hidden {
+						display: none;
+					}
+					.input-icon > input {
+						padding-left: 25px;
+						padding-right: 6px;
+					}
+					i {
+						z-index: 9;
+					}
+				}
+				.floating-label-group {
+					position: relative;
+					margin-top: 15px;
+					margin-bottom: 25px;
+					.floating-label {
+						font-size: 13px;
+						color: #cccccc;
+						position: absolute;
+						pointer-events: none;
+						top: 9px;
+						left: 20px;
+						transition: all 0.1s ease;
+						z-index: 10;
+					}
+					input:focus ~ .floating-label,
+					input:not(:focus):valid ~ .floating-label {
+						top: -18px;
+						bottom: 0px;
+						left: 0px;
+						font-size: 11px;
+						opacity: 1;
+						color: #404040;
+					}
+				}
+			}
 		}
 		&-actions{
 			margin-top: 15px;
@@ -140,16 +181,29 @@ body.login {
 			padding-left: 5px;
 		}
 	}
+	.input-group-btn {
+		.select2.select2-container {
+			.select2-selection.select2-selection--single {
+				border-bottom-right-radius: 0;
+				border-top-right-radius: 0;
+			}
+		}
+	}
 }
 body.rtl.login {
 	.lang-select {
 		float: left;
 	}
-	.form-login{
+	.form-login {
 		fieldset {
-			input[name="username"] {
-				direction: ltr;
-				text-align: right;
+			.floating-label-group {
+				.floating-label {
+					right: 12px;
+				}
+				input:focus ~ .floating-label,
+				input:not(:focus):valid ~ .floating-label {
+					right: 0px;
+				}
 			}
 		}
 	}

@@ -2,93 +2,104 @@
 namespace themes\clipone\views\users;
 
 use packages\base\{Options};
+use packages\userpanel\{Country, views\users\Add as UsersAddView, User};
+use themes\clipone\{Breadcrumb, Navigation, navigation\MenuItem, ViewTrait, views\FormTrait, views\CountryCodeToReigonCodeTrait};
 use function packages\userpanel\url;
-use packages\userpanel\{views\users\add as usersAddView, User};
-use themes\clipone\{breadcrumb, navigation, navigation\menuItem, viewTrait, views\formTrait};
 
-class add extends usersAddView{
-	use viewTrait, formTrait;
+class Add extends UsersAddView {
+	use CountryCodeToReigonCodeTrait, ViewTrait, FormTrait;
+
 	public function __beforeLoad() {
 		$this->setTitle(t('user.add'));
 		$this->addBodyClass('users');
 		$this->addBodyClass('users_add');
 		$this->setNavigation();
 		$this->initFormData();
+		$this->prepairDynamicData();
 	}
-	private function setNavigation() {
-		$item = new menuItem("users");
-		$item->setTitle(t('users'));
-		$item->setURL(url('users'));
-		$item->setIcon('clip-users');
-		breadcrumb::addItem($item);
-	
-		$item = new menuItem("add");
-		$item->setTitle(t('user.add'));
-		$item->setIcon('clip-user-plus');
-		breadcrumb::addItem($item);
-
-		navigation::active("users/list");
-	}
-	protected function getCountriesForSelect(){
-		$options = array();
-		foreach($this->getCountries() as $country){
-			$options[] = array(
+	protected function getCountriesForSelect(): array {
+		return array_map(function($country) {
+			return array(
 				'title' => $country->name,
-				'value' => $country->id
+				'value' => $country->id,
 			);
-		}
-		return $options;
+		}, $this->getCountries());
 	}
-	protected function getTypesForSelect(){
-		$options = array();
-		foreach($this->getTypes() as $type){
-			$options[] = array(
+	protected function getTypesForSelect(): array {
+		return array_map(function($type) {
+			return array(
 				'title' => $type->title,
-				'value' => $type->id
+				'value' => $type->id,
+			);
+		}, $this->getTypes());
+	}
+	protected function getInputGroupArrayFor(string $field): array {
+		$inputGroup = array(
+			'left' => array(),
+			'right' => array(),
+		);
+		$privacy = $this->getFieldPrivacyGroupBtn($field);
+		if ($privacy) {
+			$inputGroup['last'][] = $privacy;
+		}
+		if (in_array($field, ['phone', 'cellphone'])) {
+			$inputGroup['first'][] = array(
+				'type' => 'select',
+				'name' => "{$field}[code]",
+				'options' => array(),
 			);
 		}
-		return $options;
+		return $inputGroup;
 	}
-	protected function getFieldPrivacyGroupBtn($field){
-		if(!$this->canEditPrivacy){
-			return false;
-		}
+	protected function getFieldPrivacyGroupBtn(string $field): ?array {
 		$privacy = true;
-		$button = array(
+		return $this->canEditPrivacy ? array(
 			'type' => 'button',
 			'icon' => $privacy ? 'fa fa-eye' : 'fa fa-eye-slash',
 			'text' => t('user.edit.privacy.'.($privacy ? 'public' : 'private')),
 			'class' => array('btn','btn-default'),
-			'dropdown' => array()
-		);
-
-		$button['dropdown'][] = array(
-			'icon' => 'fa fa-eye',
-			'link' => '#',
-			'class' => array('changevisibity'),
-			'data' => array(
-				'field' => $field,
-				'visibility' => 'public'
+			'dropdown' => array(
+				array(
+					'icon' => 'fa fa-eye',
+					'link' => '#',
+					'class' => array('changevisibity'),
+					'data' => array(
+						'field' => $field,
+						'visibility' => 'public'
+					),
+					'title' => t('user.edit.privacy.public')
+				),
+				array(
+					'icon' => 'fa fa-eye-slash',
+					'link' => '#',
+					'class' => array('changevisibity'),
+					'data' => array(
+						'field' => $field,
+						'visibility' => 'private'
+					),
+					'title' => t('user.edit.privacy.private')
+				),
 			),
-			'title' => t('user.edit.privacy.public')
-		);
-		$button['dropdown'][] = array(
-			'icon' => 'fa fa-eye-slash',
-			'link' => '#',
-			'class' => array('changevisibity'),
-			'data' => array(
-				'field' => $field,
-				'visibility' => 'private'
-			),
-			'title' => t('user.edit.privacy.private')
-		);
-		return array(
-			'left' => array($button)
-		);
+		) : null;
 	}
-	private function initFormData() {
+	private function setNavigation(): void {
+		$item = new MenuItem("users");
+		$item->setTitle(t('users'));
+		$item->setURL(url('users'));
+		$item->setIcon('clip-users');
+		BreadCrumb::addItem($item);
+	
+		$item = new MenuItem("add");
+		$item->setTitle(t('user.add'));
+		$item->setIcon('clip-user-plus');
+		BreadCrumb::addItem($item);
+
+		Navigation::active("users/list");
+	}
+	private function initFormData(): void {
 		if (!$this->getDataForm("country")) {
-			$this->setDataForm(105, "country");
+			$country = Country::getDefaultCountry();
+			$this->setDataForm($country->id, "country");
 		}
 		if (!$this->getDataForm("type")) {
 			$options = Options::get('packages.userpanel.register');
@@ -102,5 +113,10 @@ class add extends usersAddView{
 		if (!$this->getDataForm("status")) {
 			$this->setDataForm(User::active, "status");
 		}
+	}
+	private function prepairDynamicData() {
+		$dd = $this->dynamicData();
+		$dd->setData("countriesCode", $this->generateCountiesArray());
+		$dd->setData("defaultCountryCode", $this->getDefaultCountryCode());
 	}
 }

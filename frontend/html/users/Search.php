@@ -72,7 +72,7 @@ if ($this->canExport) {
 						<td class="center"><?php echo $row->id; ?></td>
 						<td><?php echo $row->getFullName(); ?></td>
 						<td><?php echo $row->type->title; ?></td>
-						<td><?php echo $row->email; ?><br><?php echo $row->cellphone; ?></td>
+						<td><?php echo $row->email; ?><br><?php echo $row->getCellphoneWithDialingCode(); ?></td>
 						<td class="center"><?php echo $country ? $country : "-"; ?></td>
 						<td><span class="<?php echo $statusClass; ?>"><?php echo t($statusTxt); ?></span></td>
 						<?php
@@ -121,7 +121,16 @@ if ($this->canExport) {
 				),
 				array(
 					"label" => t("user.cellphone"),
-					"name" => "cellphone"
+					"name" => "cellphone[number]",
+					"input-group" => array(
+						"first" => array(
+							array(
+								'type' => 'select',
+								'name' => "cellphone[code]",
+								'options' => array(),
+							),
+						),
+					),
 				),
 				array(
 					"name" => "type",

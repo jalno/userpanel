@@ -1,21 +1,22 @@
 <?php
+use packages\base\{Translator};
+use packages\userpanel\{User, user\SocialNetwork};
+use function packages\userpanel\url;
+
 $this->the_header();
-use packages\base\translator;
-use packages\userpanel;
-use packages\userpanel\{user, user\socialnetwork};
 ?>
 <div class="panel panel-default">
 	<div class="panel-heading">
-		<i class="clip-user-plus"></i> <?php echo translator::trans('user.add'); ?>
+		<i class="clip-user-plus"></i> <?php echo t('user.add'); ?>
 		<div class="panel-tools">
 			<a class="btn btn-xs btn-link panel-collapse collapses" href="#"></a>
 		</div>
 	</div>
 	<div class="panel-body">
-		<form action="<?php echo userpanel\url('users/add'); ?>" method="POST" role="form" id="add_form">
+		<form action="<?php echo url('users/add'); ?>" method="POST" role="form" id="add_form">
 			<?php
-			if($this->canEditPrivacy){
-				foreach(array(
+			if ($this->canEditPrivacy) {
+				foreach (array(
 					'email',
 					'cellphone',
 					'phone',
@@ -25,58 +26,53 @@ use packages\userpanel\{user, user\socialnetwork};
 					'socialnetworks_'.socialnetwork::twitter,
 					'socialnetworks_'.socialnetwork::facebook,
 					'socialnetworks_'.socialnetwork::gplus,
-				) as $field){
+				) as $field) {
 					$this->createField(array(
 						'type' => 'hidden',
-						'name' => "visibility_".$field,
+						'name' => "visibility_{$field}",
 						'value' => true
 					));
-
 				}
 			}
 			?>
-			<div class="row">
-				<div class="col-md-12">
-					<h3><?php echo t("userpanel.profile.general_info"); ?></h3>
-					<hr>
-				</div>
-			</div>
+			<h3><?php echo t("userpanel.profile.general_info"); ?></h3>
+			<hr>
 			<div class="row">
 				<div class="col-md-6">
 					<?php
 					$fields = array(
 						array(
 							'name' => 'name',
-							'label' => translator::trans("user.name")
+							'label' => t("user.name")
 						),
 						array(
 							'name' => 'lastname',
-							'label' => translator::trans("user.lastname")
+							'label' => t("user.lastname")
 						),
 						array(
 							'type' => 'email',
 							'name' => 'email',
-							'label' => translator::trans("user.email"),
+							'label' => t("user.email"),
 							'error' => array(
 								'data_duplicate' => 'user.email.data_duplicate'
 							),
 							'ltr' => true,
-							'input-group' => $this->getFieldPrivacyGroupBtn('email')
+							'input-group' => $this->getInputGroupArrayFor('email'),
 						),
 						array(
-							'name' => 'phone',
-							'label' => translator::trans("user.phone"),
+							'name' => 'phone[number]',
+							'label' => t("user.phone"),
 							'ltr' => true,
-							'input-group' => $this->getFieldPrivacyGroupBtn('phone')
+							'input-group' => $this->getInputGroupArrayFor('phone'),
 						),
 						array(
-							'name' => 'cellphone',
-							'label' => translator::trans("user.cellphone"),
+							'name' => 'cellphone[number]',
+							'label' => t("user.cellphone"),
 							'error' => array(
 								'data_duplicate' => 'user.cellphone.data_duplicate'
 							),
 							'ltr' => true,
-							'input-group' => $this->getFieldPrivacyGroupBtn('cellphone')
+							'input-group' => $this->getInputGroupArrayFor('cellphone'),
 						),
 					);
 					if ($this->canChangeCredit) {
@@ -84,7 +80,7 @@ use packages\userpanel\{user, user\socialnetwork};
 							array(
 								'type' => 'password',
 								'name' => 'password',
-								'label' => translator::trans("user.password"),
+								'label' => t("user.password"),
 								'value' => ''
 							),
 						));
@@ -100,7 +96,7 @@ use packages\userpanel\{user, user\socialnetwork};
 					$this->createField(array(
 						'type' => 'select',
 						'name' => 'type',
-						'label' => translator::trans("user.type"),
+						'label' => t("user.type"),
 						'options' => $this->getTypesForSelect()
 					));
 					?>
@@ -110,7 +106,7 @@ use packages\userpanel\{user, user\socialnetwork};
 							$this->createField(array(
 								'type' => 'select',
 								'name' => 'country',
-								'label' => translator::trans("user.country"),
+								'label' => t("user.country"),
 								'options' => $this->getCountriesForSelect(),
 								'ltr' => true
 							));
@@ -120,7 +116,7 @@ use packages\userpanel\{user, user\socialnetwork};
 							<?php
 							$this->createField(array(
 								'name' => 'city',
-								'label' => translator::trans("user.city")
+								'label' => t("user.city")
 							));
 							?>
 						</div>
@@ -129,7 +125,7 @@ use packages\userpanel\{user, user\socialnetwork};
 							$this->createField(array(
 								'type' => 'number',
 								'name' => 'zip',
-								'label' => translator::trans("user.zip")
+								'label' => t("user.zip")
 							));
 							?>
 						</div>
@@ -137,26 +133,26 @@ use packages\userpanel\{user, user\socialnetwork};
 					<?php
 					$this->createField(array(
 						'name' => 'address',
-						'label' => translator::trans("user.address")
+						'label' => t("user.address")
 					));
 					$this->createField(array( 
 						'type' => 'radio',
 						'name' => 'status',
-						'label' => translator::trans("user.status"),
+						'label' => t("user.status"),
 						'inline' => true,
 						'options' => array(
 							array(
-								'label' => translator::trans("user.status.active"),
+								'label' => t("user.status.active"),
 								'value' => user::active,
 								'class' => 'grey'
 							),
 							array(
-								'label' => translator::trans("user.status.suspend"),
+								'label' => t("user.status.suspend"),
 								'value' => user::suspend,
 								'class' => 'grey'
 							),
 							array(
-								'label' => translator::trans("user.status.deactive"),
+								'label' => t("user.status.deactive"),
 								'value' => user::deactive,
 								'class' => 'grey'
 							)
@@ -166,21 +162,21 @@ use packages\userpanel\{user, user\socialnetwork};
 						$this->createField(array(
 							'type' => 'number',
 							'name' => 'credit',
-							'label' => translator::trans("user.credit"),
+							'label' => t("user.credit"),
 							"ltr" => true,
 						));
 					} else {
 						$this->createField(array(
 								'type' => 'password',
 								'name' => 'password',
-								'label' => translator::trans("user.password"),
+								'label' => t("user.password"),
 								'value' => ''
 						));
 					}
 					$this->createField(array(
 						'type' => 'password',
 						'name' => 'password2',
-						'label' => translator::trans("user.password_repeat"),
+						'label' => t("user.password_repeat"),
 						'value' => ''
 					));
 					?>
@@ -203,24 +199,24 @@ use packages\userpanel\{user, user\socialnetwork};
 							'placeholder' => "Telegram",
 							'icon' => 'fa fa-telegram',
 							'ltr' => true,
-							'input-group' => $this->getFieldPrivacyGroupBtn('socialnetworks_'.socialnetwork::telegram)
+							'input-group' => $this->getInputGroupArrayFor('socialnetworks_'.socialnetwork::telegram)
 						),
 						array(
 							'name' => 'socialnets['.socialnetwork::instagram.']',
 							'placeholder' => "Instagram",
 							'icon' => 'fa fa-instagram',
 							'ltr' => true,
-							'input-group' => $this->getFieldPrivacyGroupBtn('socialnetworks_'.socialnetwork::instagram)
+							'input-group' => $this->getInputGroupArrayFor('socialnetworks_'.socialnetwork::instagram)
 						),
 						array(
 							'name' => 'socialnets['.socialnetwork::skype.']',
 							'placeholder' => "Skype",
 							'icon' => 'fa fa-skype',
 							'ltr' => true,
-							'input-group' => $this->getFieldPrivacyGroupBtn('socialnetworks_'.socialnetwork::skype)
+							'input-group' => $this->getInputGroupArrayFor('socialnetworks_'.socialnetwork::skype)
 						)
 					);
-					foreach($fields as $field){
+					foreach ($fields as $field) {
 						$this->createField($field);
 					}
 					?>
@@ -233,21 +229,21 @@ use packages\userpanel\{user, user\socialnetwork};
 							'placeholder' => "Twitter",
 							'icon' => 'clip-twitter',
 							'ltr' => true,
-							'input-group' => $this->getFieldPrivacyGroupBtn('socialnetworks_'.socialnetwork::twitter)
+							'input-group' => $this->getInputGroupArrayFor('socialnetworks_'.socialnetwork::twitter)
 						),
 						array(
 							'name' => 'socialnets['.socialnetwork::facebook.']',
 							'placeholder' => "Facebook",
 							'icon' => 'clip-facebook',
 							'ltr' => true,
-							'input-group' => $this->getFieldPrivacyGroupBtn('socialnetworks_'.socialnetwork::facebook)
+							'input-group' => $this->getInputGroupArrayFor('socialnetworks_'.socialnetwork::facebook)
 						),
 						array(
 							'name' => 'socialnets['.socialnetwork::gplus.']',
 							'placeholder' => "Google+",
 							'icon' => 'fa fa-google-plus',
 							'ltr' => true,
-							'input-group' => $this->getFieldPrivacyGroupBtn('socialnetworks_'.socialnetwork::gplus)
+							'input-group' => $this->getInputGroupArrayFor('socialnetworks_'.socialnetwork::gplus)
 						)
 					);
 					foreach($fields as $field){
@@ -258,7 +254,7 @@ use packages\userpanel\{user, user\socialnetwork};
 			</div>
 			<div class="row" style="margin-top: 20px;margin-bottom: 20px;">
 				<div class="col-md-offset-4 col-md-4">
-					<button class="btn btn-teal btn-block" type="submit"><i class="fa fa-arrow-circle-<?php echo ((bool)translator::getLang()->isRTL()) ? "left" : "right"; ?>"></i> <?php echo translator::trans("user.add"); ?></button>
+					<button class="btn btn-teal btn-block" type="submit"><i class="fa fa-arrow-circle-<?php echo ((bool)translator::getLang()->isRTL()) ? "left" : "right"; ?>"></i> <?php echo t("user.add"); ?></button>
 				</div>
 			</div>
 		</form>

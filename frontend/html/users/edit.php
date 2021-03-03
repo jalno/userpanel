@@ -2,15 +2,20 @@
 use packages\base\{Json, translator};
 use packages\userpanel;
 use packages\userpanel\{user, user\socialnetwork};
-?>
-<form action="<?php echo userpanel\url('users/edit/'.$this->user->id); ?>" method="POST" role="form" id="edit_form" data-can-edit-permissions="<?php echo Json\encode($this->canEditPermissions); ?>" data-user="<?php echo htmlentities(json\encode(array(
+
+$user = array(
 	"id" => $this->user->id,
 	"name" => $this->user->name,
 	"lastname" => $this->user->lastname,
 	"type" => $this->user->type->id,
+	"cellphone" => $this->user->cellphone,
+	"phone" => $this->user->phone,
 	"has_custom_permissions" => $this->user->has_custom_permissions,
 	"status" => $this->user->status,
-))); ?>">
+	"options" => array(),
+);
+?>
+<form action="<?php echo userpanel\url('users/edit/'.$this->user->id); ?>" method="POST" role="form" id="edit_form" data-can-edit-permissions="<?php echo Json\encode($this->canEditPermissions); ?>" data-user="<?php echo htmlentities(json\encode($user)); ?>">
 	<?php
 	if($this->canEditPrivacy){
 		foreach(array(
@@ -58,22 +63,22 @@ use packages\userpanel\{user, user\socialnetwork};
 						'data_duplicate' => 'user.email.data_duplicate'
 					),
 					'ltr' => true,
-					'input-group' => $this->getFieldPrivacyGroupBtn('email')
+					'input-group' => $this->getInputGroupArrayFor('email')
 				),
 				array(
-					'name' => 'phone',
+					'name' => 'phone[number]',
 					'label' => translator::trans("user.phone"),
 					'ltr' => true,
-					'input-group' => $this->getFieldPrivacyGroupBtn('phone')
+					'input-group' => $this->getInputGroupArrayFor('phone')
 				),
 				array(
-					'name' => 'cellphone',
+					'name' => 'cellphone[number]',
 					'label' => translator::trans("user.cellphone"),
 					'ltr' => true,
 					'error' => array(
 						'data_duplicate' => 'user.cellphone.data_duplicate'
 					),
-					'input-group' => $this->getFieldPrivacyGroupBtn('cellphone')
+					'input-group' => $this->getInputGroupArrayFor('cellphone')
 				),
 			);
 			if ($this->canChangeCredit) {
@@ -199,21 +204,21 @@ use packages\userpanel\{user, user\socialnetwork};
 				'placeholder' => 'Telegram',
 				'icon' => 'fa fa-telegram',
 				'ltr' => true,
-				'input-group' => $this->getFieldPrivacyGroupBtn('socialnetworks_'.socialnetwork::telegram),
+				'input-group' => $this->getInputGroupArrayFor('socialnetworks_'.socialnetwork::telegram),
 			),
 			array(
 				'name' => 'socialnets['.socialnetwork::instagram.']',
 				'placeholder' => 'Instagram',
 				'icon' => 'fa fa-instagram',
 				'ltr' => true,
-				'input-group' => $this->getFieldPrivacyGroupBtn('socialnetworks_'.socialnetwork::instagram),
+				'input-group' => $this->getInputGroupArrayFor('socialnetworks_'.socialnetwork::instagram),
 			),
 			array(
 				'name' => 'socialnets['.socialnetwork::skype.']',
 				'placeholder' => 'Skype',
 				'icon' => 'fa fa-skype',
 				'ltr' => true,
-				'input-group' => $this->getFieldPrivacyGroupBtn('socialnetworks_'.socialnetwork::skype),
+				'input-group' => $this->getInputGroupArrayFor('socialnetworks_'.socialnetwork::skype),
 			),
 		);
 		if (!$this->canEditPermissions) {
@@ -257,21 +262,21 @@ use packages\userpanel\{user, user\socialnetwork};
 				'placeholder' => "Twitter",
 				'icon' => 'clip-twitter',
 				'ltr' => true,
-				'input-group' => $this->getFieldPrivacyGroupBtn('socialnetworks_'.socialnetwork::twitter)
+				'input-group' => $this->getInputGroupArrayFor('socialnetworks_'.socialnetwork::twitter)
 			),
 			array(
 				'name' => 'socialnets['.socialnetwork::facebook.']',
 				'placeholder' => "Facebook",
 				'icon' => 'clip-facebook',
 				'ltr' => true,
-				'input-group' => $this->getFieldPrivacyGroupBtn('socialnetworks_'.socialnetwork::facebook)
+				'input-group' => $this->getInputGroupArrayFor('socialnetworks_'.socialnetwork::facebook)
 			),
 			array(
 				'name' => 'socialnets['.socialnetwork::gplus.']',
 				'placeholder' => " Google+",
 				'icon' => 'fa fa-google-plus',
 				'ltr' => true,
-				'input-group' => $this->getFieldPrivacyGroupBtn('socialnetworks_'.socialnetwork::gplus)
+				'input-group' => $this->getInputGroupArrayFor('socialnetworks_'.socialnetwork::gplus)
 			),
 		));
 		foreach ($fields as $field) {

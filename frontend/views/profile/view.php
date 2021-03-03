@@ -22,7 +22,9 @@ class view extends profileView{
 	protected $networks = array();
 	protected $lastlogin = 0;
 	protected $logs = array();
+	protected $user;
 	public function __beforeLoad(){
+		$this->user = $this->getData('user');
 		$this->setTitle(t('profile.view'));
 		$this->loadLastLogin();
 		$this->loadSocialnetworks();

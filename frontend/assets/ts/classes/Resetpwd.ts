@@ -9,6 +9,10 @@ import ViewError from "../definitions/ViewError";
 import {View} from "../pages/Main";
 import "./jquery.formAjax";
 import {Main} from "./Main";
+import Country, { ICountryCode } from "./Country";
+
+declare const countriesCode: ICountryCode[];
+declare const defaultCountryCode: string;
 
 export class Resetpwd {
 	public static init(): void {
@@ -18,6 +22,8 @@ export class Resetpwd {
 			Main.SetDefaultValidation();
 			Resetpwd.runResetpwdValidator();
 			Resetpwd.runAuthenticationTokenFormSubmitListener();
+			Resetpwd.runSelect2();
+			Resetpwd.loginCredentialChangeListener();
 		} else if (body.hasClass("newpwd")) {
 			Resetpwd.runNewPasswordFormSubmitListener();
 		}
@@ -32,6 +38,30 @@ export class Resetpwd {
 	private static form = $(".form-resetpwd");
 	private static errorHandler = $(".errorHandler", Resetpwd.form);
 
+	private static loginCredentialChangeListener() {
+		const isNumeric = (value: string): boolean => {
+			return /^-?\d+$/.test(value);
+		}
+		$("input[name=username]").on("change keyup input", function(e) {
+			const value = $(this).val();
+			const $codeContainer = $('select[name="username[code]"]', $(this).parents(".input-group")).parent();
+			console.log("$codeContainer", $codeContainer)
+			if (isNumeric(value)) {
+				$codeContainer.removeClass("hidden");
+			} else {
+				$codeContainer.addClass("hidden");
+			}
+		}).trigger("change");
+	}
+	private static runSelect2(): void {
+		Country.runCountryDialingCodeSelect2($(`select[name="username[code]"]`), countriesCode.map((country) => {
+			return {
+				id: country.code,
+				text: country.dialingCode + '-' + country.name,
+				selected: country.code === defaultCountryCode,
+			};
+		}));
+	}
 	private static methodListener() {
 		$("input[name=method]", Resetpwd.form).on("change", function() {
 			if ($(this).prop("checked")) {
@@ -57,8 +87,20 @@ export class Resetpwd {
 				},
 			},
 			submitHandler: (form) => {
+				const isNumeric = (value: string): boolean => {
+					return /^-?\d+$/.test(value);
+				}
 				const method = $("input[name=method]:checked").val();
+				const $username = $(`input[name=username]`);
+				const $countryCode = $(`select[name="username[code]"]`);
 				$(form).formAjax({
+					data: {
+						username: isNumeric($username.val()) ? {
+							number: $username.val(),
+							code: $countryCode.val(),
+						} : $username.val(),
+						method: method,
+					},
 					method: "POST",
 					success: (data: webuilder.AjaxResponse) => {
 						switch (method) {

@@ -1,7 +1,7 @@
 <?php
 namespace packages\userpanel\views\users;
 
-use packages\userpanel\{Authorization, views\Form, user\SocialNetwork};
+use packages\userpanel\{Authorization, Country, views\Form, user\SocialNetwork};
 
 class Edit extends Form {
 	use SettingsTrait;
@@ -34,7 +34,16 @@ class Edit extends Form {
 	}
 	public function setForm(): void {
 		$user = $this->getData('user');
-		$this->setDataForm($user->toArray());
+		$userArray = $user->toArray();
+		$country = $user->country ? $user->country : Country::getDefaultCountry();
+		foreach (array("phone", "cellphone") as $field) {
+			$item = explode(".", $userArray[$field]);
+			$count = count($item);
+			$userArray["{$field}[code]"] = $count > 1 ? $item[0] : $country->id;
+			$userArray["{$field}[number]"] = $count > 1 ? $item[1] : $item[0];
+			unset($userArray[$field]);
+		}
+		$this->setDataForm($userArray);
 		foreach ($user->socialnetworks as $socialnet) {
 			$this->setDataForm($socialnet->username, "socialnets[{$socialnet->network}]");
 		}

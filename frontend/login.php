@@ -22,26 +22,43 @@ $isRTL = (bool) base\translator::getLang()->isRTL();
 			<i class="fa fa-remove-sign"></i> <?php echo t("userpanel.login.incorrect"); ?>.
 		</div>
 		<fieldset>
-			<div class="form-group">
+			<div class="input-group floating-label-group credential-container">
+			<?php if (!$isRTL) { ?>
+				<span class="input-group-btn form-group hidden">
+					<select name="credential[code]" class="form-control"></select>
+				</span>
+			<?php } ?>
 				<span class="input-icon input-icon-right">
-					<input type="text" class="form-control" name="username" placeholder="<?php echo t("userpanel.login.email_or_phone"); ?>">
+					<input type="text" name="credential" class="form-control ltr" required>
+					<span class="floating-label"><?php echo t("userpanel.login.email_or_phone"); ?></span>
 					<i class="fa fa-user"></i>
 				</span>
+			<?php if ($isRTL) { ?>
+				<span class="input-group-btn form-group hidden">
+					<select name="credential[code]" class="form-control"></select>
+				</span>
+			<?php } ?>
 			</div>
-			<div class="form-group form-actions">
+
+			<div class="form-group floating-label-group">
 				<span class="input-icon input-icon-right">
-					<input type="password" class="form-control password" name="password" placeholder="<?php echo t("userpanel.login.password"); ?>">
+					<input type="password" name="password" class="form-control" required />
+					<span class="floating-label"><?php echo t("userpanel.login.password"); ?></span>
 					<i class="fa fa-lock"></i>
 					<a class="forgot" href="<?php echo userpanel\url('resetpwd'); ?>"><?php echo t("userpanel.login.forgot_password"); ?></a>
 				</span>
 			</div>
+
 			<div class="form-actions">
 				<label for="remember" class="checkbox-inline"> 
 					<input type="checkbox" class="grey remember" id="remember" name="remember" value="true">
 					<?php echo t("userpanel.login.remember_me"); ?>
 				</label>
 				<?php $direction =  ($isRTL) ? "left" : "right"; ?>
-				<button type="submit" class="btn btn-bricky pull-<?php echo $direction; ?>"> <?php echo t("userpanel.login.signin_btn"); ?> <i class="fa fa-arrow-circle-<?php echo $direction; ?>"></i></button>
+				<button type="submit" class="btn btn-bricky pull-<?php echo $direction; ?>">
+					<?php echo t("userpanel.login.signin_btn"); ?>
+					<i class="fa fa-arrow-circle-<?php echo $direction; ?>"></i>
+				</button>
 			</div>
 			<?php
 			if($this->registerEnable){
