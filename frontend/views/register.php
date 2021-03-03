@@ -6,7 +6,7 @@ use packages\userpanel\{Country, views\register as registerView};
 use themes\clipone\{viewTrait, views\formTrait, views\CountryCodeToReigonCodeTrait};
 
 class register extends RegisterView {
-	use ViewTrait, FormTrait;
+	use ViewTrait, FormTrait, CountryCodeToReigonCodeTrait;
 
 	public function __beforeLoad(){
 		$this->setTitle(t("register"));
