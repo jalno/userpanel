@@ -27,8 +27,9 @@ export class Login {
 		const isNumeric = (value: string): boolean => {
 			return /^-?\d+$/.test(value);
 		}
-		const $dialingCodeContainer = $(".credential-container .input-group-btn");
-		$("input[name=credential]").on("change keyup input", function(e) {
+		const $form = $(".form-login");
+		const $dialingCodeContainer = $(".credential-container .input-group-btn", $form);
+		$("input[name=credential]", $form).on("change keyup input", function(e) {
 			const value = $(this).val();
 			if (isNumeric(value)) {
 				$dialingCodeContainer.removeClass("hidden");

@@ -23,14 +23,21 @@ $isRTL = (bool) base\translator::getLang()->isRTL();
 		</div>
 		<fieldset>
 			<div class="input-group floating-label-group credential-container">
-				<span class="input-icon input-icon-right">
-					<input type="text" name="credential" class="form-control" required>
-					<span class="floating-label"><?php echo t("userpanel.login.email_or_phone"); ?></span>
-					<i class="fa fa-user"></i>
-				</span>
+			<?php if (!$isRTL) { ?>
 				<span class="input-group-btn form-group hidden">
 					<select name="credential[code]" class="form-control"></select>
 				</span>
+			<?php } ?>
+				<span class="input-icon input-icon-right">
+					<input type="text" name="credential" class="form-control ltr" required>
+					<span class="floating-label"><?php echo t("userpanel.login.email_or_phone"); ?></span>
+					<i class="fa fa-user"></i>
+				</span>
+			<?php if ($isRTL) { ?>
+				<span class="input-group-btn form-group hidden">
+					<select name="credential[code]" class="form-control"></select>
+				</span>
+			<?php } ?>
 			</div>
 
 			<div class="form-group floating-label-group">
