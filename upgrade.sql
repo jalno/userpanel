@@ -295,3 +295,8 @@ ALTER TABLE `userpanel_users` CHANGE `phone` `phone` VARCHAR(14) CHARACTER SET u
 --	Commit:	6e49175c4e45141d2132a23b3df698c95e6bd9a2
 --
 ALTER TABLE `userpanel_users` CHANGE `zip` `zip` VARCHAR(11) NULL DEFAULT NULL;
+
+--
+-- Commit: df2c2fac833ee933e867d9ea5cea2b79adc9d0f7
+--
+UPDATE userpanel_users SET cellphone = CONCAT("IR.", SUBSTRING(`cellphone`, 3)) WHERE cellphone LIKE "98%"
