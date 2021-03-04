@@ -14,7 +14,6 @@ export default class Settings {
 		}
 	}
 	public static init(): void {
-		console.log("$form", this.$form);
 		Settings.runFormSubmitListener();
 	}
 	protected static runFormSubmitListener(): void {
