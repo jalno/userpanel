@@ -34,6 +34,22 @@ class Search extends ParentView {
 		$this->prepareDynamicData();
 	}
 
+	public function export() {
+		return array(
+			'data' => array(
+				'items' => array_map(function (User $user) {
+					$array = $user->toArray(false);
+					$array["cellphone"] = $user->getCellphoneWithDialingCode();
+					$array["phone"] = $user->getPhoneWithDialingCode();
+					return $array;
+				}, $this->dataList),
+				'items_per_page' => (int)$this->itemsPage,
+				'current_page' => (int)$this->currentPage,
+				'total_items' => (int)$this->totalItems
+			)
+		);
+	}
+
 	protected function setButtons(): void {
 		$this->setButton("view", $this->canView, array(
 			"title" => t("user.profile"),

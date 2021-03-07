@@ -220,7 +220,7 @@ class Users extends Controller {
 		}
 		if (isset($inputs["word"])) {
 			$parenthesis = new db\Parenthesis();
-			foreach (["name", "lastname", "email", "cellphone_"] as $item) {
+			foreach (["name", "lastname", "email", "cellphone"] as $item) {
 				if (isset($inputs[$item])) {
 					continue;
 				}
