@@ -8,7 +8,7 @@ use packages\userpanel\{user\Option};
 class user extends dbObject{
 	use imageTrait;
 
-	private static function getTelephoneWithDialingCode(string $field): string {
+	public static function getTelephoneWithDialingCode(string $field): string {
 		$code = null;
 		$number = null;
 		$dialingCode = null;
