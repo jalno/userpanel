@@ -1,52 +1,90 @@
 <?php
-namespace themes\clipone\navigation;
-use \packages\base\http;
-use \packages\base\events;
-use \themes\clipone\events\navigation as navigationEvents;
-use \themes\clipone\breadcrumb;
-class menuItem{
+namespace themes\clipone\Navigation;
+
+use packages\base\{http, events};
+use themes\clipone\{events\navigation as navigationEvents, breadcrumb};
+
+class MenuItem {
+
+	/**
+	 * @var string
+	 */
 	private $name;
+
+	/**
+	 * @var string
+	 */
 	private $title;
+
+	/**
+	 * @var string
+	 */
 	private $url;
+
+	/**
+	 * @var string
+	 */
 	private $icon;
+
+	/**
+	 * @var int
+	 */
 	private $priority;
+
+	/**
+	 * @var array<MenuItem>
+	 */
 	private $items = array();
+
+	/**
+	 * @var array<string>
+	 */
 	private $active;
+
+	/**
+	 * @var bool
+	 */
 	private $newTab = false;
-	function __construct($name){
+
+	/**
+	 * @var Badge
+	 */
+	private $badge;
+
+	public function __construct($name) {
 		$this->name = $name;
 	}
-	function setTitle($title){
+	public function setTitle($title): void {
 		$this->title = $title;
 	}
-	function getTitle(){
+	public function getTitle(): ?string {
 		return $this->title;
 	}
-	function setURL($url){
+	public function setURL($url): void {
 		$this->url = $url;
 	}
-	function getURL(){
+	public function getURL(): ?string {
 		return $this->url;
 	}
-	function setIcon($icon){
+	public function setIcon($icon): void {
 		$this->icon = $icon;
 	}
-	function getIcon(){
+	public function getIcon(): ?string {
 		return $this->icon;
 	}
-	function setPriority($priority){
+	public function setPriority($priority): void {
 		$this->priority = $priority;
 	}
-	function getPriority(){
+	public function getPriority(): ?int {
 		return $this->priority;
 	}
-	function getName(){
+	public function getName(): string {
 		return $this->name;
 	}
-	function addItem(menuItem $item){
+	public function addItem(menuItem $item): void {
 		$this->items[$item->getName()] = $item;
 	}
-	function getByName($name){
+	public function getByName($name): ?MenuItem {
 		if(substr($name, -1) == '/'){
 			$name = substr($name, 0, strlen($name)-1);
 		}
@@ -63,16 +101,16 @@ class menuItem{
 		}
 		return null;
 	}
-	function active($active){
+	public function active($active): void {
 		$this->active = is_string($active) ? explode("/", $active, 2) : $active;
 	}
-	function isEmpty(){
+	public function isEmpty(): bool {
 		return empty($this->items);
 	}
-	public function getItems(){
+	public function getItems(): array {
 		return $this->items;
 	}
-	public function removeItem(menuItem $item){
+	public function removeItem(menuItem $item): bool {
 		foreach($this->items as $x => $i){
 			if($i->getName() == $item->getName()){
 				unset($this->items[$x]);
@@ -81,13 +119,20 @@ class menuItem{
 		}
 		return false;
 	}
-	public function setNewTab(bool $newTab = true){
+	public function setNewTab(bool $newTab = true): void {
 		$this->newTab = $newTab;
 	}
-	public function getNewTab():bool{
+	public function getNewTab(): bool {
 		return $this->newTab;
 	}
-	function build(){
+	public function setBadge(Badge $badge): void {
+		$this->badge = $badge;
+	}
+	public function getBadge(): ?Badge {
+		return $this->badge;
+	}
+
+	public function build(): string {
 		events::trigger(new navigationEvents\menuItem\build($this));
 		$thisuri = http::$request['uri'];
 		$active = (bool)$this->active;
@@ -100,7 +145,7 @@ class menuItem{
 			$html .="\"";
 		}
 		$newTab = $this->getNewTab() ? ' target="_blank"' : "";
-		$html .="><a href=\"{$this->url}\"{$newTab}>".($this->icon ? "<i class=\"{$this->icon}\"></i>" : "")."<span class=\"title\"> {$this->title}</span>".($this->items ? ' <i class="icon-arrow"></i>' : '')."<span class=\"selected\"></span></a>";
+		$html .="><a href=\"{$this->url}\"{$newTab}>" . ($this->icon ? "<i class=\"{$this->icon}\"></i>" : "") . "<span class=\"title\">{$this->title}</span>" . ($this->badge ? $this->badge->build() : '') . ($this->items ? ' <i class="icon-arrow"></i>' : '') . "<span class=\"selected\"></span></a>";
 		if($this->items){
 			$html .= "<ul class=\"sub-menu\">";
 			uasort($this->items, array(__NAMESPACE__, 'sort'));
