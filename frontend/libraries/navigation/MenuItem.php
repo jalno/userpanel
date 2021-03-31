@@ -1,8 +1,8 @@
 <?php
 namespace themes\clipone\Navigation;
 
-use packages\base\{http, events};
-use themes\clipone\{events\navigation as navigationEvents, breadcrumb};
+use packages\base\{http, Events};
+use themes\clipone\{events\navigation as navigationEvents, Breadcrumb};
 
 class MenuItem {
 
@@ -133,7 +133,7 @@ class MenuItem {
 	}
 
 	public function build(): string {
-		events::trigger(new navigationEvents\menuItem\build($this));
+		Events::trigger(new navigationEvents\menuItem\Build($this));
 		$thisuri = http::$request['uri'];
 		$active = (bool)$this->active;
 		$open = ($this->items and $active);
@@ -145,13 +145,13 @@ class MenuItem {
 			$html .="\"";
 		}
 		$newTab = $this->getNewTab() ? ' target="_blank"' : "";
-		$html .="><a href=\"{$this->url}\"{$newTab}>" . ($this->icon ? "<i class=\"{$this->icon}\"></i>" : "") . "<span class=\"title\">{$this->title}</span>" . ($this->badge ? $this->badge->build() : '') . ($this->items ? ' <i class="icon-arrow"></i>' : '') . "<span class=\"selected\"></span></a>";
+		$html .="><a href=\"{$this->url}\"{$newTab}>" . ($this->icon ? "<i class=\"{$this->icon}\"></i>" : "") . "<span class=\"title\">{$this->title}</span>"  . ($this->items ? ' <i class="icon-arrow"></i>' : '') . ($this->badge ? $this->badge->build() : '') . "<span class=\"selected\"></span></a>";
 		if($this->items){
 			$html .= "<ul class=\"sub-menu\">";
 			uasort($this->items, array(__NAMESPACE__, 'sort'));
 			foreach($this->items as $name => $item){
 				if($active and is_array($this->active) and $this->active[0] == $name){
-					breadcrumb::addItem($item);
+					Breadcrumb::addItem($item);
 					$item->active(isset($this->active[1]) ? $this->active[1] : true);
 				}
 				$html .= $item->build();
