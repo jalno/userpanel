@@ -5,33 +5,53 @@ class Badge {
 	
 	private const COLORS = ["success", "warning", "info", "danger", "inverse", "primary"];
 
-	/**
-	 * @var string
-	 */
-	private $color;
+	public static function success(string $title): self {
+		return new self("success", $title);
+	}
 
-	/**
-	 * @var string|int
-	 */
-	private $title;
+	public static function warning(string $title): self {
+		return new self("warning", $title);
+	}
 
-	/**
-	 * @var string $color
-	 * @var string|int $title optional
-	 * @throws \InvalidArgumentException
-	 * @return this
-	 */
-	public function __construct(string $color, $title = null) {
+	public static function info(string $title): self {
+		return new self("info", $title);
+	}
 
-		$this->setColor($color);
+	public static function danger(string $title): self {
+		return new self("danger", $title);
+	}
 
-		if ($title) {
-			$this->setTitle($title);
-		}
+	public static function inverse(string $title): self {
+		return new self("inverse", $title);
+	}
+
+	public static function primary(string $title): self {
+		return new self("primary", $title);
 	}
 
 	/**
-	 * @var string $color
+	 * @var string
+	 */
+	protected $color;
+
+	/**
+	 * @var string
+	 */
+	protected $title;
+
+	/**
+	 * @param string $color
+	 * @param string $title optional
+	 * @throws \InvalidArgumentException
+	 * @return this
+	 */
+	public function __construct(string $color, string $title) {
+		$this->setColor($color);
+		$this->setTitle($title);
+	}
+
+	/**
+	 * @param string $color
 	 * @throws \InvalidArgumentException
 	 * @return void
 	 */
@@ -45,17 +65,25 @@ class Badge {
 	}
 
 	/**
-	 * @var string|int $title
-	 * @throws \InvalidArgumentException
+	 * @return string
+	 */
+	public function getColor(): string {
+		return $this->color;
+	}
+
+	/**
+	 * @param string $title
 	 * @return void
 	 */
-	public function setTitle($title): void {
-
-		if (!is_string($title) and !is_numeric($title)) {
-			throw new \InvalidArgumentException("Title is invalid.");
-		}
-
+	public function setTitle(string $title): void {
 		$this->title = $title;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getTitle(): string {
+		return $this->title;
 	}
 
 	/**
