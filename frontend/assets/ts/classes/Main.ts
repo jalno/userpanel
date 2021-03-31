@@ -74,22 +74,28 @@ export class Main {
 			Main.importValidationTranslator();
 		}
 	}
-	private static isIE8 = false;
-	private static isIE9 = false;
+	public static isIE(): boolean {
+		if (typeof Main._isIE === "undefined") {
+			Main.detectMSBrowsers();
+		}
+		return Main._isIE;
+	}
+	public static isEdge(): boolean {
+		if (typeof Main._isEdge === "undefined") {
+			Main.detectMSBrowsers();
+		}
+		return Main._isEdge;
+	}
+	private static _isIE: boolean;
+	private static _isEdge: boolean;
+	private static _IEVersion: number;
+	private static _EdgeVersion: number;
 	private static $windowWidth;
 	private static $windowHeight;
 	private static $pageArea;
 
 	private static runInit(): void {
-		if (/MSIE (\d+\.\d+);/.test(navigator.userAgent)) {
-			// tslint:disable-next-line: no-construct
-			const ieversion = new Number(RegExp.$1);
-			if ((ieversion as number) === 8) {
-				Main.isIE8 = true;
-			} else if ((ieversion as number) === 9) {
-				Main.isIE9 = true;
-			}
-		}
+		Main.runFixIE();
 	}
 	private static runElementsPosition(): void {
 		Main.$windowWidth = $(window).width();
@@ -332,5 +338,37 @@ export class Main {
 				display: "",
 			}).detach());
 		});
+	}
+	private static runFixIE(): void {
+		if (!Main.isIE()) {
+			return;
+		}
+		$("button[type=submit]").filter(function() {
+			const form = $(this).attr("form");
+			return form !== null && form !== undefined;
+		}).on("click", function() {
+			const $form = $(`form#${$(this).attr("form")}`);
+			if ($form.length) {
+				$form.submit();
+			}
+		});
+	}
+	private static detectMSBrowsers(): void {
+		const userAgent = window.navigator.userAgent;
+		const MSIE = userAgent.indexOf("MSIE ");
+		const MSEdge = userAgent.indexOf("Edge/");
+		const trident = userAgent.indexOf("Trident/");
+		Main._isIE = (MSIE > 0 || trident > 0);
+		Main._isEdge = (MSEdge > 0);
+		if (MSIE > 0) { // IE 10 or older
+			Main._IEVersion = parseInt(userAgent.substring(MSIE + 5, userAgent.indexOf(".", MSIE)), 10);
+		}
+		if (trident > 0) { // IE 11
+			const rv = userAgent.indexOf("rv:");
+			Main._IEVersion =  parseInt(userAgent.substring(rv + 3, userAgent.indexOf(".", rv)), 10);
+		}
+		if (MSEdge > 0) { // Edge
+			Main._EdgeVersion = parseInt(userAgent.substring(MSEdge + 5, userAgent.indexOf(".", MSEdge)), 10);
+		}
 	}
 }
