@@ -8,19 +8,13 @@ variables:
 
 
 static analyse:
-  image: php:7.4-cli-alpine3.12
+  image: registry.git.jeyserver.com/jalno/phpstan:master
   stage: test
   variables:
     GIT_ROOT_PATH: $CI_BUILDS_DIR/$CI_CONCURRENT_ID/$CI_PROJECT_NAME
     GIT_CLONE_PATH: $CI_BUILDS_DIR/$CI_CONCURRENT_ID/$CI_PROJECT_NAME/packages/userpanel
   before_script:
-    - apk update && apk add git libzip-dev zip
-    - docker-php-ext-install zip
     - cd $GIT_ROOT_PATH
-    - php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
-    - php composer-setup.php --install-dir=/bin --filename=composer
-    - php -r "unlink('composer-setup.php');"
-    - COMPOSER_ALLOW_SUPERUSER=1 composer require --dev phpstan/phpstan
     - rm -fr base && git clone --depth 1 ${REPO_SERVER_HOST}/jalno/base.git base
     - cd ${GIT_ROOT_PATH} && cp -Rf base/* . && cd packages
     - rm -fr PhpParser && git clone --depth 1 ${REPO_SERVER_HOST}/yeganemehr/PhpParser.git
@@ -30,4 +24,4 @@ static analyse:
     - rm -fr sms && git clone --depth 1 ${REPO_SERVER_HOST}/yeganemehr/sms.git
     - rm -fr email && git clone --depth 1 ${REPO_SERVER_HOST}/yeganemehr/email.git
   script:
-    - $GIT_ROOT_PATH/vendor/bin/phpstan analyse --memory-limit 4G -c $GIT_CLONE_PATH/phpstan.neon $GIT_CLONE_PATH
+    - phpstan analyse -c $GIT_CLONE_PATH/phpstan.neon $GIT_CLONE_PATH
