@@ -2,10 +2,10 @@
 namespace themes\clipone;
 
 use packages\base\Events;
-use themes\clipone\navigation\MenuItem;
+use themes\clipone\Navigation\MenuItem;
 use themes\clipone\events\Navigation as NavigationEvents;
 
-class navigation{
+class Navigation {
 	static $menu = array();
 	static $active = array();
 

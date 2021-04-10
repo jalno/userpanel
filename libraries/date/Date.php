@@ -1,9 +1,9 @@
 <?php
 namespace packages\userpanel;
 
-use packages\base\{date as baseDate, options, Translator};
+use packages\base\{Date as BaseDate, options, Translator};
 
-class date extends baseDate {
+class Date extends BaseDate {
 
 	public static function format($format ,$timestamp = null){
 		self::init();
