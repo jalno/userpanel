@@ -62,6 +62,9 @@ export class Login {
 		const $form = $(".form-login");
 		const $errorHandler = $(".errorHandler", $form);
 		$errorHandler.data("orghtml", $errorHandler.html());
+		const isNumeric = (value: string): boolean => {
+			return /^-?\d+$/.test(value);
+		}
 		$form.validate({
 			rules: {
 				username: {
@@ -72,21 +75,28 @@ export class Login {
 				},
 			},
 			submitHandler: (form) => {
-				const isNumeric = (value: string): boolean => {
-					return /^-?\d+$/.test(value);
-				}
 				$errorHandler.hide();
-				const $password = $("input[name=password]");
-				const $credential = $(`input[name=credential]`);
+
+				const data: {[name: string]: string | {}} = {};
+
 				const $countryCode = $(`select[name="credential[code]"]`);
-				$(form).formAjax({
-					data: {
-						credential: isNumeric($credential.val()) ? {
-							number: $credential.val(),
+
+				for (const item of $(form).serializeArray()) {
+					if (item.name === "credential[code]") {
+						continue;
+					}
+					let value: string | {} = item.value;
+					if (item.name === "credential") {
+						value = isNumeric(item.value) ? {
+							number: item.value,
 							code: $countryCode.val(),
-						} : $credential.val(),
-						password: $password.val(),
-					},
+						} : item.value
+					}
+					data[item.name] = value;
+				}
+
+				$(form).formAjax({
+					data: data,
 					success: (data: webuilder.AjaxResponse) => {
 						window.location.href = data.redirect;
 					},
