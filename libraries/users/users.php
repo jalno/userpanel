@@ -263,9 +263,9 @@ class user extends dbObject{
 		return $data;
 	}
 	public function getCellphoneWithDialingCode(): string {
-		return self::getTelephoneWithDialingCode(strval($this->cellphone));
+		return self::getTelephoneWithDialingCode($this->cellphone);
 	}
 	public function getPhoneWithDialingCode(): string {
-		return self::getTelephoneWithDialingCode(strval($this->phone));
+		return $this->phone ? self::getTelephoneWithDialingCode($this->phone) : "";
 	}
 }
