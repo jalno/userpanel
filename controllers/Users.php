@@ -450,6 +450,7 @@ class Users extends Controller {
 		$user->password_hash($inputs['password']);
 		unset($inputs['password']);
 		$user->save();
+
 		if (isset($inputs['socialnets']) and $inputs['socialnets']) {
 			foreach ($inputs['socialnets'] as $network => $username) {
 				if ($username) {
@@ -1083,7 +1084,7 @@ class Users extends Controller {
 	}
 	public function activate($data) {
 		authorization::haveOrFail('users_edit');
-		$user = User::byId($data['user']);
+		$user = (new User)->byId($data['user']);
 		if ($user->status == User::active) {
 			throw new NotFound();
 		}
@@ -1122,7 +1123,7 @@ class Users extends Controller {
 	}
 	public function suspend($data) {
 		authorization::haveOrFail('users_edit');
-		$user = User::byId($data['user']);
+		$user = (new User)->byId($data['user']);
 		if ($user->status == User::suspend) {
 			throw new NotFound();
 		}
@@ -1161,7 +1162,7 @@ class Users extends Controller {
 	}
 	public function loginAsUser($data) {
 		authorization::haveOrFail('users_login');
-		$user = user::byId($data['user']);
+		$user = (new User)->byId($data['user']);
 
 		Login::doLogin($user);
 

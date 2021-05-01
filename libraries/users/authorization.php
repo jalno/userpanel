@@ -7,12 +7,15 @@ class authorization{
 	static function is_accessed($permission, $prefix = 'userpanel'){
 		if($prefix)$prefix .= '_';
 		$user = authentication::getUser();
-		if($user){
+		if ($user) {
 			return $user->can($prefix.$permission);
-		}else {
-			$guestType = options::get('packages.userpanel.usertypes.guest');
-			if($guestType and $type = usertype::byId($guestType)){
-				return $type->hasPermission($prefix.$permission);
+		} else {
+			$guestTypeID = Options::get('packages.userpanel.usertypes.guest');
+			if ($guestTypeID) {
+				$type = (new Usertype)->byId($guestTypeID);
+				if ($type) {
+					return $type->hasPermission($prefix.$permission);
+				}
 			}
 		}
 		return false;

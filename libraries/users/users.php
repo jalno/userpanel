@@ -19,6 +19,9 @@ class user extends dbObject{
 		} else {
 			$number = $field;
 		}
+		if (!$number) {
+			return "";
+		}
 		if (!$code) {
 			$code = CellphoneValidator::getDefaultCountryCode();
 		}
@@ -263,6 +266,6 @@ class user extends dbObject{
 		return self::getTelephoneWithDialingCode($this->cellphone);
 	}
 	public function getPhoneWithDialingCode(): string {
-		return self::getTelephoneWithDialingCode($this->phone);
+		return $this->phone ? self::getTelephoneWithDialingCode($this->phone) : "";
 	}
 }
