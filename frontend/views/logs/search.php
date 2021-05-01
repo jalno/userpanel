@@ -17,8 +17,10 @@ class search extends logsSearch{
 		$this->setFormData();
 	}
 	private function setFormData(){
-		if($user = $this->getDataForm("user")){
-			if($user = user::byId($user)){
+		$userID = $this->getDataForm("user");
+		if ($userID) {
+			$user = (new User)->byID($userID);
+			if ($user) {
 				$this->setDataForm($user->getFullName(), "user_name");
 			}
 		}

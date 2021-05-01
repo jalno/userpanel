@@ -77,7 +77,7 @@ class Settings extends userpanel\Controller implements Controller {
 			if (!isset($options["type"]) or $options["type"] != $inputs["userpanel_register_type"]->id) {
 				$type = null;
 				if (isset($options["type"])) {
-					$type = UserType::byId($options["type"]);
+					$type = (new UserType)->byId($options["type"]);
 				}
 				$oldValue = $options["type"] ?? "-";
 				if ($type) {
