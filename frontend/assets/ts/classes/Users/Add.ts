@@ -87,7 +87,12 @@ export default class Add {
 					}
 					const $input = $(`[name="${error.input}"]`, Add.$body);
 					if ($input.length) {
-						$input.inputMsg(params);
+						const $inputgroup = $input.parents(".input-group");
+						if ($inputgroup.length) {
+							$inputgroup.inputMsg(params);
+						} else {
+							$input.inputMsg(params);
+						}
 						return;
 					}
 				} else if (error.message) {

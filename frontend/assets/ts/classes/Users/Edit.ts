@@ -128,9 +128,14 @@ export default class Edit {
 					if (error.input === "cellphone" || error.input === "phone") {
 						error.input += "[number]";
 					}
-					const $input = $(`[name="${error.input}"]`);
+					const $input = $(`[name="${error.input}"]`, Edit.$body);
 					if ($input.length) {
-						$input.inputMsg(params);
+						const $inputgroup = $input.parents(".input-group");
+						if ($inputgroup.length) {
+							$inputgroup.inputMsg(params);
+						} else {
+							$input.inputMsg(params);
+						}
 						return;
 					}
 				} else if (error.message) {
