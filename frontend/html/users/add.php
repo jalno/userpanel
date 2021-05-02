@@ -198,6 +198,7 @@ $this->the_header();
 							'name' => 'socialnets['.socialnetwork::telegram.']',
 							'placeholder' => "Telegram",
 							'icon' => 'fa fa-telegram',
+							'left' => true,
 							'ltr' => true,
 							'input-group' => $this->getInputGroupArrayFor('socialnetworks_'.socialnetwork::telegram)
 						),
@@ -205,6 +206,7 @@ $this->the_header();
 							'name' => 'socialnets['.socialnetwork::instagram.']',
 							'placeholder' => "Instagram",
 							'icon' => 'fa fa-instagram',
+							'left' => true,
 							'ltr' => true,
 							'input-group' => $this->getInputGroupArrayFor('socialnetworks_'.socialnetwork::instagram)
 						),
@@ -212,6 +214,7 @@ $this->the_header();
 							'name' => 'socialnets['.socialnetwork::skype.']',
 							'placeholder' => "Skype",
 							'icon' => 'fa fa-skype',
+							'left' => true,
 							'ltr' => true,
 							'input-group' => $this->getInputGroupArrayFor('socialnetworks_'.socialnetwork::skype)
 						)
@@ -228,6 +231,7 @@ $this->the_header();
 							'name' => 'socialnets['.socialnetwork::twitter.']',
 							'placeholder' => "Twitter",
 							'icon' => 'clip-twitter',
+							'left' => true,
 							'ltr' => true,
 							'input-group' => $this->getInputGroupArrayFor('socialnetworks_'.socialnetwork::twitter)
 						),
@@ -235,6 +239,7 @@ $this->the_header();
 							'name' => 'socialnets['.socialnetwork::facebook.']',
 							'placeholder' => "Facebook",
 							'icon' => 'clip-facebook',
+							'left' => true,
 							'ltr' => true,
 							'input-group' => $this->getInputGroupArrayFor('socialnetworks_'.socialnetwork::facebook)
 						),
@@ -242,6 +247,7 @@ $this->the_header();
 							'name' => 'socialnets['.socialnetwork::gplus.']',
 							'placeholder' => "Google+",
 							'icon' => 'fa fa-google-plus',
+							'left' => true,
 							'ltr' => true,
 							'input-group' => $this->getInputGroupArrayFor('socialnetworks_'.socialnetwork::gplus)
 						)
