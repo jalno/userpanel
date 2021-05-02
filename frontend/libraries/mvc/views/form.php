@@ -50,6 +50,8 @@ trait formTrait {
 				$code .= "<span class=\"input-icon";
 				if(isset($options['right']) and $options['right']){
 					$code .= ' input-icon-right';
+				} else if (isset($options['left']) and $options['left']) {
+					$code .= ' input-icon-left';
 				}
 				$code .= '">';
 			}

@@ -29,8 +29,14 @@ body.rtl {
 			padding-left: 6px;
 		}
 		> .fa, > [class*="clip-"] {
-			left: 5px;
-			right: auto;
+			left: auto;
+			right: 5px;
+		}
+		&.input-icon-left {
+			> .fa , > [class*="clip-"] {
+				right: auto;
+				left: 4px;
+			}
 		}
 	}
 	.panel-tools {
