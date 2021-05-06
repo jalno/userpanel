@@ -268,6 +268,8 @@
 		"userpanel.users.export.csv": "دریافت خروجی CSV",
 		"userpanel.logs.empty": "فعالیتی پیدا نشد",
 		"userpanel.profile.general_info": "اطلاعات کلی",
-		"userpanel.profile.additional_informations": "اطلاعات بیشتر"
+		"userpanel.profile.additional_informations": "اطلاعات بیشتر",
+		"userpanel.usertypes.logs.add_data": "اطلاعات اضافه شده",
+		"userpanel.usertypes.logs.old_data": "اطلاعات حذف شده"
 	}
 }
