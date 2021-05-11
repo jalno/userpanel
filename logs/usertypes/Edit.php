@@ -9,11 +9,11 @@ class Edit extends Logs {
 	use UsertypeTrait;
 
 	public function getColor():string{
-		return "circle-success";
+		return "circle-teal";
 	}
 
 	public function getIcon():string{
-		return "fa fa-plus";
+		return "fa fa-edit";
 	}
 
 	public function buildFrontend(View $view) {
