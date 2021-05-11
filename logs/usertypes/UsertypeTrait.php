@@ -8,6 +8,12 @@ trait UsertypeTrait {
 		$html = "";
 
 		if (isset($data["usertype"]) and $data["usertype"]) {
+			if (isset($data["usertype"]["id"])) {
+				$html .= '<div class="form-group">';
+					$html .= '<label class="col-sm-6 col-xs-12 control-label">' . t("log.id") . ": </label>";
+					$html .= '<div class="col-sm-6 col-xs-12">#' . $data["usertype"]["id"] . "</div>";
+				$html .= "</div>";
+			}
 			if (isset($data["usertype"]["title"])) {
 				$html .= '<div class="form-group">';
 					$html .= '<label class="col-sm-6 col-xs-12 control-label">' . t("usertype.title") . ": </label>";

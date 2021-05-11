@@ -327,15 +327,37 @@ class Usertypes extends Controller {
 		$this->response->setView($view);
 		$view->setUserType($usertype);
 
+		$this->response->setStatus(false);
+
 		if (Http::is_post()) {
-			$this->response->setStatus(false);
-			if(!(new User)->where("type", $usertype->id)->has()){
-				$usertype->delete();
-			} else {
+
+
+			if ((new User)->where("type", $usertype->id)->has()) {
 				throw new View\Error("usertype.in_use");
 			}
+
+			$parameters = array(
+				"old" => array(
+					"usertype" => $usertype->toArray(),
+					"permissions" => array_column($usertype->permissions, "name"),
+					"priorities" => array_column($usertype->children, "child"),
+				),
+			);
+
+			$title = t("packages.userpanel.logs.usertypes_delete", ["id" => $usertype->id, "title" => $usertype->title]);
+
+			$usertype->delete();
+
+			$log = new Log();
+			$log->title = $title;
+			$log->type = logs\usertypes\Delete::class;
+			$log->user = Authentication::getID();
+			$log->parameters = $parameters;
+			$log->save();
+
 			$this->response->setStatus(true);
 			$this->response->Go(url("settings/usertypes"));
+
 		} else {
 			$this->response->setStatus(true);
 		}
