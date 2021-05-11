@@ -584,6 +584,9 @@
 		"error.packages.userpanel.error.logs.user.delete_user_warn.message": "This user has activities; If this user is deleted, all his activities will be deleted!",
 		"packages.userpanel.error.logs.user.delete_user_warn.view_logs": "You can view the activities of this user using the link below.",
 		"packages.userpanel.error.logs.user.delete_user_warn.view_logs.tell_someone": "If you want to view the activities of this user, ask the person who has this access.",
-		"packages.userpanel.error.logs.user.delete_user_warn.view_logs_btn": "View the activities of this user"
+		"packages.userpanel.error.logs.user.delete_user_warn.view_logs_btn": "View the activities of this user",
+		"packages.userpanel.logs.usertypes_add": "Added new usertype <span class=\"tooltips\" title=\"#{id}\">{title}</span>",
+		"packages.userpanel.logs.usertypes_edit": "Edited usertype <span class=\"tooltips\" title=\"#{id}\">{title}</span>",
+		"packages.userpanel.logs.usertypes_delete": "Deleted usertype <span class=\"tooltips\" title=\"#{id}\">{title}</span>"
 	}
 }
