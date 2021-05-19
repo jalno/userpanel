@@ -9,25 +9,7 @@ class user extends dbObject{
 	use imageTrait;
 
 	public static function getTelephoneWithDialingCode(string $field): string {
-		$code = null;
-		$number = null;
-		$dialingCode = null;
-		if (strpos($field, ".") !== false) {
-			$exploded = explode(".", $field);
-			$code = $exploded[0];
-			$number = $exploded[1];
-		} else {
-			$number = $field;
-		}
-		if (!$number) {
-			return "";
-		}
-		if (!$code) {
-			$code = CellphoneValidator::getDefaultCountryCode();
-		}
-		$r2c = CountryCodeToRegionCodeMap::regionCodeToCountryCode();
-		$dialingCode = isset($r2c[$code]) ? $r2c[$code] : "";
-		return $dialingCode . "." . $number;
+		return CellphoneValidator::getTelephoneWithDialingCode($field);
 	}
 
 	const active = 1;
