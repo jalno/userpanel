@@ -87,6 +87,10 @@ $this->the_header('login');
 			</div>
 		</fieldset>
 	</form>
+	<div class="alert alert-success no-display email-alert" role="alert">
+		<strong><?php echo t("userpanel.resetpwd.withemail.success.title"); ?></strong>
+		<p><?php echo t("userpanel.resetpwd.withemail.success.description"); ?></p>
+	</div>
 </div>
 <?php
 $this->the_footer('login');

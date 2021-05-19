@@ -37,7 +37,6 @@ class newpwd extends Controller {
 
 		$user = Authentication::getUser();
 		$user->password_hash($inputs['password']);
-		unset($inputs['password'], $inputs['password2']);
 		$user->save();
 
 		$log = new Log();
@@ -52,7 +51,7 @@ class newpwd extends Controller {
 		$log->save();
 
 		$this->response->setStatus(true);
-		$this->response->Go(url());
+		$this->response->Go(url("/"));
 		return $this->response;
 	}
 }
