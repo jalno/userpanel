@@ -9,47 +9,65 @@ import {View} from "../pages/Main";
 import "./jquery.formAjax";
 import {Main} from "./Main";
 import Country, { ICountryCode } from "./Country";
+import IFormAjaxError from "./IFormAjaxError";
+import { Router } from "webuilder";
 
 declare const countriesCode: ICountryCode[];
 declare const defaultCountryCode: string;
 
 export class Resetpwd {
-	public static init(): void {
-		const body = $("body");
-		if (body.hasClass("resetpwd")) {
-			Main.SetDefaultValidation();
-			Resetpwd.runResetpwdValidator();
-			Resetpwd.runTokenFormSubmitListener();
-			Resetpwd.runSelect2();
-			Resetpwd.loginCredentialChangeListener();
-		} else if (body.hasClass("newpwd")) {
-			Resetpwd.runNewPasswordFormSubmitListener();
-		}
-	}
+
 	public static initIfNeeded(): void {
-		const body = $("body");
-		if (body.hasClass("resetpwd") || body.hasClass("newpwd")) {
+		Resetpwd.$body = $("body.resetpwd, body.newpwd");
+		if (Resetpwd.$body.length) {
 			Resetpwd.init();
 		}
 	}
 
-	private static form = $(".form-resetpwd");
+	protected static init(): void {
+		if (Resetpwd.$body.hasClass("resetpwd")) {
+			Resetpwd.$resetPasswordForm = $("form.form-resetpwd", Resetpwd.$body);
+			Resetpwd.$authenticationForm = $("form.form-authentication", Resetpwd.$body);
+			Main.SetDefaultValidation();
+			Resetpwd.runResetPasswordFormListener();
+			Resetpwd.runTokenFormSubmitListener();
+			Resetpwd.runSelect2();
+			Resetpwd.credentialChangeListener();
+		} else if (Resetpwd.$body.hasClass("newpwd")) {
+			Resetpwd.$newPasswordForm = $(".form-changepwd", Resetpwd.$body);
+			Resetpwd.runNewPasswordFormSubmitListener();
+		}
+	}
 
-	private static loginCredentialChangeListener() {
+	private static $body: JQuery;
+	private static $resetPasswordForm: JQuery;
+	private static $authenticationForm: JQuery;
+	private static $newPasswordForm: JQuery;
+	private static credential: string | {
+		number: string;
+		code: string;
+	} = null;
+
+	private static credentialChangeListener() {
 		const isNumeric = (value: string): boolean => {
 			return /^-?\d+$/.test(value);
 		}
-		$("input[name=credential]").on("change keyup input", function(e) {
+		$("input[name=credential]", Resetpwd.$resetPasswordForm).on("change keyup input", function(e) {
 			const value = $(this).val();
-			const $codeContainer = $('select[name="credential[code]"]', $(this).parents(".input-group")).parent();
-			console.log("$codeContainer", $codeContainer)
+			const $code = $('select[name="credential[code]"]', $(this).parents(".input-group"));
 			if (isNumeric(value)) {
-				$codeContainer.removeClass("hidden");
+				$code.parent().removeClass("hidden");
+				Resetpwd.credential = {
+					code: $code.val(),
+					number: value,
+				};
 			} else {
-				$codeContainer.addClass("hidden");
+				$code.parent().addClass("hidden");
+				Resetpwd.credential = value;
 			}
 		}).trigger("change");
 	}
+
 	private static runSelect2(): void {
 		Country.runCountryDialingCodeSelect2($(`select[name="credential[code]"]`), countriesCode.map((country) => {
 			return {
@@ -59,46 +77,33 @@ export class Resetpwd {
 			};
 		}));
 	}
-	private static runResetpwdValidator(): void {
-		Main.importValidationTranslator();
-		const isNumeric = (value: string): boolean => {
-			return /^-?\d+$/.test(value);
-		}
-		$(".form-resetpwd").on("submit", (e) => {
+
+	private static runResetPasswordFormListener(): void {
+		Resetpwd.$resetPasswordForm.on("submit", (e) => {
 			e.preventDefault();
 			const method = $("input[name=method]:checked").val();
 			if (!method) {
 				return;
 			}
-			const $credential = $(`input[name=credential]`);
-			const $countryCode = $(`select[name="credential[code]"]`);
-			const credential = isNumeric($credential.val()) ? `${$countryCode.val()}.${$credential.val()}` : $credential.val();
-			$(".form-resetpwd").formAjax({
+			Resetpwd.$resetPasswordForm.formAjax({
 				data: {
-					credential: credential,
+					credential: Resetpwd.credential,
 					method: method,
 				},
 				method: "POST",
 				success: (data) => {
-					Resetpwd.form.hide();
-					Resetpwd.form = $(".form-authentication");
-					Resetpwd.form.show();
-					$("input[name=credential]", Resetpwd.form).val(credential).prop("type", "hidden");
-
+					Resetpwd.$resetPasswordForm.hide();
 					switch (method) {
 						case ("sms"):
-							Resetpwd.form.hide();
-							Resetpwd.form = $(".form-authentication");
-							Resetpwd.form.show();
-							$(".cellphone", Resetpwd.form).html(data.credential);
-							$("input[name=credential]", Resetpwd.form).val(data.credential).prop("type", "hidden");
+							$("input[name=credential]", Resetpwd.$authenticationForm).prop("type", "hidden");
+							Resetpwd.$authenticationForm.show();
 							break;
 						case ("email"):
-							$(".box-forgot .email-alert").show();
+							$(".box-forgot .email-alert", Resetpwd.$body).show();
 							break;
 					}
 				},
-				error: (error: any) => {
+				error: (error: IFormAjaxError) => {
 					if (error.error === "data_duplicate" || error.error === "data_validation") {
 						const $viewError = new ViewError();
 						$viewError.setType(error.type);
@@ -124,14 +129,20 @@ export class Resetpwd {
 		});
 		
 	}
+
 	private static runTokenFormSubmitListener() {
-		$(".form-authentication").on("submit", function(e) {
+		Resetpwd.$authenticationForm.on("submit", function(e) {
 			e.preventDefault();
+			const $token = $("input[name=token]", Resetpwd.$authenticationForm);
 			$(this).formAjax({
+				data: {
+					credential: Resetpwd.credential,
+					token: $token.val(),
+				},
 				success: (data) => {
 					window.location.href = data.redirect;
 				},
-				error: (error) => {
+				error: (error: IFormAjaxError) => {
 					if (error.error === "data_duplicate" || error.error === "data_validation") {
 						const $input: JQuery = $(`[name="${error.input}"]`);
 						const params = {
@@ -165,7 +176,7 @@ export class Resetpwd {
 		});
 	}
 	private static runNewPasswordFormSubmitListener() {
-		$(".form-changepwd").on("submit", function(e) {
+		Resetpwd.$newPasswordForm.on("submit", function(e) {
 			e.preventDefault();
 			$(this).formAjax({
 				success: (data) => {
@@ -173,11 +184,12 @@ export class Resetpwd {
 						title: t("userpanel.success"),
 						message: t("userpanel.formajax.success"),
 					});
+					const redirect = data.redirect ? data.redirect : Router.url("userpanel");
 					setTimeout(() => {
-						window.location.href = data.redirect;
+						window.location.href = redirect;
 					}, 2000);
 				},
-				error: (error: any) => {
+				error: (error: IFormAjaxError) => {
 					if (error.error === "data_duplicate" || error.error === "data_validation") {
 						const $input: JQuery = $(`[name="${error.input}"]`);
 						const $params = {

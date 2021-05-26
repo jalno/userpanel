@@ -14,7 +14,7 @@ $this->the_header('login');
 		</div>
 		<?php } ?>
 	</div>
-	<form action="<?php echo userpanel\url('resetpwd/newpwd', array('ajax'=>1)); ?>" class="form-changepwd" method="POST">
+	<form action="<?php echo userpanel\url('resetpwd/newpwd'); ?>" class="form-changepwd" method="POST">
 		<h3><?php echo t("userpanel.newpwd.title"); ?></h3>
 		<p><?php echo translator::trans('resetpwd.set.newpwd.description', ['user_name' => $this->user->getFullName()]); ?></p>
 		<div class="errorHandler alert alert-danger no-display">
