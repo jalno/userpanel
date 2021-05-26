@@ -31,7 +31,7 @@ $direction = ($isRTL) ? "left" : "right"
 	</head>
 	<!-- end: HEAD -->
 	<!-- start: BODY -->
-	<body class="loginable example1 <?php echo $this->genBodyClasses(); ?>">
+	<body class="login example1 <?php echo $this->genBodyClasses(); ?>">
 		<div class="main-login col-md-4 col-md-offset-4 col-sm-6 col-sm-offset-3">
 			<div class="logo<?php if (count($availableLangs) == 1) { echo " text-center";} ?>"><span><?php echo $this->getLogoHTML(); ?></span>
 			<?php 

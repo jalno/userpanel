@@ -19,7 +19,7 @@ export class Login {
 		Login.loginCredentialChangeListener();
 	}
 	public static initIfNeeded(): void {
-		if ($("body").hasClass("login")) {
+		if ($("body").hasClass("login-page")) {
 			Login.init();
 		}
 	}
