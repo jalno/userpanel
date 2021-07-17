@@ -38,14 +38,6 @@
 			"listener": "listeners/Notifications@events"
 		},
 		{
-			"name":"packages/sms/events/templates",
-			"listener": "listeners/sms@templates"
-		},
-		{
-			"name":"packages/email/events/templates",
-			"listener": "listeners/email@templates"
-		},
-		{
 			"name":"packages/notice/events/views",
 			"listener": "listeners/notice@views"
 		},
