@@ -1161,10 +1161,19 @@ class Users extends Controller {
 		return $this->response;
 	}
 	public function loginAsUser($data) {
-		authorization::haveOrFail('users_login');
+		Authorization::haveOrFail('users_login');
+
+		$impersonator = Authentication::getUser();
+
 		$user = (new User)->byId($data['user']);
 
 		Login::doLogin($user);
+
+		$log = new Log();
+		$log->user = $impersonator->id;
+		$log->title = t("logs.login_as", ["user_id" => $user->id, "user_name" => $user->getFullName()]);
+		$log->type = logs\Login::class;
+		$log->save();
 
 		$this->response->setStatus(true);
 		$this->response->go(userpanel\url());
