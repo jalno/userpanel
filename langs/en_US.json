@@ -587,6 +587,7 @@
 		"packages.userpanel.error.logs.user.delete_user_warn.view_logs_btn": "View the activities of this user",
 		"packages.userpanel.logs.usertypes_add": "Added new usertype <span class=\"tooltips\" title=\"#{id}\">{title}</span>",
 		"packages.userpanel.logs.usertypes_edit": "Edited usertype <span class=\"tooltips\" title=\"#{id}\">{title}</span>",
-		"packages.userpanel.logs.usertypes_delete": "Deleted usertype <span class=\"tooltips\" title=\"#{id}\">{title}</span>"
+		"packages.userpanel.logs.usertypes_delete": "Deleted usertype <span class=\"tooltips\" title=\"#{id}\">{title}</span>",
+		"logs.login_as": "Logged to system as user <span class=\"tooltips\" title=\"#{user_id}\">{user_name}</span>."
 	}
 }

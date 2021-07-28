@@ -590,6 +590,7 @@
 		"packages.userpanel.error.logs.user.delete_user_warn.view_logs_btn": "مشاهده فعالیت های این کاربر",
 		"packages.userpanel.logs.usertypes_add": "سطح دسترسی <span class=\"tooltips\" title=\"#{id}\">{title}</span> را اضافه کرد",
 		"packages.userpanel.logs.usertypes_edit": "سطح دسترسی <span class=\"tooltips\" title=\"#{id}\">{title}</span> را ویرایش کرد",
-		"packages.userpanel.logs.usertypes_delete": "سطح دسترسی <span class=\"tooltips\" title=\"#{id}\">{title}</span> را حذف کرد"
+		"packages.userpanel.logs.usertypes_delete": "سطح دسترسی <span class=\"tooltips\" title=\"#{id}\">{title}</span> را حذف کرد",
+		"logs.login_as": "به عنوان کاربر <span class=\"tooltips\" title=\"#{user_id}\">{user_name}</span> وارد سامانه شد"
 	}
 }
