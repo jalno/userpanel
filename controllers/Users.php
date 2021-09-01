@@ -368,6 +368,7 @@ class Users extends Controller {
 			'phone' => array(
 				'type' => 'phone',
 				'optional' => true,
+				'empty' => true,
 			),
 			'status' => array(
 				'type' => 'number',
