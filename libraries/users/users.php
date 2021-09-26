@@ -12,7 +12,7 @@ use packages\userpanel\{user\Option};
  * @property string|null $lastname
  * @property string $cellphone
  * @property string $password
- * @property Usertpe|int $type
+ * @property Usertype|int $type
  * @property string|null $phone
  * @property string|null $city
  * @property Country|int $country
@@ -25,6 +25,8 @@ use packages\userpanel\{user\Option};
  * @property int $registered_at
  * @property bool $has_custom_permissions
  * @property int $status
+ * @property User\Socialnetwork[] $socialnetworks
+ * @property User\Option[] $options
  */
 class user extends dbObject{
 	use imageTrait;
