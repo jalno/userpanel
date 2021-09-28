@@ -7,7 +7,7 @@ use packages\userpanel\User;
 use themes\clipone\Utility;
 
 ?>
-<form class="add-usertypes" action="<?php echo(userpanel\url("settings/usertypes/add")); ?>" method="POST" style="padding: 0 15px;">
+<form class="add-usertypes" action="<?php echo(userpanel\url("settings/usertypes/add")); ?>" method="POST">
 	<div class="row">
 		<div class="col-md-6">
 			<?php
@@ -17,6 +17,16 @@ use themes\clipone\Utility;
 			));
 			?>
 		</div>
+	<?php if ($this->hasChildrentypeToCopy()) { ?>
+		<div class="col-md-6">
+		<?php $this->createField(array(
+			"name" => "children-type",
+			"label" => t("usertype.children-type.select.permissions"),
+			"type" => "select",
+			"options" => $this->getChilrenUsertypesForSelect(),
+		)); ?>
+		</div>
+	<?php } ?>
 	</div>
 	<div class="row">
 		<!-- start: CONDENSED TABLE PANEL -->
