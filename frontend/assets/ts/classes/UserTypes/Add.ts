@@ -24,8 +24,6 @@ export default class Add {
 
 		const $select = $('select[name="children-type"]', Add.$form);
 
-		console.log("$select", $select);
-
 		if ($select.length) {
 			UserTypes.runCopyFromAnothoerUsertypeListener($select, Add.$permissions);
 		}

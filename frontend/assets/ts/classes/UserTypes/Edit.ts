@@ -22,12 +22,6 @@ export default class Edit {
 		UserTypes.runFancyTree(Edit.$permissions, Permissions.buildFancyTreeItems(usertypePermissions));
 		Permissions.setFancyTreeEvents(Edit.$permissions);
 		UserTypes.runsubmitFormListener(Edit.$form, Edit.$permissions);
-
-		const $select = $('select[name="children-type"]', Edit.$form);
-
-		if ($select.length) {
-			UserTypes.runCopyFromAnothoerUsertypeListener($select, Edit.$permissions);
-		}
 	}
 
 	protected static $form: JQuery;

@@ -27,7 +27,7 @@ trait UsertypesTrait {
 		return !empty($childrenTypes);
 	}
 
-	public function getChilrenUsertypesForSelect() {
+	public function getChildrenUsertypesForSelect() {
 
 		$options = array(
 			array(

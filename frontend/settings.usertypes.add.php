@@ -23,7 +23,7 @@ use themes\clipone\Utility;
 			"name" => "children-type",
 			"label" => t("usertype.children-type.select.permissions"),
 			"type" => "select",
-			"options" => $this->getChilrenUsertypesForSelect(),
+			"options" => $this->getChildrenUsertypesForSelect(),
 		)); ?>
 		</div>
 	<?php } ?>
