@@ -1,16 +1,17 @@
 <?php
 namespace themes\clipone\views\settings\usertypes;
 
-use packages\base\{view\Error, Options};
-use packages\userpanel\Usertype;
-use themes\clipone\{views\FormTrait, Navigation, ViewTrait};
-use packages\userpanel\views\settings\usertypes\Edit as UsertypeEdit;
 use function packages\userpanel\url;
 
-class Edit extends UsertypeEdit {
-	use ViewTrait, FormTrait;
+use packages\base\{view\Error, Options};
+use packages\userpanel\{Usertype, views\settings\usertypes\Edit as UsertypeEdit};
+use themes\clipone\{views\FormTrait, Navigation, ViewTrait, views\UsertypesTrait};
 
-	function __beforeLoad() {
+class Edit extends UsertypeEdit {
+
+	use ViewTrait, FormTrait, UsertypesTrait;
+
+	public function __beforeLoad() {
 		$this->setTitle(array(
 			t("settings"),
 			t("usertype.edit")

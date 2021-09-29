@@ -2,13 +2,14 @@
 namespace themes\clipone\views\settings\usertypes;
 
 use packages\base\Options;
-use themes\clipone\{views\FormTrait, Navigation, ViewTrait};
 use packages\userpanel\views\settings\usertypes\add as usertypeEdit;
+use themes\clipone\{views\FormTrait, Navigation, ViewTrait, views\UsertypesTrait};
 
 class Add extends UsertypeEdit {
-	use ViewTrait, FormTrait;
 
-	function __beforeLoad() {
+	use ViewTrait, FormTrait, UsertypesTrait;
+
+	public function __beforeLoad() {
 		$this->setTitle(array(
 			t("settings"),
 			t("usertype.add")
