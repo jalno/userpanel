@@ -4,7 +4,14 @@ use \packages\base\http;
 use \packages\base\translator;
 use \themes\clipone\viewTrait;
 trait listTrait{
-	private $buttons = array();
+
+	private array $buttons = array();
+	private bool $hasNextPage = false;
+	private bool $hasPrevPage = false;
+	private ?string $cursorName = null;
+	private ?string $nextPageCursor = null;
+	private ?string $prevPageCursor = null;
+
 	public function setButton($name, $active, $params = array()){
 		if(!isset($params['classes'])){
 			$params['classes'] = array('btn', 'btn-xs', 'btn-default');
@@ -124,7 +131,36 @@ trait listTrait{
 
 		return $code;
 	}
-	public function paginator($selectbox = false, $mid_range = 7){
+
+	public function setCursorPaginate(int $itemsPage, string $cursorName, ?string $nextPageCursor = null, ?string $prevPageCursor = null) {
+
+		$this->itemsPage = $itemsPage;
+
+		$this->hasNextPage = $nextPageCursor !== null;
+		$this->hasPrevPage = $prevPageCursor !== null;
+		$this->cursorName = $cursorName;
+		$this->nextPageCursor = $nextPageCursor;
+		$this->prevPageCursor = $prevPageCursor;
+	}
+
+	public function paginator($selectbox = false, $mid_range = 7) {
+
+		if ($this->cursorName) {
+			if (!$this->hasNextPage and !$this->hasPrevPage) {
+				echo "";
+			}
+
+			$getButtonUrl = fn(bool $hasPages, ?string $pageCursor = null) => $hasPages ? 'href="' . $this->pageurl($pageCursor) . '"' : "";
+
+			$paginateHtml = '<hr><ol class="pagination text-center pull-left">';
+				$paginateHtml .= '<li class="prev' . (!$this->hasPrevPage ? " disabled" : '') . '"><a ' . $getButtonUrl($this->hasPrevPage, $this->prevPageCursor) . '>' . t("pagination.previousPage") . '</a></li>';
+				$paginateHtml .= '<li class="next' . (!$this->hasNextPage ? " disabled" : '') . '"><a ' . $getButtonUrl($this->hasNextPage, $this->nextPageCursor) . '>' . t("pagination.nextPage") . '</a></li>';
+			$paginateHtml .= '</ol>';
+
+			echo $paginateHtml;
+			return;
+		}
+
 		$return = "<hr><ol class=\"pagination text-center pull-left hidden-xs\">";
 
 		$prev_page = $this->currentPage-1;
@@ -181,24 +217,39 @@ trait listTrait{
 		$return .= "</select></div>";
 		echo $return;
 	}
-	private function pageurl($page, $ipp = null){
-		if($ipp === null){
+
+	/**
+	 * @param null|int|string $page
+	 */
+	private function pageurl($page = null, ?int $ipp = null){
+		if ($ipp === null) {
 			$ipp = $this->itemsPage;
 		}
-		if($ipp == 25){
+		if ($ipp == 25) {
 			$ipp = null;
 		}
 		$paginationData = http::$request['get'];
-		if($page != 1){
-			$paginationData['page'] = $page;
-		}else{
-			unset($paginationData['page']);
+
+		if ($this->cursorName) {
+			if ($page) {
+				$paginationData[$this->cursorName] = $page;
+			} else {
+				unset($paginationData[$this->cursorName]);
+			}
+		} elseif ($page and is_numeric($page)) {
+			if ($page != 1) {
+				$paginationData['page'] = $page;
+			} else {
+				unset($paginationData['page']);
+			}
 		}
-		if($ipp){
+
+		if ($ipp) {
 			$paginationData['ipp'] = $ipp;
-		}else{
+		} else {
 			unset($paginationData['ipp']);
 		}
+
 		return($paginationData ? '?'.http_build_query($paginationData) : http::$request['uri']);
 	}
 }
