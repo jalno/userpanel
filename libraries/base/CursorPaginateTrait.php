@@ -81,6 +81,8 @@ trait CursorPaginateTrait {
 			throw new Exception("Can not use cursor pagination when table has not a primary key");
 		}
 
+		$clonQuery = $this->db->copy();
+
 		$primaryKey = $this->getPrimaryKeyWithTableName();
 
 		$order = strtoupper($order);
@@ -94,8 +96,6 @@ trait CursorPaginateTrait {
 		}
 		
 		$cursor = $this->getCursor();
-
-		$clonQuery = $this->db->copy();
 
 		$needToSort = false;
 
