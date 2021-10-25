@@ -158,7 +158,7 @@ class UserView {
 		timeFrom: undefined,
 		timeUntil: undefined,
 		activity: "true",
-		ipp: 10,
+		ipp: 50,
 		cursor_name: null,
 		next_page_cursor: null,
 		prev_page_cursor: null,
