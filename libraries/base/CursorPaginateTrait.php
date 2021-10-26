@@ -3,7 +3,7 @@ namespace packages\userpanel;
 
 use function packages\base\json\{Encode, Decode};
 
-use packages\base\{Exception, Http, DB\MySqliDB};
+use packages\base\{Exception, Http, DB\MySqliDB, DB\Parenthesis};
 
 trait CursorPaginateTrait {
 
@@ -137,12 +137,31 @@ trait CursorPaginateTrait {
 
 			[$max, $min] = [max($ids), min($ids)];
 
-			$queryResult = $clonQuery->getOne($this->dbTable, "MAX({$primaryKey}) as max_id, MIN({$primaryKey}) as min_id");
+			$usedWheres = $clonQuery->getWheres();
 
-			[$storeMax, $storeMin] = [$queryResult["max_id"] ?? 0, $queryResult["min_id"] ?? 0];
+			$queryBuilder = function(MySqliDB $query) use(&$usedWheres): MySqliDB {
 
-			$this->_hasNextPage = $this->isAscendingSort ? $storeMax > $max : $storeMin < $min;
-			$this->_hasPrevPage = $this->isAscendingSort ? $storeMin < $min : $storeMax > $max;
+				$query->resetWheres();
+
+				$parenthesis = new Parenthesis();
+				foreach ($usedWheres as $where) {
+					$parenthesis->where($where[1], $where[3], $where[2], $where[0]);
+				}
+
+				$query->where($parenthesis);
+
+				return $query;
+			};
+
+			$query = $queryBuilder($clonQuery->copy());
+			$query->where($primaryKey, $this->isAscendingSort ? $max : $min, $this->isAscendingSort ? ">" : "<");
+
+			$this->_hasNextPage = $query->has($this->dbTable);
+
+			$query = $queryBuilder($clonQuery->copy());
+			$query->where($primaryKey, $this->isAscendingSort ? $min : $max, $this->isAscendingSort ? "<" : ">");
+
+			$this->_hasPrevPage = $query->has($this->dbTable);
 
 			if ($this->_hasNextPage) {
 				$this->nextPageCursor = $this->getCursorValue($this->isAscendingSort ? $max : $min);
