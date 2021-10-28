@@ -1,8 +1,8 @@
 <?php
 namespace themes\clipone\views;
-use \packages\base\http;
-use \packages\base\translator;
-use \themes\clipone\viewTrait;
+
+use packages\base\{Http, DB\DBObject};
+
 trait listTrait{
 
 	private array $buttons = array();
@@ -167,9 +167,9 @@ trait listTrait{
         $next_page = $this->currentPage+1;
 
 		if($this->currentPage != 1 and $this->totalItems >= 10){
-			$return .= "<li class=\"prev\"><a href=\"".$this->pageurl($prev_page)."\">".translator::trans('pagination.previousPage')."</a></li>";
+			$return .= "<li class=\"prev\"><a href=\"".$this->pageurl($prev_page)."\">".t('pagination.previousPage')."</a></li>";
 		}else{
-			$return .= "<li class=\"prev disabled\"><a>".translator::trans('pagination.previousPage')."</a></li>";
+			$return .= "<li class=\"prev disabled\"><a>".t('pagination.previousPage')."</a></li>";
 		}
 		$start_range = $this->currentPage - floor($mid_range/2);
 		$end_range = $this->currentPage + floor($mid_range/2);
@@ -203,19 +203,37 @@ trait listTrait{
 			}
 		}
 		if($this->currentPage != $this->totalPages and $this->totalItems >= 10){
-			$return .= "<li class=\"next\"><a href=\"".$this->pageurl($next_page)."\">".translator::trans('pagination.nextPage')."</a></li>";
+			$return .= "<li class=\"next\"><a href=\"".$this->pageurl($next_page)."\">".t('pagination.nextPage')."</a></li>";
 		}else{
-			$return .= "<li class=\"next disabled\"><a>".translator::trans('pagination.nextPage')."</a></li>";
+			$return .= "<li class=\"next disabled\"><a>".t('pagination.nextPage')."</a></li>";
 		}
 		$return .= "</ol>";
 		$return .= "<div class=\"visible-xs\">";
-		$return .= "<span class=\"paginate\">".translator::trans('pagination.page').": </span>";
+		$return .= "<span class=\"paginate\">".t('pagination.page').": </span>";
 		$return .= "<select class=\"paginate\">";
         for($i = 1;$i <= $this->totalPages;$i++){
             $return .= "<option value=\"{$i}\" data-url=\"".$this->pageurl($i)."\"".($i == $this->currentPage ? ' selected' : '').">{$i}</option>";
         }
 		$return .= "</select></div>";
 		echo $return;
+	}
+
+	public function export(): array {
+
+		return $this->cursorName ? array(
+			"data" => array_merge(array(
+				"items" => DBObject::objectToArray($this->getDataList()),
+			), $this->getCursorExportData()),
+		) : parent::export();
+	}
+
+	public function getCursorExportData(): array {
+		return array(
+			"items_per_page" => (int) $this->itemsPage,
+			"cursor_name" => $this->cursorName,
+			"next_page_cursor" => $this->nextPageCursor,
+			"prev_page_cursor" => $this->prevPageCursor,
+		);
 	}
 
 	/**
