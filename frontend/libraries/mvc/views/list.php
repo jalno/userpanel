@@ -218,13 +218,17 @@ trait listTrait{
 		echo $return;
 	}
 
-	public function export(): array {
-
-		return $this->cursorName ? array(
-			"data" => array_merge(array(
-				"items" => DBObject::objectToArray($this->getDataList()),
-			), $this->getCursorExportData()),
-		) : parent::export();
+	public function export(...$args): array {
+		if ($this->cursorName) {
+			return array(
+				"data" => array_merge(array(
+					"items" => DBObject::objectToArray($this->getDataList()),
+				), $this->getCursorExportData()),
+			);
+		} elseif (method_exists(parent::class, 'export')) {
+			return parent::export(...$args);
+		}
+		return [];
 	}
 
 	public function getCursorExportData(): array {
