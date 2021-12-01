@@ -224,7 +224,11 @@
 	{
 		"paths": ["userpanel/"],
 		"exceptions":["packages/base/NotFound"],
-		"handler": "controllers/Dashboard@notfound"
+		"handler": "controllers/Dashboard@notfound",
+		"permissions": {
+			"api": true,
+			"ajax": true
+		}
 	},
 	{
 		"paths": ["userpanel/"],
