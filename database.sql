@@ -115,14 +115,16 @@ CREATE TABLE `userpanel_resetpwd_token` (
 CREATE TABLE `userpanel_logs` (
 	`id` int(11) NOT NULL AUTO_INCREMENT,
 	`user` int(11) DEFAULT NULL,
-	`ip` varchar(15) NOT NULL,
+	`ip` varchar(15) CHARACTER SET latin1 COLLATE latin1_general_ci NOT NULL,
 	`time` int(11) NOT NULL,
 	`title` varchar(255) NOT NULL,
-	`type` varchar(255) NOT NULL,
-	`parameters` LONGTEXT NOT NULL,
+	`type` varchar(100) CHARACTER SET latin1 COLLATE latin1_general_ci NOT NULL,
+	`parameters` text NOT NULL,
 	PRIMARY KEY (`id`),
 	KEY `user` (`user`),
-	CONSTRAINT `userpanel_logs_ibfk_1` FOREIGN KEY (`user`) REFERENCES `userpanel_users` (`id`) ON DELETE CASCADE
+	KEY `type` (`type`),
+	KEY `time` (`time`),
+	KEY `user_2` (`type`,`time`,`user`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 INSERT INTO `options` (`name`, `value`, `autoload`) VALUES
