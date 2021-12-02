@@ -300,3 +300,9 @@ ALTER TABLE `userpanel_users` CHANGE `zip` `zip` VARCHAR(11) NULL DEFAULT NULL;
 -- Commit: df2c2fac833ee933e867d9ea5cea2b79adc9d0f7
 --
 UPDATE userpanel_users SET cellphone = CONCAT("IR.", SUBSTRING(`cellphone`, 3)) WHERE cellphone LIKE "98%"
+
+
+--
+-- Commit: 85e29ec8e452ef2e0f3fe8c0de58c0f965349c81
+--
+ALTER TABLE `userpanel_users` ADD INDEX( `type`,`time`,`user` );
