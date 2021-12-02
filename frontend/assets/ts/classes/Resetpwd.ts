@@ -4,57 +4,72 @@
 import "@jalno/translator";
 import * as $ from "jquery";
 import "jquery.growl";
-import { webuilder } from "webuilder";
 import ViewError from "../definitions/ViewError";
 import {View} from "../pages/Main";
 import "./jquery.formAjax";
 import {Main} from "./Main";
 import Country, { ICountryCode } from "./Country";
+import IFormAjaxError from "./IFormAjaxError";
+import { Router } from "webuilder";
 
 declare const countriesCode: ICountryCode[];
 declare const defaultCountryCode: string;
 
 export class Resetpwd {
-	public static init(): void {
-		const body = $("body");
-		if (body.hasClass("resetpwd")) {
-			Resetpwd.methodListener();
-			Main.SetDefaultValidation();
-			Resetpwd.runResetpwdValidator();
-			Resetpwd.runAuthenticationTokenFormSubmitListener();
-			Resetpwd.runSelect2();
-			Resetpwd.loginCredentialChangeListener();
-		} else if (body.hasClass("newpwd")) {
-			Resetpwd.runNewPasswordFormSubmitListener();
-		}
-	}
+
 	public static initIfNeeded(): void {
-		const body = $("body");
-		if (body.hasClass("resetpwd") || body.hasClass("newpwd")) {
+		Resetpwd.$body = $("body.resetpwd, body.newpwd");
+		if (Resetpwd.$body.length) {
 			Resetpwd.init();
 		}
 	}
 
-	private static form = $(".form-resetpwd");
-	private static errorHandler = $(".errorHandler", Resetpwd.form);
+	protected static init(): void {
+		if (Resetpwd.$body.hasClass("resetpwd")) {
+			Resetpwd.$resetPasswordForm = $("form.form-resetpwd", Resetpwd.$body);
+			Resetpwd.$authenticationForm = $("form.form-authentication", Resetpwd.$body);
+			Main.SetDefaultValidation();
+			Resetpwd.runResetPasswordFormListener();
+			Resetpwd.runTokenFormSubmitListener();
+			Resetpwd.runSelect2();
+			Resetpwd.credentialChangeListener();
+		} else if (Resetpwd.$body.hasClass("newpwd")) {
+			Resetpwd.$newPasswordForm = $(".form-changepwd", Resetpwd.$body);
+			Resetpwd.runNewPasswordFormSubmitListener();
+		}
+	}
 
-	private static loginCredentialChangeListener() {
+	private static $body: JQuery;
+	private static $resetPasswordForm: JQuery;
+	private static $authenticationForm: JQuery;
+	private static $newPasswordForm: JQuery;
+	private static credential: string | {
+		number: string;
+		code: string;
+	} = null;
+
+	private static credentialChangeListener() {
 		const isNumeric = (value: string): boolean => {
 			return /^-?\d+$/.test(value);
 		}
-		$("input[name=username]").on("change keyup input", function(e) {
+		$("input[name=credential]", Resetpwd.$resetPasswordForm).on("change keyup input", function(e) {
 			const value = $(this).val();
-			const $codeContainer = $('select[name="username[code]"]', $(this).parents(".input-group")).parent();
-			console.log("$codeContainer", $codeContainer)
+			const $code = $('select[name="credential[code]"]', $(this).parents(".input-group"));
 			if (isNumeric(value)) {
-				$codeContainer.removeClass("hidden");
+				$code.parent().removeClass("hidden");
+				Resetpwd.credential = {
+					code: $code.val(),
+					number: value,
+				};
 			} else {
-				$codeContainer.addClass("hidden");
+				$code.parent().addClass("hidden");
+				Resetpwd.credential = value;
 			}
 		}).trigger("change");
 	}
+
 	private static runSelect2(): void {
-		Country.runCountryDialingCodeSelect2($(`select[name="username[code]"]`), countriesCode.map((country) => {
+		Country.runCountryDialingCodeSelect2($(`select[name="credential[code]"]`), countriesCode.map((country) => {
 			return {
 				id: country.code,
 				text: country.dialingCode + '-' + country.name,
@@ -62,108 +77,72 @@ export class Resetpwd {
 			};
 		}));
 	}
-	private static methodListener() {
-		$("input[name=method]", Resetpwd.form).on("change", function() {
-			if ($(this).prop("checked")) {
-				switch ($(this).val()) {
-					case("email"):
-						$("input[name=username]").prop("type", "email");
-						break;
-					case("sms"):
-						$("input[name=username]").prop("type", "text");
-						break;
-				}
-			}
-		}).trigger("change");
-	}
-	private static runResetpwdValidator(): void {
-		Main.importValidationTranslator();
-		Resetpwd.form.validate({
-			rules: {
-				cellphone: {
-					required: true,
-					digits: true,
-					rangelength: [10, 12],
-				},
-			},
-			submitHandler: (form) => {
-				const isNumeric = (value: string): boolean => {
-					return /^-?\d+$/.test(value);
-				}
-				const method = $("input[name=method]:checked").val();
-				const $username = $(`input[name=username]`);
-				const $countryCode = $(`select[name="username[code]"]`);
-				$(form).formAjax({
-					data: {
-						username: isNumeric($username.val()) ? {
-							number: $username.val(),
-							code: $countryCode.val(),
-						} : $username.val(),
-						method: method,
-					},
-					method: "POST",
-					success: (data: webuilder.AjaxResponse) => {
-						switch (method) {
-							case("sms"):
-								Resetpwd.form.hide();
-								Resetpwd.form = $(".form-authentication");
-								Resetpwd.form.show();
-								$(".cellphone", Resetpwd.form).html(data.username);
-								$("input[name=username]", Resetpwd.form).val(data.username).prop("type", "hidden");
-								break;
-							case("email"):
-								$(".box-forgot .email-alert").show();
-								break;
-						}
-					},
-					error: (error: webuilder.AjaxError) => {
-						if (error.error === "data_duplicate" || error.error === "data_validation") {
-							const $input = $(`[name="${error.input}"]`);
-							const $params = {
-								title: t("error.fatal.title"),
-								message: "",
-							};
-							if (error.error === "data_validation") {
-								if (error.input === "username") {
-									$params.message = t("userpanel.data_validation.username");
-								} else {
-									$params.message = t("data_validation");
-								}
-							}
-							if ($input.length) {
-								$input.inputMsg($params);
-							} else {
-								$.growl.error($params);
-							}
-						} else {
-							if (error.hasOwnProperty("code")) {
-								const $error: any = error;
-								const $viewError = new ViewError();
-								$viewError.setType($error.setType);
-								$viewError.setCode($error.code);
-								$viewError.setMessage($error.message);
-								$viewError.setData($error.data);
-								const view = new View();
-								view.addError($viewError);
-								view.getErrorHTML();
-							}
-						}
-					},
-				});
-			},
-			invalidHandler: (event, validator) => {
-				Resetpwd.errorHandler.html(Resetpwd.errorHandler.data("orghtml")).show();
-			},
-		});
-	}
-	private static runAuthenticationTokenFormSubmitListener() {
-		$(".form-authentication").on("submit", function(e) {
+
+	private static runResetPasswordFormListener(): void {
+		Resetpwd.$resetPasswordForm.on("submit", (e) => {
 			e.preventDefault();
+			const method = $("input[name=method]:checked").val();
+			if (!method) {
+				return;
+			}
+			Resetpwd.$resetPasswordForm.formAjax({
+				data: {
+					credential: Resetpwd.credential,
+					method: method,
+				},
+				method: "POST",
+				success: (data) => {
+					Resetpwd.$resetPasswordForm.hide();
+					switch (method) {
+						case ("sms"):
+							$("input[name=credential]", Resetpwd.$authenticationForm).prop("type", "hidden");
+							Resetpwd.$authenticationForm.show();
+							break;
+						case ("email"):
+							$(".box-forgot .email-alert", Resetpwd.$body).show();
+							break;
+					}
+				},
+				error: (error: IFormAjaxError) => {
+					if (error.error === "data_duplicate" || error.error === "data_validation") {
+						const $viewError = new ViewError();
+						$viewError.setType(error.type);
+						$viewError.setCode(error.code);
+						$viewError.setMessage(t("userpanel.data_validation.resetpwd.emailorcellphone"));
+						const view = new View();
+						view.addError($viewError);
+						view.getErrorHTML();
+					} else {
+						if (error.hasOwnProperty("code")) {
+							const $viewError = new ViewError();
+							$viewError.setType(error.type);
+							$viewError.setCode(error.code);
+							$viewError.setMessage(error.message);
+							$viewError.setData(error.data);
+							const view = new View();
+							view.addError($viewError);
+							view.getErrorHTML();
+						}
+					}
+				},
+			});
+		});
+		
+	}
+
+	private static runTokenFormSubmitListener() {
+		Resetpwd.$authenticationForm.on("submit", function(e) {
+			e.preventDefault();
+			const $token = $("input[name=token]", Resetpwd.$authenticationForm);
 			$(this).formAjax({
-				success: (data: webuilder.AjaxResponse) => {
+				data: {
+					credential: Resetpwd.credential,
+					token: $token.val(),
+				},
+				success: (data) => {
 					window.location.href = data.redirect;
 				},
-				error: (error: webuilder.AjaxError) => {
+				error: (error: IFormAjaxError) => {
 					if (error.error === "data_duplicate" || error.error === "data_validation") {
 						const $input: JQuery = $(`[name="${error.input}"]`);
 						const params = {
@@ -197,19 +176,20 @@ export class Resetpwd {
 		});
 	}
 	private static runNewPasswordFormSubmitListener() {
-		$(".form-changepwd").on("submit", function(e) {
+		Resetpwd.$newPasswordForm.on("submit", function(e) {
 			e.preventDefault();
 			$(this).formAjax({
-				success: (data: webuilder.AjaxResponse) => {
+				success: (data) => {
 					$.growl.notice({
 						title: t("userpanel.success"),
 						message: t("userpanel.formajax.success"),
 					});
+					const redirect = data.redirect ? data.redirect : Router.url("userpanel");
 					setTimeout(() => {
-						window.location.href = data.redirect;
+						window.location.href = redirect;
 					}, 2000);
 				},
-				error: (error: webuilder.AjaxError) => {
+				error: (error: IFormAjaxError) => {
 					if (error.error === "data_duplicate" || error.error === "data_validation") {
 						const $input: JQuery = $(`[name="${error.input}"]`);
 						const $params = {
@@ -221,14 +201,17 @@ export class Resetpwd {
 						} else {
 							$.growl.error($params);
 						}
-						if (error.input === "dontmatch") {
-							$(".form-changepwd .errorHandler").html(`<i class="fa fa-remove-sign"></i> ${t("userpanel.data_validation.password_again")} .`).show();
-						}
 					} else {
-						$.growl.error({
-							title: t("error.fatal.title"),
-							message: t("userpanel.formajax.error"),
-						});
+						if (error.hasOwnProperty("code")) {
+							const $viewError = new ViewError();
+							$viewError.setType(error.type);
+							$viewError.setCode(error.code);
+							$viewError.setMessage(error.message);
+							$viewError.setData(error.data);
+							const view = new View();
+							view.addError($viewError);
+							view.getErrorHTML();
+						}
 					}
 				},
 			});

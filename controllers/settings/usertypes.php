@@ -2,7 +2,7 @@
 namespace packages\userpanel\controllers\settings;
 
 use packages\base\{db, Http, InputValidationException, NotFound, Options, Response, View};
-use packages\userpanel\{Authentication, Authorization, AuthorizationException, Controller, User, Usertype, views, validators};
+use packages\userpanel\{Authentication, Authorization, AuthorizationException, Controller, User, Usertype, views, validators, Log, logs};
 use packages\userpanel\usertype\{Permission, Permissions, Priority};
 use function packages\userpanel\url;
 
@@ -111,11 +111,7 @@ class Usertypes extends Controller {
 		$this->response->setView($view);
 
 		$me = Authentication::getUser();
-		if ($me->isManager()) {
-			$allPermissions = Permissions::get();
-		} else {
-			$allPermissions = $me->getPermissions();
-		}
+		$allPermissions = Permissions::existentForUser($me);
 		$childrenTypes = Authorization::childrenTypes();
 
 		//pass data to view
@@ -141,14 +137,20 @@ class Usertypes extends Controller {
 				)
 			));
 
-			//save new usertype
 			$usertype = new Usertype();
 			$usertype->title = $inputs["title"];
 			$usertype->save();
 
-			//add as child for user"s usertype
-			$parentTypes = $me->parentTypes();
-			$parentTypes[] = $me->type->id;
+			$parameters = array(
+				"new" => array(
+					"usertype" => $usertype->toArray(),
+					"priorities" => $inputs["priorities"],
+					"permissions" => $inputs["permissions"],
+				),
+			);
+
+			$parentTypes = array_merge($me->parentTypes(), [$me->type->id]);
+			
 			foreach (array_unique($parentTypes) as $type) {
 				$priority = new Priority;
 				$priority->parent = $type;
@@ -156,25 +158,31 @@ class Usertypes extends Controller {
 				$priority->save();
 			}
 
-			// Processing of adding permissions
-			foreach($inputs["permissions"] as $permissionName){
+			foreach ($inputs["permissions"] as $name) {
 				$permission = new Permission;
 				$permission->type = $usertype->id;
-				$permission->name = $permissionName;
+				$permission->name = $name;
 				$permission->save();
 			}
 
-			// Processing of adding children
-			foreach($inputs["priorities"] as $newPriority){
+			$priorities = array();
+			foreach($inputs["priorities"] as $item){
 				$priority = new Priority;
 				$priority->parent = $usertype->id;
-				$priority->child = $newPriority;
+				$priority->child = $item;
 				$priority->save();
 			}
 
+			$log = new Log();
+			$log->title = t("packages.userpanel.logs.usertypes_add", ["id" => $usertype->id, "title" => $usertype->title]);
+			$log->type = logs\usertypes\Add::class;
+			$log->user = $me->id;
+			$log->parameters = $parameters;
+			$log->save();
+
 			$this->response->setStatus(true);
 			$this->response->Go(url("settings/usertypes/edit/".$usertype->id));
-		}else{
+		} else {
 			$this->response->setStatus(true);
 		}
 		return $this->response;
@@ -187,19 +195,13 @@ class Usertypes extends Controller {
 		$view = View::byName(views\settings\usertypes\Edit::class);
 		$this->response->setView($view);
 	
-		$user = Authentication::getUser();
-		if ($user->isManager()) {
-			$allPermissions = Permissions::get();
-		} else {
-			$allPermissions = $user->getPermissions();
-		}
+		$me = Authentication::getUser();
+		$allPermissions = Permissions::existentForUser($me);
 	
 		$childrenTypes = Authorization::childrenTypes();
 		$usertypePermissions = array_column($usertype->toArray()["permissions"], "name");
 		$usertypePriorities = array_column($usertype->toArray()["children"], "child");
 
-
-		//pass data to view
 		$view->setDataForm($usertype->title,"title");
 		$view->setUserType($usertype);
 		$view->setPermissions($allPermissions);
@@ -223,58 +225,91 @@ class Usertypes extends Controller {
 				)
 			));
 
-			//Update Permission"s title
-			$usertype->title = $inputs["title"];
+			$parameters = array(
+				"old" => array(
+					"usertype" => [],
+					"priorities" => [],
+					"permissions" => [],
+				),
+				"new" => array(
+					"usertype" => [],
+					"priorities" => [],
+					"permissions" => [],
+				),
+			);
+
+			if ($inputs["title"] != $usertype->title) {
+				$parameters["old"]["usertype"]["title"] = $usertype->title;
+				$usertype->title = $inputs["title"];
+				$parameters["new"]["usertype"]["title"] = $usertype->title;
+			}
 			
-			//have Permission if not shown
-			$disablepermissions = Options::get("packages.userpanel.disabledpermisions");
-			if (!$disablepermissions) {
-				$disablepermissions = array();
-			}
-			foreach($disablepermissions as $dp) {
-				if (in_array($dp, $usertypePermissions)) {
-					$inputs["permissions"][] = $dp;
-				}
-			}
-			// Processing of deleting permissions
-			$permissionsdelete = array_diff($usertypePermissions, $inputs["permissions"]);
-			if (!empty($permissionsdelete)) {
-				foreach ($usertype->permissions as $permission) {
-					if (in_array($permission->name, $permissionsdelete)) {
-						$permission->delete();
-					}
-				}
+			$oldPermissions = array_column($usertype->permissions, "name");
+
+			$shouldBePersistentPermissions = array_diff($oldPermissions, $allPermissions);
+
+			$permissions = $inputs["permissions"];
+			
+			if ($shouldBePersistentPermissions) {
+				$permissions = array_merge($permissions, $shouldBePersistentPermissions);
+				$permissions = array_values(array_unique($permissions));
 			}
 
-			// Processing of adding permissions
-			$NewPermissions = array_diff($inputs["permissions"], $usertypePermissions);
-			foreach ($NewPermissions as $permissionName) {
-				$permission = new permission;
-				$permission->type = $usertype->id;
-				$permission->name = $permissionName;
-				$permission->save();
+			$addedPermissions = array_diff($permissions, $oldPermissions);
+			$removedPermissions = array_diff($oldPermissions, $permissions);
+
+			if ($addedPermissions) {
+				$parameters["new"]["permissions"] = array_values($addedPermissions);
+
+				foreach ($addedPermissions as $name) {
+					$permission = new Permission;
+					$permission->type = $usertype->id;
+					$permission->name = $name;
+					$permission->save();
+				}
+			}
+			if ($removedPermissions) {
+				$parameters["old"]["permissions"] = array_values($removedPermissions);
+
+				DB::where("name", array_values($removedPermissions), "IN")
+					->where("type", $usertype->id)
+					->delete("userpanel_usertypes_permissions");
+
 			}
 
-			// Processing of deleting children
 			$prioritiesDelete = array_diff($usertypePriorities, $inputs["priorities"]);
-			// Processing of deleting priorities
-			if(!empty($prioritiesDelete)){
-				foreach($usertype->children as $child){
-					if(in_array($child->child, $prioritiesDelete)){
-						$child->delete();
-					}
+
+			if (!empty($prioritiesDelete)) {
+
+				$parameters["old"]["priorities"] = array_values($prioritiesDelete);
+
+				DB::where("child", array_values($prioritiesDelete), "IN")
+					->where("parent", $usertype->id)
+					->delete("userpanel_usertypes_priorities");
+			}
+
+			$newPriorities = array_diff($inputs["priorities"], $usertypePriorities);
+
+			if ($newPriorities) {
+
+				$parameters["new"]["priorities"] = $newPriorities;
+
+				foreach ($newPriorities as $item) {
+					$priority = new priority;
+					$priority->parent = $usertype->id;
+					$priority->child = $item;
+					$priority->save();
 				}
 			}
 
-			// Processing of adding children
-			$newPriorities = array_diff($inputs["priorities"], $usertypePriorities);
-			foreach ($newPriorities as $newPriority) {
-				$priority = new priority;
-				$priority->parent = $usertype->id;
-				$priority->child = $newPriority;
-				$priority->save();
-			}
 			$usertype->save();
+
+			$log = new Log();
+			$log->title = t("packages.userpanel.logs.usertypes_edit", ["id" => $usertype->id, "title" => $usertype->title]);
+			$log->type = logs\usertypes\Edit::class;
+			$log->user = $me->id;
+			$log->parameters = $parameters;
+			$log->save();
 
 			$this->response->setStatus(true);
 			$this->response->Go(url("settings/usertypes/edit/".$usertype->id));
@@ -292,15 +327,37 @@ class Usertypes extends Controller {
 		$this->response->setView($view);
 		$view->setUserType($usertype);
 
+		$this->response->setStatus(false);
+
 		if (Http::is_post()) {
-			$this->response->setStatus(false);
-			if(!(new User)->where("type", $usertype->id)->has()){
-				$usertype->delete();
-			} else {
+
+
+			if ((new User)->where("type", $usertype->id)->has()) {
 				throw new View\Error("usertype.in_use");
 			}
+
+			$parameters = array(
+				"old" => array(
+					"usertype" => $usertype->toArray(),
+					"permissions" => array_column($usertype->permissions, "name"),
+					"priorities" => array_column($usertype->children, "child"),
+				),
+			);
+
+			$title = t("packages.userpanel.logs.usertypes_delete", ["id" => $usertype->id, "title" => $usertype->title]);
+
+			$usertype->delete();
+
+			$log = new Log();
+			$log->title = $title;
+			$log->type = logs\usertypes\Delete::class;
+			$log->user = Authentication::getID();
+			$log->parameters = $parameters;
+			$log->save();
+
 			$this->response->setStatus(true);
 			$this->response->Go(url("settings/usertypes"));
+
 		} else {
 			$this->response->setStatus(true);
 		}

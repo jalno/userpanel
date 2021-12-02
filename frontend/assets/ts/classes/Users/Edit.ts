@@ -86,6 +86,8 @@ export default class Edit {
 				},
 			},
 			submitHandler: (form) => {
+				$(".has-error", Edit.$body).removeClass("has-error");
+				$(".help-block", Edit.$body).remove();
 				Edit.submitHandler(form);
 			},
 		})
@@ -123,9 +125,17 @@ export default class Edit {
 				};
 				if (error.error === "data_duplicate" || error.error === "data_validation") {
 					params.message = t(error.error);
-					const $input = $(`[name="${error.input}"]`);
+					if (error.input === "cellphone" || error.input === "phone") {
+						error.input += "[number]";
+					}
+					const $input = $(`[name="${error.input}"]`, Edit.$body);
 					if ($input.length) {
-						$input.inputMsg(params);
+						const $inputgroup = $input.parents(".input-group");
+						if ($inputgroup.length) {
+							$inputgroup.inputMsg(params);
+						} else {
+							$input.inputMsg(params);
+						}
 						return;
 					}
 				} else if (error.message) {

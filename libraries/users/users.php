@@ -1,31 +1,35 @@
 <?php
 namespace packages\userpanel;
 
-use packages\base\{db, db\dbObject, IO, Packages, utility\Password};
+use packages\base\{db, db\dbObject, IO, Packages, utility\Password, utility};
 use packages\base\Validator\{CellphoneValidator, Geo\CountryCodeToRegionCodeMap};
 use packages\userpanel\{user\Option};
 
+/**
+ * @property int $id
+ * @property string $email
+ * @property string $name
+ * @property string|null $lastname
+ * @property string $cellphone
+ * @property string $password
+ * @property Usertype|int $type
+ * @property string|null $phone
+ * @property string|null $city
+ * @property Country|int $country
+ * @property int $zip
+ * @property string|null $address
+ * @property string|null $web
+ * @property double $credit
+ * @property int $lastonline
+ * @property string|null $remember_token
+ * @property int $registered_at
+ * @property bool $has_custom_permissions
+ * @property int $status
+ * @property User\Socialnetwork[] $socialnetworks
+ * @property User\Option[] $options
+ */
 class user extends dbObject{
 	use imageTrait;
-
-	public static function getTelephoneWithDialingCode(string $field): string {
-		$code = null;
-		$number = null;
-		$dialingCode = null;
-		if (strpos($field, ".") !== false) {
-			$exploded = explode(".", $field);
-			$code = $exploded[0];
-			$number = $exploded[1];
-		} else {
-			$number = $field;
-		}
-		if (!$code) {
-			$code = CellphoneValidator::getDefaultCountryCode();
-		}
-		$r2c = CountryCodeToRegionCodeMap::regionCodeToCountryCode();
-		$dialingCode = isset($r2c[$code]) ? $r2c[$code] : "";
-		return $dialingCode . "." . $number;
-	}
 
 	const active = 1;
 	const deactive = 3;
@@ -260,9 +264,9 @@ class user extends dbObject{
 		return $data;
 	}
 	public function getCellphoneWithDialingCode(): string {
-		return self::getTelephoneWithDialingCode($this->cellphone);
+		return utility\getTelephoneWithDialingCode($this->cellphone);
 	}
 	public function getPhoneWithDialingCode(): string {
-		return self::getTelephoneWithDialingCode($this->phone);
+		return $this->phone ? utility\getTelephoneWithDialingCode($this->phone) : "";
 	}
 }

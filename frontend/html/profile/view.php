@@ -100,17 +100,23 @@ use themes\clipone\utility;
 					</tr>
 					<tr>
 						<td><?php echo t("userpanel.profile.register_date"); ?></td>
-						<td><?php echo Date::relativeTime($this->getUserData('registered_at')); ?></td>
+						<td><span class="user-dates tooltips" data-tooltips-trigger="hover focus click" title="<?php echo Date::format("Q QTS", $this->getUserData('registered_at')); ?>">
+								<?php echo Date::relativeTime($this->getUserData('registered_at')); ?>
+						</span></td>
 						<td></td>
 					</tr>
 					<tr>
 						<td><?php echo t("userpanel.profile.last_activity"); ?></td>
-						<td><?php echo Date::relativeTime($this->getUserData('lastonline')); ?></td>
+						<td><span class="user-dates tooltips" data-tooltips-trigger="hover focus click" title="<?php echo Date::format("Q QTS", $this->getUserData('lastonline')); ?>">
+							<?php echo Date::relativeTime($this->getUserData('lastonline')); ?>
+						</span></td>
 						<td></td>
 					</tr>
 					<tr>
 						<td><?php echo t("userpanel.profile.last_login"); ?></td>
-						<td><?php echo($this->lastlogin ? Date::relativeTime($this->lastlogin) : t('user.lastlogin.never')) ; ?></td>
+						<td><span class="user-dates tooltips" data-tooltips-trigger="hover focus click" title="<?php echo $this->lastlogin ? Date::format("Q QTS", $this->lastlogin) : ""; ?>">
+							<?php echo($this->lastlogin ? Date::relativeTime($this->lastlogin) : t('user.lastlogin.never')) ; ?>
+						</span></td>
 						<td></td>
 					</tr>
 					<tr>

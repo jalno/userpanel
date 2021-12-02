@@ -5,7 +5,9 @@ use packages\base\{db\dbObject, http};
 use packages\userpanel\{log_param, user, logging\Exception\invalidTypeException};
 
 class Log extends dbObject {
-	use Paramable;
+
+	use Paramable, CursorPaginateTrait;
+
 	protected $dbTable = "userpanel_logs";
 	protected $primaryKey = "id";
 	protected $dbFields = [

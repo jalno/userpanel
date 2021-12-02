@@ -158,8 +158,10 @@ class UserView {
 		timeFrom: undefined,
 		timeUntil: undefined,
 		activity: "true",
-		page: 1,
 		ipp: 50,
+		cursor_name: null,
+		next_page_cursor: null,
+		prev_page_cursor: null,
 	};
 	private preventLoadUserActivity = false;
 	public constructor(protected form: JQuery) {
@@ -226,7 +228,8 @@ class UserView {
 			if ($this.hasClass("calendar-square-empty") || $this.hasClass("color0")) {
 				return;
 			}
-			that.userActivityData.page = 1;
+			that.userActivityData.next_page_cursor = undefined;
+			that.userActivityData.prev_page_cursor = undefined;
 			that.userActivityData.timeFrom = $(this).data("from");
 			that.userActivityData.timeUntil = $(this).data("until");
 			$panel.trigger("change_period", [$(this).data("from"), $(this).data("until")]);
@@ -237,21 +240,47 @@ class UserView {
 		const spinner = `<li class="text-center mt-30"><i class="fa fa-3x fa-spinner fa-spin"></i></li>`;
 		const $panel = $(".panel-activity .panel-scroll .mCSB_container");
 		let $ul = $(".activities", $panel);
-		if (!$ul.length) {
+		if ($ul.length) {
+			for (const item of ["cursor_name", "next_page_cursor"]) {
+				if (this.userActivityData[item] === null && $ul.data(item)) {
+					this.userActivityData[item] = $ul.data(item);
+				}
+			}
+		} else {
 			$ul = $(`<ul class="activities"></ul>`).appendTo($panel);
 		}
-		if (this.userActivityData.page === 1) {
+		if (this.userActivityData.cursor_name && !this.userActivityData.prev_page_cursor && !this.userActivityData.next_page_cursor) {
 			this.preventLoadUserActivity = false;
 			$ul.html("");
 		}
 		const $spinner = $(spinner).appendTo($ul);
 		this.userActivityData.user = $(".panel-activity").data("user");
 		this.userActivityData.activity = (this.userActivityData.timeFrom && this.userActivityData.timeUntil) ? "true" : "false";
+
+		const data = {
+			ajax: 1,
+			user: this.userActivityData.user,
+			timeFrom: this.userActivityData.timeFrom,
+			timeUntil: this.userActivityData.timeUntil,
+			activity: "true",
+			ipp: this.userActivityData.ipp,
+		};
+
+		if (this.userActivityData.cursor_name && this.userActivityData.next_page_cursor) {
+			data[this.userActivityData.cursor_name] = this.userActivityData.next_page_cursor;
+		}
+
 		AjaxRequest({
 			url: "userpanel/logs",
-			data: this.userActivityData,
+			data: data,
 			success: (response) =>  {
-				this.preventLoadUserActivity = this.userActivityData.page >= Math.ceil(response.total_items / response.items_per_page);
+
+				this.userActivityData.cursor_name = response.cursor_name;
+				this.userActivityData.next_page_cursor = response.next_page_cursor;
+				this.userActivityData.prev_page_cursor = response.prev_page_cursor;
+
+				this.preventLoadUserActivity = !response.next_page_cursor;
+
 				if ($spinner.length) {
 					$spinner.remove();
 				}
@@ -299,15 +328,11 @@ class UserView {
 					const height = $container.height() - panelHeight;
 					const top = Math.abs(parseInt($container.css("top"), 10));
 					if (top * 100 / height > 80) {
-						that.userActivityData.page++;
 						that.preventLoadUserActivity = true;
 						that.getUserActivities();
 					}
 				},
 			},
-		});
-		$panel.scroll(() => {
-
 		});
 	}
 }

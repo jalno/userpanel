@@ -42,6 +42,8 @@
 		{"type":"less","file":"node_modules/bootstrap/less/bootstrap.less"},
 		{"type":"less","file":"node_modules/font-awesome/less/font-awesome.less"},
 		{"type":"css","file":"node_modules/jquery.growl/stylesheets/jquery.growl.css"},
+		{"type":"css","file":"node_modules/select2/dist/css/select2.css"},
+		{"type":"css","file":"node_modules/select2-bootstrap-theme/dist/select2-bootstrap.css"},
 		{"type":"css","file":"node_modules/jquery-ui/themes/base/all.css"},
 		{"type":"css","file":"node_modules/jschr-bootstrap-modal/css/bootstrap-modal-bs3patch.css"},
 		{"type":"css","file":"node_modules/jschr-bootstrap-modal/css/bootstrap-modal.css"},

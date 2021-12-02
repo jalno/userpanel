@@ -66,7 +66,7 @@
 		"register.user.password_again" : "تکرار کلمه عبور",
 		"register.accept_tos" : "من همه <a class=\"btn btn-link\" target=\"_blank\" href=\"{url}\">قوانین</a> را خوانده ام و آن را قبول دارم",
 		"register.error.recheck":"لطفا خطا های موجود را رفع کنید",
-		"back" : "انصراف",
+		"back" : "برگشت",
 		"unlock": "بازگشایی",
 		"lock.enterpassword": "لطفا برای بازگشایی دوباره کلمه عبور خود را وارد کنید",
 		"lock.logout": "شما {user_name} نیستید؟",
@@ -123,10 +123,10 @@
 		"resetpwd.return": "بازگشت",
 		"resetpwd.recovery": "بازیابی",
 		"resetpwd.username": "شماره همراه و یا ایمیل ",
-		"resetpwd.authentication.token.description": "ما برای تایید درخواست ، پیامی حاوی یک کد برای شما فرستادیم ، آن را در کادر پایین وارد کنید .",
-		"resetpwd.authentication.token.wrong-number": "شماره اشتباه است ؟",
+		"resetpwd.token.retry": "پیامی دریافت نکردید؟ مجددا تلاش کنید",
 		"resetpwd.token": "کد را وارد کنید",
-		"resetpwd.authentication.token.title": "ارسال شد !",
+		"resetpwd.token.sent.title": "ارسال شد !",
+		"resetpwd.token.sent.description": "ما برای احراز هویت شما ، پیامی حاوی یک کد برای شما فرستادیم ، آن را در کادر پایین وارد کنید:",
 		"resetpwd.confirm": "تایید",
 		"resetpwd.set.newpwd.description": "{user_name} عزیز کلمه عبور جدید را وارد کنید .",
 		"userpanel.resetpwd": "بازیابی کلمه عبور",
@@ -268,6 +268,11 @@
 		"userpanel.users.export.csv": "دریافت خروجی CSV",
 		"userpanel.logs.empty": "فعالیتی پیدا نشد",
 		"userpanel.profile.general_info": "اطلاعات کلی",
-		"userpanel.profile.additional_informations": "اطلاعات بیشتر"
+		"userpanel.profile.additional_informations": "اطلاعات بیشتر",
+		"userpanel.usertypes.logs.add_data": "اطلاعات اضافه شده",
+		"userpanel.usertypes.logs.old_data": "اطلاعات حذف شده",
+		"usertype.children-type.select.permissions": "استفاده از دسترسی های موجود",
+		"select.empty_option": "انتخاب کنید ..",
+		"loading": "در حال دریافت اطلاعات .."
 	}
 }

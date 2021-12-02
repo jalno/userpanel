@@ -57,11 +57,14 @@ export default class Add {
 				},
 			},
 			submitHandler: (form) => {
+				$(".has-error", Add.$body).removeClass("has-error");
+				$(".help-block", Add.$body).remove();
 				Add.submitHandler(form);
 			},
 		})
 	}
 	protected static submitHandler(form: HTMLFormElement): void {
+
 		$(form).formAjax({
 			data: new FormData(form),
 			contentType: false,
@@ -79,9 +82,17 @@ export default class Add {
 				};
 				if (error.error === "data_duplicate" || error.error === "data_validation") {
 					params.message = t(error.error);
-					const $input = $(`[name="${error.input}"]`);
+					if (error.input === "cellphone" || error.input === "phone") {
+						error.input += "[number]";
+					}
+					const $input = $(`[name="${error.input}"]`, Add.$body);
 					if ($input.length) {
-						$input.inputMsg(params);
+						const $inputgroup = $input.parents(".input-group");
+						if ($inputgroup.length) {
+							$inputgroup.inputMsg(params);
+						} else {
+							$input.inputMsg(params);
+						}
 						return;
 					}
 				} else if (error.message) {

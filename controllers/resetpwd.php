@@ -1,30 +1,37 @@
 <?php
 namespace packages\userpanel\controllers;
 
-use packages\base\{Cache, db, view\Error, Exception, views\FormError, http, InputValidationException, NotFound, Options};
-use packages\notifications\events\Channels;
-use packages\userpanel;
-use packages\userpanel\{Authentication, Controller, Date, Events, Log, resetpwd\Token, User, View, views};
+use packages\base\{Cache, Response, View, View\Error, Http, InputValidationException, NotFound, Options};
+use packages\notifications\{IChannel, API as NotificationAPI};
+use packages\userpanel\{Controller, Date, Log, resetpwd\Token, User, views, validators, events};
 
-class resetpwd  extends Controller {
+use function packages\userpanel\url;
 
+class Resetpwd  extends Controller {
+
+	/**
+	 * @var bool
+	 */
 	protected $authentication = false;
 
-	public function view() {
-		$view = View::byName(views\resetpwd::class);
+	/**
+	 * @var IChannel[]|null
+	 */
+	protected $validChannels;
+
+	public function view(): Response {
+		$view = View::byName(views\Resetpwd::class);
 		$view->setData($this->getChannelsNames(), "channelsnames");
 		$this->response->setView($view);
-		try {
-			$this->haveChance();
-		} catch (losingChance $error) {
+		Cache::set("packages.userpanel.resetpwd.bruteforce." . http::$client['ip'],0);
+		if (!$this->hasChance()) {
 			$error = $this->losingChanceError();
 			$view->addError($error);
-			$this->response->setStatus(false);
-			return $this->response;
 		}
-		$inputs = $this->checkinputs(array(
-			'username' => array(
-				'type' => array('email', 'cellphone'),
+
+		$inputs = $this->checkInputs(array(
+			'credential' => array(
+				'type' => 'string',
 				'optional' => true
 			),
 			'method' => array(
@@ -33,21 +40,19 @@ class resetpwd  extends Controller {
 				'optional' => true
 			),
 		));
-		foreach (array("username", "method") as $item) {
-			if (isset($inputs[$item])){
-				$view->setDataForm($inputs[$item], $item);
-			}
+		foreach ($inputs as $key => $value) {
+			$view->setDataForm($value, $key);
 		}
-		$this->response->setStatus(true);
 		return $this->response;
 	}
-	public function reset() {
-		$view = View::byName(views\resetpwd::class);
+
+	public function reset(): Response {
+		$view = View::byName(views\Resetpwd::class);
 		$view->setData($this->getChannelsNames(), "channelsnames");
 		$this->response->setView($view);
 		$inputsRules = array(
-			'username' => array(
-				'type' => array('email', 'cellphone'),
+			'credential' => array(
+				'type' => validators\UserCredentialValidator::class,
 			),
 			'method' => array(
 				'type' => 'string',
@@ -55,92 +60,78 @@ class resetpwd  extends Controller {
 			),
 		);
 		$view->setDataForm($this->inputsvalue($inputsRules));
-		(new Events\BeforeResetPassword)->trigger();
+		(new events\BeforeResetPassword)->trigger();
+		$this->mustHasChance();
 		try {
-			$this->haveChance();
-		} catch (losingChance $error) {
-			$error = $this->losingChanceError();
-			$view->addError($error);
-			$this->response->setStatus(false);
-			return $this->response;
+			$inputs = $this->checkInputs($inputsRules);
+		} catch (InputValidationException $e) {
+			if ($e->getInput() == 'credential') {
+				$this->loseOneChance();
+			}
+			throw $e;
 		}
-		$inputs = $this->checkinputs($inputsRules);
-		$parenthesis = new db\Parenthesis();
-		$parenthesis->where("email", $inputs['username']);
-		$parenthesis->orwhere("cellphone", $inputs['username']);
-		$user = (new User)->where($parenthesis)->getOne();
-		if(!$user){
-			$this->loseOneChance();
-			throw new InputValidationException('username');
-		}
-		$this->notifyUser($user, $inputs["method"]);
-		$this->response->setData($inputs['username'], 'username');
+
+		$channel = $this->getChannelByName($inputs['method']);
+		$token = new Token();
+		$token->token = rand(1000, 999999);
+		$token->user = $inputs['credential']->id;
+		$token->ip = http::$client['ip'];
+		$channel->notify(new events\ResetPWD($token));
+		$token->sent_at = Date::time();
+		$token->save();
 		$this->response->setStatus(true);
 		return $this->response;
 	}
-	public function authenticationToken() {
-		$view = view::byName(views\resetpwd::class);
+
+	public function token(): Response {
+		$view = View::byName(views\Resetpwd::class);
 		$this->response->setView($view);
-		try {
-			$this->haveChance();
-		} catch (losingChance $error) {
-			$error = $this->losingChanceError();
-			$view->addError($error);
-			$this->response->setStatus(false);
-			return $this->response;
-		}
-		$inputsRules = [
+		$this->mustHasChance();
+		$inputs = $this->checkInputs(array(
 			'token' => [
 				'type' => 'number'
 			],
-			'username' => [
-				'type' => 'cellphone'
+			'credential' => [
+				'type' => validators\UserCredentialValidator::class,
 			]
-		];
-		$inputs = $this->checkinputs($inputsRules);
-		$user = new User();
-		$user->where('cellphone', $inputs['username']);
-		if(!$user = $user->getOne()){
-			throw new NotFound();
-		}
-		$token = new Token();
-		$token->where('user', $user->id);
-		$token->where('sent_at', Date::time() - 7200, '>');
-		$token->where('token', $inputs['token']);
-		$token->orderBy('sent_at', 'DESC');
-		if(!$token = $token->getOne()){
+		));
+	
+		$token = (new Token())
+			->where('user', $inputs['credential']->id)
+			->where('sent_at', Date::time() - 7200, '>')
+			->where('token', $inputs['token'])
+			->orderBy('sent_at', 'DESC')
+			->getOne();
+		if (!$token) {
+			$this->loseOneChance();
 			throw new InputValidationException('token');
 		}
-		Login::doLogin($user);
+
+		Login::doLogin($inputs['credential']);
 		$token->delete();
+
 		$this->response->setStatus(true);
-		$this->response->Go(userpanel\url('resetpwd/newpwd'));
+		$this->response->Go(url('resetpwd/newpwd'));
 		return $this->response;
 	}
-	public function authenticationEmailToken($data) {
-		try {
-			$this->loseOneChance();
-		} catch (losingChance $error) {
-			throw new NotFound();
+
+	/**
+	 * @return IChannel[]
+	 */
+	private function getChannels(): array {
+		if ($this->validChannels === null) {
+			$event = new events\ResetPWD(new Token());
+			$this->validChannels = [];
+			foreach (NotificationAPI::getChannels() as $channel) {
+				if ($channel->canNotify($event)) {
+					$this->validChannels[] = $channel;
+				}
+			}
 		}
-		$token = new Token();
-		$token->where('token', $data['token']);
-		$token->where('sent_at', Date::time() - 86400, '>');
-		if (!$token = $token->getOne()) {
-			throw new NotFound();
-		}
-		Login::doLogin($token->user);
-		$token->delete();
-		$this->response->setStatus(true);
-		$this->response->Go(userpanel\url('resetpwd/newpwd'));
-		return $this->response;
+		return $this->validChannels;
 	}
-	private function getChannels() {
-		$channels = new Channels();
-		$channels->trigger();
-		return $channels->get();
-	}
-	private function getChannelByName(string $name) {
+	
+	private function getChannelByName(string $name): ?IChannel {
 		foreach ($this->getChannels() as $channel) {
 			if ($channel->getName() == $name) {
 				return $channel;
@@ -148,23 +139,28 @@ class resetpwd  extends Controller {
 		}
 		return null;
 	}
+
+	/**
+	 * @return string[]
+	 */
 	private function getChannelsNames(): array {
-		$names = array();
-		foreach ($this->getChannels() as $channel) {
-			$names[] = $channel->getName();
-		}
-		return $names;
+		return array_map(fn($channel) => $channel->getName(), $this->getChannels());
 	}
-	private function haveChance() {
-		$cache = new Cache();
-		$times = Options::get('userpanel.resetpwd.mis-chance.count');
-		if ($cache->get("packages.userpanel.resetpwd.bruteforce." . http::$client['ip']) > $times) {
-			throw new losingChance();
+
+	private function hasChance(): bool {
+		$times = Options::get('userpanel.resetpwd.mis-chance.count') ?? 5;
+		return Cache::get("packages.userpanel.resetpwd.bruteforce." . http::$client['ip']) <= $times;
+	}
+
+	private function mustHasChance(): void {
+		if (!$this->hasChance()) {
+			throw $this->losingChanceError();
 		}
 	}
-	private function losingChanceError() {
-		$period = Options::get('userpanel.resetpwd.mis-chance.period');
-		$times = Options::get('userpanel.resetpwd.mis-chance.count');
+
+	private function losingChanceError(): Error {
+		$period = Options::get('userpanel.resetpwd.mis-chance.period') ?? 3600;
+		$times = Options::get('userpanel.resetpwd.mis-chance.count') ?? 5;
 		$error = new Error();
 		$error->setCode('userpanel.resetpwd.losingChance');
 		$error->setMessage(t('error.userpanel.resetpwd.losingChance', [
@@ -173,22 +169,10 @@ class resetpwd  extends Controller {
 		]));
 		return $error;
 	}
-	private function loseOneChance() {
-		$cache = new Cache();
-		$period = Options::get('userpanel.resetpwd.mis-chance.period');
-		if(!$count = $cache->get("packages.userpanel.resetpwd.bruteforce.".http::$client['ip'])){
-			$count = 1;
-		}
-		$cache->set("packages.userpanel.resetpwd.bruteforce." . http::$client['ip'], $count + 1, $period);
-	}
-	private function notifyUser(User $user, string $method) {
-		$token = new Token();
-		$token->token = ($method == "sms") ? rand(10000, 99999) : md5(rand(1000, 999999));
-		$token->user = $user->id;
-		$token->ip = http::$client['ip'];
-		$this->getChannelByName($method)->notify(new events\ResetPWD($token));
-		$token->sent_at = Date::time();
-		$token->save();
+
+	private function loseOneChance(): void {
+		$period = Options::get('userpanel.resetpwd.mis-chance.period') ?? 3600;
+		$count = Cache::get("packages.userpanel.resetpwd.bruteforce.".http::$client['ip']) ?: 1;
+		Cache::set("packages.userpanel.resetpwd.bruteforce." . http::$client['ip'], $count + 1, $period);
 	}
 }
-class losingChance extends Exception {}

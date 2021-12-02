@@ -15,6 +15,7 @@ class Login extends LoginView {
 		$registerOption = Options::load('packages.userpanel.register');
 		$this->registerEnable = boolval($registerOption['enable']);
 		$this->dynamicDataBuilder();
+		$this->addBodyClass('login-page');
 	}
 
 	private function dynamicDataBuilder() {

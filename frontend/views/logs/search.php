@@ -1,12 +1,15 @@
 <?php
 namespace themes\clipone\views\logs;
-use \packages\userpanel;
-use \packages\userpanel\{user, views\logs\search as logsSearch, authorization};
-use \themes\clipone\{navigation, navigation\menuItem, viewTrait, views\listTrait, views\formTrait};
-use \packages\base\translator;
 
-class search extends logsSearch{
-	use viewTrait, listTrait, formTrait;
+use packages\userpanel;
+use packages\userpanel\{user, views\logs\search as logsSearch, authorization};
+use themes\clipone\{navigation, navigation\menuItem, ViewTrait, views\ListTrait, views\FormTrait};
+use packages\base\translator;
+
+class search extends logsSearch {
+
+	use ViewTrait, FormTrait, ListTrait;
+
 	protected $multiuser;
 	public function __beforeLoad(){
 		$this->setTitle(translator::trans('users.logs'));
@@ -17,8 +20,10 @@ class search extends logsSearch{
 		$this->setFormData();
 	}
 	private function setFormData(){
-		if($user = $this->getDataForm("user")){
-			if($user = user::byId($user)){
+		$userID = $this->getDataForm("user");
+		if ($userID) {
+			$user = (new User)->byID($userID);
+			if ($user) {
 				$this->setDataForm($user->getFullName(), "user_name");
 			}
 		}
@@ -60,5 +65,33 @@ class search extends logsSearch{
 				'value' => 'startswith'
 			]
 		];
+	}
+
+	/**
+	 * Export logs to ajax or api requests.
+	 */
+	public function export(): array {
+
+		return array(
+			"data" => array_merge(array(
+				"permissions" => array(
+					'canView' => $this->canView,
+					'canDelete' => $this->canDelete,
+				),
+				"items" => array_map(function($log) {
+					$handler = $log->getHandler();
+					return array(
+						'id' => $log->id,
+						'ip' => $log->ip,
+						'time' => $log->time,
+						'title' => $log->title,
+						'type' => $log->type,
+						'icon' => $handler->getIcon(),
+						'color' => $handler->getColor(),
+						'activity' => method_exists($handler, "isActivity") ? $handler->isActivity() : true,
+					);
+				}, $this->getDataList()),
+			), $this->getCursorExportData()),
+		);
 	}
 }
