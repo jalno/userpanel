@@ -4,6 +4,16 @@ namespace packages\userpanel;
 use packages\base\{db\dbObject, http};
 use packages\userpanel\{log_param, user, logging\Exception\invalidTypeException};
 
+/**
+ * @property int $id
+ * @property \packages\userpanel\User|int|null $user
+ * @property string $ip
+ * @property int $time
+ * @property string $title
+ * @property class-string $type
+ * @property array<string,mixed>|mixed $parameters
+ * @property \packages\userpanel\log_param[] $params
+ */
 class Log extends dbObject {
 
 	use Paramable, CursorPaginateTrait;
