@@ -128,6 +128,7 @@ class Logs extends Controller {
 			$activities = Log\Activity::getActivityTypes();
 		}
 		$model = new Log();
+		$model->setQueryOption("STRAIGHT_JOIN");
 		$model->join(User::class, "user", ($canSearchSystemLogs ? "LEFT" : "INNER"), "id");
 		if (isset($inputs['activity']) and $inputs['activity'] and $activities) {
 			$model->where("userpanel_logs.type", $activities, "IN");
