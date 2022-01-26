@@ -65,6 +65,21 @@ class Login extends Controller {
 				->getOne();
 	}
 
+	protected Authentication\BruteForceThrottle $bruteForceThrottle;
+
+	public function __construct() {
+		parent::__construct();
+
+		/** @var false|null|array{'period'?:int,'count'?:int} $throttleOptions */
+		$throttleOptions = Options::get('packages.userpanel.login_and_reset_password.bruteforce_throttle');
+		$this->bruteForceThrottle = new Authentication\BruteForceThrottle(
+			'login-and-reset-password',
+			intval($throttleOptions['period'] ?? 3600),
+			intval($throttleOptions['total-limit'] ?? 7),
+			intval($throttleOptions['session-limit'] ?? 5),
+		);
+	}
+
 	/**
 	 * validate the inputs, find the user and verify the password.
 	 * Finally call the doLogin() for setup the session.
@@ -72,6 +87,8 @@ class Login extends Controller {
 	 * @return User
 	 */
 	public function login_helper(): User {
+		$this->bruteForceThrottle->mustHasChance();
+
 		$inputs = $this->checkinputs(array(
 			'credential' => array(
 				'type' => ['email', 'cellphone'],
@@ -93,6 +110,7 @@ class Login extends Controller {
 					->where($p)
 					->getOne();
 		if (!$user) {
+			$this->bruteForceThrottle->loseOneChance();
 			throw new InputValidationException('credential');
 		}
 		if (!$user->password_verify($inputs['password'])) {
@@ -105,6 +123,8 @@ class Login extends Controller {
 				'wrongpaswd' => $inputs['password']
 			];
 			$log->save();
+
+			$this->bruteForceThrottle->loseOneChance();
 			throw new InputValidationException('password');
 		}
 		(new Events\BeforeLogin)->trigger();
@@ -125,30 +145,38 @@ class Login extends Controller {
 	 * @return Response
 	 */
 	public function loginView(): Response {
-		$backTo = (isset(http::$data['backTo']) and 
-				is_string(http::$data['backTo']) and 
-				http::$data['backTo'] and 
-				http::is_safe_referer(http::$data['backTo'])) ? http::$data['backTo'] : "";
+		$this->response->setStatus(false);
 
-		if (!Authentication::check()) {
+		$backTo = (isset(HTTP::$data['backTo']) and
+			is_string(HTTP::$data['backTo']) and
+			HTTP::$data['backTo'] and
+			HTTP::is_safe_referer(http::$data['backTo'])
+		) ? HTTP::$data['backTo'] : "";
+
+		$view = View::byName(views\Login::class);
+		$view->setDataForm($backTo, 'backTo');
+		$view->setCountries((new Country)->get());
+		$this->response->setView($view);
+
+		if (Authentication::check()) {
+			$this->response->Go($backTo ?: userpanel\url());
+		} else {
+			$this->bruteForceThrottle->mustHasChance();
+
 			$handler = Authentication::getHandler();
 			if ($handler instanceof Authentication\SessionHandler && $handler->isLock()) {
 				$this->response->setStatus(false);
 				$this->response->Go(userpanel\url('lock'));
 				return $this->response;
 			}
+
 			$user = self::checkRememberToken();
 			if ($user) {
 				self::doLogin($user);
-				$this->response->setStatus(true);
-				$this->response->Go($backTo ? $backTo : userpanel\url());
-				return $this->response;
+				$this->response->Go($backTo ?: userpanel\url());
 			}
 		}
-		$view = View::byName(views\Login::class);
-		$view->setDataForm($backTo, 'backTo');
-		$view->setCountries((new Country)->get());
-		$this->response->setView($view);
+
 		$this->response->setStatus(true);
 		return $this->response;
 	}
@@ -190,6 +218,7 @@ class Login extends Controller {
 				),
 			));
 		} catch(InputValidationException $e) {
+			$this->bruteForceThrottle->loseOneChance();
 			$e->setInput('');
 			throw $e;
 		}

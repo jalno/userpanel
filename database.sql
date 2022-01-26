@@ -426,3 +426,13 @@ INSERT INTO `userpanel_users_options` (`id`, `user`, `name`, `value`) VALUES
 (1, 1, 'visibilities', '["email","cellphone","phone","socialnetworks_5","socialnetworks_4","socialnetworks_6","socialnetworks_2","socialnetworks_1","socialnetworks_3"]');
 
 INSERT INTO `options` (`name`, `value`, `autoload`) VALUES ('packages.userpanel.tos_url', '', '0');
+
+-- this option is prevent userpanel's login and reset password being brute-forced
+-- the value of option indicated how many faild request ('total-limit') by a IP can user make in ('period')
+-- this guarantees the total of failed requests by a IP can not exceed the 'total-limit'
+-- and also if you set 'session-limit' this will guarantees the total of failed requests by a session can no exceed the 'session-limit'
+-- note that the 'session-limit' should be equal or lower than 'total-limit'
+INSERT INTO `options` (`name`, `value`, `autoload`) VALUES (
+	'packages.userpanel.login_and_reset_password.bruteforce_throttle', '{\"period\":3600, \"total-limit\": 7, \"session-limit\": 5}', '1'
+);
+

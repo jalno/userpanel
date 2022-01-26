@@ -114,7 +114,8 @@ trait ViewTrait {
 		$alert = array(
 			'type' => 'info',
 			'txt' => $error->getMessage(),
-			'title' => ''
+			'title' => '',
+			'closeable' => true,
 		);
 		$data = $error->getData();
 		if (!is_array($data)) {
@@ -149,9 +150,11 @@ trait ViewTrait {
 		} else {
 			$alert['classes'] = '';
 		}
-		$code .= "<div class=\"alert alert-block alert-{$alert['type']} {$alert['classes']}\"";
-		$code .= $this->buildAlertHtmlData($alert);
-		$code .= "><button data-dismiss=\"alert\" class=\"close\" type=\"button\">&times;</button>";
+		$code .= "<div class=\"alert alert-block alert-{$alert['type']} {$alert['classes']}\"" .
+			$this->buildAlertHtmlData($alert) . '>';
+		if ($alert['closeable']) {
+			$code .= "<button data-dismiss=\"alert\" class=\"close\" type=\"button\">&times;</button>";
+		}
 		$code .= "<h4 class=\"alert-heading\">";
 		switch($alert['type']){
 			case('danger'): $code.="<i class=\"fa fa-times-circle\"></i>";break;
