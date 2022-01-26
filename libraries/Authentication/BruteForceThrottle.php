@@ -40,8 +40,6 @@ class BruteForceThrottle {
 
 	/**
 	 * @param null|array{} $options
-	 * @param null|int $period that is the period of watch for brute force
-	 * @param null|int $count
 	 * @param null|callable(int $totalChances, int $period),:void $onMissAllChances
 	 * @param null|callable(int $failedCount):void $onMissOneChance
 	 * @param OptionsType $options
@@ -78,12 +76,12 @@ class BruteForceThrottle {
 
 		$this->onMissOneChance = $onMissOneChance;
 
-		$this->onMissAllChances = $onMissAllChances ?: function (int $failedCount): void {
+		$this->onMissAllChances = $onMissAllChances ?: static function (int $totalChances, int $period): void {
 			$error = new Error('packages.userpanel.bruteforce_throttle.miss_all_chances');
 			$error->setData(false, 'closeable');
 			$error->setMessage(t('error.packages.userpanel.bruteforce_throttle.miss_all_chances', [
-				'limit' => $failedCount,
-				'expire_at' => Date::relativeTime(Date::time() + $this->period)
+				'limit' => $totalChances,
+				'expire_at' => Date::relativeTime(Date::time() + $period)
 			]));
 			throw $error;
 		};
@@ -110,7 +108,7 @@ class BruteForceThrottle {
 
 		if ($this->onMissOneChance) {
 			call_user_func(
-				$this->onMissAllChances,
+				$this->onMissOneChance,
 				($sessionBasedTriesCount !== null ? $sessionBasedTriesCount + 1 : $totalTriesCount + 1)
 			);
 		}
