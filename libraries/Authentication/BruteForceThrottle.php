@@ -40,7 +40,7 @@ class BruteForceThrottle {
 
 	/**
 	 * @param null|array{} $options
-	 * @param null|callable(int $totalChances, int $period),:void $onMissAllChances
+	 * @param null|callable(int $totalChances, int $period, ?int $sessionBasedChances = null),:void $onMissAllChances
 	 * @param null|callable(int $failedCount):void $onMissOneChance
 	 * @param OptionsType $options
 	 */
@@ -76,11 +76,11 @@ class BruteForceThrottle {
 
 		$this->onMissOneChance = $onMissOneChance;
 
-		$this->onMissAllChances = $onMissAllChances ?: static function (int $totalChances, int $period): void {
+		$this->onMissAllChances = $onMissAllChances ?: static function (int $totalChances, int $period, ?int $sessionBasedChances = null): void {
 			$error = new Error('packages.userpanel.bruteforce_throttle.miss_all_chances');
 			$error->setData(false, 'closeable');
 			$error->setMessage(t('error.packages.userpanel.bruteforce_throttle.miss_all_chances', [
-				'limit' => $totalChances,
+				'limit' => is_null($sessionBasedChances) ? $totalChances : $sessionBasedChances,
 				'expire_at' => Date::relativeTime(Date::time() + $period)
 			]));
 			throw $error;
@@ -93,7 +93,7 @@ class BruteForceThrottle {
 
 	public function mustHasChance(): void {
 		if (!$this->hasChance()) {
-			call_user_func($this->onMissAllChances, $this->totalLimit, $this->period);
+			call_user_func($this->onMissAllChances, $this->totalLimit, $this->period, ($this->isSessionBeingUsed() ? $this->sessionLimit : null));
 		}
 	}
 
@@ -141,6 +141,6 @@ class BruteForceThrottle {
 	}
 
 	private function isSessionBeingUsed(): bool {
-		return intval($this->sessionLimit);
+		return boolval($this->sessionLimit);
 	}
 }
