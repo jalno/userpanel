@@ -218,7 +218,6 @@ class Login extends Controller {
 				),
 			));
 		} catch(InputValidationException $e) {
-			$this->bruteForceThrottle->loseOneChance();
 			$e->setInput('');
 			throw $e;
 		}
