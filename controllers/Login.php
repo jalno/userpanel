@@ -161,7 +161,7 @@ class Login extends Controller {
 		if (Authentication::check()) {
 			$this->response->Go($backTo ?: userpanel\url());
 		} else {
-			$this->bruteForceThrottle->mustHasChance();
+			$this->bruteForceThrottle->mustHasChance(true);
 
 			$handler = Authentication::getHandler();
 			if ($handler instanceof Authentication\SessionHandler && $handler->isLock()) {

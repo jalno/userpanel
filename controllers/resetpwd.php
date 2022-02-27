@@ -38,7 +38,7 @@ class Resetpwd  extends Controller {
 		$view = View::byName(views\Resetpwd::class);
 		$view->setData($this->getChannelsNames(), "channelsnames");
 		$this->response->setView($view);
-		$this->bruteForceThrottle->mustHasChance();
+		$this->bruteForceThrottle->mustHasChance(true);
 
 		$inputs = $this->checkInputs(array(
 			'credential' => array(

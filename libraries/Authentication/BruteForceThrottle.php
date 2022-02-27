@@ -81,18 +81,16 @@ class BruteForceThrottle {
 			$error->setData(false, 'closeable');
 			$error->setMessage(t('error.packages.userpanel.bruteforce_throttle.miss_all_chances', [
 				'limit' => is_null($sessionBasedChances) ? $totalChances : $sessionBasedChances,
-				'expire_at' => Date::relativeTime(Date::time() + $period)
+				'expire_at_relative' => Date::relativeTime(Date::time() + $period),
+				'expire_at_formated' => Date::format('Q QTS', Date::time() + $period),
 			]));
 			throw $error;
 		};
 
-		if ($this->sessionLimit) {
-			Session::start();
-		}
 	}
 
-	public function mustHasChance(): void {
-		if (!$this->hasChance()) {
+	public function mustHasChance(bool $preventStartSession = false): void {
+		if (!$this->hasChance($preventStartSession)) {
 			call_user_func($this->onMissAllChances, $this->totalLimit, $this->period, ($this->isSessionBeingUsed() ? $this->sessionLimit : null));
 		}
 	}
@@ -100,8 +98,11 @@ class BruteForceThrottle {
 	public function loseOneChance(): void {
 		$sessionBasedTriesCount = null;
 		if ($this->isSessionBeingUsed()) {
-			$sessionBasedTriesCount = Cache::get($this->getSessionBasedCacheName()) ?: 0;
-			Cache::set($this->getSessionBasedCacheName(), $sessionBasedTriesCount + 1, $this->period);
+			$cacheName = $this->getSessionBasedCacheName(false);
+			if ($cacheName) {
+				$sessionBasedTriesCount = Cache::get($cacheName) ?: 0;
+				Cache::set($this->getSessionBasedCacheName(), $sessionBasedTriesCount + 1, $this->period);
+			}
 		}
 		$totalTriesCount = Cache::get($this->getCacheName()) ?: 0;
 		Cache::set($this->getCacheName(), $totalTriesCount + 1, $this->period);
@@ -114,30 +115,49 @@ class BruteForceThrottle {
 		}
 	}
 
-	public function hasChance(): bool {
-		$totalTries = Cache::get($this->getCacheName()) ?? 0;
-		$hasChance = $totalTries < $this->totalLimit;
-
+	public function hasChance(bool $preventStartSession = false): bool {
+		$hasChance = $this->hasTotalChance();
 		if ($hasChance and $this->isSessionBeingUsed()) {
-			$sessionBasedTries = Cache::get($this->getSessionBasedCacheName()) ?? 0;
-			$hasChance = $sessionBasedTries < $this->sessionLimit;
+			$hasChance = $this->hasSessionChance($preventStartSession);
 		}
+		return is_null($hasChance) ?: $hasChance;
+	}
 
-		return $hasChance;
+	public function hasSessionChance(bool $preventStartSession = false): ?bool {
+		if (!$this->isSessionBeingUsed()) {
+			return null;
+		}
+		$cacheName = $this->getSessionBasedCacheName($preventStartSession);
+		if (is_null($cacheName)) {
+			return null;
+		}
+		$sessionBasedTries = Cache::get($cacheName) ?? 0;
+		return $sessionBasedTries < $this->sessionLimit;
+	}
+
+	public function hasTotalChance(): bool {
+		$totalTries = Cache::get($this->getCacheName()) ?? 0;
+		return $totalTries < $this->totalLimit;
 	}
 
 	private function getCacheName(): string {
 		return $this->options['cache-name'] . '.ip-' . HTTP::$client['ip'];
 	}
 
-	private function getSessionBasedCacheName(): ?string {
-		if ($this->isSessionBeingUsed()) {
-			if (!$this->sessionID) {
-				$this->sessionID = Session::getID();
-			}
-			return $this->options['cache-name'] . '.ip-' . HTTP::$client['ip'] . '.session-' . $this->sessionID;
+	private function getSessionBasedCacheName(bool $preventStartSession = false): ?string {
+		if (!$this->isSessionBeingUsed()) {
+			return null;
 		}
-		return null;
+		if (!$this->sessionID) {
+			$this->sessionID = Session::getID();
+		}
+		if (!$this->sessionID and !$preventStartSession) {
+			Session::start();
+			$this->sessionID = Session::getID();
+		}
+		return $this->sessionID ?
+			$this->options['cache-name'] . '.ip-' . HTTP::$client['ip'] . '.session-' . $this->sessionID :
+			null;
 	}
 
 	private function isSessionBeingUsed(): bool {
