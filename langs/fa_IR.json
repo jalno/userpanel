@@ -84,7 +84,7 @@
 		"usertype.permissions.userpanel_settings_usertypes_edit" : "ویرایش سطح کاربری",
 		"usertype.permissions.userpanel_settings_usertypes_delete" : "حذف سطح کاربری",
 
-		"error.packages.userpanel.bruteforce_throttle.miss_all_chances": "شما {limit} تلاش ناموفق داشته‌اید  تا {expire_at} نمی‌توانید هیچ تلاشی انجام دهید؛ لطفا صبور باشید!",
+		"error.packages.userpanel.bruteforce_throttle.miss_all_chances": "شما {limit} تلاش ناموفق داشته‌اید و  تا <span class=\"ltr tooltips\" title=\"{expire_at_formated}\">{expire_at_relative}</span> نمی‌توانید هیچ تلاشی انجام دهید؛ لطفا صبور باشید!",
 
 		"userpanel.usersettings.message.timezone": "منطقه زمانی",
 		"userpanel.usersettings.message.calendar": "تقویم",

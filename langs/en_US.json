@@ -80,7 +80,7 @@
 		"usertype.permissions.userpanel_settings_usertypes_edit" : "Edit User type",
 		"usertype.permissions.userpanel_settings_usertypes_delete" : "Delete User type",
 
-		"error.packages.userpanel.bruteforce_throttle.miss_all_chances": "You have {limit} failed attempt to login and you are blocked from create a new login request until {expire_at}, be patient!",
+		"error.packages.userpanel.bruteforce_throttle.miss_all_chances": "You have {limit} failed attempt to login and you are blocked from create a new login request until <span class=\"ltr tooltips\" title=\"{expire_at_formated}\">{expire_at_relative}</span>, be patient!",
 
 		"userpanel.usersettings.message.timezone": "TimeZone",
 		"userpanel.usersettings.message.calendar": "Calendar",
