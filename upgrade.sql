@@ -311,3 +311,10 @@ ALTER TABLE `userpanel_users` ADD INDEX( `type`,`time`,`user` );
 -- Commit: 98da6363cbd76c263f720f8785dacbd9b02f9659
 --
 ALTER TABLE `userpanel_users` CHANGE `lastname` `lastname` VARCHAR(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL;
+
+--
+--	Commit: d9d1cf4b054aed7be9ab5895f2e65d3aafaf7334
+--
+INSERT INTO `options` (`name`, `value`, `autoload`) VALUES (
+	'packages.userpanel.login_and_reset_password.bruteforce_throttle', '{\"period\":3600, \"total-limit\": 7, \"session-limit\": 5}', '1'
+);
