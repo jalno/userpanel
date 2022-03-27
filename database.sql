@@ -433,6 +433,6 @@ INSERT INTO `options` (`name`, `value`, `autoload`) VALUES ('packages.userpanel.
 -- and also if you set 'session-limit' this will guarantees the total of failed requests by a session can no exceed the 'session-limit'
 -- note that the 'session-limit' should be equal or lower than 'total-limit'
 INSERT INTO `options` (`name`, `value`, `autoload`) VALUES (
-	'packages.userpanel.login_and_reset_password.bruteforce_throttle', '{\"period\":3600, \"total-limit\": 7, \"session-limit\": 5}', '1'
+	'packages.userpanel.login_and_reset_password.bruteforce_throttle', '{\"period\":3600, \"total-limit\": 7, \"session-limit\": 5, \"ignore-ips\":[]}', '1'
 );
 

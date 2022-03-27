@@ -9,15 +9,21 @@ use packages\userpanel\Date;
 /**
  * @phpstan-type OptionsType array{
  * 		'cache-name'?:string,
+ * 		'ignore-ips'?:string[],
  * 	}
  */
 class BruteForceThrottle {
+
+	protected static function getClientIP(): string {
+		return $_SERVER["HTTP_X_REAL_IP"] ?? $_SERVER["HTTP_X_FORWARDED_FOR"] ?? $_SERVER['REMOTE_ADDR'] ?? HTTP::$client['ip'] ?? '0.0.0.0';
+	}
 
 	/**
 	 * @var OptionsType
 	 */
 	protected static $defaultOptions = array(
 		'cache-name' => null,
+		'ignore-ips' => [],
 	);
 
 	protected string $channel;
@@ -39,7 +45,6 @@ class BruteForceThrottle {
 	protected ?string $sessionID = null;
 
 	/**
-	 * @param null|array{} $options
 	 * @param null|callable(int $totalChances, int $period, ?int $sessionBasedChances = null),:void $onMissAllChances
 	 * @param null|callable(int $failedCount):void $onMissOneChance
 	 * @param OptionsType $options
@@ -71,6 +76,12 @@ class BruteForceThrottle {
 		} else if (!is_string($this->options['cache-name'])) {
 			throw new InvalidArgumentException(
 				'the cache-name option should be a non-empty string!, given: ' . Json\encode($this->options['cache-name'])
+			);
+		}
+
+		if (isset($this->options['ignore-ips']) and !is_array($this->options['ignore-ips'])) {
+			throw new InvalidArgumentException(
+				'the ignore-ips option should be a array of string!, given: ' . Json\encode($this->options['ignore-ips'])
 			);
 		}
 
@@ -136,12 +147,19 @@ class BruteForceThrottle {
 	}
 
 	public function hasTotalChance(): bool {
+		if (
+			isset($this->options['ignore-ips']) and
+			$this->options['ignore-ips'] and
+			in_array(self::getClientIP(), $this->options['ignore-ips'])
+		) {
+			return true;
+		}
 		$totalTries = Cache::get($this->getCacheName()) ?? 0;
 		return $totalTries < $this->totalLimit;
 	}
 
 	private function getCacheName(): string {
-		return $this->options['cache-name'] . '.ip-' . HTTP::$client['ip'];
+		return $this->options['cache-name'] . '.ip-' . self::getClientIP();
 	}
 
 	private function getSessionBasedCacheName(bool $preventStartSession = false): ?string {
@@ -156,7 +174,7 @@ class BruteForceThrottle {
 			$this->sessionID = Session::getID();
 		}
 		return $this->sessionID ?
-			$this->options['cache-name'] . '.ip-' . HTTP::$client['ip'] . '.session-' . $this->sessionID :
+			$this->options['cache-name'] . '.ip-' . self::getClientIP() . '.session-' . $this->sessionID :
 			null;
 	}
 
