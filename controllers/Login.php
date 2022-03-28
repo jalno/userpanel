@@ -77,6 +77,13 @@ class Login extends Controller {
 			intval($throttleOptions['period'] ?? 3600),
 			intval($throttleOptions['total-limit'] ?? 7),
 			intval($throttleOptions['session-limit'] ?? 5),
+			null,
+			null,
+			[
+				'ignore-ips' => (isset($throttleOptions['ignore-ips']) and is_array($throttleOptions['ignore-ips'])) ?
+					$throttleOptions['ignore-ips'] :
+					[],
+			]
 		);
 	}
 

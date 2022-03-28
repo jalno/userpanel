@@ -318,3 +318,10 @@ ALTER TABLE `userpanel_users` CHANGE `lastname` `lastname` VARCHAR(100) CHARACTE
 INSERT INTO `options` (`name`, `value`, `autoload`) VALUES (
 	'packages.userpanel.login_and_reset_password.bruteforce_throttle', '{\"period\":3600, \"total-limit\": 7, \"session-limit\": 5}', '1'
 );
+
+--
+--
+--	Commit:	656be610fcd08e1bd6ab1d9b0df18bcb3fe5bdce
+--REPLACE INTO `options` (`name`, `value`, `autoload`) VALUES (
+--	'packages.userpanel.login_and_reset_password.bruteforce_throttle', '{\"period\":3600, \"total-limit\": 7, \"session-limit\": 5, \"ignore-ips\":[]}', '1'
+--);
