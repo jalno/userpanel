@@ -97,6 +97,9 @@ trait listTrait{
 				if(isset($btn['params']['icon']) and $btn['params']['icon']){
 					$code .= '<i class="'.$btn['params']['icon'].'"></i>';
 				}
+				if(isset($btn['params']['text']) and $btn['params']['text']){
+					$code .= $btn['params']['text'];
+				}
 				$code .= '</a> ';
 			}
 			if($responsive and count($buttons) > 1){
