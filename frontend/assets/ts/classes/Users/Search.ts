@@ -71,10 +71,12 @@ export default class Search {
 			singleDatePicker: false,
 			moment: moment,
 			maxDate: moment(),
+			opens: 'left',
 			locale: {
 				applyLabel: t('userpanel.action'),
 				cancelLabel: t('userpanel.cancel'),
 			},
+			parentEl: "#users-search .modal-body",
 		};
 		
 		if (lang === 'fa') {
