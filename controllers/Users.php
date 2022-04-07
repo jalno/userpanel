@@ -148,6 +148,15 @@ class Users extends Controller {
 				"unix" => true,
 				"optional" => true,
 			),
+			'register' => array(
+				'type' => 'array',
+				'optional' => true,
+				'explode' => '-',
+				'each' => array(
+					'type' => 'date',
+					'unix' => true,
+				),
+			),
 		);
 		$inputs = $this->checkInputs($rules);
 
@@ -159,6 +168,15 @@ class Users extends Controller {
 		if ($inputs["online"]) {
 			unset($inputs["lastonline_from"], $inputs["lastonline_to"]);
 		}
+
+		if (isset($inputs["register"])) {
+			if (isset($inputs["register"][0], $inputs["register"][1]) and $inputs["register"][0] > $inputs["register"][1]) {
+				$tmp = $inputs["register"][0];
+				$inputs["register"][0] = $inputs["register"][1];
+				$inputs["register"][1] = $tmp;
+			}
+		}
+
 		$model = new User();
 		if ($types) {
 			$model->where("type", $types, 'in');
@@ -229,6 +247,16 @@ class Users extends Controller {
 			$parenthesis->orWhere("CONCAT(`name`, ' ', `lastname`)", $inputs["word"], $inputs["comparison"]);
 			$model->where($parenthesis);
 		}
+
+		if (isset($inputs['register'])) {
+			if (isset($inputs['register'][0])) {
+				$model->where('registered_at', $inputs['register'][0], '>=');
+			}
+			if (isset($inputs['register'][1])) {
+				$model->where('registered_at', $inputs['register'][1], '<');
+			}
+		}
+
 		if (isset($inputs["download"])) {
 			$user = new user;
 			$users = $user->get();
