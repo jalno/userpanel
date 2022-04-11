@@ -121,8 +121,8 @@ class SubmitModal
 			<form id="' . $this->getID() . '-form" action="' . $this->link . '" method="POST">' . $this->getContent()  . $this->createFields() . '</form>
 		</div>
 		<div class="modal-footer">
-			<button method="submit" form="' . $this->getID() . '-form" class="btn btn-success">' . t("userpanel.submit") . '</button>
-			<button method="button" class="btn btn-default" data-dismiss="modal" aria-hidden="true">' . t("userpanel.cancel") . '</button>
+			<button type="submit" form="' . $this->getID() . '-form" class="btn btn-success">' . t("userpanel.submit") . '</button>
+			<button type="button" class="btn btn-default" data-dismiss="modal" aria-hidden="true">' . t("userpanel.cancel") . '</button>
 		</div>
 	</div>';
 	}
