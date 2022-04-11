@@ -2,11 +2,18 @@
 namespace themes\clipone\users;
 
 use function packages\base\json\encode;
+use packages\base\View;
 
 class AdditionalInformations {
 
+	private View $view;
 	/** @var array<AdditionalInformation> */
 	private $items = array();
+
+	public function __construct(View $view)
+	{
+		$this->view = $view;
+	}
 
 	/**
 	 * Add addintional information with shown priority
@@ -20,6 +27,7 @@ class AdditionalInformations {
 		if ($index < 0) {
 			throw new \InvalidArgumentException("index number is invalid");
 		}
+		$item->setView($this->view);
 		array_splice($this->items, $index, 0, [$item]);
 	}
 
@@ -40,6 +48,7 @@ class AdditionalInformations {
 	 * @return void
 	 */
 	public function append(AdditionalInformation $item): void {
+		$item->setView($this->view);
 		$this->items[] = $item;
 	}
 
@@ -60,5 +69,10 @@ class AdditionalInformations {
 	 */
 	public function get() {
 		return $this->items;
+	}
+
+	public function getView(): View
+	{
+		return $this->view;
 	}
 }

@@ -2,7 +2,7 @@
 namespace themes\clipone\views;
 
 use function packages\base\json\encode;
-use themes\clipone\users\{AdditionalInformation, AdditionalInformations};
+use themes\clipone\users\{AdditionalInformation, ActionButton, AdditionalInformations};
 
 trait UserAdditionalInformationTrait {
 
@@ -11,19 +11,39 @@ trait UserAdditionalInformationTrait {
 
 	public function AdditionalInformations(): AdditionalInformations {
 		if (!$this->additionalInformations) {
-			$this->additionalInformations = new AdditionalInformations();
+			$this->additionalInformations = new AdditionalInformations($this);
 		}
 		return $this->additionalInformations;
+	}
+
+	public function buildActionButtons(): string
+	{
+		$items = $this->AdditionalInformations()->get();
+		if (empty($items)) {
+			return "";
+		}
+
+		$html = "";
+
+		foreach ($items as $item) {
+			if ($item instanceof ActionButton) {
+				$html .= $item->getHtml();
+			}
+		}
+
+		return $html;
 	}
 
 	/**
 	 * @return string
 	 */
 	protected function buildAddintionalInformations(): string {
-		$items = $this->AdditionalInformations()->get();
+		$items = array_filter($this->AdditionalInformations()->get(), fn(AdditionalInformation $item) => !($item instanceof ActionButton));
+
 		if (empty($items)) {
 			return "";
 		}
+
 		$html = '<table class="table table-condensed table-hover">
 		<thead>
 			<tr>
@@ -33,13 +53,7 @@ trait UserAdditionalInformationTrait {
 		<tbody>';
 
 		foreach ($items as $item) {
-			$data = $this->generateItemData($item);
-			$classes = $item->getClasses();
-			$html .= '
-			<tr' . ($classes ? ' class="' . $classes . '"' : '') . ($data ? ' ' . $data : '') . '>
-				<td>' . $item->getName() . '</td>
-				<td>' . $item->getValue() . '</td>
-			</tr>';
+			$html .= $item->getHtml();
 		}
 
 		$html .= '
@@ -47,13 +61,5 @@ trait UserAdditionalInformationTrait {
 		</table>';
 
 		return $html;
-	}
-	
-	private function generateItemData(AdditionalInformation $item): string {
-		$items = array();
-		foreach ($item->getData() as $key => $value) {
-			$items[] = 'data-' . $key . '="' . (htmlentities(is_array($value) ? encode($value) : $value)) . '"';
-		}
-		return implode(" ", $items);
 	}
 }

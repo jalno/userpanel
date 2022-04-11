@@ -73,7 +73,11 @@
         {
 			"name":"packages/base/view/events/afterLoad",
 			"listener": "listeners/AfterLoad@setFavicon"
-		}
+		},
+		{
+            "name": "themes/clipone/events/InitializeProfile",
+			"listener": "listeners/Profile@initialize"
+        }
 	],
 	"views":[
 		{
