@@ -103,19 +103,6 @@ class SubmitModal
 
 	public function addField(array $field): void
 	{
-
-		if (method_exists($this->view, 'getFormErrorsByInput')) {
-			$absuloteName = $field['name'];
-	
-			while (substr($absuloteName, -2) == '[]') {
-				$absuloteName = substr($absuloteName, 0, strlen($absuloteName)-2);
-			}
-	
-			$field['error'] = $this->view->getFormErrorsByInput($absuloteName);
-		} else {
-			$field['error'] = false;
-		}
-
 		$this->fields[] = $field;
 	}
 
@@ -138,6 +125,21 @@ class SubmitModal
 			<button method="button" class="btn btn-default" data-dismiss="modal" aria-hidden="true">' . t("userpanel.cancel") . '</button>
 		</div>
 	</div>';
+	}
+
+	public function getFormErrorsByInput(string $name)
+	{
+		return method_exists($this->view, 'getFormErrorsByInput') ? $this->view->getFormErrorsByInput($name) : null;
+	}
+
+	public function getDataForm(string $name)
+	{
+		return method_exists($this->view, 'getDataForm') ? $this->view->getDataForm($name) : null;
+	}
+
+	public function getDataInput(string $name)
+	{
+		return method_exists($this->view, 'getDataInput') ? $this->view->getDataInput($name) : null;
 	}
 
 	protected function createFields(): string
