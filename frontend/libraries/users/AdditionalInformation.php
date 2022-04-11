@@ -1,6 +1,7 @@
 <?php
 namespace themes\clipone\users;
 
+use function packages\base\json\encode;
 use packages\base\View;
 
 class AdditionalInformation {
