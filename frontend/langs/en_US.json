@@ -115,6 +115,7 @@
 		"userpanel.search": "Search",
 		"userpanel.delete": "Delete",
 		"userpanel.cancel": "Cancel",
+		"userpanel.action": "Action",
 
 		"user.delete.warning.title": "Delete User",
 		"user.delete.warning": "Are you sure? This action can't be reverted!",
@@ -279,6 +280,8 @@
 		"userpanel.profile.additional_informations": "Additional informations",
 		"usertype.children-type.select.permissions": "Copy from",
 		"select.empty_option": "Choose ..",
-		"loading": "Loading data"
+		"loading": "Loading data",
+		"userpanel.all": "All",
+		"warning.userpanel.empty_result": "Can not find any record to show."
 	}
 }

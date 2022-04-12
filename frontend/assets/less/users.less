@@ -2,6 +2,95 @@ body.users-search {
 	.select2.select2-container .select2-selection {
 		border-radius: 0;
 	}
+	.btn.btn-export {
+		margin-bottom: 15px;
+	}
+	.search-status-tabs-container {
+		margin-bottom: 1px;
+		user-select: none;
+		border-bottom: 2px solid #d9d9d9;
+		.search-status-tabs {
+			float: left;
+			position: relative;
+			display: block;
+			list-style: none;
+			padding-right: 0;
+			margin-bottom: 0;
+			padding-left: 0;
+			margin-bottom: -1px;
+			.status-tab {
+				float: right;
+				display: flex;
+				padding: 10px 10px 11px;
+				&.active {
+					border-bottom: 2px solid #ffa200;
+					> a {
+						color: #000;
+						font-weight: bold;
+					}
+				}
+				a {
+					&:hover, &:active, &:focus {
+						text-decoration: none;
+					}
+				}
+				> a {
+					color: #707070;
+				}
+			}
+		}
+
+		@media (max-width: 768px) {
+			border-bottom: none;
+			margin-bottom: 5px;
+			.btn {
+				margin-bottom: 15px;
+			}
+			.search-status-tabs {
+				float: none;
+				display: block;
+				width: 100%;
+				margin-bottom: 0;
+				.status-tab {
+					float: none;
+					display: inline-block;
+					width: 49%;
+					> a {
+						display: block;
+						text-align: center;
+					}
+				}
+			}
+		}
+	}
+
+	&.rtl {
+		.search-status-tabs {
+			float: right;
+			font-family: yekan;
+			+ small {
+				float: right;
+				display: block;
+				font-family: yekan;
+			}
+		}
+		.table-users {
+			font-family: yekan;
+		}
+		#users-search {
+			.daterangepicker {
+				right: auto !important;
+				left: 0 !important;
+			}
+		}
+	}
+
+	#users-search {
+		.daterangepicker {
+			margin-top: 0 !important;
+			right: 0 !important;
+		}
+	}
 }
 #user-activate-modal {
 	border-color: #4cae4c;
