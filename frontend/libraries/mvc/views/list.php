@@ -49,6 +49,21 @@ trait listTrait{
 		}
 		return false;
 	}
+
+	public function getButtons(?array $names = []): array
+	{
+		$buttons = $this->buttons;
+		if ($names) {
+			foreach ($buttons as $name => $button) {
+				if (!in_array($name, $names)) {
+					unset($buttons[$name]);
+				}
+			}
+		}
+
+		return $buttons;
+	}
+
 	public function hasButtons(){
 		$have = false;
 		foreach($this->buttons as $btn){
