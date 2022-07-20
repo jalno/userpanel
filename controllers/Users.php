@@ -31,6 +31,86 @@ class Users extends Controller {
 		if ($types) {
 			$view->setUserTypes((new Usertype)->where("id", $types, "in")->get());
 		}
+
+		$query = $this->searchAPI();
+
+		if (Http::getData('type')) {
+			$view->setDataForm(explode(',', Http::getData('type')), 'type-select');
+		}
+
+		if (isset($inputs["download"])) {
+			$users = $query->get();
+			$csv = t("packages.userpanel.user.csv.id") . ";" .
+				t("packages.userpanel.user.csv.name") . ";" .
+				t("packages.userpanel.user.csv.lastname") . ";" .
+				t("packages.userpanel.user.csv.email") . ";" .
+				t("packages.userpanel.user.csv.cellphone") . ";" .
+				t("packages.userpanel.user.csv.type") . ";" .
+				t("packages.userpanel.user.csv.phone") . ";" .
+				t("packages.userpanel.user.csv.city") . ";" .
+				t("packages.userpanel.user.csv.country") . ";" .
+				t("packages.userpanel.user.csv.zip") . ";" .
+				t("packages.userpanel.user.csv.address") . ";" .
+				t("packages.userpanel.user.csv.web") . ";" .
+				t("packages.userpanel.user.csv.lastonline") . ";" .
+				t("packages.userpanel.user.csv.credit") . ";" .
+				t("packages.userpanel.user.csv.registered_at") . ";" .
+				t("packages.userpanel.user.csv.status") . ";\n";
+			foreach ($users as $user) {
+				$status = "";
+				switch($user->status) {
+					case user::active:
+						$status = t("packages.userpanel.user.csv.status.active");
+						break;
+					case user::deactive:
+						$status = t("packages.userpanel.user.csv.status.deactive");
+						break;
+					case user::suspend:
+						$status = t("packages.userpanel.user.csv.status.suspend");
+						break;
+				}
+				$csv .= $user->id . ";" .
+						($user->name ? $user->name : "-"). ";" .
+						($user->lastname ? str_replace(";", "", $user->lastname) : "-"). ";" .
+						($user->email ? $user->email : "-"). ";" .
+						($user->cellphone ? $user->cellphone : "-"). ";" .
+						($user->type? $user->type->title: "-"). ";" .
+						($user->phone ? $user->phone : "-"). ";" .
+						($user->city ? $user->city : "-"). ";" .
+						($user->country ? $user->country->name: "-"). ";" .
+						($user->zip ? $user->zip : "-"). ";" .
+						($user->address? $user->address: "-"). ";" .
+						($user->web ? $user->web : "-"). ";" .
+						($user->lastonline ? (Date::format("Y/m/d H:i:s", $user->lastonline)) : "-"). ";" .
+						$user->credit. ";" .
+						($user->registered_at ? (Date::format("Y/m/d H:i:s", $user->registered_at)) : "-"). ";" .
+						$status. ";\n";
+			}
+			$tmp = new File\Tmp();
+			$tmp->write($csv);
+			$file = new response\File();
+			$file->setLocation($tmp);
+			$file->setSize($tmp->size());
+			$file->setName("userpanel-users.csv");
+			$file->setMimeType("text/csv", "utf-8");
+			$this->response->setFile($file);
+			$this->response->forceDownload();
+		} else {
+			$query->pageLimit = $this->items_per_page;
+			$users = $query->paginate($this->page);
+			$this->total_pages = $query->totalPages;
+
+			$view->setDataList($users);
+			$view->setPaginate($this->page, $query->totalCount, $this->items_per_page);
+		}
+
+		$this->response->setStatus(true);
+		return $this->response;
+	}
+
+	public function searchAPI(): User
+	{
+		$types = Authorization::childrenTypes();
 		$rules = array(
 			"id" => array(
 				"type" => "number",
@@ -177,27 +257,26 @@ class Users extends Controller {
 			}
 		}
 
-		$model = new User();
+		$query = new User();
 		if ($types) {
-			$model->where("type", $types, 'in');
+			$query->where("userpanel_users.type", $types, 'in');
 		} else {
-			$model->where("id", Authentication::getID());
+			$query->where("userpanel_users.id", Authentication::getID());
 		}
 		if ($inputs["online"]) {
-			$model->where("lastonline", Date::time() - User::onlineTimeout, ">=");
+			$query->where("userpanel_users.lastonline", Date::time() - User::onlineTimeout, ">=");
 		}
 		if (isset($inputs['type'])) {
-			$view->setDataForm($inputs['type'], 'type-select');
-			$model->where('type', $inputs['type'], 'IN');
+			$query->where('userpanel_users.type', $inputs['type'], 'IN');
 		}
 		if (isset($inputs["has_custom_permissions"]) and $inputs["has_custom_permissions"]) {
-			$model->where("has_custom_permissions", true);
+			$query->where("userpanel_users.has_custom_permissions", true);
 		}
 		if (isset($inputs["lastonline_from"])) {
-			$model->where("lastonline", $inputs["lastonline_from"], ">=");
+			$query->where("userpanel_users.lastonline", $inputs["lastonline_from"], ">=");
 		}
 		if (isset($inputs["lastonline_to"])) {
-			$model->where("lastonline", $inputs["lastonline_to"], "<");
+			$query->where("userpanel_users.lastonline", $inputs["lastonline_to"], "<");
 		}
 		foreach(["id", "name", "lastname", "email", "status", "city", "country"] as $item) {
 			if (!isset($inputs[$item])) {
@@ -210,7 +289,7 @@ class Users extends Controller {
 					$inputs[$item] = $inputs[$item]->id;
 				}
 			}
-			$model->where($item, $inputs[$item], $comparison);
+			$query->where('userpanel_users.'.$item, $inputs[$item], $comparison);
 		}
 		if (isset($inputs["cellphone"])) {
 			$cellphone = "";
@@ -234,7 +313,7 @@ class Users extends Controller {
 					$comparison = $inputs["comparison"];
 				}
 			}
-			$model->where("cellphone", $cellphone, $comparison);
+			$query->where("userpanel_users.cellphone", $cellphone, $comparison);
 		}
 		if (isset($inputs["word"])) {
 			$parenthesis = new db\Parenthesis();
@@ -242,91 +321,24 @@ class Users extends Controller {
 				if (isset($inputs[$item])) {
 					continue;
 				}
-				$parenthesis->orWhere($item, $inputs["word"], $inputs["comparison"]);
+				$parenthesis->orWhere('userpanel_users.'.$item, $inputs["word"], $inputs["comparison"]);
 			}
-			$parenthesis->orWhere("CONCAT(`name`, ' ', `lastname`)", $inputs["word"], $inputs["comparison"]);
-			$model->where($parenthesis);
+			$parenthesis->orWhere("CONCAT(`userpanel_users.name`, ' ', `userpanel_users.lastname`)", $inputs["word"], $inputs["comparison"]);
+			$query->where($parenthesis);
 		}
 
 		if (isset($inputs['register'])) {
 			if (isset($inputs['register'][0])) {
-				$model->where('registered_at', $inputs['register'][0], '>=');
+				$query->where('userpanel_users.registered_at', $inputs['register'][0], '>=');
 			}
 			if (isset($inputs['register'][1])) {
-				$model->where('registered_at', $inputs['register'][1], '<');
+				$query->where('userpanel_users.registered_at', $inputs['register'][1], '<');
 			}
 		}
 
-		if (isset($inputs["download"])) {
-			$user = new user;
-			$users = $user->get();
-			$csv = t("packages.userpanel.user.csv.id") . ";" .
-				t("packages.userpanel.user.csv.name") . ";" .
-				t("packages.userpanel.user.csv.lastname") . ";" .
-				t("packages.userpanel.user.csv.email") . ";" .
-				t("packages.userpanel.user.csv.cellphone") . ";" .
-				t("packages.userpanel.user.csv.type") . ";" .
-				t("packages.userpanel.user.csv.phone") . ";" .
-				t("packages.userpanel.user.csv.city") . ";" .
-				t("packages.userpanel.user.csv.country") . ";" .
-				t("packages.userpanel.user.csv.zip") . ";" .
-				t("packages.userpanel.user.csv.address") . ";" .
-				t("packages.userpanel.user.csv.web") . ";" .
-				t("packages.userpanel.user.csv.lastonline") . ";" .
-				t("packages.userpanel.user.csv.credit") . ";" .
-				t("packages.userpanel.user.csv.registered_at") . ";" .
-				t("packages.userpanel.user.csv.status") . ";\n";
-			foreach ($users as $user) {
-				$status = "";
-				switch($user->status) {
-					case user::active:
-						$status = t("packages.userpanel.user.csv.status.active");
-						break;
-					case user::deactive:
-						$status = t("packages.userpanel.user.csv.status.deactive");
-						break;
-					case user::suspend:
-						$status = t("packages.userpanel.user.csv.status.suspend");
-						break;
-				}
-				$csv .= $user->id . ";" .
-						($user->name ? $user->name : "-"). ";" .
-						($user->lastname ? str_replace(";", "", $user->lastname) : "-"). ";" .
-						($user->email ? $user->email : "-"). ";" .
-						($user->cellphone ? $user->cellphone : "-"). ";" .
-						($user->type? $user->type->title: "-"). ";" .
-						($user->phone ? $user->phone : "-"). ";" .
-						($user->city ? $user->city : "-"). ";" .
-						($user->country ? $user->country->name: "-"). ";" .
-						($user->zip ? $user->zip : "-"). ";" .
-						($user->address? $user->address: "-"). ";" .
-						($user->web ? $user->web : "-"). ";" .
-						($user->lastonline ? (Date::format("Y/m/d H:i:s", $user->lastonline)) : "-"). ";" .
-						$user->credit. ";" .
-						($user->registered_at ? (Date::format("Y/m/d H:i:s", $user->registered_at)) : "-"). ";" .
-						$status. ";\n";
-			}
-			$tmp = new File\Tmp();
-			$tmp->write($csv);
-			$file = new response\File();
-			$file->setLocation($tmp);
-			$file->setSize($tmp->size());
-			$file->setName("userpanel-users.csv");
-			$file->setMimeType("text/csv", "utf-8");
-			$this->response->setFile($file);
-			$this->response->forceDownload();
-		} else {
-			$model->pageLimit = $this->items_per_page;
-			$users = $model->paginate($this->page);
-			$this->total_pages = $model->totalPages;
-
-			$view->setDataList($users);
-			$view->setPaginate($this->page, $model->totalCount, $this->items_per_page);
-		}
-
-		$this->response->setStatus(true);
-		return $this->response;
+		return $query;
 	}
+
 	/**
 	 * Add new user from userpanel view
 	 * needs userpanel_users_add permission
