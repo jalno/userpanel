@@ -323,7 +323,7 @@ class Users extends Controller {
 				}
 				$parenthesis->orWhere('userpanel_users.'.$item, $inputs["word"], $inputs["comparison"]);
 			}
-			$parenthesis->orWhere("CONCAT(`userpanel_users.name`, ' ', `userpanel_users.lastname`)", $inputs["word"], $inputs["comparison"]);
+			$parenthesis->orWhere("CONCAT(`userpanel_users`.`name`, ' ', `userpanel_users`.`lastname`)", $inputs["word"], $inputs["comparison"]);
 			$query->where($parenthesis);
 		}
 
