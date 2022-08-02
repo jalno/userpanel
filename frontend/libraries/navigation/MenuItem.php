@@ -51,6 +51,8 @@ class MenuItem {
 	 */
 	private $badge;
 
+	private ?MenuItem $parent = null;
+
 	public function __construct($name) {
 		$this->name = $name;
 	}
@@ -83,6 +85,7 @@ class MenuItem {
 	}
 	public function addItem(menuItem $item): void {
 		$this->items[$item->getName()] = $item;
+		$item->setParent($this);
 	}
 	public function getByName($name): ?MenuItem {
 		if(substr($name, -1) == '/'){
@@ -130,6 +133,16 @@ class MenuItem {
 	}
 	public function getBadge(): ?Badge {
 		return $this->badge;
+	}
+
+	public function setParent(?MenuItem $parent = null)
+	{
+		$this->parent = $parent;
+	}
+
+	public function getParent(): ?MenuItem
+	{
+		return $this->parent;
 	}
 
 	public function build(): string {
