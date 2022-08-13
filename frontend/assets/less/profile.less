@@ -79,12 +79,19 @@ body.profile {
 		}
 	}
 }
-body.profile-settings, body.users-settings{
-	.tab-content{
-		font-family: yekan;
-		h3{
-			font-family: nazanin;
+body.profile-settings, body.users-settings {
+	&.rtl {
+		.tab-content{
+			label {
+				font-family: yekan;
+			}
+			h3{
+				font-family: nazanin;
+			}
 		}
+	}
+	#settings_form {
+		margin-bottom: 20px;
 	}
 }
 body.users_view {
@@ -143,7 +150,7 @@ body.rtl .panel-activity {
 		margin-top: 0px;
 	}
 }
-body.profile {
+body.profile_view {
 	.tabbable > .tab-content {
 		padding: 0;
 	}

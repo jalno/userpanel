@@ -270,6 +270,7 @@
 		"userpanel.profile.general_info": "اطلاعات کلی",
 		"userpanel.profile.additional_informations": "اطلاعات بیشتر",
 		"userpanel.usertypes.logs.add_data": "اطلاعات اضافه شده",
-		"userpanel.usertypes.logs.old_data": "اطلاعات حذف شده"
+		"userpanel.usertypes.logs.old_data": "اطلاعات حذف شده",
+		"titles.settings_userpanel": "پنل کاربری"
 	}
 }

@@ -276,6 +276,7 @@
 		"packages.userpanel.logs.all": "All Activities",
 		"userpanel.users.export.csv": "Export as CSV",
 		"userpanel.logs.empty": "Can not find any logs",
-		"userpanel.profile.additional_informations": "Additional informations"
+		"userpanel.profile.additional_informations": "Additional informations",
+		"titles.settings_userpanel": "Userpanel"
 	}
 }

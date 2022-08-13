@@ -29,12 +29,25 @@ class Tuning {
 	 */
 	private $data = [];
 
-	public function __construct(string $name) {
+	private string $icon = '';
+
+	public function __construct(string $name, string $icon = '') {
 		$this->setName($name);
+		$this->setIcon($icon);
 	}
 
 	public function setName(string $name): void {
 		$this->name = $name;
+	}
+
+	public function setIcon(string $icon)
+	{
+		$this->icon = $icon;
+	}
+
+	public function getIcon(): string
+	{
+		return $this->icon;
 	}
 
 	public function getName(): string {
