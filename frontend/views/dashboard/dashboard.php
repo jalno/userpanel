@@ -121,6 +121,9 @@ class dashboard extends dashboardView{
 	public function generateRows(){
 		$rows = array();
 		$lastrow = 0;
+		usort(self::$boxs, function($a, $b) {
+			return $b->priority - $a->priority;
+		});
 		foreach(self::$boxs as $box){
 			$rows[$lastrow][] = $box;
 			$size = 0;

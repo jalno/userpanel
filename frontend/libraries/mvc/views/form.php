@@ -27,7 +27,7 @@ trait formTrait {
 		$this->input_col = "";
 		$this->horizontal_form = false;
 	}
-	public function createField($options = array()){
+	public function createField($options = array(), bool $getHtml = false){
 		if(!isset($options['name'])){
 			$options['name'] = '';
 		}
@@ -37,7 +37,7 @@ trait formTrait {
 		}
 		if(!isset($options['error']) or $options['error']){
 			$error =  $this->getFormErrorsByInput($absuloteName);
-		}else{
+		} else {
 			$error = false;
 		}
 		if(!isset($options['type'])){
@@ -278,6 +278,10 @@ trait formTrait {
 			}
 			$code .= '</div>';
 
+		}
+		
+		if ($getHtml) {
+			return $code;
 		}
 		echo $code;
 	}

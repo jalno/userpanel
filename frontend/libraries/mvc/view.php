@@ -91,78 +91,88 @@ trait ViewTrait {
 		return implode(' ', $this->bodyClasses);
 	}
 
-	protected function getErrorsHTML(){
+	/**
+	 * @param Error[]|null $errors that is array of errors you want to generate HTML for them
+	 * @return string
+	 */
+	protected function getErrorsHTML(?array $errors = null) {
+		return array_reduce(
+			$errors ?? $this->getErrors(),
+			fn(string $carry, Error $error) => $carry . $this->getErrorHTML($error),
+			''
+		);
+	}
+
+	/**
+	 * generate the HTML for an Error
+	 *
+	 * @param Error $error
+	 * @return string
+	 */
+	protected function getErrorHTML(Error $error): string {
 		$code = '';
-		foreach($this->getErrors() as $error){
-			$alert = array(
-				'type' => 'info',
-				'txt' => $error->getMessage(),
-				'title' => ''
-			);
-			$data  = $error->getData();
-			if(!is_array($data)){
-				$data = array();
+		$alert = array(
+			'type' => 'info',
+			'txt' => $error->getMessage(),
+			'title' => '',
+			'closeable' => true,
+		);
+		$data = $error->getData();
+		if (!is_array($data)) {
+			$data = array();
+		}
+		$alert = array_merge($alert, $data);
+		if (!$alert['txt']) {
+			$alert['txt'] = t('error.'.$error->getCode()) ?: $error->getCode();
+		}
+		switch ($error->getType()) {
+			case Error::FATAL:
+				$alert['type'] = 'danger';
+				$alert['title'] = $alert['title'] ?: t('error.'.error::FATAL.'.title');
+				break;
+			case Error::WARNING:
+				$alert['type'] = 'warning';
+				$alert['title'] = $alert['title'] ?: t('error.'.error::WARNING.'.title');
+				break;
+			case Error::NOTICE:
+				$alert['type'] = 'info';
+				$alert['title'] = $alert['title'] ?: t('error.'.error::NOTICE.'.title');
+				break;
+			case Error::SUCCESS:
+				$alert['type'] = 'success';
+				$alert['title'] = $alert['title'] ?: t('error.'.error::NOTICE.'.title');
+				break;
+		}
+		if (isset($alert['classes'])) {
+			if (is_array($alert['classes'])) {
+				$alert['classes'] = implode(" ", $alert['classes']);
 			}
-			$alert = array_merge($alert, $data);
-			if(!$alert['txt']){
-				if($translator = translator::trans('error.'.$error->getCode())){
-					$alert['txt'] = $translator;
-				}else{
-					$alert['txt'] = $error->getCode();
-				}
-			}
-			switch($error->getType()){
-				case(error::FATAL):
-					$alert['type'] = 'danger';
-					if(!$alert['title'])
-						$alert['title'] = translator::trans('error.'.error::FATAL.'.title');
-					break;
-				case(error::WARNING):
-					$alert['type'] = 'warning';
-					if(!$alert['title'])
-						$alert['title'] = translator::trans('error.'.error::WARNING.'.title');
-					break;
-				case(error::NOTICE):
-					$alert['type'] = 'info';
-					if(!$alert['title'])
-						$alert['title'] = translator::trans('error.'.error::NOTICE.'.title');
-					break;
-				case(error::SUCCESS):
-					$alert['type'] = 'success';
-					if(!$alert['title'])
-						$alert['title'] = translator::trans('error.'.error::NOTICE.'.title');
-					break;
-			}
-			if(isset($alert['classes'])){
-				if(is_array($alert['classes'])){
-					$alert['classes'] = implode(" ", $alert['classes']);
-				}
-			}else{
-				$alert['classes'] = '';
-			}
-			$code .= "<div class=\"alert alert-block alert-{$alert['type']} {$alert['classes']}\"";
-			$code .= $this->buildAlertHtmlData($alert);
-			$code .= "><button data-dismiss=\"alert\" class=\"close\" type=\"button\">&times;</button>";
-			$code .= "<h4 class=\"alert-heading\">";
-			switch($alert['type']){
-				case('danger'):$code.="<i class=\"fa fa-times-circle\"></i>";break;
-				case('success'):$code.="<i class=\"fa fa-check-circle\"></i>";break;
-				case('info'):$code.="<i class=\"fa fa-info-circle\"></i>";break;
-				case('warning'):$code.="<i class=\"fa fa-exclamation-triangle\"></i>";break;
-			}
-
-			$code .= " {$alert['title']}</h4><p>{$alert['txt']}</p>";
-
-			if(isset($alert['btns']) and $alert['btns']){
-				$code .= "<p>";
-				foreach($alert['btns'] as $btn){
-					$code .= "<a href=\"{$btn['link']}\" class=\"btn {$btn['type']}\">{$btn['txt']}</a> ";
-				}
-				$code .= "</p>";
-			}
-			$code .= "</div>";
+		} else {
+			$alert['classes'] = '';
+		}
+		$code .= "<div class=\"alert alert-block alert-{$alert['type']} {$alert['classes']}\"" .
+			$this->buildAlertHtmlData($alert) . '>';
+		if ($alert['closeable']) {
+			$code .= "<button data-dismiss=\"alert\" class=\"close\" type=\"button\">&times;</button>";
+		}
+		$code .= "<h4 class=\"alert-heading\">";
+		switch($alert['type']){
+			case('danger'): $code.="<i class=\"fa fa-times-circle\"></i>";break;
+			case('success'): $code.="<i class=\"fa fa-check-circle\"></i>";break;
+			case('info'): $code.="<i class=\"fa fa-info-circle\"></i>";break;
+			case('warning'): $code.="<i class=\"fa fa-exclamation-triangle\"></i>";break;
 		}
 
+		$code .= " {$alert['title']}</h4><p>{$alert['txt']}</p>";
+
+		if (isset($alert['btns']) and $alert['btns']) {
+			$code .= "<p>";
+			foreach ($alert['btns'] as $btn) {
+				$code .= "<a href=\"{$btn['link']}\" class=\"btn {$btn['type']}\">{$btn['txt']}</a> ";
+			}
+			$code .= "</p>";
+		}
+		$code .= "</div>";
 		return $code;
 	}
 

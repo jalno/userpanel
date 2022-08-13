@@ -83,7 +83,8 @@
 		"usertype.permissions.userpanel_settings_usertypes_add" : "افزودن سطح کاربری",
 		"usertype.permissions.userpanel_settings_usertypes_edit" : "ویرایش سطح کاربری",
 		"usertype.permissions.userpanel_settings_usertypes_delete" : "حذف سطح کاربری",
-		
+
+		"error.packages.userpanel.bruteforce_throttle.miss_all_chances": "شما {limit} تلاش ناموفق داشته‌اید و  تا <span class=\"ltr tooltips\" title=\"{expire_at_formated}\">{expire_at_relative}</span> نمی‌توانید هیچ تلاشی انجام دهید؛ لطفا صبور باشید!",
 
 		"userpanel.usersettings.message.timezone": "منطقه زمانی",
 		"userpanel.usersettings.message.calendar": "تقویم",
@@ -590,6 +591,7 @@
 		"packages.userpanel.error.logs.user.delete_user_warn.view_logs_btn": "مشاهده فعالیت های این کاربر",
 		"packages.userpanel.logs.usertypes_add": "سطح دسترسی <span class=\"tooltips\" title=\"#{id}\">{title}</span> را اضافه کرد",
 		"packages.userpanel.logs.usertypes_edit": "سطح دسترسی <span class=\"tooltips\" title=\"#{id}\">{title}</span> را ویرایش کرد",
-		"packages.userpanel.logs.usertypes_delete": "سطح دسترسی <span class=\"tooltips\" title=\"#{id}\">{title}</span> را حذف کرد"
+		"packages.userpanel.logs.usertypes_delete": "سطح دسترسی <span class=\"tooltips\" title=\"#{id}\">{title}</span> را حذف کرد",
+		"logs.login_as": "به عنوان کاربر <span class=\"tooltips\" title=\"#{user_id}\">{user_name}</span> وارد سامانه شد"
 	}
 }

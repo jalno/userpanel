@@ -23,7 +23,13 @@ class Search extends ParentView {
 
 	use viewTrait, ListTrait, FormTrait;
 
+	public bool $canAdd;
 	protected $types = array();
+
+	public function __construct() {
+		parent::__construct();
+		$this->canAdd = Authorization::is_accessed("users_add", "userpanel");
+	}
 
 	public function __beforeLoad() {
 		$this->setTitle(t("users"));
@@ -48,6 +54,33 @@ class Search extends ParentView {
 				'total_items' => (int)$this->totalItems
 			)
 		);
+	}
+
+	/**
+	 * @param string[]|string $statuses
+	 * @param array<string|int>|string|int $values
+	 */
+	public function isActiveStatusTab($statuses, $values): bool {
+		static $otherTabsIsActive = false;
+
+		if ($otherTabsIsActive) {
+			return false;
+		}
+
+		$urlParameters = $this->getFormData();
+
+		$statuses = (array) $statuses;
+		$values = (array) $values;
+
+		foreach ($statuses as $key => $status) {
+			$value = ($values[$key] ?? $values[0]);
+			if ((!$value and !isset($urlParameters[$status])) or (isset($urlParameters[$status]) and $urlParameters[$status] == $value)) {
+				$otherTabsIsActive = true;
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 	protected function setButtons(): void {

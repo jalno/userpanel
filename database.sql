@@ -44,7 +44,7 @@ CREATE TABLE `userpanel_usertypes_priorities` (
 CREATE TABLE `userpanel_users` (
 	`id` int(11) NOT NULL AUTO_INCREMENT,
 	`name` varchar(100) NOT NULL,
-	`lastname` varchar(100) NOT NULL,
+	`lastname` varchar(100) DEFAULT NULL,
 	`email` varchar(100) NOT NULL,
 	`cellphone` varchar(14) NOT NULL,
 	`password` varchar(255) NOT NULL,
@@ -115,14 +115,16 @@ CREATE TABLE `userpanel_resetpwd_token` (
 CREATE TABLE `userpanel_logs` (
 	`id` int(11) NOT NULL AUTO_INCREMENT,
 	`user` int(11) DEFAULT NULL,
-	`ip` varchar(15) NOT NULL,
+	`ip` varchar(15) CHARACTER SET latin1 COLLATE latin1_general_ci NOT NULL,
 	`time` int(11) NOT NULL,
 	`title` varchar(255) NOT NULL,
-	`type` varchar(255) NOT NULL,
-	`parameters` LONGTEXT NOT NULL,
+	`type` varchar(100) CHARACTER SET latin1 COLLATE latin1_general_ci NOT NULL,
+	`parameters` text NOT NULL,
 	PRIMARY KEY (`id`),
 	KEY `user` (`user`),
-	CONSTRAINT `userpanel_logs_ibfk_1` FOREIGN KEY (`user`) REFERENCES `userpanel_users` (`id`) ON DELETE CASCADE
+	KEY `type` (`type`),
+	KEY `time` (`time`),
+	KEY `user_2` (`type`,`time`,`user`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 INSERT INTO `options` (`name`, `value`, `autoload`) VALUES
@@ -424,3 +426,13 @@ INSERT INTO `userpanel_users_options` (`id`, `user`, `name`, `value`) VALUES
 (1, 1, 'visibilities', '["email","cellphone","phone","socialnetworks_5","socialnetworks_4","socialnetworks_6","socialnetworks_2","socialnetworks_1","socialnetworks_3"]');
 
 INSERT INTO `options` (`name`, `value`, `autoload`) VALUES ('packages.userpanel.tos_url', '', '0');
+
+-- this option is prevent userpanel's login and reset password being brute-forced
+-- the value of option indicated how many faild request ('total-limit') by a IP can user make in ('period')
+-- this guarantees the total of failed requests by a IP can not exceed the 'total-limit'
+-- and also if you set 'session-limit' this will guarantees the total of failed requests by a session can no exceed the 'session-limit'
+-- note that the 'session-limit' should be equal or lower than 'total-limit'
+INSERT INTO `options` (`name`, `value`, `autoload`) VALUES (
+	'packages.userpanel.login_and_reset_password.bruteforce_throttle', '{\"period\":3600, \"total-limit\": 7, \"session-limit\": 5, \"ignore-ips\":[]}', '1'
+);
+

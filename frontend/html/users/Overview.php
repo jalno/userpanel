@@ -23,43 +23,12 @@ use themes\clipone\utility;
 						</div>
 					</div>
 				</form>
-			<?php if ($this->canEdit or $this->canLogin) { ?>
-				<hr>
-				<div class="admin-actions">
-				<?php 
-				$me = authentication::getID();
-				if ($this->canLogin and $this->getUserData('id') != $me) { ?>
-					<a data-toggle="modal" href="#user-login" class="btn btn-info tooltips" type="button" data-user="<?php echo $id; ?>">
-						<div class="btn-icons">
-							<i class="fa fa-user-secret"></i>
-						</div>
-						<?php echo t('userpanel.user.login'); ?>
-					</a>
-				<?php
-				}
-				if ($this->canEdit) {
-				$status = $this->getUserData('status');
-				$id = $this->getUserData('id');
-				if ($status == User::active) {
-				?>
-					<button class="btn btn-warning btn-suspend-user" type="button" data-user="<?php echo $id; ?>">
-						<div class="btn-icons">
-							<i class="fa fa-user-times"></i>
-						</div>
-					<?php echo t('userpanel.user.suspend'); ?>
-					</button>
-				<?php } else { ?>
-					<button class="btn btn-success btn-active-user" type="button" data-user="<?php echo $id; ?>">
-						<div class="btn-icons">
-							<i class="fa fa-check-square"></i>
-						</div>
-					<?php echo t('userpanel.user.activate'); ?>
-					</button>
 			<?php
-				}
-			}
+			$buttonActions = $this->buildActionButtons();
+			if ($buttonActions) {
 			?>
-				</div>
+				<hr>
+				<div class="admin-actions"><?php echo $buttonActions; ?></div>
 			<?php
 			}
 			if($this->networks){
@@ -143,17 +112,23 @@ use themes\clipone\utility;
 					</tr>
 					<tr>
 						<td><?php echo t("userpanel.profile.register_date"); ?></td>
-						<td><?php echo Date::relativeTime($this->getUserData('registered_at')); ?></td>
+						<td><span class="user-dates tooltips" data-tooltips-trigger="hover focus click" title="<?php echo Date::format("Q QTS", $this->getUserData('registered_at')); ?>">
+								<?php echo Date::relativeTime($this->getUserData('registered_at')); ?>
+						</span></td>
 						<td></td>
 					</tr>
 					<tr>
 						<td><?php echo t("userpanel.profile.last_activity"); ?></td>
-						<td><?php echo Date::relativeTime($this->getUserData('lastonline')); ?></td>
+						<td><span class="user-dates tooltips" data-tooltips-trigger="hover focus click" title="<?php echo Date::format("Q QTS", $this->getUserData('lastonline')); ?>">
+							<?php echo Date::relativeTime($this->getUserData('lastonline')); ?>
+						</span></td>
 						<td></td>
 					</tr>
 					<tr>
 						<td><?php echo t("userpanel.profile.last_login"); ?></td>
-						<td><?php echo($this->lastlogin ? Date::relativeTime($this->lastlogin) : t('user.lastlogin.never')) ; ?></td>
+						<td><span class="user-dates tooltips" data-tooltips-trigger="hover focus click" title="<?php echo $this->lastlogin ? Date::format("Q QTS", $this->lastlogin) : ""; ?>">
+							<?php echo($this->lastlogin ? Date::relativeTime($this->lastlogin) : t('user.lastlogin.never')) ; ?>
+						</span></td>
 						<td></td>
 					</tr>
 					<tr>
@@ -201,19 +176,3 @@ use themes\clipone\utility;
 		<?php echo $this->buildBoxs(); ?>
 	</div>
 </div>
-<?php if ($this->canLogin) { ?>
-	<div class="modal fade" id="user-login" tabindex="-1" data-show="true" role="dialog">
-		<div class="modal-header">
-			<h4 class="modal-title"><i class="fa fa-user-secret"></i>  <?php echo t('userpanel.user.login'); ?></h4>
-		</div>
-		<div class="modal-body">
-			<form id="login-as-user" action="<?php echo userpanel\url('loginasuser/'.$this->getUserData('id')); ?>" method="POST" class="form-horizontal">
-				<span><?php echo t('userpanel.user.login.confirm', ['user-name' => $this->getData('user')->getFullName()]); ?></span>
-			</form>
-		</div>
-		<div class="modal-footer">
-			<button type="submit" form="login-as-user" class="btn btn-success"><?php echo t("userpanel.submit"); ?></button>
-			<button type="button" class="btn btn-default" data-dismiss="modal" aria-hidden="true"><?php echo t("userpanel.cancel"); ?></button>
-		</div>
-	</div>
-<?php } ?>

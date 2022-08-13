@@ -128,10 +128,15 @@ class ActivityCalendarBox extends Box {
 	  </div>';
 	}
 	protected function buildLogs(): string {
+
+		$logsData = $this->getLogs();
+
+		[$logs, $cursor] = [$logsData["logs"], $logsData["cursor"]];
+
 		$html = '<div class="panel-scroll">';
-		$html .= '<ul class="activities">';
+		$html .= '<ul class="activities" data-cursor_name="' . $cursor->getCursorName() . '" data-next_page_cursor="' . $cursor->getNextPageCursor() . '">';
 		$canView = Authorization::is_accessed('logs_view');
-		foreach ($this->getLogs() as $log) {
+		foreach ($logs as $log) {
 			$lHandler = $log->getHandler();
 			$html .= '<li>';
 			$html .= '<a class="activity" href="' . ($canView ? userpanel\url("logs/view/{$log->id}") : "#") . '">';
@@ -147,11 +152,20 @@ class ActivityCalendarBox extends Box {
 		$html .= '</div>';
 		return $html;
 	}
-	protected function getLogs($limit = 50) {
-		return (new Log())
-			->where("user", $this->user->id)
-			->orderBy("time", "DESC")
-			->get($limit);
+
+	/**
+	 * @return array{"logs":Log[],"cursor":Log}
+	 */
+	protected function getLogs($limit = 50): array {
+
+		$log = new Log();
+		$log->where("user", $this->user->id);
+		$logs = $log->cursorPaginate("DESC", $limit);
+
+		return [
+			"logs" => $logs,
+			"cursor" => $log,
+		];
 	}
 
 }

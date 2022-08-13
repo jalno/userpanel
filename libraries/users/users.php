@@ -5,6 +5,29 @@ use packages\base\{db, db\dbObject, IO, Packages, utility\Password, utility};
 use packages\base\Validator\{CellphoneValidator, Geo\CountryCodeToRegionCodeMap};
 use packages\userpanel\{user\Option};
 
+/**
+ * @property int $id
+ * @property string $email
+ * @property string $name
+ * @property string|null $lastname
+ * @property string $cellphone
+ * @property string $password
+ * @property Usertype|int $type
+ * @property string|null $phone
+ * @property string|null $city
+ * @property Country|int $country
+ * @property int $zip
+ * @property string|null $address
+ * @property string|null $web
+ * @property double $credit
+ * @property int $lastonline
+ * @property string|null $remember_token
+ * @property int $registered_at
+ * @property bool $has_custom_permissions
+ * @property int $status
+ * @property User\Socialnetwork[] $socialnetworks
+ * @property User\Option[] $options
+ */
 class user extends dbObject{
 	use imageTrait;
 

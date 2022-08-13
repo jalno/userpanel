@@ -188,6 +188,7 @@
 		"userpanel.users.search.has_custom_permissions": "دسترسی خاص",
 		"userpanel.search": "جستجو",
 		"userpanel.cancel": "انصراف",
+		"userpanel.action": "اقدام",
 		"userpanel.add": "افزودن",
 		"userpanel.edit": "ویرایش",
 		"userpanel.create": "ایجاد",
@@ -271,6 +272,11 @@
 		"userpanel.profile.additional_informations": "اطلاعات بیشتر",
 		"userpanel.usertypes.logs.add_data": "اطلاعات اضافه شده",
 		"userpanel.usertypes.logs.old_data": "اطلاعات حذف شده",
-		"titles.settings_userpanel": "پنل کاربری"
+		"titles.settings_userpanel": "پنل کاربری",
+		"usertype.children-type.select.permissions": "استفاده از دسترسی های موجود",
+		"select.empty_option": "انتخاب کنید ..",
+		"loading": "در حال دریافت اطلاعات ..",
+		"userpanel.all": "همه",
+		"warning.userpanel.empty_result": "نتیجه‌ای برای نمایش پیدا نشد."
 	}
 }

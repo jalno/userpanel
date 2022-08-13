@@ -3,7 +3,7 @@ namespace packages\userpanel\controllers;
 
 use packages\base\{Cache, Response, View, View\Error, Http, InputValidationException, NotFound, Options};
 use packages\notifications\{IChannel, API as NotificationAPI};
-use packages\userpanel\{Controller, Date, Log, resetpwd\Token, User, views, validators, events};
+use packages\userpanel\{Authentication, Controller, Date, Log, resetpwd\Token, User, views, validators, events};
 
 use function packages\userpanel\url;
 
@@ -19,15 +19,31 @@ class Resetpwd  extends Controller {
 	 */
 	protected $validChannels;
 
+	protected Authentication\BruteForceThrottle $bruteForceThrottle;
+
+	public function __construct() {
+		parent::__construct();
+
+		/** @var false|null|array{'period'?:int,'count'?:int} $throttleOptions */
+		$throttleOptions = Options::get('packages.userpanel.login_and_reset_password.bruteforce_throttle');
+		$this->bruteForceThrottle = new Authentication\BruteForceThrottle(
+			'login-and-reset-password',
+			intval($throttleOptions['period'] ?? 3600),
+			intval($throttleOptions['total-limit'] ?? 7),
+			intval($throttleOptions['session-limit'] ?? 0),
+			null,
+			null,
+			[
+				'ignore-ips' => (isset($throttleOptions['ignore-ips']) and is_array($throttleOptions['ignore-ips'])) ? $throttleOptions['ignore-ips'] : []
+			]
+		);
+	}
+
 	public function view(): Response {
 		$view = View::byName(views\Resetpwd::class);
 		$view->setData($this->getChannelsNames(), "channelsnames");
 		$this->response->setView($view);
-		Cache::set("packages.userpanel.resetpwd.bruteforce." . http::$client['ip'],0);
-		if (!$this->hasChance()) {
-			$error = $this->losingChanceError();
-			$view->addError($error);
-		}
+		$this->bruteForceThrottle->mustHasChance(true);
 
 		$inputs = $this->checkInputs(array(
 			'credential' => array(
@@ -50,6 +66,7 @@ class Resetpwd  extends Controller {
 		$view = View::byName(views\Resetpwd::class);
 		$view->setData($this->getChannelsNames(), "channelsnames");
 		$this->response->setView($view);
+
 		$inputsRules = array(
 			'credential' => array(
 				'type' => validators\UserCredentialValidator::class,
@@ -61,12 +78,13 @@ class Resetpwd  extends Controller {
 		);
 		$view->setDataForm($this->inputsvalue($inputsRules));
 		(new events\BeforeResetPassword)->trigger();
-		$this->mustHasChance();
+
+		$this->bruteForceThrottle->mustHasChance();
 		try {
 			$inputs = $this->checkInputs($inputsRules);
 		} catch (InputValidationException $e) {
 			if ($e->getInput() == 'credential') {
-				$this->loseOneChance();
+				$this->bruteForceThrottle->loseOneChance();
 			}
 			throw $e;
 		}
@@ -86,7 +104,7 @@ class Resetpwd  extends Controller {
 	public function token(): Response {
 		$view = View::byName(views\Resetpwd::class);
 		$this->response->setView($view);
-		$this->mustHasChance();
+		$this->bruteForceThrottle->mustHasChance();
 		$inputs = $this->checkInputs(array(
 			'token' => [
 				'type' => 'number'
@@ -103,7 +121,7 @@ class Resetpwd  extends Controller {
 			->orderBy('sent_at', 'DESC')
 			->getOne();
 		if (!$token) {
-			$this->loseOneChance();
+			$this->bruteForceThrottle->loseOneChance();
 			throw new InputValidationException('token');
 		}
 
@@ -145,34 +163,5 @@ class Resetpwd  extends Controller {
 	 */
 	private function getChannelsNames(): array {
 		return array_map(fn($channel) => $channel->getName(), $this->getChannels());
-	}
-
-	private function hasChance(): bool {
-		$times = Options::get('userpanel.resetpwd.mis-chance.count') ?? 5;
-		return Cache::get("packages.userpanel.resetpwd.bruteforce." . http::$client['ip']) <= $times;
-	}
-
-	private function mustHasChance(): void {
-		if (!$this->hasChance()) {
-			throw $this->losingChanceError();
-		}
-	}
-
-	private function losingChanceError(): Error {
-		$period = Options::get('userpanel.resetpwd.mis-chance.period') ?? 3600;
-		$times = Options::get('userpanel.resetpwd.mis-chance.count') ?? 5;
-		$error = new Error();
-		$error->setCode('userpanel.resetpwd.losingChance');
-		$error->setMessage(t('error.userpanel.resetpwd.losingChance', [
-			'times' => $times,
-			'expire_at' => Date::relativeTime(Date::time() + $period)
-		]));
-		return $error;
-	}
-
-	private function loseOneChance(): void {
-		$period = Options::get('userpanel.resetpwd.mis-chance.period') ?? 3600;
-		$count = Cache::get("packages.userpanel.resetpwd.bruteforce.".http::$client['ip']) ?: 1;
-		Cache::set("packages.userpanel.resetpwd.bruteforce." . http::$client['ip'], $count + 1, $period);
 	}
 }

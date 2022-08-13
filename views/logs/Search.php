@@ -28,33 +28,6 @@ class Search extends Listview {
 		$this->canDelete = Authorization::is_accessed('logs_delete');
 		$this->hasAccessToSystemLogs = Authorization::is_accessed('logs_search_system_logs');
 	}
-
-	/**
-	 * Export logs to ajax or api requests.
-	 * 
-	 * @return array
-	 */
-	public function export() {
-		$original = parent::export();
-		$original['data']['permissions'] = array(
-			'canView' => $this->canView,
-			'canDelete' => $this->canDelete,
-		);
-		$original['data']['items'] = array_map(function($log) {
-			$handler = $log->getHandler();
-			return array(
-				'id' => $log->id,
-				'ip' => $log->ip,
-				'time' => $log->time,
-				'title' => $log->title,
-				'type' => $log->type,
-				'icon' => $handler->getIcon(),
-				'color' => $handler->getColor(),
-				'activity' => method_exists($handler, "isActivity") ? $handler->isActivity() : true,
-			);
-		}, $this->dataList);
-		return $original;
-	}
 	protected function getLogs():array{
 		return $this->getDataList();
 	}

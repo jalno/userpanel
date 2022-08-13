@@ -39,9 +39,12 @@
 		{"type":"package","name":"@jalno/translator", "version": "^1.0.4"},
 		{"type":"package","name":"flag-icon-css", "version": "^3.4.5"},
 		{"type": "package", "name": "select2-bootstrap-theme", "version": "0.1.0-beta.10"},
+		{"type": "package", "name": "jalali-daterangepicker", "version":"^3.0.5"},
 		{"type":"less","file":"node_modules/bootstrap/less/bootstrap.less"},
 		{"type":"less","file":"node_modules/font-awesome/less/font-awesome.less"},
 		{"type":"css","file":"node_modules/jquery.growl/stylesheets/jquery.growl.css"},
+		{"type":"css","file":"node_modules/select2/dist/css/select2.css"},
+		{"type":"css","file":"node_modules/select2-bootstrap-theme/dist/select2-bootstrap.css"},
 		{"type":"css","file":"node_modules/jquery-ui/themes/base/all.css"},
 		{"type":"css","file":"node_modules/jschr-bootstrap-modal/css/bootstrap-modal-bs3patch.css"},
 		{"type":"css","file":"node_modules/jschr-bootstrap-modal/css/bootstrap-modal.css"},
@@ -71,7 +74,11 @@
         {
 			"name":"packages/base/view/events/afterLoad",
 			"listener": "listeners/AfterLoad@setFavicon"
-		}
+		},
+		{
+            "name": "themes/clipone/events/InitializeProfile",
+			"listener": "listeners/Profile@initialize"
+        }
 	],
 	"views":[
 		{

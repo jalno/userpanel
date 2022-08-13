@@ -1,5 +1,6 @@
 import "@jalno/translator";
 import "bootstrap";
+import { TooltipOptions } from "bootstrap";
 import * as $ from "jquery";
 import "jquery-bootstrap-checkbox";
 import "jquery-mousewheel";
@@ -122,7 +123,13 @@ export class Main {
 	private static runTooltips(): void {
 		const $tooltips = $(".tooltips");
 		if ($tooltips.length) {
-			$tooltips.tooltip();
+			$tooltips.each((i, el) => {
+				const options: TooltipOptions = {};
+				if ($(el).data("tooltips-trigger")) {
+					options.trigger = $(el).data("tooltips-trigger");
+				}
+				$(el).tooltip(options);
+			});
 		}
 	}
 	private static runPopovers(): void {

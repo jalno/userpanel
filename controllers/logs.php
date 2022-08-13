@@ -128,6 +128,7 @@ class Logs extends Controller {
 			$activities = Log\Activity::getActivityTypes();
 		}
 		$model = new Log();
+		$model->setQueryOption("STRAIGHT_JOIN");
 		$model->join(User::class, "user", ($canSearchSystemLogs ? "LEFT" : "INNER"), "id");
 		if (isset($inputs['activity']) and $inputs['activity'] and $activities) {
 			$model->where("userpanel_logs.type", $activities, "IN");
@@ -162,9 +163,8 @@ class Logs extends Controller {
 			$parenthesis->orWhere("userpanel_logs.user", null, "IS");
 		}
 		$model->where($parenthesis);
-		$model->orderBy('userpanel_logs.time', 'DESC');
-		$model->pageLimit = $this->items_per_page;
-		$logs = $model->paginate($this->page, array(
+
+		$logs = $model->cursorPaginate("DESC", $this->items_per_page, array(
 			"userpanel_logs.id",
 			"userpanel_logs.user",
 			"userpanel_logs.ip",
@@ -187,7 +187,7 @@ class Logs extends Controller {
 			}
 		}
 		$view->setDataList($logs);
-		$view->setPaginate($this->page, $model->totalCount, $this->items_per_page);
+		$view->setCursorPaginate($this->items_per_page, $model->getCursorName(), $model->getNextPageCursor(), $model->getPrevPageCursor());
 		$this->response->setStatus(true);
 		return $this->response;
 	}
