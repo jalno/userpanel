@@ -165,6 +165,7 @@ trait formTrait {
 					$code .= "{$attr}=\"{$options[$attr]}\"";
 				}
 			}
+			$code .= $this->buildHtmlData($options);
 		}else{
 			$code .= "<input type=\"{$options['type']}\" value=\"" . Safe::htmlentities($options['value']) . '" ';
 			$code .= $this->buildHtmlData($options);
