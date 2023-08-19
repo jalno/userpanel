@@ -93,7 +93,7 @@ export default class Edit {
 		})
 	}
 	protected static submitHandler(form: HTMLFormElement): void {
-		const selectedPermissions = Permissions.getSelectedPermissionsFromFancytree(Edit.$permissions);
+		const selectedPermissions = Edit.canEditPermissions ? Permissions.getSelectedPermissionsFromFancytree(Edit.$permissions) : [];
 		const getFormData = (formElement: HTMLFormElement): FormData => {
 			const formData = new FormData(formElement);
 			if (selectedPermissions.length) {
