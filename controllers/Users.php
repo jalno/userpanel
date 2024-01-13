@@ -635,11 +635,6 @@ class Users extends Controller {
 				'type' => 'cellphone',
 				'optional' => true,
 			),
-			'password' => array(
-				'type' => 'string',
-				'optional' => true,
-				'empty' => true
-			),
 			'type' => array(
 				'type' => Usertype::class,
 				'query' => function($query) use ($types) {
@@ -774,6 +769,13 @@ class Users extends Controller {
 				'type' => 'int',
 				'optional' => true,
 				'empty' => true,
+			);
+		}
+		if (Authorization::is_accessed('users_edit_password')) {
+			$rules['password'] = array(
+				'type' => 'string',
+				'optional' => true,
+				'empty' => true
 			);
 		}
 

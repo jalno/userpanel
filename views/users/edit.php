@@ -15,10 +15,16 @@ class Edit extends Form {
 	/** @var bool that indicates viewer user can change permissions of the user */
 	protected $canEditPermissions;
 
+	/**
+	 * @var bool
+	 */
+	protected $canEditPassword;
+
 	public function __construct() {
 		$this->canEditPrivacy = Authorization::is_accessed("profile_edit_privacy");
 		$this->canChangeCredit = Authorization::is_accessed("users_edit_credit");
 		$this->canEditPermissions = Authorization::is_accessed("users_edit_permissions");
+		$this->canEditPassword = Authorization::is_accessed("users_edit_password");
 	}
 	public function setCountries($countries): void {
 		$this->setData($countries, 'countries');

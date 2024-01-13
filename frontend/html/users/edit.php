@@ -81,7 +81,7 @@ $user = array(
 					'input-group' => $this->getInputGroupArrayFor('cellphone')
 				),
 			);
-			if ($this->canChangeCredit) {
+			if ($this->canChangeCredit and $this->canEditPassword) {
 				$fields = array_merge($fields, array(
 					array(
 						'type' => 'password',
@@ -178,7 +178,7 @@ $user = array(
 						),
 					),
 				));
-			} else {
+			} else if ($this->canEditPassword) {
 				$this->createField(array(
 						'type' => 'password',
 						'name' => 'password',
@@ -186,12 +186,14 @@ $user = array(
 						'value' => ''
 				));
 			}
-			$this->createField(array(
-				'type' => 'password',
-				'name' => 'password2',
-				'label' => translator::trans("user.password_repeat"),
-				'value' => ''
-			));
+			if ($this->canEditPassword) {
+				$this->createField(array(
+					'type' => 'password',
+					'name' => 'password2',
+					'label' => translator::trans("user.password_repeat"),
+					'value' => ''
+				));
+			}
 			?>
 
 		</div>

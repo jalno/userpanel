@@ -52,6 +52,7 @@
 		"usertype.permissions.userpanel_users_add" : "Add user",
 		"usertype.permissions.userpanel_users_edit" : "Edit user",
 		"usertype.permissions.userpanel_users_edit_permissions" : "Edit user permissions",
+		"usertype.permissions.userpanel_users_edit_password" : "Edit user password",
 		"usertype.permissions.userpanel_users_edit_credit":"Edit user balance",
 		"usertype.permissions.userpanel_users_edit_privacy" : "Modify user privacy settings",
 		"usertype.permissions.userpanel_users_delete" : "Delete user",

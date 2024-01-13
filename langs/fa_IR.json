@@ -56,6 +56,7 @@
 		"usertype.permissions.userpanel_users_view_invisibles.tooltip" : "مشاهده مقادیر خصوصی کاربر همانند شماره‌تلفن، ایمیل، وب‌سایت و ...",
 		"usertype.permissions.userpanel_users_edit" : "ویرایش کاربر",
 		"usertype.permissions.userpanel_users_edit_permissions" : "ویرایش دسترسی های کاربر",
+		"usertype.permissions.userpanel_users_edit_password" : "ویرایش کلمه عبور کاربر",
 		"usertype.permissions.userpanel_users_edit_credit":"تغییر موجودی کاربری",
 		"usertype.permissions.userpanel_users_edit_privacy" : "ویرایش حریم خصوصی کاربر",
 		"usertype.permissions.userpanel_users_delete" : "حذف کاربر",
