@@ -45,6 +45,10 @@ body.rtl {
 	// Utility classes
 	@import "~bootstrap-rtl/less/utilities-rtl.less";
 
+	.row-no-gutters [class*="col-"] {
+		padding-right: 0;
+		padding-left: 0;
+	}
 }
 @import "mixins.less";
 @import "clipone.less";
