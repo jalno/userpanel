@@ -26,7 +26,7 @@ export default class Country {
 				return $(
 					`<div style="direction: ltr; text-align: left;">
 						<span style="">${dialingCode ? '+' + dialingCode : '<i class="fa fa-globe" aria-hidden="true"></i>'}</span>
-						<strong style="${isRTL && "float: right; "}font-family: koodak; font-size: 1.2em;">
+						<strong style="${isRTL && "float: right; "}font-family: Vazirmatn; font-size: 1.2em;">
 							<span style="margin-right: 10px;">${countryName}</span>
 							<span class="flag-icon flag-icon-${countryCode}" style="float: right;"></span>
 						</strong>
