@@ -21,94 +21,13 @@ $this->the_header('login');
 		</div>
 		<fieldset>
 			<div class="row">
-				<div class="col-md-6">
-					<?php
-					$this->createField(array(
-						'name' => 'name',
-						'placeholder' => translator::trans('register.user.name')
-					));
-					?>
+				<?php foreach ($this->getFields() as $field) { ?>
+				<div class="<?php echo $field['classes']; ?>">
+					<?php $this->createField($field['field']); ?>
 				</div>
-				<div class="col-md-6">
-					<?php
-					$this->createField(array(
-						'name' => 'lastname',
-						'placeholder' => translator::trans('register.user.lastname')
-					));
-					?>
-				</div>
-			</div>
-			<div class="row">
-				<div class="col-md-6">
-					<?php
-					$this->createField(array(
-						'type' => 'select',
-						'name' => 'country',
-						'placeholder' => translator::trans('register.user.country'),
-						'options' => $this->getCountriesForSelect(),
-					));
-					?>
-				</div>
-				<div class="col-md-6">
-					<?php
-					$this->createField(array(
-						'name' => 'city',
-						'placeholder' => translator::trans('register.user.city')
-					));
-					?>
-				</div>
-			</div>
-			<div class="row">
-				<div class="col-md-6">
-					<?php
-					$this->createField(array(
-						'name' => 'address',
-						'placeholder' => translator::trans('register.user.address')
-					));
-					?>
-				</div>
-				<div class="col-md-6">
-					<?php
-					$this->createField(array(
-						'name' => 'zip',
-						'placeholder' => translator::trans('register.user.zip')
-					));
-					?>
-				</div>
+				<?php } ?>
 			</div>
 			<?php
-			$this->createField(array(
-				'name' => 'phone[number]',
-				'placeholder' => translator::trans('register.user.phone'),
-				'input-group' => array(
-					'first' => array(
-						array(
-							'type' => 'select',
-							'name' => 'phone[code]',
-							'options' => array(),
-						),
-					),
-				),
-			));
-			$this->createField(array(
-				'name' => 'cellphone[number]',
-				'placeholder' => translator::trans('register.user.cellphone'),
-				'input-group' => array(
-					'first' => array(
-						array(
-							'type' => 'select',
-							'name' => 'cellphone[code]',
-							'options' => array(),
-						),
-					),
-				),
-			));
-			$this->createField(array(
-				'name' => 'email',
-				'type' => 'email',
-				'icon' => 'fa fa-envelope',
-				'placeholder' => translator::trans('register.user.email')
-			));
 			$this->createField(array(
 				'name' => 'password',
 				'type' => 'password',
