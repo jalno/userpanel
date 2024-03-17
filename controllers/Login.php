@@ -53,6 +53,57 @@ class Login extends Controller {
 		$log->save();
 	}
 
+	public static function getRegisterRules(): array {
+		$inputs = array(
+			'password' => array(
+				'type' => 'string',
+				'htmlTags' => true,
+				'multiLine' => true,
+			),
+		);
+		foreach (RegisterFields::actives(true) as $field) {
+			switch ($field) {
+				case RegisterField::EMAIL:
+					$inputs[$field->value] = array(
+						'type' => 'email',
+						'optional' => $field->isOptional(),
+					);
+					break;
+				case RegisterField::CELLPHONE:
+					$inputs[$field->value] = array(
+						'type' => 'cellphone',
+						'optional' => $field->isOptional(),
+					);
+					break;
+				case RegisterField::PHONE:
+					$inputs[$field->value] = array(
+						'type' => 'phone',
+						'optional' => $field->isOptional(),
+					);
+					break;
+				case RegisterField::COUNTRY:
+					$inputs[$field->value] = array(
+						'type' => Country::class,
+						'optional' => $field->isOptional(),
+					);
+					break;
+				case RegisterField::ZIP:
+					$inputs[$field->value] = array(
+						'type' => 'number',
+						'optional' => $field->isOptional(),
+					);
+					break;
+				default:
+					$inputs[$field->value] = array(
+						'type' => 'string',
+						'optional' => $field->isOptional(),
+					);
+					break;
+			}
+		}
+		return $inputs;
+	}
+
 	/**
 	 * Get remember token from the cookies and find the active user.
 	 *
@@ -333,55 +384,9 @@ class Login extends Controller {
 		$this->response->setView($view);
 		$view->setData(Country::get(), 'countries');
 		$this->response->setStatus(false);
-		$inputs = array(
-			'password' => array(
-				'type' => 'string',
-				'htmlTags' => true,
-				'multiLine' => true,
-			),
-		);
-		foreach (RegisterFields::actives(true) as $field) {
-			switch ($field) {
-				case RegisterField::EMAIL:
-					$inputs[$field->value] = array(
-						'type' => 'email',
-						'optional' => $field->isOptional(),
-					);
-					break;
-				case RegisterField::CELLPHONE:
-					$inputs[$field->value] = array(
-						'type' => 'cellphone',
-						'optional' => $field->isOptional(),
-					);
-					break;
-				case RegisterField::PHONE:
-					$inputs[$field->value] = array(
-						'type' => 'phone',
-						'optional' => $field->isOptional(),
-					);
-					break;
-				case RegisterField::COUNTRY:
-					$inputs[$field->value] = array(
-						'type' => Country::class,
-						'optional' => $field->isOptional(),
-					);
-					break;
-				case RegisterField::ZIP:
-					$inputs[$field->value] = array(
-						'type' => 'number',
-						'optional' => $field->isOptional(),
-					);
-					break;
-				default:
-					$inputs[$field->value] = array(
-						'type' => 'string',
-						'optional' => $field->isOptional(),
-					);
-					break;
-			}
-		}
+		$rules = self::getRegisterRules();
 		try {
-			$user = $this->register_helper($inputs);
+			$user = $this->register_helper($rules);
 			$this->response->setStatus(true);
 			$this->response->Go(userpanel\url());
 		} catch (UserIsNotActiveException $e) {

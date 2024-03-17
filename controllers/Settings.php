@@ -131,8 +131,8 @@ class Settings extends userpanel\Controller implements Controller
 				$inputs["userpanel_register_fields"][RegisterField::EMAIL->value] = RegisterFields::ACTIVE_REQUIRED;
 			}
 			else {
-				$inputs["userpanel_register_fields"][RegisterField::CELLPHONE->value] = RegisterFields::ACTIVE_REQUIRED;
 				$inputs["userpanel_register_fields"][RegisterField::EMAIL->value] = RegisterFields::ACTIVE_REQUIRED;
+				$inputs["userpanel_register_fields"][RegisterField::CELLPHONE->value] = RegisterFields::ACTIVE_REQUIRED;
 			}
 
 			$getStatusTitle = function (string $status) {
