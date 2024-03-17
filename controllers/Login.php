@@ -3,7 +3,11 @@ namespace packages\userpanel\controllers;
 
 use packages\base\{Options, Response, http, InputValidationException, db, View\Error, Session, json, Validator\CellphoneValidator};
 use packages\userpanel;
-use packages\userpanel\{Controller, View, Log, User, date, Authentication, Country, logs, views, Exceptions\UserIsNotActiveException, Events};
+use packages\userpanel\{
+	Controller, View, Log, User, date, Authentication, Country, logs, views, Exceptions\UserIsNotActiveException, Events, Register\UserAttribute
+};
+use packages\userpanel\Register\RegisterField;
+use packages\userpanel\Register\RegisterFields;
 
 class Login extends Controller {
 
@@ -47,6 +51,57 @@ class Login extends Controller {
 		$log->title = t("logs.login");
 		$log->type = logs\Login::class;
 		$log->save();
+	}
+
+	public static function getRegisterRules(): array {
+		$inputs = array(
+			'password' => array(
+				'type' => 'string',
+				'htmlTags' => true,
+				'multiLine' => true,
+			),
+		);
+		foreach (RegisterFields::actives(true) as $field) {
+			switch ($field) {
+				case RegisterField::EMAIL:
+					$inputs[$field->value] = array(
+						'type' => 'email',
+						'optional' => $field->isOptional(),
+					);
+					break;
+				case RegisterField::CELLPHONE:
+					$inputs[$field->value] = array(
+						'type' => 'cellphone',
+						'optional' => $field->isOptional(),
+					);
+					break;
+				case RegisterField::PHONE:
+					$inputs[$field->value] = array(
+						'type' => 'phone',
+						'optional' => $field->isOptional(),
+					);
+					break;
+				case RegisterField::COUNTRY:
+					$inputs[$field->value] = array(
+						'type' => Country::class,
+						'optional' => $field->isOptional(),
+					);
+					break;
+				case RegisterField::ZIP:
+					$inputs[$field->value] = array(
+						'type' => 'number',
+						'optional' => $field->isOptional(),
+					);
+					break;
+				default:
+					$inputs[$field->value] = array(
+						'type' => 'string',
+						'optional' => $field->isOptional(),
+					);
+					break;
+			}
+		}
+		return $inputs;
 	}
 
 	/**
@@ -310,8 +365,10 @@ class Login extends Controller {
 	 * @return Response
 	 */
 	public function signup(): Response {
+		/** @var views\Register $view */
 		$view = View::byName(views\Register::class);
 		$view->setCountries(Country::get());
+		$view->setRegisterFields(RegisterFields::actives(true));
 		$this->response->setStatus(true);
 		$this->response->setView($view);
 		return $this->response;
@@ -327,42 +384,9 @@ class Login extends Controller {
 		$this->response->setView($view);
 		$view->setData(Country::get(), 'countries');
 		$this->response->setStatus(false);
-		$inputs = array(
-			'name' => array(
-				'type' => 'string'
-			),
-			'lastname' => array(
-				'type' => 'string'
-			),
-			'email' => array(
-				'type' => 'email'
-			),
-			'password' => array(
-				'type' => 'string',
-				'htmlTags' => true,
-				'multiLine' => true,
-			),
-			'country' => array(
-				'type' => Country::class,
-			),
-			'city' => array(
-				'type' => 'string'
-			),
-			'address' => array(
-				'type' => 'string'
-			),
-			'zip' => array(
-				'type' => 'number'
-			),
-			'phone' => array(
-				'type' => 'phone',
-			),
-			'cellphone' => array(
-				'type' => 'cellphone',
-			)
-		);
+		$rules = self::getRegisterRules();
 		try {
-			$user = $this->register_helper($inputs);
+			$user = $this->register_helper($rules);
 			$this->response->setStatus(true);
 			$this->response->Go(userpanel\url());
 		} catch (UserIsNotActiveException $e) {

@@ -41,50 +41,36 @@ export class Register {
 	}
 	private static runRegisterValidator(): void {
 		Main.importValidationTranslator();
-		Register.$form.validate({
-			rules: {
-				name: {
-					required: true,
-				},
-				lastname: {
-					required: true,
-				},
-				country: {
-					required: true,
-				},
-				city: {
-					required: true,
-				},
-				address: {
-					required: true,
-				},
-				zip: {
-					required: true,
-					digits: true,
-					rangelength: [10, 10],
-				},
-				phone: {
-					digits: true,
-					required: true,
-				},
-				cellphone: {
-					required: true,
-					rangelength: [10, 13],
-				},
-				email: {
-					required: true,
-					email: true,
-				},
-				password: {
-					required: true,
-				},
-				password_again: {
-					equalTo: "input[name=password]",
-				},
-				tos: {
-					required: true,
-				},
+		const rules: JQueryValidation.RulesDictionary = {
+			password: {
+				required: true,
 			},
+			password_again: {
+				equalTo: "input[name=password]",
+			},
+		};
+		for (const input of ['name', 'lastname', 'country', 'city', 'address', 'zip', 'phone', 'cellphone', 'email', 'tos']) {
+			const $input = $(`[name="${input}"]`, Register.$form);
+			if ($input.length) {
+				rules[input] = {
+					required: !!$input.attr('required') || 'tos' === input,
+				};
+				if (['zip', 'phone'].indexOf(input) > -1) {
+					rules[input].digits = true;
+					if ('zip' === input) {
+						rules[input].rangelength = [10, 10];
+					}
+				}
+				else if ('cellphone' === input) {
+					rules[input].rangelength = [10, 13];
+				}
+				else if ('email' === input) {
+					rules[input].email = true;
+				}
+			}
+		}
+		Register.$form.validate({
+			rules: rules,
 			submitHandler: (form) => {
 				Register.$errorHandler.removeClass("alert-success").addClass("alert-danger").hide();
 				$(form).formAjax({

@@ -17,8 +17,11 @@ export default class Settings {
 		Settings.runSubmitFormListener();
 	}
 	private static runSubmitFormListener() {
-		Settings.$form.on("submit", function(e) {
+		Settings.$form.on("submit", function (e) {
 			e.preventDefault();
+
+			$(':input', this).inputMsg('reset');
+
 			$(this).formAjax({
 				success: () => {
 					$.growl.notice({
@@ -40,6 +43,11 @@ export default class Settings {
 							params.message = t("data_duplicate");
 						}
 						if ($input.length) {
+							const id = $input.parents('.tab-pane').attr('id');
+							if (id.length) {
+								$(`.nav-item a[href="#${id}"]`).tab('show');
+							}
+							$input.get(0).scrollIntoView({ behavior: 'smooth', block: 'center'});
 							$input.inputMsg(params);
 						} else {
 							$.growl.error(params);

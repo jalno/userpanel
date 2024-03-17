@@ -7,6 +7,11 @@ class Setting {
 	 */
 	private $name;
 
+	/** 
+	 * @var string fontawesome icon
+	 */
+	private ?string $icon = null;
+
 	/**
 	 * @var array<string,array<string,mixed>>
 	 */
@@ -37,6 +42,14 @@ class Setting {
 
 	public function getName(): string {
 		return $this->name;
+	}
+
+	public function setIcon(string $icon): void {
+		$this->icon = $icon;
+	}
+
+	public function getIcon(): ?string {
+		return $this->icon;
 	}
 
 	public function addInput(array $input): void {
