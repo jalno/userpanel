@@ -325,6 +325,9 @@ class Login extends Controller {
 				$user->$key = $inputs[$key];
 			}
 		}
+		if (!$user->email and !$user->cellphone) {
+			throw new Error('no_crediential');
+		}
 		if (isset($inputs['country'])) {
 			$user->country = $inputs['country']->id;
 		}
