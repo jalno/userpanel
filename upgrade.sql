@@ -325,3 +325,11 @@ INSERT INTO `options` (`name`, `value`, `autoload`) VALUES (
 --REPLACE INTO `options` (`name`, `value`, `autoload`) VALUES (
 --	'packages.userpanel.login_and_reset_password.bruteforce_throttle', '{\"period\":3600, \"total-limit\": 7, \"session-limit\": 5, \"ignore-ips\":[]}', '1'
 --);
+
+--
+--	Commit: ef7993afb3607c9b34290e6fce6b5ed28acbff80
+--
+ALTER TABLE `userpanel_users`
+	CHANGE `name` `name` varchar(100) NULL AFTER `id`,
+	CHANGE `email` `email` varchar(100) NULL AFTER `lastname`,
+	CHANGE `cellphone` `cellphone` varchar(15) NULL AFTER `email`;
