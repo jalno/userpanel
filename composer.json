@@ -1,0 +1,9 @@
+{
+	"name": "jalno/userpanel",
+	"license": "MIT",
+	"require": {
+		"jalno/base": "3.x-dev",
+		"jalno/notifications": "master-dev",
+		"jalno/node_webpack": "master-dev"
+	}
+}
