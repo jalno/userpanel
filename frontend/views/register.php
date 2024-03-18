@@ -25,8 +25,9 @@ class register extends RegisterView
 	{
 		return array_map(
 			function(array $item): array {
+				$isCredientials = $item['is_crediential'] ?? false;
 				$hasMoreFields = $item['has_more_non_credientials'] ?? false;
-				if (RegisterField::PHONE == $item['value'] or !$hasMoreFields) {
+				if (RegisterField::PHONE == $item['value'] or $isCredientials or !$hasMoreFields) {
 					$item['classes'] = 'col-md-12';
 				} else {
 					$item['classes'] = 'col-md-6';

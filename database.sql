@@ -43,10 +43,10 @@ CREATE TABLE `userpanel_usertypes_priorities` (
 
 CREATE TABLE `userpanel_users` (
 	`id` int(11) NOT NULL AUTO_INCREMENT,
-	`name` varchar(100) NOT NULL,
+	`name` varchar(100) DEFAULT NULL,
 	`lastname` varchar(100) DEFAULT NULL,
-	`email` varchar(100) NOT NULL,
-	`cellphone` varchar(14) NOT NULL,
+	`email` varchar(100) DEFAULT NULL,
+	`cellphone` varchar(15) DEFAULT NULL,
 	`password` varchar(255) NOT NULL,
 	`type` int(11) NOT NULL,
 	`phone` varchar(14) DEFAULT NULL,
