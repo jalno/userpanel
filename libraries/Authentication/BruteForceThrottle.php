@@ -50,7 +50,7 @@ class BruteForceThrottle {
 	 * @param OptionsType $options
 	 */
 	public function __construct(
-		string $channel = 'default',
+		string $channel,
 		int $period,
 		int $totalLimit,
 		?int $sessionLimit = null,
