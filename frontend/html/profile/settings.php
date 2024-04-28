@@ -1,5 +1,6 @@
 <?php
 use function packages\userpanel\url;
+
 ?>
 
 <form action="<?php echo url('profile/settings'); ?>" method="POST" role="form" id="settings_form">
@@ -7,41 +8,41 @@ use function packages\userpanel\url;
 	<hr>
 <?php
 $i = 0;
-foreach($this->getSettings() as $tuning) {
-	if ($i % 2 == 0) {
-?>
+foreach ($this->getSettings() as $tuning) {
+    if (0 == $i % 2) {
+        ?>
 	<div class="row">
 <?php
-	}
-	$i++;
-?>
+    }
+    ++$i;
+    ?>
 		<div class="col-sm-6">
 			<div class="panel panel-white settings-<?php echo $tuning->getName(); ?>">
 				<div class="panel-heading">
-					<i class="<?php echo ($tuning->getIcon() ?: 'fa fa-cogs'); ?>"></i>
+					<i class="<?php echo $tuning->getIcon() ?: 'fa fa-cogs'; ?>"></i>
 				<?php echo t('titles.settings_'.$tuning->getName()); ?>
 				</div>
 				<div class="panel-body">
 				<?php
-				foreach($tuning->getFields() as $field){
-					$this->createField($field);
-				}
-				?>
+                    foreach ($tuning->getFields() as $field) {
+                        $this->createField($field);
+                    }
+    ?>
 				</div>
 			</div>
 		</div>
-<?php if ($i % 2 == 0) { ?>
+<?php if (0 == $i % 2) { ?>
 	</div>
 <?php
-	}
 }
-if ($i % 2 != 0) {
-?>
+}
+if (0 != $i % 2) {
+    ?>
 </div>
 <?php } ?>
 	<div class="row">
 		<div class="col-md-offset-4 col-md-4">
-			<button class="btn btn-success btn-block" type="submit"><i class="fa fa-check-square-o"></i> <?php echo t("user.profile.save"); ?></button>
+			<button class="btn btn-success btn-block" type="submit"><i class="fa fa-check-square-o"></i> <?php echo t('user.profile.save'); ?></button>
 		</div>
 	</div>
 </form>

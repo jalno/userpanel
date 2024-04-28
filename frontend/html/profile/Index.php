@@ -6,14 +6,14 @@
 	<div class="tab-content">
 		<div class="tab-pane active">
 		<?php
-		$tab = $this->getActiveTab();
-		if ($tab) {
-			$view = $tab->getView();
-			if ($view) {
-				$view->output();
-			}
-		}
-		?>
+        $tab = $this->getActiveTab();
+if ($tab) {
+    $view = $tab->getView();
+    if ($view) {
+        $view->output();
+    }
+}
+?>
 		</div>
 	</div>
 </div>

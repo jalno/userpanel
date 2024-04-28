@@ -1,15 +1,15 @@
 <?php
-require_once("header.php");
-use \packages\userpanel;
-use \packages\base;
-use \packages\base\translator;
+require_once 'header.php';
+use packages\base\Translator;
+use packages\userpanel;
+
 ?>
 <!-- start: PAGE CONTENT -->
 <div class="row">
 	<div class="col-sm-12">
 		<div class="tabbable">
 			<ul class="nav nav-tabs tab-padding tab-space-3 tab-blue">
-				<li><a href="<?php echo userpanel\url('users/email/'.$this->getDataForm('id')); ?>"><?php echo translator::trans("user.profile.overview"); ?></a></li>
+				<li><a href="<?php echo userpanel\url('users/email/'.$this->getDataForm('id')); ?>"><?php echo Translator::trans('user.profile.overview'); ?></a></li>
 				<li class="active"><a data-toggle="tab" href="#edit_panel">ویرایش اطلاعات</a></li>
 			</ul>
 			<div class="tab-content">
@@ -25,125 +25,125 @@ use \packages\base\translator;
 						<div class="row">
 							<div class="col-md-6">
 								<?php
-								$fields = array(
-									array(
-										'name' => 'name',
-										'label' => translator::trans("user.name")
-									),
-									array(
-										'type' => 'email',
-										'name' => 'email',
-										'label' => translator::trans("user.email"),
-										'error' => array(
-											'data_duplicate' => 'user.email.data_duplicate'
-										)
-									),
-									array(
-										'name' => 'phone',
-										'label' => translator::trans("user.phone")
-									),
-									array(
-										'name' => 'cellphone',
-										'label' => translator::trans("user.cellphone"),
-										'error' => array(
-											'data_duplicate' => 'user.cellphone.data_duplicate'
-										)
-									),
-									array(
-										'type' => 'password',
-										'name' => 'password',
-										'label' => translator::trans("user.password"),
-										'value' => ''
-									),
-									array(
-										'type' => 'password',
-										'name' => 'password2',
-										'label' => translator::trans("user.password_repeat"),
-										'value' => ''
-									)
-								);
-								foreach($fields as $field){
-									$this->createField($field);
-								}
-								?>
+                                $fields = [
+                                    [
+                                        'name' => 'name',
+                                        'label' => Translator::trans('user.name'),
+                                    ],
+                                    [
+                                        'type' => 'email',
+                                        'name' => 'email',
+                                        'label' => Translator::trans('user.email'),
+                                        'error' => [
+                                            'data_duplicate' => 'user.email.data_duplicate',
+                                        ],
+                                    ],
+                                    [
+                                        'name' => 'phone',
+                                        'label' => Translator::trans('user.phone'),
+                                    ],
+                                    [
+                                        'name' => 'cellphone',
+                                        'label' => Translator::trans('user.cellphone'),
+                                        'error' => [
+                                            'data_duplicate' => 'user.cellphone.data_duplicate',
+                                        ],
+                                    ],
+                                    [
+                                        'type' => 'password',
+                                        'name' => 'password',
+                                        'label' => Translator::trans('user.password'),
+                                        'value' => '',
+                                    ],
+                                    [
+                                        'type' => 'password',
+                                        'name' => 'password2',
+                                        'label' => Translator::trans('user.password_repeat'),
+                                        'value' => '',
+                                    ],
+                                ];
+foreach ($fields as $field) {
+    $this->createField($field);
+}
+?>
 							</div>
 							<div class="col-md-6">
 								<?php
 
-								$this->createField(array(
-									'type' => 'select',
-									'name' => 'type',
-									'label' => translator::trans("user.type"),
-									'options' => $this->usertypes
-								));
-								?>
+$this->createField([
+    'type' => 'select',
+    'name' => 'type',
+    'label' => Translator::trans('user.type'),
+    'options' => $this->usertypes,
+]);
+?>
 								<div class="row">
 									<div class="col-md-4">
 										<?php
-										$this->createField(array(
-											'type' => 'number',
-											'name' => 'zip',
-											'label' => translator::trans("user.zip")
-										));
-										?>
+        $this->createField([
+            'type' => 'number',
+            'name' => 'zip',
+            'label' => Translator::trans('user.zip'),
+        ]);
+?>
 									</div>
 									<div class="col-md-4">
 										<?php
-										$this->createField(array(
-											'name' => 'city',
-											'label' => translator::trans("user.city")
-										));
-										?>
+$this->createField([
+    'name' => 'city',
+    'label' => Translator::trans('user.city'),
+]);
+?>
 									</div>
 									<div class="col-md-4">
 										<?php
-										$this->createField(array(
-											'name' => 'country',
-											'label' => translator::trans("user.country")
-										));
-										?>
+$this->createField([
+    'name' => 'country',
+    'label' => Translator::trans('user.country'),
+]);
+?>
 									</div>
 								</div>
 								<?php
-								$this->createField(array(
-									'name' => 'address',
-									'label' => translator::trans("user.address")
-								));
-								$this->createField(array(
-									'type' => 'radio',
-									'name' => 'status',
-									'label' => translator::trans("user.status"),
-									'inline' => true,
-									'options' => array(
-										array(
-											'label' => translator::trans("user.status.active"),
-											'value' => 1,
-											'class' => 'grey'
-										),
-										array(
-											'label' => translator::trans("user.status.suspend"),
-											'value' => 0,
-											'class' => 'grey'
-										),
-										array(
-											'label' => translator::trans("user.status.deactive"),
-											'value' => 0,
-											'class' => 'grey'
-										)
-									)
-								));
-								$this->createField(array(
-									'type' => 'number',
-									'name' => 'credit',
-									'label' => translator::trans("user.credit")
-								));
-								?>
+                                $this->createField([
+                                    'name' => 'address',
+                                    'label' => Translator::trans('user.address'),
+                                ]);
+$this->createField([
+    'type' => 'radio',
+    'name' => 'status',
+    'label' => Translator::trans('user.status'),
+    'inline' => true,
+    'options' => [
+        [
+            'label' => Translator::trans('user.status.active'),
+            'value' => 1,
+            'class' => 'grey',
+        ],
+        [
+            'label' => Translator::trans('user.status.suspend'),
+            'value' => 0,
+            'class' => 'grey',
+        ],
+        [
+            'label' => Translator::trans('user.status.deactive'),
+            'value' => 0,
+            'class' => 'grey',
+        ],
+    ],
+]);
+$this->createField([
+    'type' => 'number',
+    'name' => 'credit',
+    'label' => Translator::trans('user.credit'),
+]);
+?>
 
 							</div>
 						</div>
 						<div class="row" style="margin-top: 20px;margin-bottom: 20px;">
 							<div class="col-md-offset-4 col-md-4">
-								<button class="btn btn-teal btn-block" type="submit"><i class="fa fa-arrow-circle-left"></i> <?php echo translator::trans("user.profile.save"); ?></button>
+								<button class="btn btn-teal btn-block" type="submit"><i class="fa fa-arrow-circle-left"></i> <?php echo Translator::trans('user.profile.save'); ?></button>
 							</div>
 						</div>
 					</form>
@@ -153,4 +153,4 @@ use \packages\base\translator;
 	</div>
 </div>
 <?php
-require_once('footer.php');
+require_once 'footer.php';

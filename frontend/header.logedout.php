@@ -12,9 +12,9 @@
 		<meta name="apple-mobile-web-app-capable" content="yes">
 		<meta name="apple-mobile-web-app-status-bar-style" content="black">
 		<?php
-		$description = $this->getDescription();
-		if($description){
-			echo("<meta content=\"{$description}\" name=\"description\" />");
+        $description = $this->getDescription();
+		if ($description) {
+		    echo "<meta content=\"{$description}\" name=\"description\" />";
 		}
 		$this->loadCSS();
 		?>

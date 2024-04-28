@@ -2,13 +2,13 @@
 
 namespace packages\userpanel\Register;
 
-use packages\base\options;
+use packages\base\Options;
 
 class RegisterFields
 {
-    const DEACTIVE = 1;
-    const ACTIVE_REQUIRED = 2;
-    const ACTIVE_OPTIONAL = 3;
+    public const DEACTIVE = 1;
+    public const ACTIVE_REQUIRED = 2;
+    public const ACTIVE_OPTIONAL = 3;
 
     protected const OPTION_NAME = 'packages.userpanel.register';
 
@@ -90,6 +90,7 @@ class RegisterFields
                 [self::ACTIVE_OPTIONAL]
             );
         }
+
         return [];
     }
 
@@ -112,12 +113,14 @@ class RegisterFields
                 [self::ACTIVE_REQUIRED]
             );
         }
+
         return self::all($withCredientials);
     }
 
     /**
      * @param array<string,int> $attributes
-     * @param int[] $statuses
+     * @param int[]             $statuses
+     *
      * @return RegisterField[]
      */
     public static function filterByStatus(array $attributes, array $statuses): array

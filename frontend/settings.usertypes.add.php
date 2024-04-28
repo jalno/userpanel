@@ -1,30 +1,27 @@
 <?php
-require_once("header.php");
+require_once 'header.php';
 
-use packages\base;
 use packages\userpanel;
-use packages\userpanel\User;
-use themes\clipone\Utility;
 
 ?>
-<form class="add-usertypes" action="<?php echo(userpanel\url("settings/usertypes/add")); ?>" method="POST">
+<form class="add-usertypes" action="<?php echo userpanel\url('settings/usertypes/add'); ?>" method="POST">
 	<div class="row">
 		<div class="col-md-6">
 			<?php
-			$this->createField(array(
-				'name' => 'title',
-				'label' => t('usertype.title')
-			));
-			?>
+            $this->createField([
+                'name' => 'title',
+                'label' => t('usertype.title'),
+            ]);
+?>
 		</div>
 	<?php if ($this->hasChildrentypeToCopy()) { ?>
 		<div class="col-md-6">
-		<?php $this->createField(array(
-			"name" => "children-type",
-			"label" => t("usertype.children-type.select.permissions"),
-			"type" => "select",
-			"options" => $this->getChildrenUsertypesForSelect(),
-		)); ?>
+		<?php $this->createField([
+		    'name' => 'children-type',
+		    'label' => t('usertype.children-type.select.permissions'),
+		    'type' => 'select',
+		    'options' => $this->getChildrenUsertypesForSelect(),
+		]); ?>
 		</div>
 	<?php } ?>
 	</div>
@@ -60,21 +57,21 @@ use themes\clipone\Utility;
 						</thead>
 						<tbody>
 							<?php
-							foreach ($this->getChildrenTypes() as $priority) {
-							?>
+                foreach ($this->getChildrenTypes() as $priority) {
+                    ?>
 								<tr>
 									<td>
 										<div class="checkbox checkbox-primary">
 											<label>
-												<input type="checkbox" name="priorities[]" value="<?php echo $priority->id;?>">
+												<input type="checkbox" name="priorities[]" value="<?php echo $priority->id; ?>">
 												<?php echo $priority->title; ?>
 											</label>
 										</div>
 									</td>
 								</tr>
 							<?php
-							}
-							?>
+                }
+?>
 						</tbody>
 					</table>
 				</div>
@@ -92,4 +89,4 @@ use themes\clipone\Utility;
 	</div>
 </form>
 <?php
-require_once('footer.php');
+require_once 'footer.php';

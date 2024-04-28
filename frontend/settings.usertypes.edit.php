@@ -1,22 +1,20 @@
 <?php
-require_once("header.php");
+require_once 'header.php';
 
-use packages\base;
 use packages\userpanel;
-use packages\userpanel\User;
-use themes\clipone\Utility;
+
 $usertype = $this->getUserType();
 
 ?>
-<form class="edit-usertype" action="<?php echo(userpanel\url("settings/usertypes/edit/".$usertype->id)); ?>" method="POST">
+<form class="edit-usertype" action="<?php echo userpanel\url('settings/usertypes/edit/'.$usertype->id); ?>" method="POST">
 	<div class="row">
 		<div class="col-md-6">
 			<?php
-			$this->createField(array(
-				'name' => 'title',
-				'label' => t('usertype.title')
-			));
-			?>
+            $this->createField([
+                'name' => 'title',
+                'label' => t('usertype.title'),
+            ]);
+?>
 		</div>
 	</div>
 	<div class="row">
@@ -51,21 +49,21 @@ $usertype = $this->getUserType();
 						</thead>
 						<tbody>
 							<?php
-							foreach ($this->getChildrenTypes() as $priority) {
-							?>
+                foreach ($this->getChildrenTypes() as $priority) {
+                    ?>
 								<tr>
 									<td>
 										<div class="checkbox checkbox-primary">
 											<label>
-												<input type="checkbox" class="flat-grey" name="priorities[]" value="<?php echo $priority->id; ?>"<?php echo ($this->hasPriority($priority) ? " checked " : ""); ?>>
+												<input type="checkbox" class="flat-grey" name="priorities[]" value="<?php echo $priority->id; ?>"<?php echo $this->hasPriority($priority) ? ' checked ' : ''; ?>>
 												<?php echo $priority->title; ?>
 											</label>
 										</div>
 									</td>
 								</tr>
 							<?php
-							}
-							?>
+                }
+?>
 						</tbody>
 					</table>
 				</div>
@@ -83,4 +81,4 @@ $usertype = $this->getUserType();
 	</div>
 </form>
 <?php
-require_once('footer.php');
+require_once 'footer.php';

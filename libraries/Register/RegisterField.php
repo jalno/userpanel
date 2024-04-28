@@ -1,4 +1,5 @@
 <?php
+
 namespace packages\userpanel\Register;
 
 enum RegisterField: string
@@ -12,7 +13,7 @@ enum RegisterField: string
     case CITY = 'city';
     case ADDRESS = 'address';
     case ZIP = 'zip';
-    
+
     public function isDeactivated(): bool
     {
         return !in_array($this, RegisterFields::actives(true));

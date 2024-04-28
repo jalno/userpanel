@@ -1,6 +1,4 @@
 <?php
-use \packages\base;
-use \packages\base\frontend\theme;
 ?>
 				</div>
 			</div>

@@ -1,8 +1,10 @@
 <?php
-use packages\base\frontend\theme;
+use packages\base\Frontend\Theme;
 use packages\userpanel;
-use packages\userpanel\{User, Date, authentication};
-use themes\clipone\utility;
+use packages\userpanel\Date;
+use packages\userpanel\User;
+use themes\clipone\Utility;
+
 ?>
 <div class="row">
 	<div class="col-sm-5 col-md-4">
@@ -17,82 +19,82 @@ use themes\clipone\utility;
 								<input name="avatar" type="file">
 								<div class="button-group">
 									<button type="button" class="btn btn-teal btn-sm btn-upload"><i class="fa fa-pencil"></i></button>
-									<button type="button" class="btn btn-bricky btn-sm btn-remove" data-default="<?php echo theme::url('assets/images/defaultavatar.jpg'); ?>"><i class="fa fa-times"></i></button>
+									<button type="button" class="btn btn-bricky btn-sm btn-remove" data-default="<?php echo Theme::url('assets/images/defaultavatar.jpg'); ?>"><i class="fa fa-times"></i></button>
 								</div>
 							</div>
 						</div>
 					</div>
 				</form>
 			<?php
-			$buttonActions = $this->buildActionButtons();
-			if ($buttonActions) {
-			?>
+            $buttonActions = $this->buildActionButtons();
+if ($buttonActions) {
+    ?>
 				<hr>
 				<div class="admin-actions"><?php echo $buttonActions; ?></div>
 			<?php
-			}
-			if($this->networks){
-			?>
+}
+if ($this->networks) {
+    ?>
 				<hr>
 				<p>
 				<?php
-					foreach($this->networks as $network => $url){
-						echo("<a href=\"{$url}\" target=\"_blank\" class=\"btn btn-{$network} btn-sm btn-squared\"><i class=\"fa fa-{$network}\"></i></a> ");
-					}
-				?>
+            foreach ($this->networks as $network => $url) {
+                echo "<a href=\"{$url}\" target=\"_blank\" class=\"btn btn-{$network} btn-sm btn-squared\"><i class=\"fa fa-{$network}\"></i></a> ";
+            }
+    ?>
 				</p>
 				<?php } ?>
 				<hr>
 			</div>
 			<?php
-			$web = ($this->getUserData('web') and $this->is_public('web'));
-			$phone = ($this->getUserData('phone') and $this->is_public('phone'));
-			$email = $this->is_public('email');
-			$cellphone = $this->is_public('cellphone');
-			if($web or $phone or $email or $cellphone){
-			?>
+            $web = ($this->getUserData('web') and $this->is_public('web'));
+$phone = ($this->getUserData('phone') and $this->is_public('phone'));
+$email = $this->is_public('email');
+$cellphone = $this->is_public('cellphone');
+if ($web or $phone or $email or $cellphone) {
+    ?>
 			<table class="table table-condensed table-hover">
 				<thead>
 					<tr>
-						<th colspan="3"><?php echo t("userpanel.profile.contact_info"); ?></th>
+						<th colspan="3"><?php echo t('userpanel.profile.contact_info'); ?></th>
 					</tr>
 				</thead>
 				<tbody>
 					<?php
-					if($web){
-					?>
+            if ($web) {
+                ?>
 					<tr>
-						<td><?php echo t("userpanel.profile.web"); ?>:</td>
+						<td><?php echo t('userpanel.profile.web'); ?>:</td>
 						<td>
 						<a href="http://<?php echo $this->getUserData('web'); ?>" target="_blank">www.<?php echo $this->getUserData('web'); ?></a></td>
 						<td><a href="<?php echo userpanel\url('users/edit/'.$this->getUserData('id')); ?>"><i class="fa fa-pencil edit-user-info"></i></a></td>
 					</tr>
 					<?php
-					}
-					if($email){
-					?>
+            }
+    if ($email) {
+        ?>
 					<tr>
-						<td><?php echo t("user.email"); ?>:</td>
+						<td><?php echo t('user.email'); ?>:</td>
 						<td><?php echo $this->getUserData('email'); ?></td>
-						<td><a href="<?php echo userpanel\url('email/send/', array('user' => $this->getUserData('id'))); ?>"><i class="fa fa-envelope-o edit-user-info"></i></a></td>
+						<td><a href="<?php echo userpanel\url('email/send/', ['user' => $this->getUserData('id')]); ?>"><i class="fa fa-envelope-o edit-user-info"></i></a></td>
 					</tr>
 					<?php
-					}
-					if($phone){
-					?>
+    }
+    if ($phone) {
+        ?>
 					<tr>
-						<td><?php echo t("user.phone"); ?>:</td>
-						<td><span dir='ltr'><?php echo '+' . $this->user->getPhoneWithDialingCode() ?></span></td>
+						<td><?php echo t('user.phone'); ?>:</td>
+						<td><span dir='ltr'><?php echo '+'.$this->user->getPhoneWithDialingCode(); ?></span></td>
 						<td></td>
 					</tr>
 					<?php
-					}
-					if($cellphone){
-					?>
+    }
+    if ($cellphone) {
+        ?>
 					<tr>
-						<td><?php echo t("user.cellphone"); ?>:</td>
-						<td><span dir='ltr'><?php echo '+' . $this->user->getCellphoneWithDialingCode(); ?></span></td>
-						<td><a href="<?php echo userpanel\url('sms/send/', array('user' => $this->getUserData('id'))); ?>" ><i class="clip-mobile-3 edit-user-info"></i></a></td>
+						<td><?php echo t('user.cellphone'); ?>:</td>
+						<td><span dir='ltr'><?php echo '+'.$this->user->getCellphoneWithDialingCode(); ?></span></td>
+						<td><a href="<?php echo userpanel\url('sms/send/', ['user' => $this->getUserData('id')]); ?>" ><i class="clip-mobile-3 edit-user-info"></i></a></td>
 					</tr>
 					<?php } ?>
 				</tbody>
@@ -101,68 +103,68 @@ use themes\clipone\utility;
 			<table class="table table-condensed table-hover">
 				<thead>
 					<tr>
-						<th colspan="3"><?php echo t("userpanel.profile.general_info"); ?></th>
+						<th colspan="3"><?php echo t('userpanel.profile.general_info'); ?></th>
 					</tr>
 				</thead>
 				<tbody>
 					<tr>
-						<td><?php echo t("user.type"); ?></td>
+						<td><?php echo t('user.type'); ?></td>
 						<td><?php echo $this->getUserData('type')->title; ?></td>
 						<td></td>
 					</tr>
 					<tr>
-						<td><?php echo t("userpanel.profile.register_date"); ?></td>
-						<td><span class="user-dates tooltips" data-tooltips-trigger="hover focus click" title="<?php echo Date::format("Q QTS", $this->getUserData('registered_at')); ?>">
+						<td><?php echo t('userpanel.profile.register_date'); ?></td>
+						<td><span class="user-dates tooltips" data-tooltips-trigger="hover focus click" title="<?php echo Date::format('Q QTS', $this->getUserData('registered_at')); ?>">
 								<?php echo Date::relativeTime($this->getUserData('registered_at')); ?>
 						</span></td>
 						<td></td>
 					</tr>
 					<tr>
-						<td><?php echo t("userpanel.profile.last_activity"); ?></td>
-						<td><span class="user-dates tooltips" data-tooltips-trigger="hover focus click" title="<?php echo Date::format("Q QTS", $this->getUserData('lastonline')); ?>">
+						<td><?php echo t('userpanel.profile.last_activity'); ?></td>
+						<td><span class="user-dates tooltips" data-tooltips-trigger="hover focus click" title="<?php echo Date::format('Q QTS', $this->getUserData('lastonline')); ?>">
 							<?php echo Date::relativeTime($this->getUserData('lastonline')); ?>
 						</span></td>
 						<td></td>
 					</tr>
 					<tr>
-						<td><?php echo t("userpanel.profile.last_login"); ?></td>
-						<td><span class="user-dates tooltips" data-tooltips-trigger="hover focus click" title="<?php echo $this->lastlogin ? Date::format("Q QTS", $this->lastlogin) : ""; ?>">
-							<?php echo($this->lastlogin ? Date::relativeTime($this->lastlogin) : t('user.lastlogin.never')) ; ?>
+						<td><?php echo t('userpanel.profile.last_login'); ?></td>
+						<td><span class="user-dates tooltips" data-tooltips-trigger="hover focus click" title="<?php echo $this->lastlogin ? Date::format('Q QTS', $this->lastlogin) : ''; ?>">
+							<?php echo $this->lastlogin ? Date::relativeTime($this->lastlogin) : t('user.lastlogin.never'); ?>
 						</span></td>
 						<td></td>
 					</tr>
 					<tr>
-						<td><?php echo t("user.credit"); ?></td>
+						<td><?php echo t('user.credit'); ?></td>
 						<td class="user-credit">
-							<span class="ltr"><?php echo number_format($this->getUserData("credit")); ?></span>
-							<?php echo ' ' . $this->getUserCurrency(); ?>
+							<span class="ltr"><?php echo number_format($this->getUserData('credit')); ?></span>
+							<?php echo ' '.$this->getUserCurrency(); ?>
 						</td>
 						<td></td>
 					</tr>
 				<?php
-				if ($this->lastIP) {
-				?>
+                if ($this->lastIP) {
+                    ?>
 					<tr>
-						<td><?php echo t("userpanel.profile.last_ip"); ?></td>
+						<td><?php echo t('userpanel.profile.last_ip'); ?></td>
 						<td class="ltr"><?php echo $this->lastIP; ?></td>
 						<td></td>
 					</tr>
 				<?php } ?>
 					<tr>
-						<td><?php echo t("user.status"); ?></td>
+						<td><?php echo t('user.status'); ?></td>
 						<td>
 						<?php
-						$statusClass = utility::switchcase($this->getUserData('status'), array(
-							'label-inverse' => user::deactive,
-							'label-success' => user::active,
-							'label-warning' => user::suspend
-						));
-						$statusTxt = utility::switchcase($this->getUserData('status'), array(
-							'user.status.deactive' => user::deactive,
-							'user.status.active' => user::active,
-							'user.status.suspend' => user::suspend
-						));
-						?>
+                            $statusClass = Utility::switchcase($this->getUserData('status'), [
+                                'label-inverse' => User::deactive,
+                                'label-success' => User::active,
+                                'label-warning' => User::suspend,
+                            ]);
+$statusTxt = Utility::switchcase($this->getUserData('status'), [
+    'user.status.deactive' => User::deactive,
+    'user.status.active' => User::active,
+    'user.status.suspend' => User::suspend,
+]);
+?>
 							<span class="label user-status-container <?php echo $statusClass; ?>"><?php echo t($statusTxt); ?></span>
 						</td>
 						<td></td>
