@@ -49,8 +49,8 @@ $this->loadCSS();
 				<div class="navbar-tools">
 					<ul class="nav navbar-right">
 						<?php
-                            if (count($availableLangs) > 1) {
-                                ?>
+		                    if (count($availableLangs) > 1) {
+		                        ?>
 						<li class="dropdown nav-lang-selector">
 							<a data-toggle="dropdown" data-hover="dropdown" class="dropdown-toggle" data-close-others="true" href="#">
 								<!-- <i class="fa fa-globe"></i> -->
@@ -59,13 +59,13 @@ $this->loadCSS();
 							</a>
 							<ul class="dropdown-menu langs-dropdown-menu">
 								<?php
-                                        foreach ($availableLangs as $lang) {
-                                            if ($lang == $codeLang) {
-                                                // continue;
-                                            }
-                                            $shortCode = Translator::getShortCodeLang($lang);
-                                            $direction = Translator::getLang($lang)->isRTL() ? 'rtl' : 'ltr';
-                                            ?>
+		                                foreach ($availableLangs as $lang) {
+		                                    if ($lang == $codeLang) {
+		                                        // continue;
+		                                    }
+		                                    $shortCode = Translator::getShortCodeLang($lang);
+		                                    $direction = Translator::getLang($lang)->isRTL() ? 'rtl' : 'ltr';
+		                                    ?>
 									<li class="lang <?php echo $direction; ?>">
 										<a href="<?php echo base\url('.', ['@lang' => $shortCode]); ?>">
 											<span class="flag-icon flag-icon-<?php echo strtolower(substr($lang, -2)); ?>"></span>
@@ -73,12 +73,12 @@ $this->loadCSS();
 										</a>
 									</li>
 								<?php
-                                        }
-                                ?>
+		                                }
+		                        ?>
 							</ul>
 						</li>
 						<?php
-                            }
+		                    }
 ?>
 
 						<li class="dropdown current-user">

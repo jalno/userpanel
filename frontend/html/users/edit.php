@@ -202,30 +202,30 @@ if ($this->canEditPassword) {
 
 	<?php
         $socialnetworksFirstPart = [
-[
-    'name' => 'socialnets['.SocialNetwork::telegram.']',
-    'placeholder' => 'Telegram',
-    'icon' => 'fa fa-telegram',
-    'left' => true,
-    'ltr' => true,
-    'input-group' => $this->getInputGroupArrayFor('socialnetworks_'.SocialNetwork::telegram),
-],
-[
-    'name' => 'socialnets['.SocialNetwork::instagram.']',
-    'placeholder' => 'Instagram',
-    'icon' => 'fa fa-instagram',
-    'left' => true,
-    'ltr' => true,
-    'input-group' => $this->getInputGroupArrayFor('socialnetworks_'.SocialNetwork::instagram),
-],
-[
-    'name' => 'socialnets['.SocialNetwork::skype.']',
-    'placeholder' => 'Skype',
-    'icon' => 'fa fa-skype',
-    'left' => true,
-    'ltr' => true,
-    'input-group' => $this->getInputGroupArrayFor('socialnetworks_'.SocialNetwork::skype),
-],
+            [
+                'name' => 'socialnets['.SocialNetwork::telegram.']',
+                'placeholder' => 'Telegram',
+                'icon' => 'fa fa-telegram',
+                'left' => true,
+                'ltr' => true,
+                'input-group' => $this->getInputGroupArrayFor('socialnetworks_'.SocialNetwork::telegram),
+            ],
+            [
+                'name' => 'socialnets['.SocialNetwork::instagram.']',
+                'placeholder' => 'Instagram',
+                'icon' => 'fa fa-instagram',
+                'left' => true,
+                'ltr' => true,
+                'input-group' => $this->getInputGroupArrayFor('socialnetworks_'.SocialNetwork::instagram),
+            ],
+            [
+                'name' => 'socialnets['.SocialNetwork::skype.']',
+                'placeholder' => 'Skype',
+                'icon' => 'fa fa-skype',
+                'left' => true,
+                'ltr' => true,
+                'input-group' => $this->getInputGroupArrayFor('socialnetworks_'.SocialNetwork::skype),
+            ],
         ];
 if (!$this->canEditPermissions) {
     ?>

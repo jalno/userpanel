@@ -1,6 +1,6 @@
 <?php
 
-namespace packages\userpanel\controllers\Settings;
+namespace packages\userpanel\Controllers\Settings;
 
 use packages\base\DB;
 use packages\base\HTTP;
@@ -151,11 +151,11 @@ class UserTypes extends Controller
                     'optional' => true,
                 ],
                 'permissions' => [
-                    'type' => Validators\UsertypePermissionsValidator::class,
+                    'type' => Validators\UserTypePermissionsValidator::class,
                     'values' => $allPermissions,
                 ],
                 'priorities' => [
-                    'type' => Validators\UsertypePrioritiesValidator::class,
+                    'type' => Validators\UserTypePrioritiesValidator::class,
                     'optional' => true,
                     'default' => [],
                     'values' => $childrenTypes,
@@ -241,11 +241,11 @@ class UserTypes extends Controller
                     'optional' => true,
                 ],
                 'permissions' => [
-                    'type' => Validators\UsertypePermissionsValidator::class,
+                    'type' => Validators\UserTypePermissionsValidator::class,
                     'values' => $allPermissions,
                 ],
                 'priorities' => [
-                    'type' => Validators\UsertypePrioritiesValidator::class,
+                    'type' => Validators\UserTypePrioritiesValidator::class,
                     'optional' => true,
                     'default' => [],
                     'values' => $childrenTypes,

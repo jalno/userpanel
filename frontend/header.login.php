@@ -38,8 +38,8 @@ $this->loadCSS();
 			    echo ' text-center';
 			} ?>"><span><?php echo $this->getLogoHTML(); ?></span>
 			<?php
-                if (count($availableLangs) > 1) {
-                    ?>
+			    if (count($availableLangs) > 1) {
+			        ?>
 				<div class="btn-group lang-select">
 					<button class="btn dropdown-toggle btn-lang-select" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" >
 						<span class="flag-icon flag-icon-<?php echo strtolower(substr($codeLang, -2)); ?>"></span>
@@ -47,13 +47,13 @@ $this->loadCSS();
 					</button>
 					<div class="dropdown-menu">
 						<?php
-                                foreach ($availableLangs as $lang) {
-                                    if ($lang == $codeLang) {
-                                        continue;
-                                    }
-                                    $shortCode = Translator::getShortCodeLang($lang);
-                                    $direction = Translator::getLang($lang)->isRTL() ? 'rtl' : 'ltr';
-                                    ?>
+			                    foreach ($availableLangs as $lang) {
+			                        if ($lang == $codeLang) {
+			                            continue;
+			                        }
+			                        $shortCode = Translator::getShortCodeLang($lang);
+			                        $direction = Translator::getLang($lang)->isRTL() ? 'rtl' : 'ltr';
+			                        ?>
 							<li class="<?php echo $direction; ?>">
 								<a href="<?php echo base\url('.', ['@lang' => $shortCode]); ?>">
 									<span class="flag-icon flag-icon-<?php echo strtolower(substr($lang, -2)); ?>"></span>
@@ -62,10 +62,10 @@ $this->loadCSS();
 							</li>
 					</div>
 					<?php
-                                }
-                    ?>
+			                    }
+			        ?>
 				</div>
 			<?php
-                }
+			    }
 ?>
 			</div>

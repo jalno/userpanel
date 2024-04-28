@@ -2,7 +2,7 @@
 
 namespace packages\userpanel;
 
-use packages\base\DB\MySqliDb;
+use packages\base\DB\MysqliDb;
 use packages\base\DB\Parenthesis;
 use packages\base\Exception;
 use packages\base\HTTP;
@@ -151,7 +151,7 @@ trait CursorPaginateTrait
 
             $usedWheres = $clonQuery->getWheres();
 
-            $queryBuilder = function (MySqliDb $query) use (&$usedWheres): MySqliDB {
+            $queryBuilder = function (MysqliDb $query) use (&$usedWheres): MysqliDB {
                 $query->resetWheres();
 
                 $parenthesis = new Parenthesis();

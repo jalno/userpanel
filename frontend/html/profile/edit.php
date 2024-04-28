@@ -125,14 +125,14 @@ $this->createField([
 			<?php
             $fields = [
                 [
-'name' => 'address',
-'label' => Translator::trans('user.address'),
+                    'name' => 'address',
+                    'label' => Translator::trans('user.address'),
                 ],
                 [
-'name' => 'phone[number]',
-'label' => Translator::trans('user.phone'),
-'ltr' => true,
-'input-group' => $this->getInputGroupArrayFor('phone'),
+                    'name' => 'phone[number]',
+                    'label' => Translator::trans('user.phone'),
+                    'ltr' => true,
+                    'input-group' => $this->getInputGroupArrayFor('phone'),
                 ],
             ];
 foreach ($fields as $field) {

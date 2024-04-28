@@ -4,7 +4,7 @@ namespace packages\userpanel\UserType;
 
 use packages\base\Events;
 use packages\base\Options;
-use packages\userpanel\Events\usertype_permissions_list;
+use packages\userpanel\Events\UserTypePermissionsList;
 use packages\userpanel\User;
 
 class Permissions
@@ -21,7 +21,7 @@ class Permissions
 
     public static function get()
     {
-        Events::trigger(new usertype_permissions_list());
+        Events::trigger(new UserTypePermissionsList());
 
         return self::$permissions;
     }

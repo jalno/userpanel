@@ -1,6 +1,6 @@
 <?php
 
-namespace packages\userpanel\controllers;
+namespace packages\userpanel\Controllers;
 
 use packages\base\DB\Parenthesis;
 use packages\base\NotFound;

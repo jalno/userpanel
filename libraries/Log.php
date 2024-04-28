@@ -33,7 +33,7 @@ class Log extends DBObject
     ];
     protected $serializeFields = ['parameters'];
     protected $relations = [
-        'params' => ['hasMany', log_param::class, 'log'],
+        'params' => ['hasMany', LogsParams::class, 'log'],
         'user' => ['hasOne', User::class, 'user'],
     ];
     private $handler;

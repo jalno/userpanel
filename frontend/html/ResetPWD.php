@@ -71,8 +71,8 @@ if ($errorcode) {
 		<fieldset>
 			<?php
             $this->createField([
-                'name' => 'credential',
-                'type' => 'hidden',
+				'name' => 'credential',
+				'type' => 'hidden',
             ]);
 $this->createField([
     'name' => 'token',
