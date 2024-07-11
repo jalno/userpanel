@@ -1,0 +1,20 @@
+{
+    "name": "jalno/userpanel",
+    "type": "library",
+    "license": "MIT",
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "require": {
+        "jalno/base": "@dev"
+    },
+    "autoload": {
+        "psr-4": {
+            "packages\\userpanel\\": ["libraries/"],
+            "themes\\clipone\\" : ["frontend/libraries/"]
+        },
+        "files": [
+            "libraries/url.php"
+        ]
+        
+    }
+}

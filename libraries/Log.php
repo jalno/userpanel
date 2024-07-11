@@ -4,7 +4,7 @@ namespace packages\userpanel;
 
 use packages\base\DB\DBObject;
 use packages\base\HTTP;
-use packages\userpanel\logging\Exception\InvalidTypeException;
+use packages\userpanel\Logging\Exception\InvalidTypeException;
 
 /**
  * @property int                             $id

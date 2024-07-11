@@ -143,7 +143,7 @@ class Edit extends UsersEditView
     protected function getUserCurrency(): string
     {
         if (Packages::package('financial')) {
-            return \packages\financial\currency::getDefault($this->user)->title;
+            return \packages\financial\Currency::getDefault($this->user)->title;
         } else {
             return Options::get('packages.userpanel.users.credit.currency.title');
         }

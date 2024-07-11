@@ -14,7 +14,7 @@ use themes\clipone\Views\FormTrait;
 use themes\clipone\Views\ListTrait;
 use themes\clipone\ViewTrait;
 
-class Listview extends usersListView
+class ListView extends usersListView
 {
     use ViewTrait;
     use ListTrait;

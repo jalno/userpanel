@@ -49,7 +49,7 @@ class View extends \packages\userpanel\View
             ],
         ];
         if (Packages::package('financial')) {
-            $data['data']['user']['currency'] = \Packages\financial\currency::getDefault($user)->title;
+            $data['data']['user']['currency'] = \packages\financial\Currency::getDefault($user)->title;
         } else {
             $data['data']['user']['currency'] = Options::get('packages.userpanel.users.credit.currency.title');
         }

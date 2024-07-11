@@ -1,6 +1,6 @@
 <?php
 
-namespace packages\userpanel\logging\Exception;
+namespace packages\userpanel\Logging\Exception;
 
 use packages\userpanel\Logging\Exception;
 

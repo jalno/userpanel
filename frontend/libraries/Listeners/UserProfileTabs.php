@@ -1,6 +1,6 @@
 <?php
 
-namespace themes\clipone\listeners;
+namespace themes\clipone\Listeners;
 
 use packages\base\View;
 use packages\userpanel;
