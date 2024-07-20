@@ -4,7 +4,7 @@ namespace packages\userpanel;
 
 use packages\base\Controller as BaseController;
 use packages\base\DB;
-use packages\base\HTTP;
+use packages\base\Http;
 
 class Controller extends BaseController
 {

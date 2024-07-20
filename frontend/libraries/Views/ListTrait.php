@@ -3,7 +3,7 @@
 namespace themes\clipone\Views;
 
 use packages\base\DB\DBObject;
-use packages\base\HTTP;
+use packages\base\Http;
 
 trait ListTrait
 {

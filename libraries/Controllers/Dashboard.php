@@ -2,7 +2,7 @@
 
 namespace packages\userpanel\Controllers;
 
-use packages\base\HTTP;
+use packages\base\Http;
 use packages\base\Response;
 use packages\userpanel;
 use packages\userpanel\Authentication;

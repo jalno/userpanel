@@ -4,7 +4,7 @@ namespace packages\userpanel\Controllers;
 
 use packages\base\DB\DuplicateRecord;
 use packages\base\DB\Parenthesis;
-use packages\base\HTTP;
+use packages\base\Http;
 use packages\base\InputValidationException;
 use packages\base\IO\File;
 use packages\base\NotFound;

@@ -3,7 +3,7 @@
 namespace packages\userpanel;
 
 use packages\base\DB\DBObject;
-use packages\base\HTTP;
+use packages\base\Http;
 use packages\userpanel\Logging\Exception\InvalidTypeException;
 
 /**
