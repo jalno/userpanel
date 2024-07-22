@@ -13,7 +13,7 @@ use packages\userpanel\Controller;
 use packages\userpanel\Log;
 use packages\userpanel\User;
 use packages\userpanel\View;
-use packages\userpanel\Views;
+use themes\clipone\Views;
 
 class Logs extends Controller
 {

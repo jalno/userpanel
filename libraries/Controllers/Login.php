@@ -22,7 +22,7 @@ use packages\userpanel\Register\RegisterField;
 use packages\userpanel\Register\RegisterFields;
 use packages\userpanel\User;
 use packages\userpanel\View;
-use packages\userpanel\Views;
+use themes\clipone\Views;
 
 class Login extends Controller
 {

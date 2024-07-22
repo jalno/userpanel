@@ -9,7 +9,7 @@ use packages\userpanel\Controller;
 use packages\userpanel\Log;
 use packages\userpanel\Logs;
 use packages\userpanel\View;
-use packages\userpanel\Views;
+use themes\clipone\Views;
 
 use function packages\userpanel\Url;
 

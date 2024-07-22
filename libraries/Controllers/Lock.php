@@ -12,7 +12,7 @@ use packages\userpanel\Controller;
 use packages\userpanel\Log;
 use packages\userpanel\Logs;
 use packages\userpanel\User;
-use packages\userpanel\Views;
+use themes\clipone\Views;
 
 class Lock extends Controller
 {

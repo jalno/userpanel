@@ -25,7 +25,3 @@ trait ViewTrait
         parent::output();
     }
 }
-class View extends \packages\base\View
-{
-    use ViewTrait;
-}
