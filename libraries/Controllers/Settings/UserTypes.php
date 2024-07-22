@@ -3,7 +3,7 @@
 namespace packages\userpanel\Controllers\Settings;
 
 use packages\base\DB;
-use packages\base\HTTP;
+use packages\base\Http;
 use packages\base\NotFound;
 use packages\base\Response;
 use packages\base\View;

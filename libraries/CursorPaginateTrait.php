@@ -5,7 +5,7 @@ namespace packages\userpanel;
 use packages\base\DB\MysqliDb;
 use packages\base\DB\Parenthesis;
 use packages\base\Exception;
-use packages\base\HTTP;
+use packages\base\Http;
 
 use function packages\base\Json\Decode;
 use function packages\base\Json\Encode;

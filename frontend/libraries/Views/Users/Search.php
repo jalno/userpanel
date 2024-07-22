@@ -2,7 +2,7 @@
 
 namespace themes\clipone\Views\Users;
 
-use packages\base\HTTP;
+use packages\base\Http;
 use packages\userpanel;
 use packages\userpanel\Authorization;
 use packages\userpanel\User;

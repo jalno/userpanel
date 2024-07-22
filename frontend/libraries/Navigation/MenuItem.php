@@ -3,7 +3,7 @@
 namespace themes\clipone\Navigation;
 
 use packages\base\Events;
-use packages\base\HTTP;
+use packages\base\Http;
 use themes\clipone\Breadcrumb;
 use themes\clipone\Events\Navigation as NavigationEvents;
 

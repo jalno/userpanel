@@ -3,7 +3,7 @@
 namespace packages\userpanel\Authentication;
 
 use packages\base\Cache;
-use packages\base\HTTP;
+use packages\base\Http;
 use packages\base\Json;
 use packages\base\Session;
 use packages\base\View\Error;

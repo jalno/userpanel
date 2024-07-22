@@ -2,7 +2,7 @@
 
 namespace packages\userpanel\Controllers;
 
-use packages\base\HTTP;
+use packages\base\Http;
 use packages\base\InputValidationException;
 use packages\base\Session;
 use packages\base\View;
