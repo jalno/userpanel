@@ -7,14 +7,6 @@
 		"website" : "http://www.cliptheme.com/"
 	},
 	"homepage" : "http://www.cliptheme.com/admin-template-clip-one/",
-	"use":{
-		"npm":{
-			"package":"package.json"	
-		},
-		"typescript":{
-			
-		}
-	},
 	"assets" : [
 		{"type":"package","name":"jquery", "version": "^3.4.1"},
 		{"type":"package","name":"jquery-ui", "version": "^1.12.1"},
@@ -56,9 +48,6 @@
 		{"type":"ts","file":"assets/ts/pages/Main.ts"}
 
 	],
-	"autoload": {
-		"directories": ["libraries", "listeners", "views"]
-	},
 	"languages":{
 		"fa_IR" : "langs/fa_IR.json",
 		"en_US" : "langs/en_US.json"
@@ -80,87 +69,5 @@
             "name": "themes/clipone/events/InitializeProfile",
 			"listener": "listeners/Profile@initialize"
         }
-	],
-	"views":[
-		{
-			"name":"\\themes\\clipone\\views\\login",
-			"parent":"\\packages\\userpanel\\views\\login",
-			"file":"login.php"
-		},
-		{
-			"name":"\\themes\\clipone\\views\\dashboard",
-			"parent":"\\packages\\userpanel\\views\\dashboard",
-			"file":"dashboard.php"
-		},
-		{
-			"name":"\\themes\\clipone\\views\\register",
-			"parent":"\\packages\\userpanel\\views\\register",
-			"file":"register.php"
-		},
-		{
-			"name":"\\themes\\clipone\\views\\lock",
-			"parent":"\\packages\\userpanel\\views\\lock",
-			"file":"lock.php"
-		},
-		{
-			"name":"\\themes\\clipone\\views\\notfound",
-			"parent":"\\packages\\userpanel\\views\\notfound",
-			"file":"notfound.php"
-		},
-		{
-			"name":"\\themes\\clipone\\views\\forbidden",
-			"parent":"\\packages\\userpanel\\views\\forbidden",
-			"file":"forbidden.php"
-		},
-		{
-			"name":"\\themes\\clipone\\views\\settings\\usertypes\\listview",
-			"parent":"\\packages\\userpanel\\views\\settings\\usertypes\\listview",
-			"file":"settings.usertypes.list.php"
-		},
-		{
-			"name":"\\themes\\clipone\\views\\settings\\usertypes\\edit",
-			"parent":"\\packages\\userpanel\\views\\settings\\usertypes\\edit",
-			"file":"settings.usertypes.edit.php"
-		},
-		{
-			"name":"\\themes\\clipone\\views\\settings\\usertypes\\delete",
-			"parent":"\\packages\\userpanel\\views\\settings\\usertypes\\delete",
-			"file":"settings.usertypes.delete.php"
-		},
-		{
-			"name":"\\themes\\clipone\\views\\settings\\usertypes\\add",
-			"parent":"\\packages\\userpanel\\views\\settings\\usertypes\\add",
-			"file":"settings.usertypes.add.php"
-		},
-		{
-			"name":"\\themes\\clipone\\views\\search",
-			"parent":"\\packages\\userpanel\\views\\search",
-			"file":"search.php"
-		},
-		{
-			"name":"\\themes\\clipone\\views\\resetpwd",
-			"parent":"\\packages\\userpanel\\views\\resetpwd",
-			"file":"html/resetpwd.php"
-		},
-		{
-			"name":"\\themes\\clipone\\views\\resetpwd\\newpwd",
-			"parent":"\\packages\\userpanel\\views\\resetpwd\\newpwd",
-			"file":"html/newpwd.php"
-		},
-		{
-			"name":"\\themes\\clipone\\views\\logs\\search",
-			"parent":"\\packages\\userpanel\\views\\logs\\search",
-			"file":"html/logs/search.php"
-		},
-		{
-			"name":"\\themes\\clipone\\views\\logs\\view",
-			"parent":"\\packages\\userpanel\\views\\logs\\view",
-			"file":"html/logs/view.php"
-		},
-		{
-			"name":"\\themes\\clipone\\views\\logs\\delete",
-			"parent":"\\packages\\userpanel\\views\\logs\\delete",
-			"file":"html/logs/delete.php"
-		}
 	]
 }
