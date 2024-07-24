@@ -54,20 +54,20 @@
 	},
 	"events": [
 		{
-			"name":"events/navigation/build",
-			"listener": "listeners/navigation@removeSettings"
+			"name":"themes/clipone/Events/Navigation/Build",
+			"listener": "themes/clipone/Listeners/Navigation@removeSettings"
 		},
         {
-			"name":"events/InitTabsEvent",
-			"listener": "listeners/UserProfileTabs@handle"
+			"name":"themes/clipone/Events/InitTabsEvent",
+			"listener": "themes/clipone/Listeners/UserProfileTabs@handle"
 		},
         {
-			"name":"packages/base/view/events/afterLoad",
-			"listener": "listeners/AfterLoad@setFavicon"
+			"name":"packages/base/View/Events/AfterLoad",
+			"listener": "themes/clipone/Listeners/AfterLoad@setFavicon"
 		},
 		{
-            "name": "themes/clipone/events/InitializeProfile",
-			"listener": "listeners/Profile@initialize"
+            "name": "themes/clipone/Events/InitializeProfile",
+			"listener": "themes/clipone/Listeners/Profile@initialize"
         }
 	]
 }
