@@ -19,7 +19,7 @@ use packages\userpanel\UserType\Permission;
 use packages\userpanel\UserType\Permissions;
 use packages\userpanel\UserType\Priority;
 use packages\userpanel\Validators;
-use packages\userpanel\Views;
+use themes\clipone\Views;
 
 use function packages\userpanel\url;
 

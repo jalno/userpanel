@@ -8,6 +8,8 @@ use packages\base\Translator;
 use packages\userpanel\Events\Settings\Controller;
 use packages\userpanel\Events\Settings\Log;
 use packages\userpanel\User;
+use themes\clipone\Views;
+
 
 class Settings implements Controller
 {

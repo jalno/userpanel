@@ -10,7 +10,7 @@ use packages\userpanel\Controller;
 use packages\userpanel\Events;
 use packages\userpanel\Search;
 use packages\userpanel\View;
-use packages\userpanel\Views;
+use themes\clipone\Views;
 
 class Dashboard extends Controller
 {

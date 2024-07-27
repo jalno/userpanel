@@ -15,7 +15,7 @@ use packages\userpanel\Date;
 use packages\userpanel\Events;
 use packages\userpanel\ResetPWD\Token;
 use packages\userpanel\Validators;
-use packages\userpanel\Views;
+use themes\clipone\Views;
 
 use function packages\userpanel\Url;
 
