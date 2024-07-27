@@ -4,6 +4,7 @@ namespace packages\userpanel\UserType;
 
 use packages\base\DB;
 use packages\base\DB\DBObject;
+use packages\userpanel\UserType;
 
 class Priority extends DBObject
 {
@@ -15,8 +16,8 @@ class Priority extends DBObject
         'child' => ['type' => 'int', 'required' => true],
     ];
     protected $relations = [
-        'parentdata' => ['hasOne', 'packages\\userpanel\\usertype', 'parent'],
-        'childdata' => ['hasOne', 'packages\\userpanel\\usertype', 'child'],
+        'parentdata' => ['hasOne', UserType::class, 'parent'],
+        'childdata' => ['hasOne', UserType::class, 'child'],
     ];
 
     public function delete()

@@ -4,6 +4,7 @@ namespace packages\userpanel\UserType;
 
 use packages\base\DB;
 use packages\base\DB\DBObject;
+use packages\userpanel\UserType;
 
 class Permission extends DBObject
 {
@@ -14,7 +15,7 @@ class Permission extends DBObject
         'name' => ['type' => 'text', 'required' => true],
     ];
     protected $relations = [
-        'type' => ['hasOne', 'packages\\userpanel\\usertype', 'type'],
+        'type' => ['hasOne', UserType::class, 'type'],
     ];
 
     public function delete()

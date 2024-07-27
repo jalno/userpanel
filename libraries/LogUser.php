@@ -13,6 +13,6 @@ class LogUser extends DBObject
         'user' => ['type' => 'int', 'required' => true],
     ];
     protected $relations = [
-        'user' => ['hasOne', 'packages\\userpanel\\user', 'id'],
+        'user' => ['hasOne', User::class, 'id'],
     ];
 }

@@ -8,7 +8,9 @@ use packages\base\IO;
 use packages\base\Packages;
 use packages\base\Utility;
 use packages\base\Utility\Password;
+use packages\financial\Currency;
 use packages\userpanel\{User\Option};
+use packages\userpanel\User\SocialNetwork;
 
 /**
  * @property int                  $id
@@ -65,10 +67,10 @@ class User extends DBObject
         'status' => ['type' => 'int', 'required' => true],
     ];
     protected $relations = [
-        'type' => ['hasOne', 'packages\\userpanel\\usertype', 'type'],
-        'socialnetworks' => ['hasMany', 'packages\\userpanel\\user\\socialnetwork', 'user'],
-        'options' => ['hasMany', 'packages\\userpanel\\user\\option', 'user'],
-        'country' => ['hasOne', 'packages\\userpanel\\country', 'country'],
+        'type' => ['hasOne', UserType::class, 'type'],
+        'socialnetworks' => ['hasMany', SocialNetwork::class, 'user'],
+        'options' => ['hasMany', User\Option::class, 'user'],
+        'country' => ['hasOne', Currency::class, 'country'],
     ];
 
     private $customPermissions;

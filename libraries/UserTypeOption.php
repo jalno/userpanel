@@ -14,6 +14,6 @@ class UserTypeOption extends DBObject
         'value' => ['type' => 'text', 'required' => true],
     ];
     protected $relations = [
-        'usertype' => ['hasOne', 'packages\\userpanel\\usertype', 'usertype'],
+        'usertype' => ['hasOne', UserType::class, 'usertype'],
     ];
 }

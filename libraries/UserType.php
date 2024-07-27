@@ -17,9 +17,9 @@ class UserType extends DB\DBObject
         'title' => ['type' => 'text', 'required' => true],
     ];
     protected $relations = [
-        'permissions' => ['hasMany', "packages\\userpanel\\usertype\permission", 'type'],
-        'children' => ['hasMany', "packages\\userpanel\\usertype\priority", 'parent'],
-        'options' => ['hasMany', 'packages\\userpanel\\usertype_option', 'usertype'],
+        'permissions' => ['hasMany', UserType\Permission::class, 'type'],
+        'children' => ['hasMany', UserType\Priority::class, 'parent'],
+        'options' => ['hasMany', UserTypeOption::class, 'usertype'],
     ];
 
     /**

@@ -3,6 +3,7 @@
 namespace packages\userpanel\ResetPWD;
 
 use packages\base\DB\DBObject;
+use packages\userpanel\User;
 
 class Token extends DBObject
 {
@@ -15,6 +16,6 @@ class Token extends DBObject
         'ip' => ['type' => 'text', 'required' => true],
     ];
     protected $relations = [
-        'user' => ['hasOne', 'packages\\userpanel\\user', 'user'],
+        'user' => ['hasOne', User::class, 'user'],
     ];
 }
