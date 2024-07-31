@@ -1,5 +1,3 @@
-import * as $ from "jquery";
-
 export default class ViewError {
 	public WARNING = "warning";
 	public FATAL = "fatal";

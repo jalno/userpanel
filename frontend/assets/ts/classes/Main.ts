@@ -1,7 +1,6 @@
 import "@jalno/translator";
 import "bootstrap";
 import { TooltipOptions } from "bootstrap";
-import * as $ from "jquery";
 import "jquery-bootstrap-checkbox";
 import "jquery-mousewheel";
 import "jquery-validation";

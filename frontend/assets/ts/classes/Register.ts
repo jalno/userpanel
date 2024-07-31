@@ -2,7 +2,6 @@
 /// <reference path="../definitions/jquery.growl.d.ts" />
 
 import "@jalno/translator";
-import * as $ from "jquery";
 import "jquery-validation";
 import "jquery.growl";
 import { webuilder } from "webuilder";

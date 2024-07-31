@@ -3,6 +3,7 @@
 namespace packages\userpanel;
 
 use packages\base\DB\DBObject;
+use packages\userpanel\UserType;
 
 class UserTypeOption extends DBObject
 {

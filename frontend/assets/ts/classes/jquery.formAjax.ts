@@ -1,4 +1,3 @@
-import * as $ from "jquery";
 import {AjaxRequest, Router, webuilder} from "webuilder";
 
 $.fn.formAjax = function(settings: webuilder.AjaxSettings) {

@@ -1,4 +1,3 @@
-import * as $ from "jquery";
 import Add from "./UserTypes/Add";
 import Edit from "./UserTypes/Edit";
 import { AjaxRequest, Router, webuilder } from "webuilder";

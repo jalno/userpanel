@@ -1,5 +1,4 @@
 import "@jalno/translator";
-import * as $ from "jquery";
 import {Login} from "../classes/Login";
 import {Logs} from "../classes/Logs";
 import {Main} from "../classes/Main";

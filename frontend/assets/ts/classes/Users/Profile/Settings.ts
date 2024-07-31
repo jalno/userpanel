@@ -1,5 +1,4 @@
 import "@jalno/translator";
-import * as $ from "jquery";
 import Helper from "../../Helper";
 import IFormAjaxError from "../../IFormAjaxError";
 

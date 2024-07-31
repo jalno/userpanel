@@ -1,5 +1,4 @@
 import "@jalno/translator";
-import * as $ from "jquery";
 import "jquery.fancytree";
 import "jquery.fancytree/dist/modules/jquery.fancytree.glyph"
 import Country, { ICountryCode } from "../../Country";
