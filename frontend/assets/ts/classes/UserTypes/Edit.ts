@@ -1,5 +1,4 @@
 import "@jalno/translator";
-import * as $ from "jquery";
 import "jquery.fancytree";
 import Permissions, { IUserpanelPermission } from "../Permissions";
 import UserTypes from "../UserTypes";

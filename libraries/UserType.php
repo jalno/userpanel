@@ -5,6 +5,8 @@ namespace packages\userpanel;
 use packages\base\DB;
 use packages\userpanel\UserType\Permission;
 use packages\userpanel\UserType\Permissions;
+use packages\userpanel\UserType\Priority;
+use packages\userpanel\UserTypeOption;
 
 class UserType extends DB\DBObject
 {
@@ -17,9 +19,9 @@ class UserType extends DB\DBObject
         'title' => ['type' => 'text', 'required' => true],
     ];
     protected $relations = [
-        'permissions' => ['hasMany', "packages\\userpanel\\usertype\permission", 'type'],
-        'children' => ['hasMany', "packages\\userpanel\\usertype\priority", 'parent'],
-        'options' => ['hasMany', 'packages\\userpanel\\usertype_option', 'usertype'],
+        'permissions' => ['hasMany', Permission::class, 'type'],
+        'children' => ['hasMany', Priority::class, 'parent'],
+        'options' => ['hasMany', UserTypeOption::class, 'usertype'],
     ];
 
     /**

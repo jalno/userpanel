@@ -1,4 +1,3 @@
-import * as $ from "jquery";
 import "jquery-ui/ui/widgets/autocomplete";
 import { AjaxRequest } from "webuilder";
 

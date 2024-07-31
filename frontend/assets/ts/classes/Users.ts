@@ -4,8 +4,6 @@
 import "@jalno/translator";
 import {AvatarPreview} from "bootstrap-avatar-preview/AvatarPreview";
 import "bootstrap-inputmsg";
-import * as moment from "jalali-moment";
-import * as $ from "jquery";
 import "jquery.growl";
 import { AjaxRequest, Router, webuilder} from "webuilder";
 import "./jquery.formAjax";

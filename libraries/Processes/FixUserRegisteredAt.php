@@ -16,7 +16,7 @@ class FixUserRegisteredAt extends Process
         $log = Log::getInstance();
         $log->info('get register logs');
         $logs = new UserLog();
-        $logs->where('type', 'packages\\userpanel\\logs\\register');
+        $logs->where('type', UserLog\Register::class);
         $logs = $logs->get();
         $log->reply(count($logs), ' logs found');
 

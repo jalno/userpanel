@@ -1,4 +1,3 @@
-import * as $ from "jquery";
 import "jquery-validation";
 import AutoComplete from "./AutoComplete";
 

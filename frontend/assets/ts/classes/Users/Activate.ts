@@ -1,5 +1,4 @@
 import "bootstrap";
-import * as $ from "jquery";
 import "webuilder/formAjax";
 import { Status, Users } from "../Users";
 import Suspend from "./Suspend";

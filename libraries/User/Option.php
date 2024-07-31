@@ -3,6 +3,7 @@
 namespace packages\userpanel\User;
 
 use packages\base\DB\DBObject;
+use packages\userpanel\User;
 
 class Option extends DBObject
 {
@@ -14,7 +15,7 @@ class Option extends DBObject
         'value' => ['type' => 'text', 'required' => true],
     ];
     protected $relations = [
-        'user' => ['hasOne', 'packages\\userpanel\\user', 'user'],
+        'user' => ['hasOne', User::class, 'user'],
     ];
     protected $jsonFields = ['value'];
 }

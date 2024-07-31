@@ -1,5 +1,4 @@
 import "@jalno/translator";
-import * as $ from "jquery";
 import "bootstrap-inputmsg";
 import "select2";
 import Country, { ICountryCode } from "../Country";

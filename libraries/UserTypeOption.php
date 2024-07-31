@@ -3,6 +3,7 @@
 namespace packages\userpanel;
 
 use packages\base\DB\DBObject;
+use packages\userpanel\UserType;
 
 class UserTypeOption extends DBObject
 {
@@ -14,6 +15,6 @@ class UserTypeOption extends DBObject
         'value' => ['type' => 'text', 'required' => true],
     ];
     protected $relations = [
-        'usertype' => ['hasOne', 'packages\\userpanel\\usertype', 'usertype'],
+        'usertype' => ['hasOne', UserType::class, 'usertype'],
     ];
 }

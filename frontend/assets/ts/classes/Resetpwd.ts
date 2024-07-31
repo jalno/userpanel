@@ -2,7 +2,6 @@
 /// <reference path="../definitions/jquery.growl.d.ts" />
 
 import "@jalno/translator";
-import * as $ from "jquery";
 import "jquery.growl";
 import ViewError from "../definitions/ViewError";
 import {View} from "../pages/Main";

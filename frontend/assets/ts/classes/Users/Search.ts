@@ -1,8 +1,6 @@
 import "@jalno/translator";
-import * as $ from "jquery";
 import "select2";
 import "jalali-daterangepicker";
-import * as moment from "jalali-moment";
 import Country, { ICountryCode } from "../Country";
 
 declare const countriesCode: ICountryCode[];
