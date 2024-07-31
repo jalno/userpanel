@@ -9,7 +9,7 @@ use packages\userpanel;
 	<div class="col-sm-12">
 		<div class="tabbable">
 			<ul class="nav nav-tabs tab-padding tab-space-3 tab-blue">
-				<li><a href="<?php echo userpanel\url('users/email/'.$this->getDataForm('id')); ?>"><?php echo Translator::trans('user.profile.overview'); ?></a></li>
+				<li><a href="<?php echo userpanel\url('users/email/'.$this->getDataForm('id')); ?>"><?php echo t('user.profile.overview'); ?></a></li>
 				<li class="active"><a data-toggle="tab" href="#edit_panel">ویرایش اطلاعات</a></li>
 			</ul>
 			<div class="tab-content">
@@ -28,23 +28,23 @@ use packages\userpanel;
                                 $fields = [
                                     [
                                         'name' => 'name',
-                                        'label' => Translator::trans('user.name'),
+                                        'label' => t('user.name'),
                                     ],
                                     [
                                         'type' => 'email',
                                         'name' => 'email',
-                                        'label' => Translator::trans('user.email'),
+                                        'label' => t('user.email'),
                                         'error' => [
                                             'data_duplicate' => 'user.email.data_duplicate',
                                         ],
                                     ],
                                     [
                                         'name' => 'phone',
-                                        'label' => Translator::trans('user.phone'),
+                                        'label' => t('user.phone'),
                                     ],
                                     [
                                         'name' => 'cellphone',
-                                        'label' => Translator::trans('user.cellphone'),
+                                        'label' => t('user.cellphone'),
                                         'error' => [
                                             'data_duplicate' => 'user.cellphone.data_duplicate',
                                         ],
@@ -52,13 +52,13 @@ use packages\userpanel;
                                     [
                                         'type' => 'password',
                                         'name' => 'password',
-                                        'label' => Translator::trans('user.password'),
+                                        'label' => t('user.password'),
                                         'value' => '',
                                     ],
                                     [
                                         'type' => 'password',
                                         'name' => 'password2',
-                                        'label' => Translator::trans('user.password_repeat'),
+                                        'label' => t('user.password_repeat'),
                                         'value' => '',
                                     ],
                                 ];
@@ -73,7 +73,7 @@ foreach ($fields as $field) {
 $this->createField([
     'type' => 'select',
     'name' => 'type',
-    'label' => Translator::trans('user.type'),
+    'label' => t('user.type'),
     'options' => $this->usertypes,
 ]);
 ?>
@@ -83,7 +83,7 @@ $this->createField([
         $this->createField([
             'type' => 'number',
             'name' => 'zip',
-            'label' => Translator::trans('user.zip'),
+            'label' => t('user.zip'),
         ]);
 ?>
 									</div>
@@ -91,7 +91,7 @@ $this->createField([
 										<?php
 $this->createField([
     'name' => 'city',
-    'label' => Translator::trans('user.city'),
+    'label' => t('user.city'),
 ]);
 ?>
 									</div>
@@ -99,7 +99,7 @@ $this->createField([
 										<?php
 $this->createField([
     'name' => 'country',
-    'label' => Translator::trans('user.country'),
+    'label' => t('user.country'),
 ]);
 ?>
 									</div>
@@ -107,26 +107,26 @@ $this->createField([
 								<?php
                                 $this->createField([
                                     'name' => 'address',
-                                    'label' => Translator::trans('user.address'),
+                                    'label' => t('user.address'),
                                 ]);
 $this->createField([
     'type' => 'radio',
     'name' => 'status',
-    'label' => Translator::trans('user.status'),
+    'label' => t('user.status'),
     'inline' => true,
     'options' => [
         [
-            'label' => Translator::trans('user.status.active'),
+            'label' => t('user.status.active'),
             'value' => 1,
             'class' => 'grey',
         ],
         [
-            'label' => Translator::trans('user.status.suspend'),
+            'label' => t('user.status.suspend'),
             'value' => 0,
             'class' => 'grey',
         ],
         [
-            'label' => Translator::trans('user.status.deactive'),
+            'label' => t('user.status.deactive'),
             'value' => 0,
             'class' => 'grey',
         ],
@@ -135,7 +135,7 @@ $this->createField([
 $this->createField([
     'type' => 'number',
     'name' => 'credit',
-    'label' => Translator::trans('user.credit'),
+    'label' => t('user.credit'),
 ]);
 ?>
 
@@ -143,7 +143,7 @@ $this->createField([
 						</div>
 						<div class="row" style="margin-top: 20px;margin-bottom: 20px;">
 							<div class="col-md-offset-4 col-md-4">
-								<button class="btn btn-teal btn-block" type="submit"><i class="fa fa-arrow-circle-left"></i> <?php echo Translator::trans('user.profile.save'); ?></button>
+								<button class="btn btn-teal btn-block" type="submit"><i class="fa fa-arrow-circle-left"></i> <?php echo t('user.profile.save'); ?></button>
 							</div>
 						</div>
 					</form>

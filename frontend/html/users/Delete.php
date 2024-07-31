@@ -20,7 +20,7 @@ $user = $this->getUser();
 			<?php echo t($this->hasFatalError() ? 'user.delete.resolve_fatal_errors' : 'user.delete.warning'); ?>
 		</p>
 		<p>
-			<a href="<?php echo userpanel\url('users'); ?>" class="btn btn-light-grey"><i class="fa fa-chevron-circle-<?php echo Translator::getLang()->isRTL() ? 'right' : 'left'; ?>"></i> <?php echo t('userpanel.cancel'); ?></a>
+			<a href="<?php echo userpanel\url('users'); ?>" class="btn btn-light-grey"><i class="fa fa-chevron-circle-<?php echo Translator::isRTL() ? 'right' : 'left'; ?>"></i> <?php echo t('userpanel.cancel'); ?></a>
 			<?php if (!$this->hasFatalError()) { ?>
 				<button type="submit" class="btn btn-danger"><i class="fa fa-trash-o"></i> <?php echo t('userpanel.delete'); ?></button>
 			<?php } ?>

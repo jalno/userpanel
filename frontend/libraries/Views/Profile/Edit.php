@@ -103,7 +103,7 @@ class Edit extends ProfileEditView
         return $this->canEditPrivacy ? [
             'type' => 'button',
             'icon' => $privacy ? 'fa fa-eye' : 'fa fa-eye-slash',
-            'text' => Translator::trans('user.edit.privacy.'.($privacy ? 'public' : 'private')),
+            'text' => t('user.edit.privacy.'.($privacy ? 'public' : 'private')),
             'class' => ['btn', 'btn-default'],
             'dropdown' => [
                 [
@@ -114,7 +114,7 @@ class Edit extends ProfileEditView
                         'field' => $field,
                         'visibility' => 'public',
                     ],
-                    'title' => Translator::trans('user.edit.privacy.public'),
+                    'title' => t('user.edit.privacy.public'),
                 ],
                 [
                     'icon' => 'fa fa-eye-slash',
@@ -124,7 +124,7 @@ class Edit extends ProfileEditView
                         'field' => $field,
                         'visibility' => 'private',
                     ],
-                    'title' => Translator::trans('user.edit.privacy.private'),
+                    'title' => t('user.edit.privacy.private'),
                 ],
             ],
         ] : null;

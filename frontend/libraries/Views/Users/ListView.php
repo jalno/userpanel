@@ -32,17 +32,17 @@ class ListView extends usersListView
     public function setButtons()
     {
         $this->setButton('view', $this->canView, [
-            'title' => Translator::trans('user.profile'),
+            'title' => t('user.profile'),
             'icon' => 'fa fa-credit-card',
             'classes' => ['btn', 'btn-xs', 'btn-green'],
         ]);
         $this->setButton('edit', $this->canEdit, [
-            'title' => Translator::trans('user.edit'),
+            'title' => t('user.edit'),
             'icon' => 'fa fa-edit',
             'classes' => ['btn', 'btn-xs', 'btn-teal'],
         ]);
         $this->setButton('delete', $this->canDelete, [
-            'title' => Translator::trans('user.delete'),
+            'title' => t('user.delete'),
             'icon' => 'fa fa-times',
             'classes' => ['btn', 'btn-xs', 'btn-bricky'],
         ]);
@@ -99,15 +99,15 @@ class ListView extends usersListView
     {
         return [
             [
-                'title' => Translator::trans('search.comparison.contains'),
+                'title' => t('search.comparison.contains'),
                 'value' => 'contains',
             ],
             [
-                'title' => Translator::trans('search.comparison.equals'),
+                'title' => t('search.comparison.equals'),
                 'value' => 'equals',
             ],
             [
-                'title' => Translator::trans('search.comparison.startswith'),
+                'title' => t('search.comparison.startswith'),
                 'value' => 'startswith',
             ],
         ];

@@ -46,16 +46,16 @@ $user = [
         $fields = [
             [
                 'name' => 'name',
-                'label' => Translator::trans('user.name'),
+                'label' => t('user.name'),
             ],
             [
                 'name' => 'lastname',
-                'label' => Translator::trans('user.lastname'),
+                'label' => t('user.lastname'),
             ],
             [
                 'type' => 'email',
                 'name' => 'email',
-                'label' => Translator::trans('user.email'),
+                'label' => t('user.email'),
                 'readonly' => true,
                 'ltr' => true,
                 'error' => [
@@ -65,7 +65,7 @@ $user = [
             ],
             [
                 'name' => 'cellphone[number]',
-                'label' => Translator::trans('user.cellphone'),
+                'label' => t('user.cellphone'),
                 'readonly' => true,
                 'ltr' => true,
                 'error' => [
@@ -76,13 +76,13 @@ $user = [
             [
                 'type' => 'password',
                 'name' => 'password',
-                'label' => Translator::trans('user.password'),
+                'label' => t('user.password'),
                 'value' => '',
             ],
             [
                 'type' => 'password',
                 'name' => 'password2',
-                'label' => Translator::trans('user.password_repeat'),
+                'label' => t('user.password_repeat'),
                 'value' => '',
             ],
         ];
@@ -98,7 +98,7 @@ foreach ($fields as $field) {
         $this->createField([
             'type' => 'select',
             'name' => 'country',
-            'label' => Translator::trans('user.country'),
+            'label' => t('user.country'),
             'options' => $this->getCountriesForSelect(),
         ]);
 ?>
@@ -107,7 +107,7 @@ foreach ($fields as $field) {
 					<?php
 $this->createField([
     'name' => 'city',
-    'label' => Translator::trans('user.city'),
+    'label' => t('user.city'),
 ]);
 ?>
 				</div>
@@ -116,7 +116,7 @@ $this->createField([
 $this->createField([
     'type' => 'number',
     'name' => 'zip',
-    'label' => Translator::trans('user.zip'),
+    'label' => t('user.zip'),
     'ltr' => true,
 ]);
 ?>
@@ -126,11 +126,11 @@ $this->createField([
             $fields = [
                 [
                     'name' => 'address',
-                    'label' => Translator::trans('user.address'),
+                    'label' => t('user.address'),
                 ],
                 [
                     'name' => 'phone[number]',
-                    'label' => Translator::trans('user.phone'),
+                    'label' => t('user.phone'),
                     'ltr' => true,
                     'input-group' => $this->getInputGroupArrayFor('phone'),
                 ],
@@ -228,7 +228,7 @@ foreach ($fields as $field) {
 	</div>
 	<div class="row" style="margin-top: 20px;margin-bottom: 20px;">
 		<div class="col-md-offset-4 col-md-4">
-			<button class="btn btn-success btn-block" type="submit"><i class="fa fa-check-square-o"></i> <?php echo Translator::trans('user.profile.save'); ?></button>
+			<button class="btn btn-success btn-block" type="submit"><i class="fa fa-check-square-o"></i> <?php echo t('user.profile.save'); ?></button>
 		</div>
 	</div>
 </form>

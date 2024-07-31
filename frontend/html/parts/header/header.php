@@ -7,7 +7,7 @@ use themes\clipone\Breadcrumb;
 use themes\clipone\Navigation;
 
 $codeLang = Translator::getCodeLang();
-$shortCodeLang = Translator::getShortCodeLang();
+$shortCodeLang = app()->getLocale();
 $availableLangs = Translator::getAvailableLangs();
 ?>
 <!DOCTYPE html>
@@ -64,7 +64,7 @@ $this->loadCSS();
 		                                        // continue;
 		                                    }
 		                                    $shortCode = Translator::getShortCodeLang($lang);
-		                                    $direction = Translator::getLang($lang)->isRTL() ? 'rtl' : 'ltr';
+		                                    $direction = Translator::isRTL($lang) ? 'rtl' : 'ltr';
 		                                    ?>
 									<li class="lang <?php echo $direction; ?>">
 										<a href="<?php echo base\url('.', ['@lang' => $shortCode]); ?>">
@@ -91,7 +91,7 @@ $this->loadCSS();
 								<?php
         if ($this->canViewProfile()) {
             ?>
-								<li><a href="<?php echo userpanel\url('profile/view'); ?>"><i class="clip-user-2"></i>&nbsp;<?php echo Translator::trans('profile.view'); ?></a></li>
+								<li><a href="<?php echo userpanel\url('profile/view'); ?>"><i class="clip-user-2"></i>&nbsp;<?php echo t('profile.view'); ?></a></li>
 								<li class="divider"></li>
 								<?php } ?>
 								<li><a href="<?php echo base\url('userpanel/lock'); ?>"><i class="clip-locked"></i> <?php echo t('userpanel.lock'); ?></a></li>
@@ -123,7 +123,7 @@ $this->loadCSS();
 								<li class="search-box">
 									<form class="sidebar-search" action="<?php echo userpanel\url('search'); ?>" method="get">
 										<div class="form-group">
-											<input type="text" name="word" placeholder="<?php echo Translator::trans('searchbox.placeholder'); ?>">
+											<input type="text" name="word" placeholder="<?php echo t('searchbox.placeholder'); ?>">
 											<button class="submit"><i class="clip-search-3"></i></button>
 										</div>
 									</form>

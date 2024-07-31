@@ -3,7 +3,7 @@ use packages\base\Translator;
 
 use function packages\userpanel\url;
 
-$isRTL = Translator::getLang()->isRTL();
+$isRTL = Translator::isRTL();
 $this->the_header('login');
 ?>
 <div class="box-forgot">

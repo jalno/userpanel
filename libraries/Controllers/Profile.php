@@ -375,7 +375,7 @@ class Profile extends Controller
                 $inputs['newData'][$log->getName()] = ['title' => $log->getTitle(), 'value' => $log->getNewValue()];
             }
             $log = new Log();
-            $log->title = Translator::trans('log.profileEdit');
+            $log->title = t('log.profileEdit');
             $log->type = Logs\UserEdit::class;
             $log->user = $user->id;
             $log->parameters = $inputs;

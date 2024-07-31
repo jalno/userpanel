@@ -14,7 +14,7 @@ class Forbidden extends ForbiddenView
 
     public function __beforeLoad()
     {
-        $this->setTitle(Translator::trans('forbidden'));
+        $this->setTitle(t('forbidden'));
         $this->loged_in = Authentication::check();
 
         if (!$this->loged_in) {

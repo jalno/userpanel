@@ -18,14 +18,14 @@ class Search extends SearchView
 
     public function __beforeLoad()
     {
-        $this->setTitle(Translator::trans('search'));
+        $this->setTitle(t('search'));
         $this->setNavigation();
     }
 
     private function setNavigation()
     {
         $item = new MenuItem('search');
-        $item->setTitle(Translator::trans('search'));
+        $item->setTitle(t('search'));
         $item->setURL(userpanel\url('search'));
         $item->setIcon('clip-search');
         Breadcrumb::addItem($item);

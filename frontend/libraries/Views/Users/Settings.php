@@ -22,7 +22,7 @@ class Settings extends UsersSettingsView
     public function __beforeLoad()
     {
         $this->user = $this->getUser();
-        $this->setTitle(Translator::trans('users.settings'));
+        $this->setTitle(t('users.settings'));
 
         $this->addBodyClass('users');
         $this->addBodyClass('users-settings');
@@ -32,7 +32,7 @@ class Settings extends UsersSettingsView
     private function setNavigation()
     {
         $item = new MenuItem('users');
-        $item->setTitle(Translator::trans('users'));
+        $item->setTitle(t('users'));
         $item->setURL(userpanel\url('users'));
         $item->setIcon('clip-users');
         Breadcrumb::addItem($item);
@@ -44,7 +44,7 @@ class Settings extends UsersSettingsView
         Breadcrumb::addItem($item);
 
         $item = new MenuItem('settings');
-        $item->setTitle(Translator::trans('users.settings'));
+        $item->setTitle(t('users.settings'));
         $item->setURL(userpanel\url('users/settings/'.$this->getDataForm('id')));
         $item->setIcon('fa fa-cog fa-spin');
         Breadcrumb::addItem($item);

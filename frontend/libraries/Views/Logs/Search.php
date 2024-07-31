@@ -23,7 +23,7 @@ class Search extends LogsSearch
 
     public function __beforeLoad()
     {
-        $this->setTitle(Translator::trans('users.logs'));
+        $this->setTitle(t('users.logs'));
         $this->setButtons();
         Navigation::active('logs');
         $this->multiuser = (bool) Authorization::childrenTypes();
@@ -45,12 +45,12 @@ class Search extends LogsSearch
     public function setButtons()
     {
         $this->setButton('view', $this->canView, [
-            'title' => Translator::trans('logs.view'),
+            'title' => t('logs.view'),
             'icon' => 'fa fa-credit-card',
             'classes' => ['btn', 'btn-xs', 'btn-green'],
         ]);
         $this->setButton('delete', $this->canDelete, [
-            'title' => Translator::trans('logs.delete'),
+            'title' => t('logs.delete'),
             'icon' => 'fa fa-times',
             'classes' => ['btn', 'btn-xs', 'btn-bricky'],
         ]);
@@ -61,7 +61,7 @@ class Search extends LogsSearch
         parent::onSourceLoad();
         if (parent::$navigation) {
             $item = new MenuItem('logs');
-            $item->setTitle(Translator::trans('users.logs'));
+            $item->setTitle(t('users.logs'));
             $item->setURL(userpanel\url('logs/search'));
             $item->setIcon('fa fa-user-secret');
             Navigation::addItem($item);
@@ -72,15 +72,15 @@ class Search extends LogsSearch
     {
         return [
             [
-                'title' => Translator::trans('search.comparison.contains'),
+                'title' => t('search.comparison.contains'),
                 'value' => 'contains',
             ],
             [
-                'title' => Translator::trans('search.comparison.equals'),
+                'title' => t('search.comparison.equals'),
                 'value' => 'equals',
             ],
             [
-                'title' => Translator::trans('search.comparison.startswith'),
+                'title' => t('search.comparison.startswith'),
                 'value' => 'startswith',
             ],
         ];

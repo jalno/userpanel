@@ -2,13 +2,13 @@
 use packages\base\Translator;
 use packages\userpanel;
 
-$isRTL = (bool) Translator::getLang()->isRTL();
+$isRTL = Translator::isRTL();
 $this->the_header('login');
 ?>
 <!-- start: REGISTER BOX -->
 <div class="box-register" style="display: block;">
-	<h3><?php echo Translator::trans('register.title'); ?></h3>
-	<p><?php echo Translator::trans('register.enterdata'); ?></p>
+	<h3><?php echo t('register.title'); ?></h3>
+	<p><?php echo t('register.enterdata'); ?></p>
 	<form class="form-register" action="<?php echo userpanel\url('register'); ?>" method="post">
 		<?php
         if ($errorcode = $this->getErrorsHTML()) {
@@ -16,7 +16,7 @@ $this->the_header('login');
         }
 ?>
 		<div class="errorHandler alert alert-danger no-display">
-			<i class="fa fa-remove-sign"></i> <?php echo Translator::trans('register.error.recheck'); ?>
+			<i class="fa fa-remove-sign"></i> <?php echo t('register.error.recheck'); ?>
 		</div>
 		<fieldset>
 			<div class="row">
@@ -31,13 +31,13 @@ $this->the_header('login');
         'name' => 'password',
         'type' => 'password',
         'icon' => 'fa fa-lock',
-        'placeholder' => Translator::trans('register.user.password'),
+        'placeholder' => t('register.user.password'),
     ]);
 $this->createField([
     'name' => 'password_again',
     'type' => 'password',
     'icon' => 'fa fa-lock',
-    'placeholder' => Translator::trans('register.user.password_again'),
+    'placeholder' => t('register.user.password_again'),
 ]);
 if ($url = $this->getTOSUrl()) {
     $this->createField([
@@ -55,8 +55,8 @@ if ($url = $this->getTOSUrl()) {
 ?>
 
 			<div class="form-actions">
-				<a class="btn btn-light-grey" href="<?php echo userpanel\url('login'); ?>"> <i class="fa fa-arrow-circle-<?php echo (!$isRTL) ? 'left' : 'right'; ?>"></i> <?php echo Translator::trans('back'); ?></a>
-				<button type="submit" class="btn btn-bricky pull-<?php echo ($isRTL) ? 'left' : 'right'; ?>"> <?php echo Translator::trans('register.signup'); ?> <i class="fa fa-arrow-circle-<?php echo ($isRTL) ? 'left' : 'right'; ?>"></i></button>
+				<a class="btn btn-light-grey" href="<?php echo userpanel\url('login'); ?>"> <i class="fa fa-arrow-circle-<?php echo (!$isRTL) ? 'left' : 'right'; ?>"></i> <?php echo t('back'); ?></a>
+				<button type="submit" class="btn btn-bricky pull-<?php echo ($isRTL) ? 'left' : 'right'; ?>"> <?php echo t('register.signup'); ?> <i class="fa fa-arrow-circle-<?php echo ($isRTL) ? 'left' : 'right'; ?>"></i></button>
 			</div>
 		</fieldset>
 	</form>

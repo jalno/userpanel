@@ -14,7 +14,7 @@ class NotFound extends NotFoundView
 
     public function __beforeLoad()
     {
-        $this->setTitle(Translator::trans('notfound'));
+        $this->setTitle(t('notfound'));
         $this->loged_in = Authentication::check();
 
         if (!$this->loged_in) {

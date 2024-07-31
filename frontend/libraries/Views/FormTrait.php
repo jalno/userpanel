@@ -74,7 +74,7 @@ trait FormTrait
                     $code .= ' '.$this->input_col;
                 }
                 $code .= '">';
-                $isRTL = (bool) Translator::getLang()->isRTL();
+                $isRTL = Translator::isRTL();
                 if (isset($options['input-group']['first'])) {
                     $direction = $isRTL ? 'right' : 'left';
                     $options['input-group'][$direction] = $options['input-group']['first'];
@@ -255,7 +255,7 @@ trait FormTrait
                     foreach ($options['error'] as $type => $value) {
                         if ($type == $error->getCode()) {
                             if (substr($value, -strlen($error->getCode())) == $error->getCode()) {
-                                $text = Translator::trans($value);
+                                $text = t($value);
                             } else {
                                 $text = $value;
                             }
@@ -264,10 +264,10 @@ trait FormTrait
                     }
                 }
                 if (!$text) {
-                    $text = Translator::trans("{$absuloteName}.".$error->getCode());
+                    $text = t("{$absuloteName}.".$error->getCode());
                 }
                 if (!$text) {
-                    $text = Translator::trans($error->getCode());
+                    $text = t($error->getCode());
                 }
                 if ($text) {
                     $code .= "<span class=\"help-block\" id=\"{$absuloteName}-error\">{$text}</span>";
@@ -359,7 +359,7 @@ trait FormTrait
 
             $code .= '</button>';
             if (isset($item['dropdown']) and $item['dropdown']) {
-                $code .= '<ul class="dropdown-menu '.(!(bool) Translator::getLang()->isRTL() ? 'dropdown-menu-right' : '').'">';
+                $code .= '<ul class="dropdown-menu '.(!Translator::isRTL() ? 'dropdown-menu-right' : '').'">';
                 foreach ($item['dropdown'] as $menu) {
                     $code .= '<li>';
                     if (isset($menu['link'])) {
@@ -437,7 +437,7 @@ trait FormTrait
                     foreach ($item['error'] as $type => $value) {
                         if ($type == $error->getCode()) {
                             if (substr($value, -strlen($error->getCode())) == $error->getCode()) {
-                                $text = Translator::trans($value);
+                                $text = t($value);
                             } else {
                                 $text = $value;
                             }
@@ -446,10 +446,10 @@ trait FormTrait
                     }
                 }
                 if (!$text) {
-                    $text = Translator::trans("{$absuloteName}.".$error->getCode());
+                    $text = t("{$absuloteName}.".$error->getCode());
                 }
                 if (!$text) {
-                    $text = Translator::trans($error->getCode());
+                    $text = t($error->getCode());
                 }
                 if ($text) {
                     $code .= "<span class=\"help-block\" id=\"{$absuloteName}-error\">{$text}</span>";

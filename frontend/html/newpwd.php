@@ -17,7 +17,7 @@ if ($errorcode) {
 	</div>
 	<form action="<?php echo userpanel\url('resetpwd/newpwd'); ?>" class="form-changepwd" method="POST">
 		<h3><?php echo t('userpanel.newpwd.title'); ?></h3>
-		<p><?php echo Translator::trans('resetpwd.set.newpwd.description', ['user_name' => $this->user->getFullName()]); ?></p>
+		<p><?php echo t('resetpwd.set.newpwd.description', ['user_name' => $this->user->getFullName()]); ?></p>
 		<div class="errorHandler alert alert-danger no-display">
 			<i class="fa fa-remove-sign"></i> <?php echo t('data_validation'); ?>
 		</div>
@@ -28,7 +28,7 @@ if ($errorcode) {
 			    'ltr' => true,
 			    'icon' => 'fa fa-key',
 			    'right' => true,
-			    'placeholder' => Translator::trans('user.password'),
+			    'placeholder' => t('user.password'),
 			]); ?>
 			<?php $this->createField([
 			    'name' => 'password2',
@@ -36,11 +36,11 @@ if ($errorcode) {
 			    'ltr' => true,
 			    'icon' => 'fa fa-key',
 			    'right' => true,
-			    'placeholder' => Translator::trans('user.password_repeat'),
+			    'placeholder' => t('user.password_repeat'),
 			]); ?>
 			<div class="form-actions">
 				<button type="submit" class="btn btn-success pull-left">
-					<i class="fa fa-unlock"></i> <?php echo Translator::trans('resetpwd.confirm'); ?>
+					<i class="fa fa-unlock"></i> <?php echo t('resetpwd.confirm'); ?>
 				</button>
 			</div>
 		</fieldset>

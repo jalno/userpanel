@@ -50,16 +50,16 @@ $user = [
         $fields = [
             [
                 'name' => 'name',
-                'label' => Translator::trans('user.name'),
+                'label' => t('user.name'),
             ],
             [
                 'name' => 'lastname',
-                'label' => Translator::trans('user.lastname'),
+                'label' => t('user.lastname'),
             ],
             [
                 'type' => 'email',
                 'name' => 'email',
-                'label' => Translator::trans('user.email'),
+                'label' => t('user.email'),
                 'error' => [
                     'data_duplicate' => 'user.email.data_duplicate',
                 ],
@@ -68,13 +68,13 @@ $user = [
             ],
             [
                 'name' => 'phone[number]',
-                'label' => Translator::trans('user.phone'),
+                'label' => t('user.phone'),
                 'ltr' => true,
                 'input-group' => $this->getInputGroupArrayFor('phone'),
             ],
             [
                 'name' => 'cellphone[number]',
-                'label' => Translator::trans('user.cellphone'),
+                'label' => t('user.cellphone'),
                 'ltr' => true,
                 'error' => [
                     'data_duplicate' => 'user.cellphone.data_duplicate',
@@ -87,7 +87,7 @@ if ($this->canChangeCredit and $this->canEditPassword) {
         [
             'type' => 'password',
             'name' => 'password',
-            'label' => Translator::trans('user.password'),
+            'label' => t('user.password'),
             'value' => '',
         ],
     ]);
@@ -103,7 +103,7 @@ foreach ($fields as $field) {
 $this->createField([
     'type' => 'select',
     'name' => 'type',
-    'label' => Translator::trans('user.type'),
+    'label' => t('user.type'),
     'options' => $this->getTypesForSelect(),
 ]);
 ?>
@@ -113,7 +113,7 @@ $this->createField([
         $this->createField([
             'type' => 'select',
             'name' => 'country',
-            'label' => Translator::trans('user.country'),
+            'label' => t('user.country'),
             'options' => $this->getCountriesForSelect(),
         ]);
 ?>
@@ -122,7 +122,7 @@ $this->createField([
 					<?php
 $this->createField([
     'name' => 'city',
-    'label' => Translator::trans('user.city'),
+    'label' => t('user.city'),
 ]);
 ?>
 				</div>
@@ -131,7 +131,7 @@ $this->createField([
 $this->createField([
     'type' => 'number',
     'name' => 'zip',
-    'label' => Translator::trans('user.zip'),
+    'label' => t('user.zip'),
 ]);
 ?>
 				</div>
@@ -139,26 +139,26 @@ $this->createField([
 			<?php
             $this->createField([
                 'name' => 'address',
-                'label' => Translator::trans('user.address'),
+                'label' => t('user.address'),
             ]);
 $this->createField([
     'type' => 'radio',
     'name' => 'status',
-    'label' => Translator::trans('user.status'),
+    'label' => t('user.status'),
     'inline' => true,
     'options' => [
         [
-            'label' => Translator::trans('user.status.active'),
+            'label' => t('user.status.active'),
             'value' => User::active,
             'class' => 'grey',
         ],
         [
-            'label' => Translator::trans('user.status.suspend'),
+            'label' => t('user.status.suspend'),
             'value' => User::suspend,
             'class' => 'grey',
         ],
         [
-            'label' => Translator::trans('user.status.deactive'),
+            'label' => t('user.status.deactive'),
             'value' => User::deactive,
             'class' => 'grey',
         ],
@@ -168,7 +168,7 @@ if ($this->canChangeCredit) {
     $this->createField([
         'type' => 'number',
         'name' => 'credit',
-        'label' => Translator::trans('user.credit'),
+        'label' => t('user.credit'),
         'ltr' => true,
         'input-group' => [
             'right' => [
@@ -183,7 +183,7 @@ if ($this->canChangeCredit) {
     $this->createField([
         'type' => 'password',
         'name' => 'password',
-        'label' => Translator::trans('user.password'),
+        'label' => t('user.password'),
         'value' => '',
     ]);
 }
@@ -191,7 +191,7 @@ if ($this->canEditPassword) {
     $this->createField([
         'type' => 'password',
         'name' => 'password2',
-        'label' => Translator::trans('user.password_repeat'),
+        'label' => t('user.password_repeat'),
         'value' => '',
     ]);
 }

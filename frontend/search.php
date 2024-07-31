@@ -11,14 +11,14 @@ $this->the_header();
 		<div class="search-classic">
 			<form action="<?php echo userpanel\url('search'); ?>" method="get" class="form-inline">
 				<div class="input-group well">
-					<input type="text" class="form-control" name="word" value="<?php echo $this->getDataForm('word'); ?>" placeholder="<?php echo Translator::trans('searchbox.placeholder'); ?>">
+					<input type="text" class="form-control" name="word" value="<?php echo $this->getDataForm('word'); ?>" placeholder="<?php echo t('searchbox.placeholder'); ?>">
 					<span class="input-group-btn">
-						<button class="btn btn-primary" type="submit"><i class="fa fa-search"></i> <?php echo Translator::trans('search'); ?></button>
+						<button class="btn btn-primary" type="submit"><i class="fa fa-search"></i> <?php echo t('search'); ?></button>
 					</span>
 				</div>
 			</form>
 			<?php if ($this->getTotalResults()) { ?>
-				<h3><?php echo Translator::trans('search.result.byWord-Count', [
+				<h3><?php echo t('search.result.byWord-Count', [
 				    'word' => $this->getDataForm('word'),
 				    'count' => $this->getTotalResults(),
 				]); ?></h3>

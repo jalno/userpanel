@@ -45,10 +45,10 @@ class Search
         foreach ($users as $user) {
             $result = new Link();
             $result->setLink(userpanel\Url('users/view/'.$user->id));
-            $result->setTitle(Translator::trans('user.view.byFullName', [
+            $result->setTitle(t('user.view.byFullName', [
                 'fullname' => $user->getFullName(),
             ]));
-            $result->setDescription(Translator::trans('search.user.description', [
+            $result->setDescription(t('search.user.description', [
                 'email' => $user->email,
                 'cellphone' => $user->cellphone,
                 'lastonline' => Date::format('Q QT', $user->lastonline),
@@ -60,17 +60,17 @@ class Search
 
     public function profile($word)
     {
-        if (false !== strpos($word, Translator::trans('profile'))) {
+        if (false !== strpos($word, t('profile'))) {
             if (Authorization::is_accessed('profile_view')) {
                 $result = new Link();
                 $result->setLink(userpanel\Url('profile/view'));
-                $result->setTitle(Translator::trans('profile.view'));
+                $result->setTitle(t('profile.view'));
                 SearchHandler::addResult($result);
             }
             if (Authorization::is_accessed('profile_edit')) {
                 $result = new Link();
                 $result->setLink(userpanel\url('profile/edit'));
-                $result->setTitle(Translator::trans('profile.edit'));
+                $result->setTitle(t('profile.edit'));
                 SearchHandler::addResult($result);
             }
         }
@@ -90,7 +90,7 @@ class Search
         foreach ($usertypes as $usertype) {
             $result = new Link();
             $result->setLink(userpanel\Url('settings/usertypes/edit/'.$usertype->id));
-            $result->setTitle(Translator::trans('usertype.edit.byTitle', [
+            $result->setTitle(t('usertype.edit.byTitle', [
                 'title' => $usertype->title,
             ]));
             SearchHandler::addResult($result);

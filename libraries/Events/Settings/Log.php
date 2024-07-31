@@ -55,7 +55,7 @@ class Log
         if ($this->title) {
             return $this->title;
         }
-        $title = Translator::trans("packages.userpanel.users.settings.{$this->title}");
+        $title = t("packages.userpanel.users.settings.{$this->title}");
 
         return $title ? $title : $this->name;
     }

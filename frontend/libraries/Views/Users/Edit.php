@@ -113,7 +113,7 @@ class Edit extends UsersEditView
         return $this->canEditPrivacy ? [
             'type' => 'button',
             'icon' => $privacy ? 'fa fa-eye' : 'fa fa-eye-slash',
-            'text' => Translator::trans('user.edit.privacy.'.($privacy ? 'public' : 'private')),
+            'text' => t('user.edit.privacy.'.($privacy ? 'public' : 'private')),
             'class' => ['btn', 'btn-default'],
             'dropdown' => [
                 [
@@ -124,7 +124,7 @@ class Edit extends UsersEditView
                         'field' => $field,
                         'visibility' => 'public',
                     ],
-                    'title' => Translator::trans('user.edit.privacy.public'),
+                    'title' => t('user.edit.privacy.public'),
                 ],
                 [
                     'icon' => 'fa fa-eye-slash',
@@ -134,7 +134,7 @@ class Edit extends UsersEditView
                         'field' => $field,
                         'visibility' => 'private',
                     ],
-                    'title' => Translator::trans('user.edit.privacy.private'),
+                    'title' => t('user.edit.privacy.private'),
                 ],
             ],
         ] : null;
@@ -152,7 +152,7 @@ class Edit extends UsersEditView
     private function setNavigation(): void
     {
         $item = new MenuItem('users');
-        $item->setTitle(Translator::trans('users'));
+        $item->setTitle(t('users'));
         $item->setURL(userpanel\url('users'));
         $item->setIcon('clip-users');
         Breadcrumb::addItem($item);
@@ -164,7 +164,7 @@ class Edit extends UsersEditView
         Breadcrumb::addItem($item);
 
         $item = new MenuItem('edit');
-        $item->setTitle(Translator::trans('user.edit'));
+        $item->setTitle(t('user.edit'));
         $item->setURL(userpanel\url('users/edit/'.$this->getDataForm('id')));
         $item->setIcon('clip-edit');
         Breadcrumb::addItem($item);

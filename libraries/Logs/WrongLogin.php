@@ -30,9 +30,9 @@ class WrongLogin extends Logs
         $panel = new Panel('userpanel.user.wronglogin');
         $panel->icon = 'fa fa-external-link-square';
         $panel->size = 6;
-        $panel->title = Translator::trans('userpanel.user.logs.wrongLogin');
+        $panel->title = t('userpanel.user.logs.wrongLogin');
         $html = '<div class="form-group">';
-        $html .= '<label class="col-xs-4 control-label">'.Translator::trans('userpanel.user.logs.wrongLogin.wrongPassword').': </label>';
+        $html .= '<label class="col-xs-4 control-label">'.t('userpanel.user.logs.wrongLogin.wrongPassword').': </label>';
         $html .= '<div class="col-xs-8 ltr">'.$parameters['wrongpaswd'].'</div>';
         $html .= '</div>';
         $panel->setHTML($html);

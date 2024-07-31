@@ -4,7 +4,7 @@ use packages\base\{Translator};
 use packages\userpanel;
 use packages\userpanel\{Date};
 
-$isRTL = Translator::getLang()->isRTL();
+$isRTL = Translator::isRTL();
 $logs = $this->getLogs();
 ?>
 <div class="panel panel-default panel-logs">

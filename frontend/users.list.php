@@ -22,10 +22,10 @@ if ($this->canExport) {
 
 <div class="panel panel-default">
 	<div class="panel-heading">
-		<i class="fa fa-users"></i> <?php echo Translator::trans('users'); ?>
+		<i class="fa fa-users"></i> <?php echo t('users'); ?>
 		<div class="panel-tools">
-			<a class="btn btn-xs btn-link tooltips" title="<?php echo Translator::trans('user.add'); ?>" href="<?php echo userpanel\url('users/add'); ?>"><i class="clip-user-plus"></i></a>
-			<a class="btn btn-xs btn-link tooltips" title="<?php echo Translator::trans('user.search'); ?>" data-toggle="modal" href="#users-search"><i class="fa fa-search"></i></a>
+			<a class="btn btn-xs btn-link tooltips" title="<?php echo t('user.add'); ?>" href="<?php echo userpanel\url('users/add'); ?>"><i class="clip-user-plus"></i></a>
+			<a class="btn btn-xs btn-link tooltips" title="<?php echo t('user.search'); ?>" data-toggle="modal" href="#users-search"><i class="fa fa-search"></i></a>
 			<a class="btn btn-xs btn-link panel-collapse collapses" href="#"></a>
 		</div>
 	</div>
@@ -38,10 +38,10 @@ if ($this->canExport) {
 				<thead>
 					<tr>
 						<th class="center">#</th>
-						<th><?php echo Translator::trans('user.name'); ?></th>
-						<th><?php echo Translator::trans('user.type.name'); ?></th>
-						<th><?php echo Translator::trans('user.email'); ?><br><?php echo Translator::trans('user.cellphone'); ?></th>
-						<th><?php echo Translator::trans('user.status'); ?></th>
+						<th><?php echo t('user.name'); ?></th>
+						<th><?php echo t('user.type.name'); ?></th>
+						<th><?php echo t('user.email'); ?><br><?php echo t('user.cellphone'); ?></th>
+						<th><?php echo t('user.status'); ?></th>
 						<?php if ($hasButtons) { ?><th></th><?php } ?>
 					</tr>
 				</thead>
@@ -75,7 +75,7 @@ if ($this->canExport) {
 						<td><?php echo $row->getFullName(); ?></td>
 						<td><?php echo $row->type->title; ?></td>
 						<td><?php echo $row->email; ?><br><?php echo $row->cellphone; ?></td>
-						<td class="hidden-xs"><span class="<?php echo $statusClass; ?>"><?php echo Translator::trans($statusTxt); ?></span></td>
+						<td class="hidden-xs"><span class="<?php echo $statusClass; ?>"><?php echo t($statusTxt); ?></span></td>
 						<?php
             if ($hasButtons) {
                 echo '<td class="center">'.$this->genButtons().'</td>';
@@ -94,7 +94,7 @@ if ($this->canExport) {
 <div class="modal fade" id="users-search" tabindex="-1" data-show="true" role="dialog">
 	<div class="modal-header">
 		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-		<h4 class="modal-title"><?php echo Translator::trans('users.search'); ?></h4>
+		<h4 class="modal-title"><?php echo t('users.search'); ?></h4>
 	</div>
 	<div class="modal-body">
 		<form id="usersearchform" action="<?php echo userpanel\url('users'); ?>" method="GET" class="form-horizontal">
@@ -102,49 +102,49 @@ if ($this->canExport) {
             $this->setHorizontalForm('sm-3', 'sm-9');
 $feilds = [
     [
-        'label' => Translator::trans('user.id'),
+        'label' => t('user.id'),
         'name' => 'id',
     ],
     [
-        'label' => Translator::trans('user.name'),
+        'label' => t('user.name'),
         'name' => 'name',
     ],
     [
-        'label' => Translator::trans('user.lastname'),
+        'label' => t('user.lastname'),
         'name' => 'lastname',
     ],
     [
-        'label' => Translator::trans('user.email'),
+        'label' => t('user.email'),
         'name' => 'email',
     ],
     [
-        'label' => Translator::trans('user.cellphone'),
+        'label' => t('user.cellphone'),
         'name' => 'cellphone',
     ],
     [
         'type' => 'select',
-        'label' => Translator::trans('user.type'),
+        'label' => t('user.type'),
         'name' => 'type',
         'options' => $this->getTypesForSelect(),
     ],
     [
         'type' => 'checkbox',
-        'label' => Translator::trans('user.online'),
+        'label' => t('user.online'),
         'name' => 'online',
         'options' => [[
             'value' => 1,
-            'label' => Translator::trans('user.online.yes'),
+            'label' => t('user.online.yes'),
         ]],
     ],
     [
         'type' => 'select',
-        'label' => Translator::trans('user.status'),
+        'label' => t('user.status'),
         'name' => 'status',
         'options' => $this->getStatusForSelect(),
     ],
     [
         'type' => 'select',
-        'label' => Translator::trans('search.comparison'),
+        'label' => t('search.comparison'),
         'name' => 'comparison',
         'options' => $this->getComparisonsForSelect(),
     ],

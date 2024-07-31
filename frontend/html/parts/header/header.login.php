@@ -2,9 +2,9 @@
 use packages\base;
 use packages\base\Translator;
 
-$codeLang = Translator::getCodeLang();
+$codeLang = app()->getLocale();
 $availableLangs = Translator::getAvailableLangs();
-$isRTL = Translator::getLang()->isRTL();
+$isRTL = Translator::isRTL();
 $direction = ($isRTL) ? 'left' : 'right';
 ?>
 
@@ -42,8 +42,8 @@ $this->loadCSS();
 			        ?>
 				<div class="btn-group lang-select">
 					<button class="btn dropdown-toggle btn-lang-select" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" >
-						<span class="flag-icon flag-icon-<?php echo strtolower(substr($codeLang, -2)); ?>"></span>
-						<?php echo t('translations.langs.'.Translator::getShortCodeLang()); ?>
+						<span class="flag-icon flag-icon-<?php echo strtolower(Translator::$countries[$codeLang]); ?>"></span>
+						<?php echo t('translations.langs.'. $codeLang); ?>
 					</button>
 					<div class="dropdown-menu">
 						<?php
@@ -51,13 +51,12 @@ $this->loadCSS();
 			                        if ($lang == $codeLang) {
 			                            continue;
 			                        }
-			                        $shortCode = Translator::getShortCodeLang($lang);
-			                        $direction = Translator::getLang($lang)->isRTL() ? 'rtl' : 'ltr';
+			                        $direction = Translator::isRTL($lang) ? 'rtl' : 'ltr';
 			                        ?>
 							<li class="<?php echo $direction; ?>">
-								<a href="<?php echo base\url('.', ['@lang' => $shortCode]); ?>">
-									<span class="flag-icon flag-icon-<?php echo strtolower(substr($lang, -2)); ?>"></span>
-									<span class="lang-text"><?php echo t('translations.langs.'.$shortCode); ?></span>
+								<a href="<?php echo base\url('.', ['@lang' => $lang]); ?>">
+									<span class="flag-icon flag-icon-<?php echo strtolower(Translator::$countries[$lang]); ?>"></span>
+									<span class="lang-text"><?php echo t('translations.langs.'.$lang); ?></span>
 								</a>
 							</li>
 					</div>

@@ -31,7 +31,7 @@ class Dashboard extends DashboardView
     {
         if (!self::$settingsMenuItem) {
             $item = new MenuItem('settings');
-            $item->setTitle(Translator::trans('settings'));
+            $item->setTitle(t('settings'));
             $item->setIcon('clip-settings');
             self::$settingsMenuItem = $item;
         }
@@ -42,7 +42,7 @@ class Dashboard extends DashboardView
 
     public function __beforeLoad()
     {
-        $this->setTitle(Translator::trans('dashboard'));
+        $this->setTitle(t('dashboard'));
         Navigation::active('dashboard');
         $initEvent = new InitializeDashboard();
         $initEvent->view = $this;
@@ -59,11 +59,11 @@ class Dashboard extends DashboardView
             $shortcut->icon = 'fa fa-users';
             if ($users) {
                 $shortcut->title = $users;
-                $shortcut->text = Translator::trans('shortcut.users.loggined');
+                $shortcut->text = t('shortcut.users.loggined');
             } else {
-                $shortcut->text = Translator::trans('shortcut.users.loggined.iszero');
+                $shortcut->text = t('shortcut.users.loggined.iszero');
             }
-            $shortcut->setLink(Translator::trans('shortcut.users.link'), userpanel\url('users', ['lastonline_from' => Date::format('Y/m/d H:i', $today)]));
+            $shortcut->setLink(t('shortcut.users.link'), userpanel\url('users', ['lastonline_from' => Date::format('Y/m/d H:i', $today)]));
             self::addShortcut($shortcut);
             self::addBox($this->createOnlineUsers());
         }
@@ -124,7 +124,7 @@ class Dashboard extends DashboardView
                 if ($shortcut->text) {
                     $html .= "<div class=\"content\">{$shortcut->text}</div>";
                 }
-                $iconDirection = ((bool) Translator::getLang()->isRTL()) ? 'left' : 'right';
+                $iconDirection = Translator::isRTL() ? 'left' : 'right';
                 if (!empty($shortcut->link)) {
                     $html .= '<a class="view-more" href="'.$shortcut->link[1].'">';
                     $html .= '<i class="clip-arrow-'.$iconDirection.'-2"></i> '.$shortcut->link[0].'</a>';
@@ -171,14 +171,14 @@ class Dashboard extends DashboardView
     {
         $panel = new Panel('users_online');
         $panel->size = 5;
-        $panel->title = Translator::trans('users.online');
+        $panel->title = t('users.online');
         $panel->icon = 'fa fa-users';
         $panel->scroll = true;
         $panel->scrollHeight = 300;
         $html = '<table class="table table-condensed table-hover">';
         $html .= '<thead><tr>';
-        $html .= '<th>'.Translator::trans('user.avatar').'</th>';
-        $html .= '<th>'.Translator::trans('user.name').'</th>';
+        $html .= '<th>'.t('user.avatar').'</th>';
+        $html .= '<th>'.t('user.name').'</th>';
         $html .= '<th></th>';
         $html .= '</tr></thead>';
         $html .= '<tbody>';
@@ -196,7 +196,7 @@ class Dashboard extends DashboardView
             $html .= '<td>'.$user->getFullName().'</td>';
             $html .= '<td>';
             if (Authorization::is_accessed('users_view')) {
-                $html .= '<a href="'.userpanel\url('users/view/'.$user->id).'" class="btn btn-xs btn-green tooltips" title="'.Translator::trans('user.profile').'"><i class="fa fa-credit-card"></i></a>';
+                $html .= '<a href="'.userpanel\url('users/view/'.$user->id).'" class="btn btn-xs btn-green tooltips" title="'.t('user.profile').'"><i class="fa fa-credit-card"></i></a>';
             }
             $html .= '</td>';
             $html .= '</tr>';

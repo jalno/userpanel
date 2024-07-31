@@ -26,20 +26,20 @@ class Delete extends UserTypesDelete
     private function setNavigation()
     {
         $item = new MenuItem('settings');
-        $item->setTitle(Translator::trans('settings'));
+        $item->setTitle(t('settings'));
         $item->setURL(userpanel\url('settings'));
         $item->setIcon('clip-settings');
         Breadcrumb::addItem($item);
 
         $item = new MenuItem('usertypes');
-        $item->setTitle(Translator::trans('usertypes'));
+        $item->setTitle(t('usertypes'));
         $item->setURL(userpanel\url('settings/usertypes'));
         $item->setIcon('fa fa-group');
         Breadcrumb::addItem($item);
 
         $usertype = $this->getUserType();
         $item = new MenuItem('delete');
-        $item->setTitle(Translator::trans('usertype.delete.byTitle', ['title' => $usertype->title]));
+        $item->setTitle(t('usertype.delete.byTitle', ['title' => $usertype->title]));
         $item->setURL(userpanel\url('settings/usertypes/delete/'.$usertype->id));
         $item->setIcon('fa fa-trash');
         Breadcrumb::addItem($item);

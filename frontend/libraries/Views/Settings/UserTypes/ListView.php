@@ -28,12 +28,12 @@ class ListView extends usertype_list
     public function setButtons()
     {
         $this->setButton('edit', $this->canEdit, [
-            'title' => Translator::trans('usertype.edit'),
+            'title' => t('usertype.edit'),
             'icon' => 'fa fa-edit',
             'classes' => ['btn', 'btn-xs', 'btn-warning'],
         ]);
         $this->setButton('delete', $this->canDelete, [
-            'title' => Translator::trans('usertype.delete'),
+            'title' => t('usertype.delete'),
             'icon' => 'fa fa-times',
             'classes' => ['btn', 'btn-xs', 'btn-bricky'],
         ]);
@@ -45,7 +45,7 @@ class ListView extends usertype_list
         if (parent::$navigation) {
             $settings = Dashboard::getSettingsMenu();
             $usertype = new MenuItem('usertypes');
-            $usertype->setTitle(Translator::trans('usertypes'));
+            $usertype->setTitle(t('usertypes'));
             $usertype->setURL(userpanel\url('settings/usertypes'));
             $usertype->setIcon('fa fa-address-card-o');
             $settings->addItem($usertype);

@@ -42,7 +42,7 @@ if (0 != $i % 2) {
 <?php } ?>
 	<div class="row">
 		<div class="col-md-offset-4 col-md-4">
-			<button class="btn btn-success btn-block" type="submit"><i class="fa fa-check-square-o"></i> <?php echo Translator::trans('user.profile.save'); ?></button>
+			<button class="btn btn-success btn-block" type="submit"><i class="fa fa-check-square-o"></i> <?php echo t('user.profile.save'); ?></button>
 		</div>
 	</div>
 </form>

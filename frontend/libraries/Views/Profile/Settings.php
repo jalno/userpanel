@@ -22,7 +22,7 @@ class Settings extends ProfileSettingsView
     public function __beforeLoad()
     {
         $this->user = $this->getUser();
-        $this->setTitle(Translator::trans('profile.settings'));
+        $this->setTitle(t('profile.settings'));
 
         $this->addBodyClass('profile');
         $this->addBodyClass('profile-settings');
@@ -32,13 +32,13 @@ class Settings extends ProfileSettingsView
     private function setNavigation()
     {
         $item = new MenuItem('profile');
-        $item->setTitle(Translator::trans('profile.view'));
+        $item->setTitle(t('profile.view'));
         $item->setURL(userpanel\url('profile/view'));
         $item->setIcon('fa fa-user');
         Breadcrumb::addItem($item);
 
         $settingsItem = new MenuItem('settings');
-        $settingsItem->setTitle(Translator::trans('profile.settings'));
+        $settingsItem->setTitle(t('profile.settings'));
         $settingsItem->setURL(userpanel\url('profile/settings'));
         $settingsItem->setIcon('fa fa-cog fa-spin');
         Breadcrumb::addItem($settingsItem);

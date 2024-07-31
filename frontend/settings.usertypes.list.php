@@ -9,9 +9,9 @@ use packages\userpanel;
 		<!-- start: BASIC TABLE PANEL -->
 		<div class="panel panel-default">
 			<div class="panel-heading">
-				<i class="fa fa-users"></i> <?php echo Translator::trans('usertypes'); ?>
+				<i class="fa fa-users"></i> <?php echo t('usertypes'); ?>
 				<div class="panel-tools">
-					<?php if ($this->canAdd) { ?><a class="btn btn-xs btn-link tooltips" title="<?php echo Translator::trans('usertype.add'); ?>" href="<?php echo userpanel\url('settings/usertypes/add'); ?>"><i class="clip-user-plus"></i></a><?php } ?>
+					<?php if ($this->canAdd) { ?><a class="btn btn-xs btn-link tooltips" title="<?php echo t('usertype.add'); ?>" href="<?php echo userpanel\url('settings/usertypes/add'); ?>"><i class="clip-user-plus"></i></a><?php } ?>
 					<a class="btn btn-xs btn-link panel-collapse collapses" href="#"></a>
 				</div>
 			</div>
@@ -24,9 +24,9 @@ use packages\userpanel;
 						<thead>
 							<tr>
 								<th>#</th>
-								<th><?php echo Translator::trans('usertype.title'); ?></th>
-								<th><?php echo Translator::trans('usertype.permissions'); ?></th>
-								<th><?php echo Translator::trans('usertype.priority'); ?></th>
+								<th><?php echo t('usertype.title'); ?></th>
+								<th><?php echo t('usertype.permissions'); ?></th>
+								<th><?php echo t('usertype.priority'); ?></th>
 								<?php if ($hasButtons) { ?><th></th><?php } ?>
 							</tr>
 						</thead>

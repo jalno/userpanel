@@ -3,7 +3,7 @@ use packages\base;
 use packages\userpanel;
 
 $this->the_header('login');
-$isRTL = (bool) base\Translator::getLang()->isRTL();
+$isRTL = (bool) base\Translator::isRTL();
 ?>
 <!-- start: LOGIN BOX -->
 <div class="box-login">

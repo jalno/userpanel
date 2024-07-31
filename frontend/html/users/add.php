@@ -262,7 +262,7 @@ foreach ($fields as $field) {
 			</div>
 			<div class="row" style="margin-top: 20px;margin-bottom: 20px;">
 				<div class="col-md-offset-4 col-md-4">
-					<button class="btn btn-teal btn-block" type="submit"><i class="fa fa-arrow-circle-<?php echo ((bool) Translator::getLang()->isRTL()) ? 'left' : 'right'; ?>"></i> <?php echo t('user.add'); ?></button>
+					<button class="btn btn-teal btn-block" type="submit"><i class="fa fa-arrow-circle-<?php echo Translator::isRTL() ? 'left' : 'right'; ?>"></i> <?php echo t('user.add'); ?></button>
 				</div>
 			</div>
 		</form>

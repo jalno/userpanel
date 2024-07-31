@@ -94,7 +94,7 @@ class OverView extends UsersView
     private function setNavigation()
     {
         $item = new MenuItem('users');
-        $item->setTitle(Translator::trans('users'));
+        $item->setTitle(t('users'));
         $item->setURL(userpanel\url('users'));
         $item->setIcon('clip-users');
         Breadcrumb::addItem($item);

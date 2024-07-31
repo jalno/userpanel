@@ -80,7 +80,7 @@ $this->the_header();
 							<div class="btn-group btn-group-justified" role="group">
 								<div class="btn-group" role="group">
 									<a href="<?php echo userpanel\url('logs/view/'.$this->log->id); ?>" class="btn btn-default">
-										<i class="fa fa-chevron-circle-<?php echo Translator::getLang()->isRTL() ? 'right' : 'left'; ?>"></i>
+										<i class="fa fa-chevron-circle-<?php echo Translator::isRTL() ? 'right' : 'left'; ?>"></i>
 										<?php echo t('return'); ?>
 									</a>
 								</div>

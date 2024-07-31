@@ -26,14 +26,14 @@ trait ViewTrait
      */
     protected $favicon = '';
 
-    public function the_header($template = '')
+    public function the_header(string $template = ''): void
     {
-        require_once __DIR__.'/../../header'.($template ? '.'.$template : '').'.php';
+        require dirname(__DIR__).'/html/parts/header/header'.($template ? '.'.$template : '').'.php';
     }
 
-    public function the_footer($template = '')
+    public function the_footer(string $template = ''): void
     {
-        require_once __DIR__.'/../../footer'.($template ? '.'.$template : '').'.php';
+        require dirname(__DIR__) . '/html/parts/footer/footer'.($template ? '.'.$template : '').'.php';
     }
 
     public function getLogoHTML()
@@ -106,7 +106,7 @@ trait ViewTrait
     protected function genBodyClasses()
     {
         $key = array_search('ltr', $this->bodyClasses);
-        if (!in_array('rtl', $this->bodyClasses) and false === $key and Translator::getLang()->isRTL()) {
+        if (!in_array('rtl', $this->bodyClasses) and false === $key and Translator::isRTL()) {
             $this->addBodyClass('rtl');
         }
         if (false !== $key) {
