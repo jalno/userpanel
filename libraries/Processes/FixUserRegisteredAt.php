@@ -6,6 +6,7 @@ use packages\base\Log;
 use packages\base\Process;
 use packages\base\Response;
 use packages\userpanel\Log as UserLog;
+use packages\userpanel\Logs\Register;
 use packages\userpanel\User;
 
 class FixUserRegisteredAt extends Process
@@ -16,7 +17,7 @@ class FixUserRegisteredAt extends Process
         $log = Log::getInstance();
         $log->info('get register logs');
         $logs = new UserLog();
-        $logs->where('type', UserLog\Register::class);
+        $logs->where('type', Register::class);
         $logs = $logs->get();
         $log->reply(count($logs), ' logs found');
 

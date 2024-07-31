@@ -16,12 +16,12 @@ trait ViewTrait
         return $this->shortdescription;
     }
 
-    public function output()
+    public function output(): string
     {
         if ($user = Authentication::getUser()) {
             $user->lastonline = time();
             $user->save();
         }
-        parent::output();
+        return parent::output();
     }
 }
