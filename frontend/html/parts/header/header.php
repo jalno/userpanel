@@ -6,15 +6,15 @@ use packages\userpanel\Authentication;
 use themes\clipone\Breadcrumb;
 use themes\clipone\Navigation;
 
-$codeLang = Translator::getCodeLang();
+$codeLang = app()->getLocale();
 $shortCodeLang = app()->getLocale();
 $availableLangs = Translator::getAvailableLangs();
 ?>
 <!DOCTYPE html>
-<!--[if IE 8]><html class="ie8 no-js" lang="<?php echo $shortCodeLang; ?>"><![endif]-->
-<!--[if IE 9]><html class="ie9 no-js" lang="<?php echo $shortCodeLang; ?>"><![endif]-->
+<!--[if IE 8]><html class="ie8 no-js" lang="<?php echo $codeLang; ?>"><![endif]-->
+<!--[if IE 9]><html class="ie9 no-js" lang="<?php echo $codeLang; ?>"><![endif]-->
 <!--[if !IE]><!-->
-<html lang="<?php echo $shortCodeLang; ?>" class="no-js">
+<html lang="<?php echo $codeLang; ?>" class="no-js">
 	<!--<![endif]-->
 	<head>
 		<title><?php echo $this->getTitle(); ?></title>
@@ -54,8 +54,8 @@ $this->loadCSS();
 						<li class="dropdown nav-lang-selector">
 							<a data-toggle="dropdown" data-hover="dropdown" class="dropdown-toggle" data-close-others="true" href="#">
 								<!-- <i class="fa fa-globe"></i> -->
-								<span class="flag-icon flag-icon-<?php echo strtolower(substr($codeLang, -2)); ?>"></span>
-								<span class="lang-name"><?php echo t('translations.langs.'.$shortCodeLang); ?></span>
+								<span class="flag-icon flag-icon-<?php echo strtolower(Translator::$countries[$codeLang]); ?>"></span>
+								<span class="lang-name"><?php echo t('translations.langs.'.$codeLang); ?></span>
 							</a>
 							<ul class="dropdown-menu langs-dropdown-menu">
 								<?php
@@ -63,13 +63,12 @@ $this->loadCSS();
 		                                    if ($lang == $codeLang) {
 		                                        // continue;
 		                                    }
-		                                    $shortCode = Translator::getShortCodeLang($lang);
 		                                    $direction = Translator::isRTL($lang) ? 'rtl' : 'ltr';
 		                                    ?>
 									<li class="lang <?php echo $direction; ?>">
-										<a href="<?php echo base\url('.', ['@lang' => $shortCode]); ?>">
-											<span class="flag-icon flag-icon-<?php echo strtolower(substr($lang, -2)); ?>"></span>
-											<span class="lang-text"><?php echo t('translations.langs.'.$shortCode); ?></span>
+										<a href="<?php echo base\url('.', ['@lang' => $lang]); ?>">
+											<span class="flag-icon flag-icon-<?php echo strtolower(strtolower(Translator::$countries[$lang])); ?>"></span>
+											<span class="lang-text"><?php echo t('translations.langs.'.$lang); ?></span>
 										</a>
 									</li>
 								<?php

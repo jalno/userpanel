@@ -19,17 +19,7 @@ class Settings implements Controller
         $changed = false;
         $userCustoms = $user->option('userpanel_date');
         if (isset($inputs['userpanel_calendar'])) {
-            $calendar = '';
-            if (isset($userCustoms['calendar'])) {
-                $calendar = $userCustoms['calendar'];
-            }
-            if (!$calendar) {
-                $calendar = Translator::getLang()->getCalendar();
-            }
-            $option = Options::get('packages.userpanel.date');
-            if (!$calendar and isset($option['calendar'])) {
-                $calendar = $option['calendar'];
-            }
+            $calendar = $userCustoms['calendar'] ?? Options::get('packages.userpanel.date.calendar');
             if ($inputs['userpanel_calendar'] != $calendar) {
                 $userCustoms['calendar'] = $inputs['userpanel_calendar'];
                 $logs[] = new Log('userpanel_calendar', $calendar, $inputs['userpanel_calendar'], t('userpanel.usersettings.message.calendar'));
