@@ -226,8 +226,7 @@ class Login extends Controller
 
         $backTo = (isset(HTTP::$data['backTo'])
             and is_string(HTTP::$data['backTo'])
-            and HTTP::$data['backTo']
-            and HTTP::is_safe_referer(HTTP::$data['backTo'])
+            and str_starts_with(HTTP::$data['backTo'], "/")
         ) ? HTTP::$data['backTo'] : '';
 
         $view = View::byName(Views\Login::class);
@@ -268,8 +267,7 @@ class Login extends Controller
         $view = View::byName(Views\Login::class);
         $backTo = (isset(HTTP::$data['backTo'])
                     and is_string(HTTP::$data['backTo'])
-                    and HTTP::$data['backTo']
-                    and HTTP::is_safe_referer(HTTP::$data['backTo'])) ? HTTP::$data['backTo'] : '';
+                    and str_starts_with(HTTP::$data['backTo'], "/")) ? HTTP::$data['backTo'] : '';
         $view->setDataForm($backTo, 'backTo');
         $this->response->setView($view);
         $this->response->setStatus(false);

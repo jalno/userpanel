@@ -65,17 +65,7 @@ class Settings
         if (!$timeZone) {
             $timeZone = Date::getTimeZone();
         }
-        $calendar = '';
-        if (isset($userCustoms['calendar'])) {
-            $calendar = $userCustoms['calendar'];
-        }
-        if (!$calendar) {
-            $calendar = Translator::getLang()->getCalendar();
-        }
-        $option = Options::get('packages.userpanel.date');
-        if (!$calendar and isset($option['calendar'])) {
-            $calendar = $option['calendar'];
-        }
+        $calendar = $userCustoms['calendar'] ?? Options::get('packages.userpanel.date.calendar');
         $tuning->setDataForm('userpanel_timezone', $timeZone);
         $tuning->setDataForm('userpanel_calendar', $calendar);
         $settings->addTuning($tuning);

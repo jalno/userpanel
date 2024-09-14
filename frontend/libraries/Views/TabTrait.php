@@ -2,6 +2,7 @@
 
 namespace themes\clipone\Views;
 
+use Exception;
 use packages\base\View;
 
 trait TabTrait
@@ -24,16 +25,10 @@ trait TabTrait
 
     /**
      * Ouput the html file.
-     *
-     * @return void
      */
-    public function output()
+    public function output(): string
     {
-        if ($this->activeTab) {
-            $this->outputTab();
-        } else {
-            parent::output();
-        }
+        return $this->activeTab ? $this->outputTab() : parent::output();
     }
 
     /**
@@ -41,14 +36,28 @@ trait TabTrait
      *
      * @return void
      */
-    public function outputTab()
+    public function outputTab(): string
     {
         $this->loadHTMLFile();
         if (!$this->file) {
-            return;
+            throw new Exception("Cannot find html file");
         }
-        require_once $this->file->getPath();
+        $obLevel = ob_get_level();
+        ob_start();
+        try {
+            require $this->file->getPath();
+        } catch (\Throwable $e) {
+            while (ob_get_level() > $obLevel) {
+                ob_end_clean();
+            }
+
+            throw $e;
+        }
+        $result = ltrim(ob_get_clean());
+
         (new View\Events\AfterOutput($this))->trigger();
+
+        return $result;
     }
 
     public function __get($key)

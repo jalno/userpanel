@@ -88,34 +88,4 @@ class Dashboard extends Controller
 
         return $this->response;
     }
-
-    public function authError(): Response
-    {
-        $this->response->setStatus(false);
-        if (userpanel\Url() == HTTP::$request['uri']) {
-            $this->response->go(userpanel\Url('login'));
-        } else {
-            $indexurl = parse_url(userpanel\url('', [], true));
-            if (!isset($indexurl['port'])) {
-                switch ($indexurl['scheme']) {
-                    case 'http':
-                        $indexurl['port'] = 80;
-                        break;
-                    case 'https':
-                        $indexurl['port'] = 443;
-                        break;
-                }
-            }
-            if ($indexurl['scheme'] == HTTP::$request['scheme'] and $indexurl['host'] == HTTP::$request['hostname'] and $indexurl['port'] == HTTP::$server['port']) {
-                $this->response->go(userpanel\Url('login', ['backTo' => HTTP::$request['uri'].(HTTP::$request['get'] ? '?'.http_build_query(HTTP::$request['get']) : '')]));
-            } else {
-                $this->response->go(userpanel\url('login', ['backTo' => HTTP::getURL()]));
-            }
-        }
-        if ($this->response->is_ajax() or $this->response->is_api()) {
-            $this->response->setHttpCode(401);
-        }
-
-        return $this->response;
-    }
 }

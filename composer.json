@@ -14,11 +14,11 @@
     },
     "autoload": {
         "psr-4": {
-            "packages\\userpanel\\": ["libraries/"],
+            "packages\\userpanel\\": ["src/"],
             "themes\\clipone\\" : ["frontend/libraries/"]
         },
         "files": [
-            "libraries/url.php"
+            "src/url.php"
         ]
         
     }
