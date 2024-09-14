@@ -10,7 +10,7 @@
 if ($tab) {
     $view = $tab->getView();
     if ($view) {
-        $view->output();
+        echo $view->output();
     }
 }
 ?>
