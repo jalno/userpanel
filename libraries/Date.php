@@ -8,7 +8,7 @@ use packages\base\Translator;
 
 class Date extends BaseDate
 {
-    public static function format($format, $timestamp = null)
+    public static function format($format, ?int$timestamp = null):string
     {
         self::init();
 
@@ -22,14 +22,14 @@ class Date extends BaseDate
         return parent::getTimeZone();
     }
 
-    public static function strtotime($time, $now = null)
+    public static function strtotime(string $time, ?int $now = null): int
     {
         self::init();
 
         return parent::strtotime($time, $now);
     }
 
-    public static function mktime($hour = null, $minute = null, $second = null, $month = null, $day = null, $year = null)
+    public static function mktime(?int $hour = null, ?int $minute = null, ?int $second = null, ?int $month = null, ?int $day = null, ?int $year = null): int
     {
         self::init();
 
@@ -57,7 +57,7 @@ class Date extends BaseDate
         return parent::getWeekDay($day);
     }
 
-    public static function setDefaultcalendar()
+    public static function setDefaultcalendar(): void
     {
         $calendar = '';
         $user = Authentication::getUser();
@@ -105,7 +105,7 @@ class Date extends BaseDate
         parent::setDefaultTimeZone();
     }
 
-    public static function init()
+    public static function init(): void
     {
         if (self::$inited) {
             return;
