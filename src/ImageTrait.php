@@ -3,20 +3,20 @@
 namespace packages\userpanel;
 
 use packages\base\Image;
-use packages\base\IO\File;
-use packages\base\Options;
 use packages\base\Packages;
 
 trait ImageTrait {
     public function getImage(int $width, int $height, string $key = 'image') {
+        $package = Packages::package('userpanel');
+        $storage = $package->getStorage("public");
+        $image = $this->$key;
 
-        if ($this->$key === null) {
-            $this->$key = Options::get('packages.userpanel.default.avatar');
-            return $this->getImage($height, $width, $key);
+        if ($image) {
+            $image = $storage->file($image);
+        } else {
+            $image = $package->getHome()->file("resources/images/default-avatar.png");
         }
-        
-        $storage = Packages::package('userpanel')->getStorage("public");
-        $image = $storage->file($this->$key);
+
         $name = substr($image->basename, 0, strrpos($image->basename, '.'));
         $suffix = $image->getExtension();
 

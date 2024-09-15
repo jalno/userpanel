@@ -2,6 +2,7 @@
 
 namespace packages\userpanel\Controllers;
 
+use Illuminate\Support\Facades\Cookie;
 use packages\base\DB;
 use packages\base\Http;
 use packages\base\InputValidationException;
@@ -205,13 +206,12 @@ class Login extends Controller
             throw new InputValidationException('password');
         }
         (new Events\BeforeLogin())->trigger();
-        if (User::active == $user->status) {
-            self::doLogin($user);
-            if (isset($inputs['remember']) and $inputs['remember']) {
-                HTTP::setcookie('remember', $user->createRememberToken(), Date::time() + 31536000);
-            }
-        } else {
+        if (User::active != $user->status) {
             throw new UserIsNotActiveException($user->status);
+        }
+        self::doLogin($user);
+        if (isset($inputs['remember']) and $inputs['remember']) {
+            Cookie::queue('remember', $user->createRememberToken(), 525600);
         }
 
         return $user;
@@ -321,7 +321,7 @@ class Login extends Controller
 
             return $this->response;
         }
-        HTTP::removeCookie('remember');
+        Cookie::expire("remember");
         $this->response->Go(userpanel\Url('login'));
 
         return $this->response;
