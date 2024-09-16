@@ -9,13 +9,6 @@ use packages\userpanel\Views\ListView;
 class Search extends ListView
 {
     use FormTrait;
-    /** @var bool whether logs item shall appear on navigation menu or not */
-    protected static $navigation;
-
-    public static function onSourceLoad()
-    {
-        self::$navigation = Authorization::is_accessed('logs_search');
-    }
 
     /** @var bool whether userpanel_logs_view permission is granted */
     protected $canView;

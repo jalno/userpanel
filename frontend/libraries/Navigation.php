@@ -56,6 +56,7 @@ class Navigation
 
     public static function build(): string
     {
+        Events::trigger(new NavigationEvents\Initial());
         $html = '';
         Events::trigger(new NavigationEvents\Build());
         uasort(self::$menu, [__CLASS__, 'sort']);

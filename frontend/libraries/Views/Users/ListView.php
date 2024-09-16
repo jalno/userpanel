@@ -3,13 +3,10 @@
 namespace themes\clipone\Views\Users;
 
 use packages\base\Http;
-use packages\base\Translator;
-use packages\userpanel;
 use packages\userpanel\Authorization;
 use packages\userpanel\User;
 use packages\userpanel\Views\Users\ListView as usersListView;
 use themes\clipone\Navigation;
-use themes\clipone\Navigation\MenuItem;
 use themes\clipone\Views\FormTrait;
 use themes\clipone\Views\ListTrait;
 use themes\clipone\ViewTrait;
@@ -46,18 +43,6 @@ class ListView extends usersListView
             'icon' => 'fa fa-times',
             'classes' => ['btn', 'btn-xs', 'btn-bricky'],
         ]);
-    }
-
-    public static function onSourceLoad()
-    {
-        parent::onSourceLoad();
-        if (parent::$navigation) {
-            $item = new MenuItem('users');
-            $item->setTitle(t('users'));
-            $item->setURL(userpanel\url('users'));
-            $item->setIcon('clip-users');
-            Navigation::addItem($item);
-        }
     }
 
     public function getTypesForSelect()

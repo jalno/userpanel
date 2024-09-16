@@ -10,13 +10,6 @@ class Search extends ListView
 {
     use Form;
 
-    public static function onSourceLoad()
-    {
-        self::$navigation = Authorization::is_accessed('users_list');
-    }
-
-    protected static $navigation;
-
     protected $canView;
 
     protected $canEdit;

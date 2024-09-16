@@ -3,7 +3,6 @@
 namespace themes\clipone\Views\Users;
 
 use packages\base\Http;
-use packages\userpanel;
 use packages\userpanel\Authorization;
 use packages\userpanel\User;
 use packages\userpanel\Views\Users\Search as ParentView;
@@ -20,19 +19,6 @@ class Search extends ParentView
     use ViewTrait;
     use ListTrait;
     use FormTrait;
-
-    public static function onSourceLoad()
-    {
-        parent::onSourceLoad();
-        if (!parent::$navigation) {
-            return;
-        }
-        $item = new Navigation\MenuItem('users');
-        $item->setTitle(t('users'));
-        $item->setURL(userpanel\url('users'));
-        $item->setIcon('clip-users');
-        Navigation::addItem($item);
-    }
 
     public bool $canAdd;
     protected $types = [];

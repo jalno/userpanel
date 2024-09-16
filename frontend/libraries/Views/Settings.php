@@ -14,18 +14,6 @@ class Settings extends Form
     use ViewTrait;
     use FormTrait;
 
-    public static function onSourceLoad()
-    {
-        if (Authorization::is_accessed('settings_general-settings')) {
-            $settings = Dashboard::getSettingsMenu();
-            $item = new Navigation\MenuItem('userpanel_general-settings');
-            $item->setTitle(t('userpanel.general-settings'));
-            $item->setURL(userpanel\url('settings'));
-            $item->setIcon('fa fa-cogs');
-            $settings->addItem($item);
-        }
-    }
-
     private $settings = [];
 
     public function __beforeLoad()

@@ -54,6 +54,10 @@
 	},
 	"events": [
 		{
+			"name":"themes/clipone/Events/Navigation/Initial",
+			"listener": "themes/clipone/Listeners/Navigation@initial"
+		},
+		{
 			"name":"themes/clipone/Events/Navigation/Build",
 			"listener": "themes/clipone/Listeners/Navigation@removeSettings"
 		},

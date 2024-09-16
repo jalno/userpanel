@@ -2,12 +2,8 @@
 
 namespace themes\clipone\Views\Settings\UserTypes;
 
-use packages\base\Translator;
-use packages\userpanel;
 use packages\userpanel\Views\Settings\UserTypes\ListView as usertype_list;
 use themes\clipone\Navigation;
-use themes\clipone\Navigation\MenuItem;
-use themes\clipone\Views\Dashboard;
 use themes\clipone\Views\FormTrait;
 use themes\clipone\Views\ListTrait;
 use themes\clipone\ViewTrait;
@@ -37,18 +33,5 @@ class ListView extends usertype_list
             'icon' => 'fa fa-times',
             'classes' => ['btn', 'btn-xs', 'btn-bricky'],
         ]);
-    }
-
-    public static function onSourceLoad()
-    {
-        parent::onSourceLoad();
-        if (parent::$navigation) {
-            $settings = Dashboard::getSettingsMenu();
-            $usertype = new MenuItem('usertypes');
-            $usertype->setTitle(t('usertypes'));
-            $usertype->setURL(userpanel\url('settings/usertypes'));
-            $usertype->setIcon('fa fa-address-card-o');
-            $settings->addItem($usertype);
-        }
     }
 }

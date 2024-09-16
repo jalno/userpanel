@@ -27,7 +27,7 @@ class Dashboard extends DashboardView
     public static $shortcuts = [];
     public static $boxs = [];
 
-    public static function getSettingsMenu()
+    public static function getSettingsMenu(): MenuItem
     {
         if (!self::$settingsMenuItem) {
             $item = new MenuItem('settings');
@@ -214,16 +214,5 @@ class Dashboard extends DashboardView
         } else {
             return Theme::url('assets/images/defaultavatar.jpg');
         }
-    }
-
-    public static function onSourceLoad()
-    {
-        $item = new MenuItem('dashboard');
-        $item->setTitle(t('dashboard'));
-        $item->setURL(base\url('userpanel'));
-        $item->setIcon('clip-home-3');
-        $item->setPriority(0);
-        Navigation::addItem($item);
-        Navigation::addItem(self::getSettingsMenu());
     }
 }

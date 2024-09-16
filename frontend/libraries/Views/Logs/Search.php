@@ -2,13 +2,10 @@
 
 namespace themes\clipone\Views\Logs;
 
-use packages\base\Translator;
-use packages\userpanel;
 use packages\userpanel\Authorization;
 use packages\userpanel\User;
 use packages\userpanel\Views\Logs\Search as LogsSearch;
 use themes\clipone\Navigation;
-use themes\clipone\Navigation\MenuItem;
 use themes\clipone\Views\FormTrait;
 use themes\clipone\Views\ListTrait;
 use themes\clipone\ViewTrait;
@@ -54,18 +51,6 @@ class Search extends LogsSearch
             'icon' => 'fa fa-times',
             'classes' => ['btn', 'btn-xs', 'btn-bricky'],
         ]);
-    }
-
-    public static function onSourceLoad()
-    {
-        parent::onSourceLoad();
-        if (parent::$navigation) {
-            $item = new MenuItem('logs');
-            $item->setTitle(t('users.logs'));
-            $item->setURL(userpanel\url('logs/search'));
-            $item->setIcon('fa fa-user-secret');
-            Navigation::addItem($item);
-        }
     }
 
     public function getComparisonsForSelect()

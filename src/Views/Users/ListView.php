@@ -13,7 +13,6 @@ class ListView extends list_view
     protected $canEdit;
     protected $canDelete;
     protected $canExport;
-    protected static $navigation;
 
     public function __construct()
     {
@@ -21,11 +20,6 @@ class ListView extends list_view
         $this->canEdit = Authorization::is_accessed('users_edit');
         $this->canDelete = Authorization::is_accessed('users_delete');
         $this->canExport = Authorization::is_accessed('users_export');
-    }
-
-    public static function onSourceLoad()
-    {
-        self::$navigation = Authorization::is_accessed('users_list');
     }
 
     public function setUserTypes($types)
