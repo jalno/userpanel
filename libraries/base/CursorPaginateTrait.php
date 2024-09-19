@@ -55,7 +55,7 @@ trait CursorPaginateTrait {
 	/**
 	 * Get the number of items for the current page.
 	 */
-	public function count(): int {
+	public function countItems(): int {
 		return $this->_count;
 	}
 	
