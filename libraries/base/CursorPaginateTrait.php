@@ -3,8 +3,11 @@ namespace packages\userpanel;
 
 use function packages\base\json\{Encode, Decode};
 
-use packages\base\{Exception, Http, DB\MySqliDB, DB\Parenthesis};
+use packages\base\{Exception, Http};
 
+/**
+ * @property bool $recursivelySerialize @see \packages\base\DB\DBObject
+ */
 trait CursorPaginateTrait {
 
 	private string $primaryKeyName = "";
@@ -81,7 +84,9 @@ trait CursorPaginateTrait {
 			throw new Exception("Can not use cursor pagination when table has not a primary key");
 		}
 
-		$clonQuery = $this->db->copy();
+        self::$recursivelySerialize = true;
+		$clonedQuery = clone $this;
+        self::$recursivelySerialize = false;
 
 		$primaryKey = $this->getPrimaryKeyWithTableName();
 
@@ -135,30 +140,15 @@ trait CursorPaginateTrait {
 
 			$ids = array_column($data, "id");
 
-			[$max, $min] = [max($ids), min($ids)];
+			$max = max($ids);
+			$min = min($ids);
 
-			$usedWheres = $clonQuery->getWheres();
-
-			$queryBuilder = function(MySqliDB $query) use(&$usedWheres): MySqliDB {
-
-				$query->resetWheres();
-
-				$parenthesis = new Parenthesis();
-				foreach ($usedWheres as $where) {
-					$parenthesis->where($where[1], $where[3], $where[2], $where[0]);
-				}
-
-				$query->where($parenthesis);
-
-				return $query;
-			};
-
-			$query = $queryBuilder($clonQuery->copy());
+			$query = clone $clonedQuery;
 			$query->where($primaryKey, $this->isAscendingSort ? $max : $min, $this->isAscendingSort ? ">" : "<");
 
 			$this->_hasNextPage = $query->has($this->dbTable);
 
-			$query = $queryBuilder($clonQuery->copy());
+			$query = clone $clonedQuery;
 			$query->where($primaryKey, $this->isAscendingSort ? $min : $max, $this->isAscendingSort ? "<" : ">");
 
 			$this->_hasPrevPage = $query->has($this->dbTable);
