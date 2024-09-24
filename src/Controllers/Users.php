@@ -581,6 +581,10 @@ class Users extends Controller
         $settingsEvent = new SettingsEvent();
         $settingsEvent->setUser($user);
         $settingsEvent->trigger();
+
+        /**
+         * @var Views\Users\View
+         */
         $view = View::byName(Views\Users\View::class);
         $view->setData($user, 'user');
         $view->triggerTabs();

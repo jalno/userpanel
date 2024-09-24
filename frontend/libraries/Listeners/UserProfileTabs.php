@@ -45,7 +45,7 @@ class UserProfileTabs
         }
     }
 
-    private function addToUserAdmin(View $view)
+    private function addToUserAdmin(Views\Users\View $view)
     {
         $user = $view->getData('user')->id;
 

@@ -44,6 +44,7 @@ trait TabbableTrait
             throw new Exception('cannot find tab');
         }
         $this->active = $tab;
+        $this->setData(array_replace($this->getData(), $this->__getData()));
     }
 
     public function getActiveTab(): ?Tab
@@ -52,7 +53,7 @@ trait TabbableTrait
             return null;
         }
         if (!$this->active) {
-            $this->active = array_keys($this->tabs)[0];
+            $this->activeTab(array_keys($this->tabs)[0]);
         }
 
         return $this->tabs[$this->active];
@@ -76,7 +77,7 @@ trait TabbableTrait
         return $html;
     }
 
-    public function triggerTabs()
+    public function triggerTabs(): void
     {
         $event = new Events\InitTabsEvent($this);
         $event->trigger();
