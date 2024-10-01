@@ -86,6 +86,7 @@ trait CursorPaginateTrait {
 
         self::$recursivelySerialize = true;
 		$clonedQuery = clone $this;
+		$dbSerialized = serialize($clonedQuery->db);
         self::$recursivelySerialize = false;
 
 		$primaryKey = $this->getPrimaryKeyWithTableName();
@@ -125,6 +126,16 @@ trait CursorPaginateTrait {
 
 		$data = $this->get($perPage, $columns);
 
+		$getQuery = function() use($clonedQuery, $dbSerialized): self {
+			self::$recursivelySerialize = true;
+			$clone = clone $clonedQuery;
+			self::$recursivelySerialize = false;
+			$clone->db = unserialize($dbSerialized);
+			$clone->db->connect();
+
+			return $clone;
+		};
+
 		$this->_count = count($data);
 
 		if ($this->_count > 0) {
@@ -143,12 +154,12 @@ trait CursorPaginateTrait {
 			$max = max($ids);
 			$min = min($ids);
 
-			$query = clone $clonedQuery;
+			$query = $getQuery();
 			$query->where($primaryKey, $this->isAscendingSort ? $max : $min, $this->isAscendingSort ? ">" : "<");
 
 			$this->_hasNextPage = $query->has($this->dbTable);
 
-			$query = clone $clonedQuery;
+			$query = $getQuery();
 			$query->where($primaryKey, $this->isAscendingSort ? $min : $max, $this->isAscendingSort ? "<" : ">");
 
 			$this->_hasPrevPage = $query->has($this->dbTable);
