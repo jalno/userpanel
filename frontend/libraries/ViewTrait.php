@@ -28,12 +28,12 @@ trait ViewTrait
 
     public function the_header(string $template = ''): void
     {
-        require dirname(__DIR__).'/html/parts/header/header'.($template ? '.'.$template : '').'.php';
+        require dirname(__DIR__).'/html/Parts/header/header'.($template ? '.'.$template : '').'.php';
     }
 
     public function the_footer(string $template = ''): void
     {
-        require dirname(__DIR__) . '/html/parts/footer/footer'.($template ? '.'.$template : '').'.php';
+        require dirname(__DIR__) . '/html/Parts/footer/footer'.($template ? '.'.$template : '').'.php';
     }
 
     public function getLogoHTML()
