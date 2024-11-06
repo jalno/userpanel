@@ -1,10 +1,10 @@
 import "@jalno/translator";
 import "jquery-validation";
-import { webuilder } from "webuilder";
 import "./jquery.formAjax";
 import "select2";
 import {Main} from "./Main";
 import Country, { ICountryCode } from "./Country";
+import IFormAjaxError from "./IFormAjaxError";
 
 declare const countriesCode: ICountryCode[];
 declare const defaultCountryCode: string;
@@ -96,10 +96,10 @@ export class Login {
 
 				$(form).formAjax({
 					data: data,
-					success: (data: webuilder.AjaxResponse) => {
+					success: (data: {status: true, redirect: string}) => {
 						window.location.href = data.redirect;
 					},
-					error: (response) => {
+					error: (response: IFormAjaxError) => {
 						const code = response.hasOwnProperty("error") ? response.error : response.code;
 						if (code === "data_validation") {
 							$errorHandler.html(`<i class="fa fa-remove-sign"></i> ${t("userpanel.login.incorrect")}.`).show();
