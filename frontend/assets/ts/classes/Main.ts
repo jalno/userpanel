@@ -4,16 +4,19 @@ import { TooltipOptions } from "bootstrap";
 import "jquery-bootstrap-checkbox";
 import "jquery-mousewheel";
 import "jquery-validation";
+import "jquery-validation/dist/localization/messages_fa.js"
+import "jquery-validation/dist/localization/messages_ar.js"
 import "jschr-bootstrap-modal/js/bootstrap-modal.js";
 import "jschr-bootstrap-modal/js/bootstrap-modalmanager.js";
-import "malihu-custom-scrollbar-plugin";
 import "select2";
+import "select2/dist/js/i18n/en.js";
+import "select2/dist/js/i18n/fa.js";
+import "select2/dist/js/i18n/ar.js";
 import Online from "./Online";
 
 export class Main {
 	public static init() {
 		Main.runInit();
-		Main.importSelect2Translator();
 		Main.runSearchInput();
 		Main.runSelect2();
 		Main.runElementsPosition();
@@ -23,23 +26,12 @@ export class Main {
 		Main.runModuleTools();
 		Main.runTooltips();
 		Main.runPopovers();
-		Main.runPanelScroll();
 		Main.runShowTab();
 		Main.runAccordionFeatures();
 		Main.runCustomCheck();
 		Main.runPagination();
 		Main.runNavbarToggleListener();
 		Online.run();
-	}
-	public static importValidationTranslator() {
-		if (Translator.getActiveShortLang() !== "en") {
-			require(`jquery-validation/dist/localization/messages_${Translator.getActiveShortLang()}.js`);
-		}
-	}
-	public static importSelect2Translator() {
-		if ($.fn.hasOwnProperty("select2") && Translator.getActiveShortLang() !== "en") {
-			require(`select2/dist/js/i18n/${Translator.getActiveShortLang()}.js`);
-		}
 	}
 	public static SetDefaultValidation(): void {
 		if ($.hasOwnProperty("validator")) {
@@ -71,7 +63,6 @@ export class Main {
 					$(element).closest(".form-group").removeClass("has-error");
 				},
 			});
-			Main.importValidationTranslator();
 		}
 	}
 	public static isIE(): boolean {
@@ -279,18 +270,6 @@ export class Main {
 				scrollTop: 0,
 			}, "slow");
 		});
-	}
-	private static runPanelScroll(): void {
-		const $panels = $(".panel-scroll");
-		if ($panels.length) {
-			$panels.mCustomScrollbar({
-				axis: "y",
-				theme: "minimal-dark",
-				mouseWheel: {
-					enable: true,
-				},
-			});
-		}
 	}
 	private static runAccordionFeatures(): void {
 		const accordions = $(".accordion");
