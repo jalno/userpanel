@@ -292,7 +292,7 @@ class UserView {
 						</a>
 					</li>`);
 				}
-				$panel.mCustomScrollbar("update");
+				// $panel.mCustomScrollbar("update");
 				$(".tooltips", $panel).tooltip();
 			},
 			error: () => {
@@ -308,30 +308,30 @@ class UserView {
 	}
 	private setUserActivityEvents() {
 		const $panel = $(".panel-activity .panel-scroll");
-		$panel.mCustomScrollbar("destroy");
+		// $panel.mCustomScrollbar("destroy");
 		const panelHeight = $panel.height();
 		const that = this;
-		$panel.mCustomScrollbar({
-			axis: "y",
-			theme: "minimal-dark",
-			mouseWheel: {
-				enable: true,
-			},
-			callbacks: {
-				whileScrolling: () => {
-					if (that.preventLoadUserActivity) {
-						return;
-					}
-					const $container = $(".mCSB_container", $panel);
-					const height = $container.height() - panelHeight;
-					const top = Math.abs(parseInt($container.css("top"), 10));
-					if (top * 100 / height > 80) {
-						that.preventLoadUserActivity = true;
-						that.getUserActivities();
-					}
-				},
-			},
-		});
+		// $panel.mCustomScrollbar({
+		// 	axis: "y",
+		// 	theme: "minimal-dark",
+		// 	mouseWheel: {
+		// 		enable: true,
+		// 	},
+		// 	callbacks: {
+		// 		whileScrolling: () => {
+		// 			if (that.preventLoadUserActivity) {
+		// 				return;
+		// 			}
+		// 			const $container = $(".mCSB_container", $panel);
+		// 			const height = $container.height() - panelHeight;
+		// 			const top = Math.abs(parseInt($container.css("top"), 10));
+		// 			if (top * 100 / height > 80) {
+		// 				that.preventLoadUserActivity = true;
+		// 				that.getUserActivities();
+		// 			}
+		// 		},
+		// 	},
+		// });
 	}
 }
 // tslint:disable-next-line: max-classes-per-file
