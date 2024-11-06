@@ -13,7 +13,7 @@ class InvalidTypeException extends Exception
 
     public function __construct(string $type, string $message = '')
     {
-        parent::__construct($message);
+        parent::__construct($message ?: 'Invalid log type: '.$type);
         $this->type = $type;
     }
 
