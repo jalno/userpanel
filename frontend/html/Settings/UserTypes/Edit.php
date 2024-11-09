@@ -1,5 +1,5 @@
 <?php
-require_once 'header.php';
+require_once dirname(__FILE__) . '/../../Parts/header/header.php';
 
 use packages\userpanel;
 
@@ -81,4 +81,4 @@ $usertype = $this->getUserType();
 	</div>
 </form>
 <?php
-require_once 'footer.php';
+require_once dirname(__FILE__) . '/../../Parts/footer/footer.php';
