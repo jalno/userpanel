@@ -21,7 +21,7 @@
     "jquery-autosize": "^1.18.18",
     "jquery-bootstrap-checkbox": "=1.1.1",
     "jquery-mousewheel": "^3.1.13",
-    "jquery-ui": "^1.12.1",
+    "jquery-ui": "^1.13.0",
     "jquery-validation": "^1.16.0",
     "jquery.cookie": "^1.4.1",
     "jquery.fancytree": "=2.29.1",
