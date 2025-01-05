@@ -24,6 +24,7 @@ class Users extends Controller {
 	
 	public function search() {
 		Authorization::haveOrFail("users_list");
+		/** @var views\users\Search $view */
 		$view = View::byName(views\users\Search::class);
 		$this->response->setView($view);
 		$types = Authorization::childrenTypes();
@@ -37,6 +38,14 @@ class Users extends Controller {
 		if (Http::getData('type')) {
 			$view->setDataForm(explode(',', Http::getData('type')), 'type-select');
 		}
+
+		$inputs = $this->checkInputs(array(
+			"download" => array(
+				"type" => "string",
+				"values" => array("csv"),
+				"optional" => true,
+			),
+		));
 
 		if (isset($inputs["download"])) {
 			$users = $query->get();
@@ -212,11 +221,6 @@ class Users extends Controller {
 				"values" => ["equals", "startswith", "contains"],
 				"default" => "contains",
 				"optional" => true
-			),
-			"download" => array(
-				"type" => "string",
-				"values" => array("csv"),
-				"optional" => true,
 			),
 			"lastonline_from" => array(
 				"type" => "date",
